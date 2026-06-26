@@ -1,0 +1,20 @@
+---
+// Pattern label di sezione: tag-style testuale + linea divider full-width.
+// Usato all'inizio di ogni sezione (dopo l'hero) per dare ritmo visivo.
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<div class="w-full flex items-center gap-3">
+  <span
+    class="font-display py-2 text-[14px] tracking-[0.32px] text-[var(--color-text-tag)] opacity-90 whitespace-nowrap"
+  >
+    {label}
+  </span>
+  <span
+    aria-hidden="true"
+    class="flex-1 h-px bg-[var(--color-border)]"
+  ></span>
+</div>

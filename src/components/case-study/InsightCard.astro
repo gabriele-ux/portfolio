@@ -1,0 +1,45 @@
+---
+interface Props {
+  title: string;
+  body: string;
+}
+const { title, body } = Astro.props;
+---
+
+<article
+  class="glass-card flex-1 min-w-0 rounded-[var(--radius-card)] p-6 lg:h-[266px] flex items-start justify-start lg:items-center lg:justify-center"
+>
+  <div class="flex flex-col items-start text-left lg:items-center lg:text-center gap-[25px] lg:max-h-[200px]">
+    <div class="flex flex-col items-start lg:items-center gap-2">
+      <svg
+        class="size-8 text-white/80"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4l1.4-1.4M17 7l1.4-1.4"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+        ></path>
+        <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"></circle>
+      </svg>
+      <h3 class="font-semibold text-[18px] leading-[25.6px] text-white">
+        {title}
+      </h3>
+    </div>
+    <p class="text-[16px] leading-[25.6px] text-[var(--color-text-body)]">
+      {body}
+    </p>
+  </div>
+</article>
+
+<style>
+  .glass-card {
+    background-color: var(--color-surface);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    backdrop-filter: blur(20px) saturate(140%);
+  }
+</style>

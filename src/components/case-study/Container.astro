@@ -1,0 +1,21 @@
+---
+// Wrapper di sezione: padding orizzontale 160px (desktop ≥ xl),
+// limita il contenuto a 1100px e lo centra.
+// Default vertical: --space-section (80px) per ritmo leggibile.
+interface Props {
+  pyClass?: string;
+  ariaLabel?: string;
+  id?: string;
+}
+const { pyClass = "py-[var(--space-section)]", ariaLabel, id } = Astro.props;
+---
+
+<section
+  class={`w-full flex flex-col items-center ${pyClass} px-6 md:px-12 xl:px-[160px]`}
+  aria-label={ariaLabel}
+  id={id}
+>
+  <div class="w-full max-w-[var(--container-case-study)]">
+    <slot />
+  </div>
+</section>

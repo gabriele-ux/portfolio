@@ -1,0 +1,105 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CaseHero from "../../components/case-study/CaseHero.astro";
+import TLDRBlock from "../../components/case-study/TLDRBlock.astro";
+import MetaRow from "../../components/case-study/MetaRow.astro";
+import HeroVisual from "../../components/case-study/HeroVisual.astro";
+import Section from "../../components/case-study/Section.astro";
+import InsightsGrid from "../../components/case-study/InsightsGrid.astro";
+import ChapterNav from "../../components/case-study/ChapterNav.astro";
+
+const chapters = [
+  { id: "tldr", label: "TD;LR" },
+  { id: "context", label: "Context+Insights" },
+  { id: "problem", label: "Problem" },
+  { id: "solution", label: "Solution" },
+  { id: "impact", label: "Impact" },
+  { id: "process", label: "Process" },
+  { id: "learnings", label: "Learnings" },
+];
+
+const meta = [
+  { label: "Role", value: "UX/Product Designer" },
+  { label: "Duration", value: "6 weeks" },
+  { label: "Team", value: "just me" },
+  { label: "Tools", value: "Claude Code, Figjam" },
+];
+
+const insights = [
+  {
+    title: "Insight 1",
+    body:
+      "Lorem ipsum dolor sit amet consectetur. Sit porttitor mauris imperdiet nulla arcu ac.",
+  },
+  {
+    title: "Insight 2",
+    body:
+      "Lorem ipsum dolor sit amet consectetur. Sit porttitor mauris imperdiet nulla arcu ac.",
+  },
+  {
+    title: "Insight 3",
+    body:
+      "Lorem ipsum dolor sit amet consectetur. Sit porttitor mauris imperdiet nulla arcu ac.",
+  },
+];
+---
+
+<BaseLayout title="Case Study — Sample">
+  <article class="relative pb-[var(--space-page-bottom)]">
+    {/*
+     * Gradient ambient sotto l'header. Posizionato in flow (absolute,
+     * top:0 dell'article) — scorre via insieme alla pagina quando l'utente scrolla.
+     */}
+    <div
+      aria-hidden="true"
+      class="hero-ambient-gradient pointer-events-none absolute inset-x-0 h-[853px]"
+      style="top: -56px;"
+    >
+    </div>
+
+    <div class="relative z-10">
+      <CaseHero
+        title="Designing a payouts experience that landed $30M in deposits and cut support tickets by 25%"
+        tags={["UX/UI", "AI", "Personal Project"]}
+      />
+
+      <div id="tldr">
+        <TLDRBlock
+          problem="Lorem ipsum dolor sit amet consectetur. Sit porttitor mauris imperdiet nulla arcu ac. Mi ut aenean molestie lectus tristique porttitor nulla blandit nisl."
+          solution="Lorem ipsum dolor sit amet consectetur. Sit porttitor mauris imperdiet nulla arcu ac. Mi ut aenean molestie lectus tristique porttitor nulla blandit nisl."
+          impact="Lorem ipsum dolor sit amet consectetur. Sit porttitor mauris imperdiet nulla arcu ac. Mi ut aenean molestie lectus tristique porttitor nulla blandit nisl."
+        />
+      </div>
+
+    <MetaRow items={meta} />
+
+    <HeroVisual />
+
+    <Section
+      id="context"
+      label="Context + Insights"
+      title="Title title"
+      description="Lorem ipsum dolor sit amet consectetur. Sit porttitor mauris imperdiet nulla arcu ac. Mi ut aenean molestie lectus tristique porttitor nulla blandit nisl."
+    >
+      <div class="w-full mt-4">
+        <InsightsGrid insights={insights} />
+      </div>
+    </Section>
+
+    <Section id="problem" label="Problem statement" title="Title title" />
+    <Section id="solution" label="Solution" title="Title title" />
+    <Section id="impact" label="Impact" title="Title title" />
+    <Section id="process" label="Iterations & Pivots" title="Title title" />
+    <Section id="learnings" label="Learnings" title="Title title" />
+    </div>
+  </article>
+
+  <ChapterNav chapters={chapters} triggerId="tldr" />
+</BaseLayout>
+
+<style>
+  .hero-ambient-gradient {
+    background: linear-gradient(180deg, #4387ca 0%, #323232 100%);
+    z-index: 0;
+  }
+</style>

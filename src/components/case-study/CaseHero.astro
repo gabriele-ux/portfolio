@@ -1,0 +1,23 @@
+---
+import Container from "./Container.astro";
+import Tag from "./Tag.astro";
+
+interface Props {
+  title: string;
+  tags: string[];
+}
+const { title, tags } = Astro.props;
+---
+
+<Container pyClass="pt-[var(--space-3xl)] pb-[var(--space-xl)]">
+  <div class="flex flex-col gap-[var(--space-lg)] items-start">
+    <div class="flex flex-wrap gap-3 items-center">
+      {tags.map((t) => <Tag label={t} />)}
+    </div>
+    <h1
+      class="font-hero font-semibold text-hero leading-tight text-white"
+    >
+      {title}
+    </h1>
+  </div>
+</Container>

@@ -1,0 +1,30 @@
+---
+import Container from "./Container.astro";
+import SectionLabel from "./SectionLabel.astro";
+
+interface Props {
+  label: string;
+  title: string;
+  description?: string;
+  ariaLabel?: string;
+  id?: string;
+}
+const { label, title, description, ariaLabel, id } = Astro.props;
+---
+
+<Container ariaLabel={ariaLabel ?? label} id={id}>
+  <div class="flex flex-col gap-[var(--space-lg)] items-start w-full">
+    <SectionLabel label={label} />
+    <h2 class="font-body font-semibold text-[32px] leading-tight text-white w-full">
+      {title}
+    </h2>
+    {
+      description && (
+        <p class="text-[16px] leading-[25.6px] text-[var(--color-text-body)] text-center w-full">
+          {description}
+        </p>
+      )
+    }
+    <slot />
+  </div>
+</Container>

@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts — latin subset only */
+@import "@fontsource/dm-sans/latin-400.css";
+@import "@fontsource/dm-sans/latin-500.css";
+@import "@fontsource/dm-sans/latin-600.css";
+@import "@fontsource/space-grotesk/latin-500.css";
+@import "@fontsource/space-grotesk/latin-700.css";
+@import "@fontsource/bricolage-grotesque/latin-600.css";
+@import "@fontsource/bricolage-grotesque/latin-700.css";
+
+@import "./tokens.css";
+
+@layer base {
+  html {
+    font-family: var(--font-body);
+    background-color: var(--color-bg);
+    color: var(--color-text-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text-title);
+    font-family: var(--font-display);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-1);
+    color: #1a1a1a;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

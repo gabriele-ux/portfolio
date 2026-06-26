@@ -1,0 +1,90 @@
+/*
+ * Design tokens — single source of truth.
+ * Esposti come custom properties + utility Tailwind via @theme.
+ * Valori derivati direttamente dal Figma case study template.
+ */
+
+@theme {
+  /* ============================================
+   * COLORI — Dark only (v1)
+   * ============================================ */
+  --color-bg: #323232;
+  --color-surface: rgba(129, 139, 166, 0.1);
+  --color-tag-bg: rgba(129, 139, 166, 0.19);
+  --color-header-bg: rgba(0, 0, 0, 0.1);
+
+  --color-text-title: #ffffff;
+  --color-text-body: #cccccc;
+  --color-text-tag: rgba(255, 255, 255, 0.76);
+  --color-text-muted: #868686;
+
+  --color-border: rgba(255, 255, 255, 0.1);
+
+  --color-accent-1: #9be2ec;
+  --color-accent-2: #fc642d;
+
+  /* ============================================
+   * FONT FAMILIES
+   * ============================================ */
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  /* "D1" — display 1, riservato al titolo hero del case study */
+  --font-hero: "Bricolage Grotesque", system-ui, sans-serif;
+
+  /* ============================================
+   * TYPE SCALE — px assoluti dal Figma
+   * (le utility Tailwind text-* di default rimangono disponibili;
+   *  questi sono i soli token usati nella case study page)
+   * ============================================ */
+  --text-tag: 14px;
+  --text-body: 16px;
+  --text-card-title: 18px;
+  --text-section: 32px;
+  /* Titolo case study fluido: 32px @ 640vw → 44px @ 1440vw */
+  --text-hero: clamp(32px, calc(22.4px + 1.5vw), 44px);
+
+  /* ============================================
+   * RADIUS
+   * ============================================ */
+  --radius-tag: 8px;
+  --radius-card: 16px;
+
+  /* ============================================
+   * CONTAINER
+   * ============================================ */
+  --container-case-study: 1100px;
+
+  /* ============================================
+   * SPACING SCALE (4/8 base — ritmo Sophia Yang)
+   * Scala: 4, 8, 12, 16, 24, 32, 48, 64, 80, 120
+   *
+   * I token medi/grandi sono fluidi: scalano tra 640vw (min) e
+   * 1440vw (max) via clamp(). Sotto 640 e sopra 1440 si fissano agli
+   * estremi. I piccoli (≤ 16px) restano statici — scalarli darebbe
+   * differenze sub-pixel non percepibili e potrebbe rompere allineamenti.
+   * ============================================ */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: clamp(20px, calc(16.8px + 0.5vw), 24px);   /* 20 → 24 */
+  --space-xl: clamp(24px, calc(17.6px + 1vw), 32px);     /* 24 → 32 */
+  --space-2xl: clamp(36px, calc(26.4px + 1.5vw), 48px);  /* 36 → 48 */
+  --space-3xl: clamp(44px, calc(28px + 2.5vw), 64px);    /* 44 → 64 */
+
+  /* Ruoli semantici (alias) */
+  /*
+   * --space-section è applicato come padding TOP+BOTTOM su ogni
+   * <Section>: tra due sezioni consecutive il gap totale è 2×.
+   * Quindi qui dimezziamo rispetto al valore "percepito" desiderato.
+   * Esempio: a 1440vw → 56+56 = 112px di gap tra sezioni.
+   */
+  --space-section: clamp(40px, calc(27.2px + 2vw), 56px);     /* tra sezioni principali */
+  --space-block: clamp(36px, calc(26.4px + 1.5vw), 48px);     /* tra blocchi dentro una sezione */
+  --space-stack-lg: clamp(24px, calc(17.6px + 1vw), 32px);    /* tra titolo e descrizione/immagine */
+  --space-stack-md: clamp(20px, calc(16.8px + 0.5vw), 24px);  /* tra label e titolo, tra paragrafi */
+  --space-stack-sm: 16px;        /* tra heading e prima riga di body */
+  --space-inline: 12px;          /* gap inline (tag+linea, icona+label) */
+  --space-card-pad: clamp(20px, calc(16.8px + 0.5vw), 24px);  /* padding interno card */
+  --space-page-bottom: clamp(72px, calc(33.6px + 6vw), 120px); /* 72 → 120 */
+}

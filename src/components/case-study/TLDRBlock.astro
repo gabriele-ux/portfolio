@@ -1,0 +1,106 @@
+---
+import Container from "./Container.astro";
+
+interface Item {
+  label: string;
+  body: string;
+  icon: "problem" | "solution" | "impact";
+}
+
+interface Props {
+  problem: string;
+  solution: string;
+  impact: string;
+}
+const { problem, solution, impact } = Astro.props;
+
+const items: Item[] = [
+  { label: "Problem", body: problem, icon: "problem" },
+  { label: "Solution", body: solution, icon: "solution" },
+  { label: "Impact", body: impact, icon: "impact" },
+];
+---
+
+<Container pyClass="pt-[var(--space-lg)] pb-[var(--space-xl)]">
+  <div
+    class="glass-card tldr-card w-full rounded-[var(--radius-card)] p-6 flex flex-col gap-8 lg:flex-row lg:gap-10 lg:items-stretch lg:h-[266px]"
+  >
+    {
+      items.map((item, i) => (
+        <>
+          {i > 0 && (
+            <span
+              aria-hidden="true"
+              class="hidden lg:block w-px self-center h-[177px] bg-[var(--color-border)]"
+            />
+          )}
+          <div class="flex-1 flex flex-col items-start text-left lg:items-center lg:text-center justify-center gap-[25px]">
+            <div class="flex items-center gap-2">
+              <svg
+                class="size-[18px] text-white/80"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                {item.icon === "problem" && (
+                  <>
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" />
+                    <path d="M12 8v4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                    <circle cx="12" cy="16" r="0.9" fill="currentColor" />
+                  </>
+                )}
+                {item.icon === "solution" && (
+                  <>
+                    <path
+                      d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9V15a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-1.1A6 6 0 0 0 12 3Z"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </>
+                )}
+                {item.icon === "impact" && (
+                  <>
+                    <path
+                      d="M4 20h16M6 17V10M11 17V4M16 17v-6"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                    />
+                  </>
+                )}
+              </svg>
+              <span class="font-semibold text-[18px] leading-[25.6px] text-white">
+                {item.label}
+              </span>
+            </div>
+            <p class="text-[16px] leading-[25.6px] text-[var(--color-text-body)]">
+              {item.body}
+            </p>
+          </div>
+        </>
+      ))
+    }
+  </div>
+</Container>
+
+<style>
+  .glass-card {
+    background-color: var(--color-surface);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    backdrop-filter: blur(20px) saturate(140%);
+  }
+
+  /*
+   * Tra 600 e 1018px la card è in colonna ma su uno schermo medio:
+   * un padding-right maggiore evita che il testo sembri appiccicato al bordo.
+   * Sotto 600 e da 1018 in su: torna al default (p-6 = 24px).
+   */
+  @media (min-width: 600px) and (max-width: 1018px) {
+    .tldr-card {
+      padding-right: 32px;
+    }
+  }
+</style>

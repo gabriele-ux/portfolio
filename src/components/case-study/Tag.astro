@@ -1,0 +1,35 @@
+---
+// Project tag chip — Figma 6:23.
+// Dimensioni: px-4 py-2 radius-8, bg slate-blue 19% opacità 90, text 14px tracking 0.32.
+// Style: liquid glass (backdrop blur + inner highlight + drop shadow).
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<span
+  class="tag-liquid inline-flex items-center justify-center px-4 py-2 rounded-[var(--radius-tag)] text-[14px] tracking-[0.32px] text-[var(--color-text-tag)] whitespace-nowrap"
+>
+  {label}
+</span>
+
+<style>
+  .tag-liquid {
+    background-color: var(--color-tag-bg);
+    opacity: 0.9;
+    /*
+     * Liquid Glass:
+     * - backdrop blur + saturation: rifrange il bg sottostante
+     * - inset top highlight: luce da sopra (1px)
+     * - inset bottom shadow: profondità (1px)
+     * - drop shadow soffuso: ancoraggio sul piano
+     */
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+      0 1px 2px rgba(0, 0, 0, 0.18);
+  }
+</style>

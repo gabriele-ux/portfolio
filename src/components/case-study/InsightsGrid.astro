@@ -1,0 +1,16 @@
+---
+import InsightCard from "./InsightCard.astro";
+
+interface Insight {
+  title: string;
+  body: string;
+}
+interface Props {
+  insights: Insight[];
+}
+const { insights } = Astro.props;
+---
+
+<div class="w-full flex flex-col lg:flex-row gap-8">
+  {insights.map((i) => <InsightCard title={i.title} body={i.body} />)}
+</div>
