@@ -95,7 +95,8 @@ const projects = [
     right: 14vw;
     top: -1vw;
     background-color: #9be2ec;
-    filter: blur(150px);
+    /* saturate(1.2) = +20% di intensità cromatica mantenendo opacity 0.7 del Figma */
+    filter: blur(150px) saturate(1.2);
     animation: home-blob-cyan 7s ease-in-out infinite alternate;
   }
 
@@ -104,7 +105,7 @@ const projects = [
     right: 0vw;
     top: 7vw;
     background-color: #fc642d;
-    filter: blur(150px);
+    filter: blur(150px) saturate(1.2);
     animation: home-blob-orange 6s ease-in-out infinite alternate;
   }
 
@@ -118,12 +119,12 @@ const projects = [
     .home-ambient__blob--cyan {
       top: 30vw;
       right: -5vw;
-      filter: blur(110px);
+      filter: blur(110px) saturate(1.2);
     }
     .home-ambient__blob--orange {
       top: 55vw;
       right: -25vw;
-      filter: blur(110px);
+      filter: blur(110px) saturate(1.2);
     }
   }
 
@@ -164,7 +165,9 @@ const projects = [
   .projects-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-2xl);
+    /* In colonna (mobile) i due item hanno bisogno di più respiro verticale
+     * perché sono full-width, uno sotto l'altro. */
+    gap: var(--space-3xl);
     width: 100%;
   }
 
