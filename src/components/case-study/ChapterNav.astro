@@ -23,15 +23,18 @@ interface Props {
   chapters: Chapter[];
   /** id dell'elemento che, una volta superato, fa apparire la nav */
   triggerId: string;
+  /** id dell'elemento che, una volta entrato nel viewport, nasconde la nav (es. footer) */
+  hideTriggerId?: string;
 }
 
-const { chapters, triggerId } = Astro.props;
+const { chapters, triggerId, hideTriggerId } = Astro.props;
 ---
 
 <nav
   id="chapter-nav"
   class="chapter-nav"
   data-trigger-id={triggerId}
+  data-hide-trigger-id={hideTriggerId}
   data-hidden="true"
   aria-label="Capitoli del case study"
 >
@@ -197,13 +200,11 @@ const { chapters, triggerId } = Astro.props;
     border-color: rgba(255, 255, 255, 0.3);
   }
 
-  /* Mobile trigger */
+  /* Mobile trigger — compact "Navigate to · ⋮", ancorato a destra */
   .chapter-nav__mobile-trigger {
     display: none;
-    flex: 1;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 8px;
     padding: 0 0 0 12px;
     background: transparent;
     border: 0;
@@ -227,16 +228,22 @@ const { chapters, triggerId } = Astro.props;
     height: 32px;
   }
 
-  /* Switch layout sotto md */
+  /* Switch layout sotto md: pill hug-content ancorata in basso a destra */
   @media (max-width: 767px) {
     .chapter-nav {
-      width: calc(100vw - 32px);
+      left: auto;
+      right: 16px;
+      max-width: calc(100vw - 32px);
+      transform: translateY(calc(100% + 32px));
+    }
+    .chapter-nav[data-hidden="false"] {
+      transform: translateY(0);
     }
     .chapter-nav__list {
       display: none;
     }
     .chapter-nav__mobile-trigger {
-      display: flex;
+      display: inline-flex;
     }
   }
 
@@ -362,11 +369,17 @@ const { chapters, triggerId } = Astro.props;
     .chapter-sheet__panel {
       transition-duration: 0ms;
     }
-    .chapter-nav {
-      transform: translateX(-50%);
-    }
+    /* Desktop: pill centrata → preserva translateX(-50%) */
+    .chapter-nav,
     .chapter-nav[data-hidden="false"] {
       transform: translateX(-50%);
+    }
+    /* Mobile: ancorata a destra → niente translateX */
+    @media (max-width: 767px) {
+      .chapter-nav,
+      .chapter-nav[data-hidden="false"] {
+        transform: none;
+      }
     }
   }
 
@@ -392,6 +405,10 @@ const { chapters, triggerId } = Astro.props;
   if (nav) {
     const triggerId = nav.dataset.triggerId || "";
     const trigger = triggerId ? document.getElementById(triggerId) : null;
+    const hideTriggerId = nav.dataset.hideTriggerId || "";
+    const hideTrigger = hideTriggerId
+      ? document.getElementById(hideTriggerId)
+      : null;
 
     // Tutti i link/anchor "capitolo" — sia nella pill desktop sia nella sheet
     const allItems = Array.from(
@@ -414,25 +431,48 @@ const { chapters, triggerId } = Astro.props;
     }
 
     // ---- Reveal/hide della pill ----
+    // Visibile quando:
+    //   1) il "trigger" (TLDR) è stato superato verso l'alto
+    //   2) AND l'"hideTrigger" (footer) non è ancora entrato nel viewport
+    let passedTrigger = !trigger; // se non c'è trigger, considera già passato
+    let hideZoneVisible = false;
+
     const setHidden = (hidden: boolean) => {
       nav.dataset.hidden = hidden ? "true" : "false";
+    };
+
+    const updateVisibility = () => {
+      setHidden(!(passedTrigger && !hideZoneVisible));
     };
 
     if (trigger) {
       const revealObserver = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
-            const passed =
+            passedTrigger =
               !entry.isIntersecting && entry.boundingClientRect.top < 0;
-            setHidden(!passed);
           }
+          updateVisibility();
         },
         { threshold: 0 },
       );
       revealObserver.observe(trigger);
-    } else {
-      setHidden(false);
     }
+
+    if (hideTrigger) {
+      const hideObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            hideZoneVisible = entry.isIntersecting;
+          }
+          updateVisibility();
+        },
+        { threshold: 0 },
+      );
+      hideObserver.observe(hideTrigger);
+    }
+
+    updateVisibility();
 
     // ---- Scroll-spy: aggiorna aria-current su TUTTI gli item ----
     const setActive = (id: string) => {

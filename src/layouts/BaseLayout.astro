@@ -6,11 +6,13 @@ import Footer from "../components/Footer.astro";
 interface Props {
   title: string;
   description?: string;
+  hideFooter?: boolean;
 }
 
 const {
   title,
   description = "Portfolio personale — design, sviluppo, idee.",
+  hideFooter = false,
 } = Astro.props;
 ---
 
@@ -35,6 +37,6 @@ const {
     <main class="flex-1">
       <slot />
     </main>
-    <Footer />
+    {!hideFooter && <Footer />}
   </body>
 </html>

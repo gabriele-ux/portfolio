@@ -2,12 +2,18 @@
 interface Props {
   title: string;
   body: string;
+  /** "a" = sfondo tenue + stroke ; "b" = sfondo più opaco senza stroke */
+  variant?: "a" | "b";
 }
-const { title, body } = Astro.props;
+const { title, body, variant = "a" } = Astro.props;
 ---
 
 <article
-  class="glass-card flex-1 min-w-0 rounded-[var(--radius-card)] p-6 lg:h-[266px] flex items-start justify-start lg:items-center lg:justify-center"
+  class:list={[
+    "insight-card",
+    `insight-card--${variant}`,
+    "flex-1 min-w-0 rounded-[var(--radius-card)] p-6 lg:h-[266px] flex items-start justify-start lg:items-center lg:justify-center",
+  ]}
 >
   <div class="flex flex-col items-start text-left lg:items-center lg:text-center gap-[25px] lg:max-h-[200px]">
     <div class="flex flex-col items-start lg:items-center gap-2">
@@ -37,9 +43,20 @@ const { title, body } = Astro.props;
 </article>
 
 <style>
-  .glass-card {
-    background-color: var(--color-surface);
+  .insight-card {
     -webkit-backdrop-filter: blur(20px) saturate(140%);
     backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid transparent;
+  }
+
+  /* Variante A: sfondo tenue + bordo chiaro */
+  .insight-card--a {
+    background-color: rgba(129, 139, 166, 0.1); /* #818BA6 @ 10% */
+    border-color: rgba(229, 229, 229, 0.3); /* #E5E5E5 @ 30% */
+  }
+
+  /* Variante B: sfondo più opaco, senza bordo */
+  .insight-card--b {
+    background-color: rgba(129, 139, 166, 0.4); /* #818BA6 @ 40% */
   }
 </style>

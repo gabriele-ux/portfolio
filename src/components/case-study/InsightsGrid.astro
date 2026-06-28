@@ -12,5 +12,13 @@ const { insights } = Astro.props;
 ---
 
 <div class="w-full flex flex-col lg:flex-row gap-8">
-  {insights.map((i) => <InsightCard title={i.title} body={i.body} />)}
+  {
+    insights.map((i, idx) => (
+      <InsightCard
+        title={i.title}
+        body={i.body}
+        variant={idx % 2 === 0 ? "a" : "b"}
+      />
+    ))
+  }
 </div>

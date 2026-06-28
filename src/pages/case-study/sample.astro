@@ -7,6 +7,7 @@ import HeroVisual from "../../components/case-study/HeroVisual.astro";
 import Section from "../../components/case-study/Section.astro";
 import InsightsGrid from "../../components/case-study/InsightsGrid.astro";
 import ChapterNav from "../../components/case-study/ChapterNav.astro";
+import CaseStudyFooter from "../../components/case-study/CaseStudyFooter.astro";
 
 const chapters = [
   { id: "tldr", label: "TD;LR" },
@@ -44,8 +45,8 @@ const insights = [
 ];
 ---
 
-<BaseLayout title="Case Study — Sample">
-  <article class="relative pb-[var(--space-page-bottom)]">
+<BaseLayout title="Case Study — Sample" hideFooter>
+  <article class="relative">
     {/*
      * Gradient ambient sotto l'header. Posizionato in flow (absolute,
      * top:0 dell'article) — scorre via insieme alla pagina quando l'utente scrolla.
@@ -94,7 +95,9 @@ const insights = [
     </div>
   </article>
 
-  <ChapterNav chapters={chapters} triggerId="tldr" />
+  <ChapterNav chapters={chapters} triggerId="tldr" hideTriggerId="case-footer" />
+
+  <CaseStudyFooter />
 </BaseLayout>
 
 <style>

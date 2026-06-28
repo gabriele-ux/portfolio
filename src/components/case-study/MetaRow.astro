@@ -21,10 +21,16 @@ const { items } = Astro.props;
               aria-hidden="true"
               class="hidden md:inline text-[var(--color-text-muted)]"
             >
-              ✦
+              ✹
             </span>
           )}
-          <span class="flex items-center gap-1 whitespace-nowrap">
+          <span class="flex items-center gap-2 whitespace-nowrap">
+            <span
+              aria-hidden="true"
+              class="md:hidden text-[var(--color-text-muted)]"
+            >
+              ✹
+            </span>
             <span class="text-[var(--color-text-body)]">{item.label}:</span>
             <span class="font-medium text-white">{item.value}</span>
           </span>
