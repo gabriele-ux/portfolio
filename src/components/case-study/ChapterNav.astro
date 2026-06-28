@@ -345,14 +345,17 @@ const { chapters, triggerId, hideTriggerId } = Astro.props;
   .chapter-sheet__item {
     display: flex;
     align-items: center;
-    padding: 8px 12px;
+    height: 44px;
+    padding: 0 12px;
     border-radius: 25px;
     color: #ffffff;
     font-family: var(--font-body);
     font-size: 16px;
     line-height: normal;
     text-decoration: none;
+    /* Border 1px sempre presente (transparent) → niente layout-shift quando attivo */
     border: 1px solid transparent;
+    box-sizing: border-box;
     transition:
       background-color 200ms ease,
       border-color 200ms ease;

@@ -6,12 +6,18 @@ interface Props {
   pyClass?: string;
   ariaLabel?: string;
   id?: string;
+  bgClass?: string;
 }
-const { pyClass = "py-[var(--space-section)]", ariaLabel, id } = Astro.props;
+const {
+  pyClass = "py-[var(--space-section)]",
+  ariaLabel,
+  id,
+  bgClass = "",
+} = Astro.props;
 ---
 
 <section
-  class={`w-full flex flex-col items-center ${pyClass} px-6 md:px-12 xl:px-[160px]`}
+  class={`w-full flex flex-col items-center ${pyClass} px-6 md:px-12 xl:px-[160px] ${bgClass}`}
   aria-label={ariaLabel}
   id={id}
 >

@@ -7,7 +7,7 @@ import HeroVisual from "../../components/case-study/HeroVisual.astro";
 import Section from "../../components/case-study/Section.astro";
 import InsightsGrid from "../../components/case-study/InsightsGrid.astro";
 import ChapterNav from "../../components/case-study/ChapterNav.astro";
-import CaseStudyFooter from "../../components/case-study/CaseStudyFooter.astro";
+import PageFooter from "../../components/PageFooter.astro";
 
 const chapters = [
   { id: "tldr", label: "TD;LR" },
@@ -87,22 +87,51 @@ const insights = [
       </div>
     </Section>
 
-    <Section id="problem" label="Problem statement" title="Title title" />
+    <Section
+      id="problem"
+      label="Problem statement"
+      title="Title title"
+      bgClass="bg-[#212121]"
+    />
     <Section id="solution" label="Solution" title="Title title" />
-    <Section id="impact" label="Impact" title="Title title" />
+    <Section
+      id="impact"
+      label="Impact"
+      title="Title title"
+      bgClass="bg-[#212121]"
+    />
     <Section id="process" label="Iterations & Pivots" title="Title title" />
     <Section id="learnings" label="Learnings" title="Title title" />
     </div>
   </article>
 
-  <ChapterNav chapters={chapters} triggerId="tldr" hideTriggerId="case-footer" />
+  <ChapterNav chapters={chapters} triggerId="tldr" hideTriggerId="page-footer" />
 
-  <CaseStudyFooter />
+  <PageFooter showPagination allProjectsUrl="/" />
 </BaseLayout>
 
 <style>
   .hero-ambient-gradient {
     background: linear-gradient(180deg, #4387ca 0%, #323232 100%);
     z-index: 0;
+  }
+
+  /*
+   * Noise filter sopra il gradiente — turbulence SVG inline, niente asset esterni.
+   * Stesso pattern usato per il hero visual e per il gradiente del footer.
+   */
+  .hero-ambient-gradient::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+    mix-blend-mode: overlay;
+    opacity: 0.5;
+    pointer-events: none;
+    /* Fade-out della grana verso il basso, allineato col fade del gradiente
+     * sul page background → niente edge visibile alla fine del container. */
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
   }
 </style>

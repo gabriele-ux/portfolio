@@ -1,0 +1,138 @@
+---
+/*
+ * Hero della homepage:
+ * - h1 nome
+ * - paragrafo descrittivo con bold + emoji inline
+ * - meta rows: "Currently at" / "I worked with"
+ */
+import Container from "../case-study/Container.astro";
+
+interface Props {
+  name: string;
+  currentlyAt: string;
+  workedWith: string[];
+}
+
+const { name, currentlyAt, workedWith } = Astro.props;
+---
+
+<Container pyClass="pt-[var(--space-3xl)] pb-[var(--space-3xl)]">
+  <div class="flex flex-col gap-[var(--space-lg)] items-start w-full">
+    <h1 class="home-hero__title font-hero text-white leading-tight">
+      {name}
+    </h1>
+
+    <p class="home-hero__lead text-white">
+      <strong class="font-semibold">UX/Product Designer</strong> focused on Design
+      Systems
+      <span class="home-hero__icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.71801 14.1773C8.74934 14.2713 8.75788 14.3714 8.74294 14.4693C8.72801 14.5672 8.69002 14.6601 8.63211 14.7405C8.5742 14.8208 8.49803 14.8862 8.40987 14.9314C8.32171 14.9765 8.22408 15 8.12505 15H1.87505C1.77601 15 1.67839 14.9765 1.59023 14.9314C1.50207 14.8862 1.42589 14.8208 1.36798 14.7405C1.31007 14.6601 1.27208 14.5672 1.25715 14.4693C1.24221 14.3714 1.25076 14.2713 1.28208 14.1773L4.40708 4.80235C4.44854 4.67787 4.52812 4.5696 4.63455 4.49288C4.74098 4.41615 4.86885 4.37486 5.00005 4.37486C5.13125 4.37486 5.25912 4.41615 5.36554 4.49288C5.47197 4.5696 5.55155 4.67787 5.59301 4.80235L8.71801 14.1773ZM16.25 5.9375C16.25 5.13402 16.0118 4.34857 15.5654 3.6805C15.119 3.01242 14.4845 2.49172 13.7422 2.18424C12.9999 1.87676 12.183 1.79631 11.395 1.95306C10.6069 2.10981 9.88308 2.49673 9.31493 3.06488C8.74677 3.63303 8.35986 4.3569 8.20311 5.14495C8.04635 5.933 8.12681 6.74983 8.43429 7.49215C8.74177 8.23448 9.26247 8.86895 9.93054 9.31535C10.5986 9.76174 11.3841 10 12.1875 10C13.2646 9.99876 14.2972 9.57035 15.0588 8.80875C15.8204 8.04716 16.2488 7.01456 16.25 5.9375ZM17.5 11.25H10.625C10.4593 11.25 10.3003 11.3158 10.1831 11.4331C10.0659 11.5503 10 11.7092 10 11.875V16.25C10 16.4158 10.0659 16.5747 10.1831 16.6919C10.3003 16.8092 10.4593 16.875 10.625 16.875H17.5C17.6658 16.875 17.8248 16.8092 17.942 16.6919C18.0592 16.5747 18.125 16.4158 18.125 16.25V11.875C18.125 11.7092 18.0592 11.5503 17.942 11.4331C17.8248 11.3158 17.6658 11.25 17.5 11.25Z" fill="url(#hh-grad-design-systems)" />
+          <defs>
+            <linearGradient id="hh-grad-design-systems" x1="10" y1="-4.5" x2="-11" y2="29" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FB8FE4" />
+              <stop offset="1" stop-color="#C3C5F7" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      and UX Strategy
+      <span class="home-hero__icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#hh-clip-strategy)">
+            <path d="M19.5267 9.39374L17.4134 8.86561C17.1734 7.28617 16.4346 5.82486 15.3049 4.6952C14.1752 3.56554 12.7139 2.82673 11.1345 2.58671L10.6064 0.477332C10.5725 0.34219 10.4944 0.222239 10.3846 0.136531C10.2748 0.0508232 10.1394 0.00427246 10.0001 0.00427246C9.86079 0.00427246 9.72546 0.0508232 9.61562 0.136531C9.50578 0.222239 9.42773 0.34219 9.39386 0.477332L8.86574 2.59061C7.28629 2.83063 5.82498 3.56944 4.69532 4.69911C3.56566 5.82877 2.82685 7.29007 2.58683 8.86952L0.477454 9.39764C0.342312 9.43151 0.222361 9.50957 0.136653 9.61941C0.0509453 9.72925 0.00439453 9.86457 0.00439453 10.0039C0.00439453 10.1432 0.0509453 10.2785 0.136653 10.3884C0.222361 10.4982 0.342312 10.5763 0.477454 10.6101L2.59074 11.1383C2.83075 12.7177 3.56957 14.179 4.69923 15.3087C5.82889 16.4383 7.29019 17.1772 8.86964 17.4172L9.39777 19.5305C9.43164 19.6656 9.50969 19.7855 9.61953 19.8713C9.72937 19.957 9.8647 20.0035 10.004 20.0035C10.1433 20.0035 10.2787 19.957 10.3885 19.8713C10.4983 19.7855 10.5764 19.6656 10.6103 19.5305L11.1384 17.4172C12.7178 17.1772 14.1791 16.4383 15.3088 15.3087C16.4385 14.179 17.1773 12.7177 17.4173 11.1383L19.5306 10.6101C19.6657 10.5763 19.7857 10.4982 19.8714 10.3884C19.9571 10.2785 20.0036 10.1432 20.0036 10.0039C20.0036 9.86457 19.9571 9.72925 19.8714 9.61941C19.7857 9.50957 19.6657 9.43151 19.5306 9.39764L19.5267 9.39374ZM16.0759 8.53436L12.3907 7.60936L11.4689 3.92421C12.5866 4.19324 13.6084 4.76582 14.4213 5.57878C15.2343 6.39173 15.8069 7.41346 16.0759 8.53124V8.53436ZM8.53136 3.92499L7.60949 7.60936L3.92433 8.53124C4.19336 7.41346 4.76594 6.39173 5.5789 5.57878C6.39186 4.76582 7.41359 4.19324 8.53136 3.92421V3.92499ZM3.92199 11.4695L7.60949 12.3906L8.53136 16.0758C7.41359 15.8067 6.39186 15.2342 5.5789 14.4212C4.76594 13.6082 4.19336 12.5865 3.92433 11.4687L3.92199 11.4695ZM11.4665 16.0789L12.3884 12.3937L16.0735 11.4719C15.8042 12.5888 15.2317 13.6096 14.4193 14.422C13.6068 15.2343 12.5858 15.8066 11.4689 16.0758L11.4665 16.0789Z" fill="url(#hh-grad-strategy)" />
+          </g>
+          <defs>
+            <linearGradient id="hh-grad-strategy" x1="10.004" y1="0.00427246" x2="10.004" y2="20.0035" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#88F6EA" />
+              <stop offset="1" stop-color="#E0BEF5" />
+            </linearGradient>
+            <clipPath id="hh-clip-strategy">
+              <rect width="20" height="20" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      </span>
+      .
+      <br />
+      I bridge business and development, translating complexity into <span
+        class="home-hero__highlight">scalable designs</span
+      >
+      <span class="home-hero__icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16.875 3.125H3.125C2.79348 3.125 2.47554 3.2567 2.24112 3.49112C2.0067 3.72554 1.875 4.04348 1.875 4.375V15.625C1.875 15.9565 2.0067 16.2745 2.24112 16.5089C2.47554 16.7433 2.79348 16.875 3.125 16.875H16.875C17.2065 16.875 17.5245 16.7433 17.7589 16.5089C17.9933 16.2745 18.125 15.9565 18.125 15.625V4.375C18.125 4.04348 17.9933 3.72554 17.7589 3.49112C17.5245 3.2567 17.2065 3.125 16.875 3.125ZM15.625 15H4.375C4.20924 15 4.05027 14.9342 3.93306 14.8169C3.81585 14.6997 3.75 14.5408 3.75 14.375V5.625C3.75 5.45924 3.81585 5.30027 3.93306 5.18306C4.05027 5.06585 4.20924 5 4.375 5C4.54076 5 4.69973 5.06585 4.81694 5.18306C4.93415 5.30027 5 5.45924 5 5.625V11.6164L7.68281 8.93281C7.74086 8.8747 7.80979 8.8286 7.88566 8.79715C7.96154 8.7657 8.04287 8.74951 8.125 8.74951C8.20713 8.74951 8.28846 8.7657 8.36434 8.79715C8.44021 8.8286 8.50914 8.8747 8.56719 8.93281L10 10.3664L13.4914 6.875H11.25C11.0842 6.875 10.9253 6.80915 10.8081 6.69194C10.6908 6.57473 10.625 6.41576 10.625 6.25C10.625 6.08424 10.6908 5.92527 10.8081 5.80806C10.9253 5.69085 11.0842 5.625 11.25 5.625H15C15.1658 5.625 15.3247 5.69085 15.4419 5.80806C15.5592 5.92527 15.625 6.08424 15.625 6.25V10C15.625 10.1658 15.5592 10.3247 15.4419 10.4419C15.3247 10.5592 15.1658 10.625 15 10.625C14.8342 10.625 14.6753 10.5592 14.5581 10.4419C14.4408 10.3247 14.375 10.1658 14.375 10V7.75859L10.4422 11.6922C10.3841 11.7503 10.3152 11.7964 10.2393 11.8279C10.1635 11.8593 10.0821 11.8755 10 11.8755C9.91787 11.8755 9.83654 11.8593 9.76066 11.8279C9.68479 11.7964 9.61586 11.7503 9.55781 11.6922L8.125 10.2586L5 13.3836V13.75H15.625C15.7908 13.75 15.9497 13.8158 16.0669 13.9331C16.1842 14.0503 16.25 14.2092 16.25 14.375C16.25 14.5408 16.1842 14.6997 16.0669 14.8169C15.9497 14.9342 15.7908 15 15.625 15Z" fill="url(#hh-grad-scalable)" />
+          <defs>
+            <linearGradient id="hh-grad-scalable" x1="10" y1="3.125" x2="10" y2="16.875" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#B1C76F" />
+              <stop offset="1" stop-color="#82FE88" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      .
+    </p>
+
+    <div class="home-hero__meta-group">
+      <p class="home-hero__meta">
+        <span class="text-[var(--color-text-body)]">Currently at:</span>
+        <span class="text-white font-semibold">{currentlyAt}</span>
+      </p>
+      <p class="home-hero__meta">
+        <span class="text-[var(--color-text-body)]">I worked with:</span>
+        <span class="text-white font-semibold">{workedWith.join(", ")}</span>
+      </p>
+    </div>
+  </div>
+</Container>
+
+<style>
+  /* h1 — Bricolage Grotesque (font-hero), medium 500, 60px desktop con
+   * scala fluida 36→60 tra 640 e 1440vw (stesso pattern di --text-hero). */
+  .home-hero__title {
+    font-size: clamp(36px, calc(16.8px + 3vw), 60px);
+    font-weight: 500;
+  }
+
+  /* Lead text — scala fluida 16→20px tra 640 e 1440vw, stesso pattern
+   * usato per --text-hero del case study. */
+  .home-hero__lead {
+    font-size: clamp(16px, calc(12.8px + 0.5vw), 20px);
+    line-height: 1.55;
+  }
+
+  .home-hero__highlight {
+    font-weight: 600;
+  }
+
+  /* Icone inline accanto al testo */
+  .home-hero__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: -4px;
+    /* +4px ai lati → con lo space char dell'HTML (~4px) = ~8px di gap totale */
+    margin-inline: 4px;
+  }
+
+  /* Meta group — distanza dal lead = 36px esatti (parent flex gap
+   * = var(--space-lg) + margin-top compensativo). */
+  .home-hero__meta-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-top: calc(36px - var(--space-lg));
+  }
+
+  /* Riga meta: label + value sulla stessa riga con 8px di gap.
+   * flex-wrap permette il wrap pulito su mobile. */
+  .home-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 8px;
+    row-gap: 4px;
+    font-size: clamp(16px, calc(12.8px + 0.5vw), 20px);
+    line-height: 1.5;
+  }
+</style>

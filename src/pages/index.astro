@@ -1,20 +1,165 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/case-study/Container.astro";
+import SectionLabel from "../components/case-study/SectionLabel.astro";
+import HomeHero from "../components/home/HomeHero.astro";
+import ProjectCard from "../components/home/ProjectCard.astro";
+import PageFooter from "../components/PageFooter.astro";
+
+const projects = [
+  {
+    href: "/case-study/sample",
+    title: "Lorem ipsum dolor sit amet",
+    subtitle:
+      "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    tags: ["UX", "AI", "Shipped"],
+  },
+  {
+    href: "/case-study/sample",
+    title: "Sed ut perspiciatis unde omnis",
+    subtitle:
+      "Iste natus error sit voluptatem accusantium doloremque laudantium totam.",
+    tags: ["UX", "AI", "Shipped"],
+  },
+];
 ---
 
-<BaseLayout title="Gabriele La Rosa — Portfolio">
-  <section class="flex flex-col items-center justify-center min-h-[60vh] px-6 gap-6 text-center">
-    <h1 class="font-[var(--font-display)] font-bold text-[40px] text-white">
-      Portfolio in costruzione
-    </h1>
-    <p class="text-[16px] text-[var(--color-text-body)] max-w-prose">
-      Per ora è disponibile solo la pagina di dettaglio del case study come template.
-    </p>
-    <a
-      href="/case-study/sample"
-      class="text-[var(--color-accent-1)] underline-offset-4 hover:underline"
+<BaseLayout title="Gabriele La Rosa — Portfolio" hideFooter>
+  <article class="relative">
+    <!--
+      Ambient hero — ricostruzione del Figma 38:1513:
+      base nera + 3 blob morbidi blurred (arancio top-left, arancio bottom-right,
+      ciano bottom-left). Blob arancione + ciano animati indipendentemente.
+      Sotto: linear-gradient di fade verso il page bg + noise.
+    -->
+    <div
+      aria-hidden="true"
+      class="home-ambient pointer-events-none absolute inset-x-0"
+      style="top: -56px;"
     >
-      Apri il sample case study →
-    </a>
-  </section>
+      <span class="home-ambient__blob home-ambient__blob--cyan"></span>
+      <span class="home-ambient__blob home-ambient__blob--orange"></span>
+    </div>
+
+    <div class="relative z-10">
+      <HomeHero
+        name="Gabriele La Rosa"
+        currentlyAt="Flutter Inc."
+        workedWith={[
+          "European Commission",
+          "Ministero del Lavoro",
+          "INPS",
+          "Enel",
+        ]}
+      />
+
+      <Container pyClass="pt-[var(--space-section)] pb-[var(--space-section)]">
+        <div class="flex flex-col gap-[var(--space-lg)] w-full">
+          <SectionLabel label="Selected Projects" />
+          <div class="projects-grid">
+            {projects.map((p) => <ProjectCard {...p} />)}
+          </div>
+        </div>
+      </Container>
+    </div>
+  </article>
+
+  <PageFooter transparent />
 </BaseLayout>
+
+<style>
+  /* === Ambient hero — Figma 43:1539 ===
+   * Solo 2 blob (cyan + orange) sul lato destro del viewport, raggio 240px
+   * (~17vw su 1440). Base = page bg, niente fade né noise. */
+  .home-ambient {
+    height: 853px;
+    background-color: var(--color-bg);
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .home-ambient__blob {
+    position: absolute;
+    width: 33vw;
+    aspect-ratio: 1;
+    max-width: 481px;
+    border-radius: 100%;
+    /* fill-opacity 0.7 dal Figma — niente saturate/brightness boost. */
+    opacity: 0.7;
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  /* Cyan — cx≈69%, cy≈16% (alto, leggermente a sinistra dell'orange) */
+  .home-ambient__blob--cyan {
+    right: 14vw;
+    top: -1vw;
+    background-color: #9be2ec;
+    filter: blur(150px);
+    animation: home-blob-cyan 7s ease-in-out infinite alternate;
+  }
+
+  /* Orange — cx≈83%, cy≈24% (più a destra e più in basso) */
+  .home-ambient__blob--orange {
+    right: 0vw;
+    top: 7vw;
+    background-color: #fc642d;
+    filter: blur(150px);
+    animation: home-blob-orange 6s ease-in-out infinite alternate;
+  }
+
+  /* Noise grain con fade verso il body: maschera linear-gradient sull'asse Y
+   * → la grana sparisce gradualmente prima del bordo inferiore dell'hero. */
+  .home-ambient::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+    mix-blend-mode: overlay;
+    opacity: 0.6;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
+  }
+
+  @keyframes home-blob-cyan {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+      transform: translate3d(-15%, 10%, 0) scale(1.12);
+    }
+  }
+
+  @keyframes home-blob-orange {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+      transform: translate3d(-18%, -12%, 0) scale(1.15);
+    }
+  }
+
+  /* === Projects grid === */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2xl);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-ambient__blob--cyan,
+    .home-ambient__blob--orange {
+      animation: none;
+    }
+  }
+</style>

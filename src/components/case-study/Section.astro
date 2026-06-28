@@ -8,11 +8,12 @@ interface Props {
   description?: string;
   ariaLabel?: string;
   id?: string;
+  bgClass?: string;
 }
-const { label, title, description, ariaLabel, id } = Astro.props;
+const { label, title, description, ariaLabel, id, bgClass } = Astro.props;
 ---
 
-<Container ariaLabel={ariaLabel ?? label} id={id}>
+<Container ariaLabel={ariaLabel ?? label} id={id} bgClass={bgClass}>
   <div class="flex flex-col gap-[var(--space-lg)] items-start w-full">
     <SectionLabel label={label} />
     <h2 class="font-body font-semibold text-[32px] leading-tight text-white w-full">
@@ -20,7 +21,7 @@ const { label, title, description, ariaLabel, id } = Astro.props;
     </h2>
     {
       description && (
-        <p class="text-[16px] leading-[25.6px] text-[var(--color-text-body)] text-center w-full">
+        <p class="text-[16px] leading-[25.6px] text-[var(--color-text-body)] text-left w-full">
           {description}
         </p>
       )
