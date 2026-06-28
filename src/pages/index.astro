@@ -108,6 +108,25 @@ const projects = [
     animation: home-blob-orange 6s ease-in-out infinite alternate;
   }
 
+  /* Mobile: blob più piccoli (-30%) e blur più ampio per ammorbidire
+   * il colore — su viewport stretti diventa altrimenti troppo saturo. */
+  @media (max-width: 767px) {
+    .home-ambient__blob {
+      width: 42vw;
+      max-width: none;
+    }
+    .home-ambient__blob--cyan {
+      top: 30vw;
+      right: -5vw;
+      filter: blur(110px);
+    }
+    .home-ambient__blob--orange {
+      top: 55vw;
+      right: -25vw;
+      filter: blur(110px);
+    }
+  }
+
   /* Noise grain con fade verso il body: maschera linear-gradient sull'asse Y
    * → la grana sparisce gradualmente prima del bordo inferiore dell'hero. */
   .home-ambient::after {

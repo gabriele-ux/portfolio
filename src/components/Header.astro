@@ -49,13 +49,13 @@
   <nav class="flex items-center gap-4" aria-label="Primary">
     <a
       href="/about"
-      class="px-3 py-2 text-base text-white no-underline hover:text-[var(--color-accent-1)] transition-colors"
+      class="hidden md:inline-block px-3 py-2 text-base text-white no-underline hover:text-[var(--color-accent-1)] transition-colors"
     >
       About
     </a>
     <a
       href="#work"
-      class="px-3 py-2 text-base text-white no-underline hover:text-[var(--color-accent-1)] transition-colors"
+      class="hidden md:inline-block px-3 py-2 text-base text-white no-underline hover:text-[var(--color-accent-1)] transition-colors"
     >
       Work
     </a>
@@ -65,8 +65,56 @@
     >
       Let's talk
     </a>
+    <button
+      type="button"
+      class="header-menu-trigger md:hidden inline-flex items-center justify-center size-10 p-0 bg-transparent border-0 text-white cursor-pointer appearance-none transition-colors hover:text-[var(--color-accent-1)]"
+      aria-haspopup="dialog"
+      aria-controls="header-sheet"
+      aria-expanded="false"
+      aria-label="Apri menu"
+    >
+      <svg width="32" height="32" viewBox="0 0 256 256" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z" />
+      </svg>
+    </button>
   </nav>
 </header>
+
+<!-- Bottom sheet del menu mobile — solo < md (768px); stessa struttura della chapter-sheet -->
+<div
+  id="header-sheet"
+  class="header-sheet hidden max-md:block fixed inset-0 z-[70]"
+  data-open="false"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="header-sheet-title"
+  aria-hidden="true"
+>
+  <div class="header-sheet__backdrop" data-close></div>
+  <div class="header-sheet__panel" role="document">
+    <header class="header-sheet__header">
+      <h2 id="header-sheet-title" class="header-sheet__title">Menu</h2>
+      <button
+        type="button"
+        class="header-sheet__close"
+        aria-label="Chiudi"
+        data-close
+      >
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M9 9L23 23M23 9L9 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+    </header>
+    <ul class="header-sheet__list" role="list">
+      <li>
+        <a href="/about" class="header-sheet__item" data-close-on-click>About</a>
+      </li>
+      <li>
+        <a href="#work" class="header-sheet__item" data-close-on-click>Work</a>
+      </li>
+    </ul>
+  </div>
+</div>
 
 <style>
   /*
@@ -81,4 +129,148 @@
     backdrop-filter: blur(20px) saturate(140%);
     border-bottom: 1px solid var(--color-border);
   }
+
+  /* Show/hide gestiti via classi Tailwind (hidden / md:inline-block / max-md:block).
+   * Qui solo lo styling specifico del sheet. */
+
+  /* ============================================
+   *  HEADER SHEET — stessa struttura della chapter-sheet
+   * ============================================ */
+  .header-sheet[data-open="false"] {
+    pointer-events: none;
+  }
+
+  .header-sheet__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 280ms ease;
+  }
+
+  .header-sheet[data-open="true"] .header-sheet__backdrop {
+    opacity: 1;
+  }
+
+  .header-sheet__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 32px 12px calc(24px + env(safe-area-inset-bottom, 0px));
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    background-color: rgba(50, 50, 50, 0.92);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    backdrop-filter: blur(24px) saturate(140%);
+    border-top: 1px solid var(--color-border);
+    color: #ffffff;
+    transform: translateY(100%);
+    transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .header-sheet[data-open="true"] .header-sheet__panel {
+    transform: translateY(0);
+  }
+
+  .header-sheet__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    margin-bottom: 24px;
+  }
+
+  .header-sheet__title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: normal;
+    color: #ffffff;
+  }
+
+  .header-sheet__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: #ffffff;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  .header-sheet__list {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .header-sheet__item {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding: 0 12px;
+    border-radius: 25px;
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: normal;
+    text-decoration: none;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header-sheet__backdrop,
+    .header-sheet__panel {
+      transition-duration: 0ms;
+    }
+  }
 </style>
+
+<script>
+  const sheet = document.getElementById("header-sheet");
+  const trigger = document.querySelector<HTMLButtonElement>(".header-menu-trigger");
+
+  if (sheet && trigger) {
+    const open = () => {
+      sheet.dataset.open = "true";
+      sheet.setAttribute("aria-hidden", "false");
+      trigger.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+    };
+
+    const close = () => {
+      sheet.dataset.open = "false";
+      sheet.setAttribute("aria-hidden", "true");
+      trigger.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    };
+
+    trigger.addEventListener("click", open);
+
+    sheet.querySelectorAll<HTMLElement>("[data-close]").forEach((el) => {
+      el.addEventListener("click", close);
+    });
+    sheet.querySelectorAll<HTMLElement>("[data-close-on-click]").forEach((el) => {
+      el.addEventListener("click", close);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && sheet.dataset.open === "true") close();
+    });
+  }
+</script>
