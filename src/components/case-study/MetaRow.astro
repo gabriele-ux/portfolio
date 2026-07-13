@@ -1,4 +1,6 @@
 ---
+import Container from "./Container.astro";
+
 interface MetaItem {
   label: string;
   value: string;
@@ -9,9 +11,9 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<div class="w-full flex flex-col items-center px-6 md:px-12 xl:px-[160px] pb-[var(--space-xl)]">
+<Container pyClass="pb-[var(--space-xl)]">
   <div
-    class="w-full max-w-[var(--container-case-study)] flex flex-col items-start justify-start gap-y-2 md:flex-row md:flex-wrap md:items-center md:justify-start md:gap-x-8 md:gap-y-3 text-[16px]"
+    class="w-full flex flex-col items-start justify-start gap-y-2 md:flex-row md:flex-wrap md:items-center md:justify-start md:gap-x-8 md:gap-y-3 text-[16px]"
   >
     {
       items.map((item, i) => (
@@ -38,4 +40,4 @@ const { items } = Astro.props;
       ))
     }
   </div>
-</div>
+</Container>

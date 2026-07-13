@@ -9,9 +9,9 @@ interface Props {
 const { src, alt = "" } = Astro.props;
 ---
 
-<div class="w-full flex flex-col items-center pt-[var(--space-lg)] pb-[var(--space-2xl)] px-6 md:px-12 xl:px-[160px]">
+<div class="hero-visual w-full flex flex-col items-center pt-[var(--space-lg)] pb-[var(--space-2xl)]">
   <div
-    class="w-full max-w-[var(--container-case-study)] aspect-[1100/548] rounded-[var(--radius-card)] overflow-hidden relative"
+    class="w-full max-w-[var(--container-case-study-hero)] aspect-[1100/548] rounded-[var(--radius-card)] overflow-hidden relative"
   >
     {
       src ? (
@@ -30,6 +30,13 @@ const { src, alt = "" } = Astro.props;
 </div>
 
 <style>
+  /* Hero image container leggermente più largo del resto (1300 vs 1192).
+   * Padding fluido: 24px @ ≤480vw → 70px @ ≥1400vw, così a 1440vw
+   * la larghezza visibile è 1440-140=1300 (== max-width). */
+  .hero-visual {
+    padding-inline: clamp(24px, 5vw, 70px);
+  }
+
   .hero-gradient {
     background-image:
       radial-gradient(
