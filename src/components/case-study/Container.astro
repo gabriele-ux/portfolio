@@ -1,6 +1,6 @@
 ---
-// Wrapper di sezione: padding orizzontale 160px (desktop ≥ xl),
-// limita il contenuto a 1100px e lo centra.
+// Wrapper di sezione: padding orizzontale fluido tra 24px (mobile) e 100px
+// (desktop 1440vw+), limita il contenuto a 1100px e lo centra.
 // Default vertical: --space-section (80px) per ritmo leggibile.
 interface Props {
   pyClass?: string;
@@ -17,7 +17,7 @@ const {
 ---
 
 <section
-  class={`w-full flex flex-col items-center ${pyClass} px-6 md:px-12 xl:px-[160px] ${bgClass}`}
+  class={`case-container w-full flex flex-col items-center ${pyClass} ${bgClass}`}
   aria-label={ariaLabel}
   id={id}
 >
@@ -25,3 +25,12 @@ const {
     <slot />
   </div>
 </section>
+
+<style>
+  /* Padding-x fluido responsive con 8.6vw → 124 su desktop 1440
+   * (= (1440-1192)/2, così il container interno max-width 1192 combacia
+   * col gutter esterno). Min 24 su mobile, max 160 su viewport ultra-large. */
+  .case-container {
+    padding-inline: clamp(24px, 8.6vw, 160px);
+  }
+</style>

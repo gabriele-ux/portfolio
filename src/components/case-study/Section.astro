@@ -16,7 +16,7 @@ const { label, title, description, ariaLabel, id, bgClass } = Astro.props;
 <Container ariaLabel={ariaLabel ?? label} id={id} bgClass={bgClass}>
   <div class="flex flex-col gap-[var(--space-lg)] items-start w-full">
     <SectionLabel label={label} />
-    <h2 class="font-body font-semibold text-[32px] leading-tight text-white w-full">
+    <h2 class="font-body font-medium text-[32px] leading-tight text-white w-full">
       {title}
     </h2>
     {

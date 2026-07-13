@@ -34,7 +34,7 @@ const {
   nextUrl,
   allProjectsUrl = "/",
   year = new Date().getFullYear(),
-  gradientFrom = "#323232",
+  gradientFrom = "#272727",
   gradientTo = "#4387ca",
   transparent = false,
 } = Astro.props;
@@ -143,7 +143,7 @@ const {
   .page-footer__gradient {
     background: linear-gradient(
       180deg,
-      var(--pf-grad-from, #323232) 0%,
+      var(--pf-grad-from, #272727) 0%,
       var(--pf-grad-to, #4387ca) 100%
     );
     overflow: hidden;
@@ -167,7 +167,7 @@ const {
       ),
       radial-gradient(
         circle at 75% 85%,
-        color-mix(in srgb, var(--pf-grad-from, #323232) 40%, transparent) 0%,
+        color-mix(in srgb, var(--pf-grad-from, #272727) 40%, transparent) 0%,
         transparent 60%
       );
     filter: blur(40px);

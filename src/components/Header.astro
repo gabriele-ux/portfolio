@@ -7,6 +7,7 @@
 
 <header
   class="topbar sticky top-0 z-50 w-full h-[56px] flex items-center justify-between px-6 py-[10px]"
+  data-scrolled="false"
 >
   <a
     href="/"
@@ -117,17 +118,30 @@
 </div>
 
 <style>
-  /*
-   * Layered glass background: slate-blue base + black overlay (Figma 6:4 → 6:5).
-   * Backdrop blur per leggibilità sopra il gradient ambient della pagina.
-   */
+  /* Header trasparente in cima; diventa glassy quando l'utente scrolla
+   * (data-scrolled="true" viene settato via JS). Transizioni smooth
+   * per non far "sbucare" bruscamente il background. */
   .topbar {
+    background-color: transparent;
+    background-image: none;
+    border-bottom: 1px solid transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    transition:
+      background-color 240ms ease,
+      background-image 240ms ease,
+      -webkit-backdrop-filter 240ms ease,
+      backdrop-filter 240ms ease,
+      border-bottom-color 240ms ease;
+  }
+
+  .topbar[data-scrolled="true"] {
     background-image:
       linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
       linear-gradient(rgba(129, 139, 166, 0.19), rgba(129, 139, 166, 0.19));
     -webkit-backdrop-filter: blur(20px) saturate(140%);
     backdrop-filter: blur(20px) saturate(140%);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom-color: var(--color-border);
   }
 
   /* Show/hide gestiti via classi Tailwind (hidden / md:inline-block / max-md:block).
@@ -279,5 +293,15 @@
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && sheet.dataset.open === "true") close();
     });
+  }
+
+  // Toggle glass background dell'header quando l'utente ha scrollato
+  const topbar = document.querySelector<HTMLElement>(".topbar");
+  if (topbar) {
+    const updateScrolled = () => {
+      topbar.dataset.scrolled = window.scrollY > 8 ? "true" : "false";
+    };
+    updateScrolled();
+    window.addEventListener("scroll", updateScrolled, { passive: true });
   }
 </script>

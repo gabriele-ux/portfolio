@@ -8,7 +8,7 @@
   /* ============================================
    * COLORI — Dark only (v1)
    * ============================================ */
-  --color-bg: #323232;
+  --color-bg: #272727;
   --color-surface: rgba(129, 139, 166, 0.1);
   --color-tag-bg: rgba(129, 139, 166, 0.19);
   --color-header-bg: rgba(0, 0, 0, 0.1);
@@ -26,10 +26,13 @@
   /* ============================================
    * FONT FAMILIES
    * ============================================ */
-  --font-display: "Space Grotesk", system-ui, sans-serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
-  /* "D1" — display 1, riservato al titolo hero del case study */
-  --font-hero: "Bricolage Grotesque", system-ui, sans-serif;
+  /* Display + Hero: Libre Caslon Condensed (variable font, wght 200-900) */
+  --font-display: "Libre Caslon Condensed", ui-serif, Georgia, serif;
+  --font-hero: "Libre Caslon Condensed", ui-serif, Georgia, serif;
+  /* Body + h2 paragraph titles: IBM Plex Sans */
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  /* Labels + tag: IBM Plex Mono */
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
   /* ============================================
    * TYPE SCALE — px assoluti dal Figma
@@ -52,7 +55,7 @@
   /* ============================================
    * CONTAINER
    * ============================================ */
-  --container-case-study: 1100px;
+  --container-case-study: 1192px;
 
   /* ============================================
    * SPACING SCALE (4/8 base — ritmo Sophia Yang)

@@ -1,0 +1,407 @@
+---
+/*
+ * Footer specifico della homepage — Figma 64:387.
+ * - Ambient gradient (blob colorati animati + noise)
+ * - Top row: LAST UPDATED (build time) / CURRENTLY (Milano live, sun/moon dinamici)
+ * - Center block: heading serif "Let's build meaningful products :)" +
+ *   row di 2 bottoni circolari (Email envelope + LinkedIn logo).
+ */
+
+// Build-time date (aggiornato ad ogni deploy)
+const now = new Date();
+const ordinal = (d: number): string => {
+  if (d > 3 && d < 21) return "th";
+  switch (d % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+};
+const day = now.getDate();
+const lastUpdated = `${now.toLocaleDateString("en-US", {
+  month: "long",
+})} ${day}${ordinal(day)}, ${now.getFullYear()}`;
+
+const email = "gabrielelarosa013@gmail.com";
+const linkedinUrl = "https://www.linkedin.com/in/gabriele-la-rosa-9892b81b5/";
+---
+
+<footer class="home-footer">
+  <div class="home-footer__ambient" aria-hidden="true">
+    <span class="home-footer__blob home-footer__blob--orange-tl"></span>
+    <span class="home-footer__blob home-footer__blob--cyan"></span>
+    <span class="home-footer__blob home-footer__blob--orange-br"></span>
+  </div>
+
+  <div class="home-footer__inner">
+    <!-- Top row: LAST UPDATED / CURRENTLY -->
+    <div class="home-footer__meta">
+      <div class="home-footer__meta-item">
+        <span class="home-footer__meta-label">LAST UPDATED</span>
+        <span class="home-footer__meta-value">{lastUpdated}</span>
+      </div>
+      <div class="home-footer__meta-item home-footer__meta-item--right">
+        <span class="home-footer__meta-label">CURRENTLY</span>
+        <span
+          class="home-footer__meta-value home-footer__meta-value--icon"
+          id="home-footer-time-wrap"
+          data-time="night"
+        >
+          <svg
+            class="home-footer__icon-moon"
+            width="16"
+            height="16"
+            viewBox="0 0 256 256"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"></path>
+          </svg>
+          <svg
+            class="home-footer__icon-sun"
+            width="16"
+            height="16"
+            viewBox="0 0 256 256"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path>
+          </svg>
+          <span>Milan, <time id="home-footer-time">--:--</time></span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Center block: big serif heading + 2 icon buttons -->
+    <div class="home-footer__center">
+      <h2 class="home-footer__heading">Let&rsquo;s build meaningful products :)</h2>
+      <div class="home-footer__cta">
+        <button
+          type="button"
+          class="home-footer__btn"
+          data-email={email}
+          aria-label={`Copia email ${email}`}
+          title="Copia email"
+        >
+          <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z" />
+          </svg>
+        </button>
+        <a
+          href={linkedinUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="home-footer__btn"
+          aria-label="LinkedIn"
+          title="LinkedIn"
+        >
+          <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .home-footer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    /* Overlap upward per far comparire il gradient dietro alla sezione
+     * precedente con angoli rounded 32px */
+    margin-top: -32px;
+    /* Bottom padding fluido: 60px mobile → 120px desktop */
+    padding-bottom: clamp(60px, calc(12px + 7.5vw), 120px);
+    isolation: isolate;
+  }
+
+  /* === Ambient === */
+  .home-footer__ambient {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--color-bg);
+    overflow: hidden;
+  }
+
+  .home-footer__blob {
+    position: absolute;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    opacity: 0.55;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .home-footer__blob--orange-tl {
+    width: 55vw;
+    top: -20vw;
+    left: -15vw;
+    background-color: #fc642d;
+    filter: blur(160px) saturate(1.2);
+    animation: home-footer-blob-a 14s ease-in-out infinite alternate;
+  }
+
+  .home-footer__blob--cyan {
+    width: 60vw;
+    bottom: -25vw;
+    left: -25vw;
+    background-color: #9be2ec;
+    filter: blur(200px) saturate(1.2);
+    opacity: 0.45;
+    animation: home-footer-blob-b 16s ease-in-out infinite alternate;
+  }
+
+  .home-footer__blob--orange-br {
+    width: 65vw;
+    bottom: -30vw;
+    right: -25vw;
+    background-color: #fc642d;
+    filter: blur(180px) saturate(1.2);
+    opacity: 0.65;
+    animation: home-footer-blob-c 12s ease-in-out infinite alternate;
+  }
+
+  @keyframes home-footer-blob-a {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+      transform: translate3d(18%, 12%, 0) scale(1.15);
+    }
+  }
+
+  @keyframes home-footer-blob-b {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+      transform: translate3d(20%, -14%, 0) scale(1.18);
+    }
+  }
+
+  @keyframes home-footer-blob-c {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+      transform: translate3d(-22%, -16%, 0) scale(1.2);
+    }
+  }
+
+  /* Noise overlay */
+  .home-footer__ambient::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+    mix-blend-mode: overlay;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* === Inner container ===
+   * padding-top ≥ 64px anche su mobile.
+   * padding-x fluido continuo 24 → 100 come Container.astro.
+   * gap tra meta row e card: reverse-clamp — più grande su mobile (60px)
+   * e più piccolo su desktop (24px) → la card si allontana proporzionalmente
+   * man mano che il viewport si restringe. */
+  .home-footer__inner {
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(64px, calc(51.2px + 2vw), 80px)
+      clamp(24px, 7vw, 160px) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(24px, calc(88.8px - 4.5vw), 60px);
+  }
+
+  /* === Meta row === */
+  .home-footer__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .home-footer__meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .home-footer__meta-item--right {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  /* Label — IBM Plex Mono (via --font-mono token) */
+  .home-footer__meta-label {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20.44px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* Data + città — IBM Plex Sans Regular 400 (via --font-body token) */
+  .home-footer__meta-value {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19.2px;
+    letter-spacing: -0.16px;
+    color: #f9f9f9;
+  }
+
+  .home-footer__meta-value--icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Sun/moon toggle in base a data-time */
+  .home-footer__icon-moon,
+  .home-footer__icon-sun {
+    display: none;
+    flex-shrink: 0;
+  }
+  .home-footer__meta-value--icon[data-time="night"] .home-footer__icon-moon {
+    display: inline-block;
+  }
+  .home-footer__meta-value--icon[data-time="day"] .home-footer__icon-sun {
+    display: inline-block;
+  }
+
+  /* === Center block: heading + icon buttons === */
+  .home-footer__center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(20px, calc(9.6px + 1.625vw), 32px);
+    width: 100%;
+  }
+
+  .home-footer__heading {
+    font-family: var(--font-hero);
+    font-weight: 400;
+    /* 28 → 45 tra 640vw e 1440vw */
+    font-size: clamp(28px, calc(14.4px + 2.125vw), 45px);
+    line-height: 1.1;
+    color: #ffffff;
+    margin: 0;
+    text-align: center;
+  }
+
+  /* Row di 2 bottoni circolari */
+  .home-footer__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .home-footer__btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    appearance: none;
+    text-decoration: none;
+    transition:
+      background-color 200ms ease,
+      transform 120ms ease;
+  }
+
+  .home-footer__btn:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .home-footer__btn:active {
+    transform: scale(0.96);
+  }
+
+  /* Micro-feedback su copia email: bg lampeggia più chiaro */
+  .home-footer__btn[data-copied="true"] {
+    background-color: rgba(255, 255, 255, 0.35);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-footer__blob--orange-tl,
+    .home-footer__blob--cyan,
+    .home-footer__blob--orange-br {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Milan time — 24h format + sun/moon icon based on hour
+  function updateHomeFooterTime() {
+    const timeEl = document.getElementById("home-footer-time");
+    const wrapEl = document.getElementById("home-footer-time-wrap");
+    if (!timeEl || !wrapEl) return;
+
+    const now = new Date();
+
+    // Formato 24h HH:MM in fuso Europe/Rome
+    const timeStr = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Rome",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }).format(now);
+    timeEl.textContent = timeStr;
+
+    // Ora di Milano per decidere l'icona
+    const hourStr = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Rome",
+      hour: "2-digit",
+      hour12: false,
+    }).format(now);
+    const hour = parseInt(hourStr, 10);
+    // Notte: 20:00 → 05:59
+    const isNight = hour < 6 || hour >= 20;
+    wrapEl.dataset.time = isNight ? "night" : "day";
+  }
+  updateHomeFooterTime();
+  setInterval(updateHomeFooterTime, 60_000);
+
+  // Copy email on click del bottone envelope
+  document
+    .querySelectorAll<HTMLButtonElement>(".home-footer__btn[data-email]")
+    .forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const email = btn.dataset.email;
+        if (!email) return;
+        try {
+          await navigator.clipboard.writeText(email);
+          btn.dataset.copied = "true";
+          setTimeout(() => {
+            delete btn.dataset.copied;
+          }, 1200);
+        } catch {
+          window.location.href = `mailto:${email}`;
+        }
+      });
+    });
+</script>

@@ -1,61 +1,49 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/case-study/Container.astro";
-import SectionLabel from "../components/case-study/SectionLabel.astro";
 import HomeHero from "../components/home/HomeHero.astro";
 import ProjectCard from "../components/home/ProjectCard.astro";
-import PageFooter from "../components/PageFooter.astro";
+import HomeFooter from "../components/home/HomeFooter.astro";
 
 const projects = [
   {
     href: "/case-study/sample",
-    title: "Lorem ipsum dolor sit amet",
-    subtitle:
-      "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    tags: ["UX", "AI", "Shipped"],
+    title: "Title",
+    tags: ["PROJECT", "UX", "2026"],
   },
   {
     href: "/case-study/sample",
-    title: "Sed ut perspiciatis unde omnis",
-    subtitle:
-      "Iste natus error sit voluptatem accusantium doloremque laudantium totam.",
-    tags: ["UX", "AI", "Shipped"],
+    title: "Title",
+    tags: ["PROJECT", "UX", "2026"],
   },
 ];
 ---
 
 <BaseLayout title="Gabriele La Rosa — Portfolio" hideFooter>
   <article class="relative">
-    <!--
-      Ambient hero — ricostruzione del Figma 38:1513:
-      base nera + 3 blob morbidi blurred (arancio top-left, arancio bottom-right,
-      ciano bottom-left). Blob arancione + ciano animati indipendentemente.
-      Sotto: linear-gradient di fade verso il page bg + noise.
-    -->
-    <div
-      aria-hidden="true"
-      class="home-ambient pointer-events-none absolute inset-x-0"
-      style="top: -56px;"
-    >
-      <span class="home-ambient__blob home-ambient__blob--cyan"></span>
-      <span class="home-ambient__blob home-ambient__blob--orange"></span>
-    </div>
-
     <div class="relative z-10">
-      <HomeHero
-        name="Gabriele La Rosa"
-        currentlyAt="Flutter Inc."
-        workedWith={[
-          "European Commission",
-          "Ministero del Lavoro",
-          "INPS",
-          "Enel",
-        ]}
-      />
+      <HomeHero />
 
-      <Container pyClass="pt-[var(--space-section)] pb-[var(--space-section)]">
-        <div class="flex flex-col gap-[var(--space-lg)] w-full">
-          <SectionLabel label="Selected Projects" />
+      <Container
+        pyClass="pt-0 pb-[clamp(80px,12.5vw,180px)]"
+        bgClass="bg-[var(--color-bg)] rounded-b-[32px] relative z-[1]"
+      >
+        <div class="flex flex-col gap-[24px] w-full">
+          <!-- Tag "SELECTED PROJECTS" + arrow-down (senza divider full-width) -->
+          <div class="home-selected__tag">
+            <span class="home-selected__label">SELECTED PROJECTS</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path d="M12.854 9.35375L8.35403 13.8538C8.30759 13.9002 8.25245 13.9371 8.19175 13.9623C8.13105 13.9874 8.06599 14.0004 8.00028 14.0004C7.93457 14.0004 7.86951 13.9874 7.80881 13.9623C7.74811 13.9371 7.69296 13.9002 7.64653 13.8538L3.14653 9.35375C3.05271 9.25993 3 9.13268 3 9C3 8.86732 3.05271 8.74007 3.14653 8.64625C3.24035 8.55243 3.3676 8.49972 3.50028 8.49972C3.63296 8.49972 3.76021 8.55243 3.85403 8.64625L7.50028 12.2931V2.5C7.50028 2.36739 7.55296 2.24021 7.64672 2.14645C7.74049 2.05268 7.86767 2 8.00028 2C8.13289 2 8.26006 2.05268 8.35383 2.14645C8.4476 2.24021 8.50028 2.36739 8.50028 2.5V12.2931L12.1465 8.64625C12.2403 8.55243 12.3676 8.49972 12.5003 8.49972C12.633 8.49972 12.7602 8.55243 12.854 8.64625C12.9478 8.74007 13.0006 8.86732 13.0006 9C13.0006 9.13268 12.9478 9.25993 12.854 9.35375Z" fill="white"/>
+            </svg>
+          </div>
+
           <div class="projects-grid">
             {projects.map((p) => <ProjectCard {...p} />)}
           </div>
@@ -64,109 +52,36 @@ const projects = [
     </div>
   </article>
 
-  <PageFooter transparent />
+  <HomeFooter />
 </BaseLayout>
 
 <style>
-  /* === Ambient hero — Figma 43:1539 ===
-   * Solo 2 blob (cyan + orange) sul lato destro del viewport, raggio 240px
-   * (~17vw su 1440). Base = page bg, niente fade né noise. */
-  .home-ambient {
-    height: 853px;
-    background-color: var(--color-bg);
-    overflow: hidden;
-    z-index: 0;
+  /* === Tag Selected Projects === */
+  .home-selected__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-radius: 8px;
+    opacity: 0.9;
+    color: #ffffff;
+    align-self: flex-start;
   }
 
-  .home-ambient__blob {
-    position: absolute;
-    width: 33vw;
-    aspect-ratio: 1;
-    max-width: 481px;
-    border-radius: 100%;
-    /* fill-opacity 0.7 dal Figma — niente saturate/brightness boost. */
-    opacity: 0.7;
-    will-change: transform;
-    pointer-events: none;
-  }
-
-  /* Cyan — cx≈69%, cy≈16% (alto, leggermente a sinistra dell'orange) */
-  .home-ambient__blob--cyan {
-    right: 14vw;
-    top: -1vw;
-    background-color: #9be2ec;
-    /* saturate(1.2) = +20% di intensità cromatica mantenendo opacity 0.7 del Figma */
-    filter: blur(150px) saturate(1.2);
-    animation: home-blob-cyan 7s ease-in-out infinite alternate;
-  }
-
-  /* Orange — cx≈83%, cy≈24% (più a destra e più in basso) */
-  .home-ambient__blob--orange {
-    right: 0vw;
-    top: 7vw;
-    background-color: #fc642d;
-    filter: blur(150px) saturate(1.2);
-    animation: home-blob-orange 6s ease-in-out infinite alternate;
-  }
-
-  /* Mobile: blob più piccoli (-30%) e blur più ampio per ammorbidire
-   * il colore — su viewport stretti diventa altrimenti troppo saturo. */
-  @media (max-width: 767px) {
-    .home-ambient__blob {
-      width: 42vw;
-      max-width: none;
-    }
-    .home-ambient__blob--cyan {
-      top: 30vw;
-      right: -5vw;
-      filter: blur(110px) saturate(1.2);
-    }
-    .home-ambient__blob--orange {
-      top: 55vw;
-      right: -25vw;
-      filter: blur(110px) saturate(1.2);
-    }
-  }
-
-  /* Noise grain con fade verso il body: maschera linear-gradient sull'asse Y
-   * → la grana sparisce gradualmente prima del bordo inferiore dell'hero. */
-  .home-ambient::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 256px 256px;
-    mix-blend-mode: overlay;
-    opacity: 0.6;
-    pointer-events: none;
-    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
-    mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
-  }
-
-  @keyframes home-blob-cyan {
-    0% {
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-    100% {
-      transform: translate3d(-15%, 10%, 0) scale(1.12);
-    }
-  }
-
-  @keyframes home-blob-orange {
-    0% {
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-    100% {
-      transform: translate3d(-18%, -12%, 0) scale(1.15);
-    }
+  .home-selected__label {
+    font-family: var(--font-mono);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: 0.32px;
+    color: #ffffff;
+    white-space: nowrap;
   }
 
   /* === Projects grid === */
   .projects-grid {
     display: grid;
     grid-template-columns: 1fr;
-    /* In colonna (mobile) i due item hanno bisogno di più respiro verticale
-     * perché sono full-width, uno sotto l'altro. */
     gap: var(--space-3xl);
     width: 100%;
   }
@@ -174,14 +89,7 @@ const projects = [
   @media (min-width: 768px) {
     .projects-grid {
       grid-template-columns: 1fr 1fr;
-      gap: var(--space-2xl);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .home-ambient__blob--cyan,
-    .home-ambient__blob--orange {
-      animation: none;
+      gap: 32px;
     }
   }
 </style>

@@ -1,17 +1,32 @@
 @import "tailwindcss";
 
-/* Self-hosted fonts — latin subset only */
-@import "@fontsource/dm-sans/latin-400.css";
-@import "@fontsource/dm-sans/latin-500.css";
-@import "@fontsource/dm-sans/latin-600.css";
-@import "@fontsource/space-grotesk/latin-500.css";
-@import "@fontsource/space-grotesk/latin-700.css";
-@import "@fontsource/bricolage-grotesque/latin-200.css";
-@import "@fontsource/bricolage-grotesque/latin-300.css";
-@import "@fontsource/bricolage-grotesque/latin-400.css";
-@import "@fontsource/bricolage-grotesque/latin-500.css";
-@import "@fontsource/bricolage-grotesque/latin-600.css";
-@import "@fontsource/bricolage-grotesque/latin-700.css";
+/* Libre Caslon Condensed — self-hosted variable font (weight axis 200-900) */
+@font-face {
+  font-family: "Libre Caslon Condensed";
+  src: url("/fonts/LibreCaslonCondensed%5Bwght%5D.ttf") format("truetype-variations");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Libre Caslon Condensed";
+  src: url("/fonts/LibreCaslonCondensed-Italic%5Bwght%5D.ttf") format("truetype-variations");
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* IBM Plex Sans — body + h2 paragraph titles */
+@import "@fontsource/ibm-plex-sans/latin-300.css";
+@import "@fontsource/ibm-plex-sans/latin-400.css";
+@import "@fontsource/ibm-plex-sans/latin-500.css";
+@import "@fontsource/ibm-plex-sans/latin-600.css";
+
+/* IBM Plex Mono — labels */
+@import "@fontsource/ibm-plex-mono/latin-300.css";
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/ibm-plex-mono/latin-500.css";
 
 @import "./tokens.css";
 
@@ -33,6 +48,11 @@
     font-family: var(--font-body);
     line-height: 1.2;
     letter-spacing: -0.01em;
+  }
+
+  /* Paragraphs → IBM Plex Sans Light (300) as default */
+  p {
+    font-weight: 300;
   }
 
   ::selection {

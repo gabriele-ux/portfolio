@@ -64,6 +64,8 @@ const insights = [
         tags={["UX/UI", "AI", "Personal Project"]}
       />
 
+      <HeroVisual />
+
       <div id="tldr">
         <TLDRBlock
           problem="Lorem ipsum dolor sit amet consectetur. Sit porttitor mauris imperdiet nulla arcu ac. Mi ut aenean molestie lectus tristique porttitor nulla blandit nisl."
@@ -73,8 +75,6 @@ const insights = [
       </div>
 
     <MetaRow items={meta} />
-
-    <HeroVisual />
 
     <Section
       id="context"
@@ -91,14 +91,14 @@ const insights = [
       id="problem"
       label="Problem statement"
       title="Title title"
-      bgClass="bg-[#212121]"
+      bgClass="bg-[var(--color-bg)]"
     />
     <Section id="solution" label="Solution" title="Title title" />
     <Section
       id="impact"
       label="Impact"
       title="Title title"
-      bgClass="bg-[#212121]"
+      bgClass="bg-[var(--color-bg)]"
     />
     <Section id="process" label="Iterations & Pivots" title="Title title" />
     <Section id="learnings" label="Learnings" title="Title title" />
@@ -112,7 +112,7 @@ const insights = [
 
 <style>
   .hero-ambient-gradient {
-    background: linear-gradient(180deg, #4387ca 0%, #323232 100%);
+    background: linear-gradient(180deg, #4387ca 0%, #272727 100%);
     z-index: 0;
   }
 

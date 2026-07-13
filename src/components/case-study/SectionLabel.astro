@@ -1,5 +1,5 @@
 ---
-// Pattern label di sezione: tag-style testuale + linea divider full-width.
+// Pattern label di sezione: tag DM Mono compatto (senza divider line).
 // Usato all'inizio di ogni sezione (dopo l'hero) per dare ritmo visivo.
 interface Props {
   label: string;
@@ -7,11 +7,8 @@ interface Props {
 const { label } = Astro.props;
 ---
 
-<div class="w-full flex items-center gap-3">
-  <span
-    class="font-body py-2 text-[14px] tracking-[0.32px] text-white whitespace-nowrap"
-  >
-    {label}
-  </span>
-  <span aria-hidden="true" class="flex-1 h-px bg-[#f5f5f5]"></span>
-</div>
+<span
+  class="font-mono font-light uppercase py-2 text-[14px] tracking-[0.32px] text-white whitespace-nowrap"
+>
+  {label}
+</span>

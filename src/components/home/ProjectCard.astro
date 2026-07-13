@@ -1,49 +1,50 @@
 ---
 /*
- * Card di un progetto selezionato in homepage.
- * - Cover image (placeholder bianco se manca src)
- * - Tags row (riusa il pattern delle tag liquid del case study)
- * - Titolo + sottotitolo
+ * Card di un progetto selezionato in homepage — Figma 51:77.
+ * - Cover image (placeholder bianco se manca src), aspect 544/390 (~1.4:1)
+ * - Tag row: testo DM Mono separato da micro-dot (2px), no outline
+ * - Titolo: Bricolage semibold 24px
  * - L'intera card è un link verso la case study page
  */
-import Tag from "../case-study/Tag.astro";
 
 interface Props {
   href: string;
   title: string;
-  subtitle?: string;
   tags?: string[];
   cover?: string;
   coverAlt?: string;
 }
 
-const {
-  href,
-  title,
-  subtitle,
-  tags = [],
-  cover,
-  coverAlt = "",
-} = Astro.props;
+const { href, title, tags = [], cover, coverAlt = "" } = Astro.props;
 ---
 
-<a href={href} class="project-card group">
+<a href={href} class="project-card">
   <div class="project-card__media">
-    {cover ? (
-      <img src={cover} alt={coverAlt} class="project-card__img" />
-    ) : (
-      <div class="project-card__placeholder" aria-hidden="true"></div>
-    )}
+    {
+      cover ? (
+        <img src={cover} alt={coverAlt} class="project-card__img" />
+      ) : (
+        <div class="project-card__placeholder" aria-hidden="true" />
+      )
+    }
   </div>
 
-  {tags.length > 0 && (
-    <div class="flex flex-wrap gap-2 mt-[var(--space-lg)]">
-      {tags.map((t) => <Tag label={t} />)}
-    </div>
-  )}
+  {
+    tags.length > 0 && (
+      <ul class="project-card__tags" role="list">
+        {tags.map((t, i) => (
+          <>
+            {i > 0 && (
+              <li class="project-card__tag-sep" aria-hidden="true" />
+            )}
+            <li class="project-card__tag">{t}</li>
+          </>
+        ))}
+      </ul>
+    )
+  }
 
   <h2 class="project-card__title">{title}</h2>
-  {subtitle && <p class="project-card__subtitle">{subtitle}</p>}
 </a>
 
 <style>
@@ -56,8 +57,9 @@ const {
 
   .project-card__media {
     width: 100%;
-    aspect-ratio: 16 / 11;
-    border-radius: var(--radius-card);
+    /* 544x390 dal Figma → ratio ~1.395 */
+    aspect-ratio: 544 / 390;
+    border-radius: 8px;
     overflow: hidden;
     background-color: rgba(129, 139, 166, 0.1);
     transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -80,20 +82,42 @@ const {
     background-color: #ffffff;
   }
 
-  .project-card__title {
-    margin-top: var(--space-md);
-    font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 28px;
-    line-height: 1.2;
-    color: #ffffff;
+  /* Tag row: testo mono, separatori dot 2x2 */
+  .project-card__tags {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 24px 0 0 0;
+    padding: 0;
+    list-style: none;
+    flex-wrap: wrap;
   }
 
-  .project-card__subtitle {
-    margin-top: var(--space-2xs);
-    font-family: var(--font-body);
-    font-size: 18px;
-    line-height: 1.4;
-    color: var(--color-text-body);
+  .project-card__tag {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.32px;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.8);
+    white-space: nowrap;
+  }
+
+  .project-card__tag-sep {
+    width: 2px;
+    height: 2px;
+    border-radius: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
+  }
+
+  .project-card__title {
+    margin-top: 16px;
+    font-family: var(--font-hero);
+    font-weight: 400;
+    font-size: 28px;
+    letter-spacing: 0.32px;
+    line-height: 1.2;
+    color: #ffffff;
   }
 </style>

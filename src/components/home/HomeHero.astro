@@ -1,138 +1,553 @@
 ---
 /*
- * Hero della homepage:
- * - h1 nome
- * - paragrafo descrittivo con bold + emoji inline
- * - meta rows: "Currently at" / "I worked with"
+ * Hero della homepage — Figma 59:37.
+ * Titolo su 2 righe con parole highlighted (versatile / design systems /
+ * strategy) che aprono un tooltip su hover (desktop) o modal su tap (mobile).
+ * Border animato del tooltip: conic-gradient che ruota.
  */
 import Container from "../case-study/Container.astro";
 
-interface Props {
-  name: string;
-  currentlyAt: string;
-  workedWith: string[];
-}
-
-const { name, currentlyAt, workedWith } = Astro.props;
+const words = [
+  {
+    key: "end-to-end",
+    label: "end-to-end",
+    color: "green",
+    tooltip:
+      "I've worked on projects both solo and in team, covering the full design process: from requirements and research to testing and dev hand-off.",
+  },
+  {
+    key: "design-systems",
+    label: "design systems",
+    color: "purple",
+    tooltip:
+      "I've designed multi-brand (5+) design systems, with attention to tokens, design-to-code, and documentation.",
+  },
+  {
+    key: "strategy",
+    label: "strategy",
+    color: "blue",
+    tooltip:
+      "I collaborate with business and dev teams to define objectives, KPIs, and the best approach to tackle each project.",
+  },
+];
 ---
 
-<Container pyClass="pt-[var(--space-3xl)] pb-[var(--space-3xl)]">
-  <div class="flex flex-col gap-[var(--space-lg)] items-start w-full">
-    <h1 class="home-hero__title font-hero text-white leading-tight">
-      {name}
-    </h1>
-
-    <p class="home-hero__lead text-white">
-      <strong class="font-semibold">UX/Product Designer</strong> focused on Design
-      Systems
-      <span class="home-hero__icon" aria-hidden="true">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8.71801 14.1773C8.74934 14.2713 8.75788 14.3714 8.74294 14.4693C8.72801 14.5672 8.69002 14.6601 8.63211 14.7405C8.5742 14.8208 8.49803 14.8862 8.40987 14.9314C8.32171 14.9765 8.22408 15 8.12505 15H1.87505C1.77601 15 1.67839 14.9765 1.59023 14.9314C1.50207 14.8862 1.42589 14.8208 1.36798 14.7405C1.31007 14.6601 1.27208 14.5672 1.25715 14.4693C1.24221 14.3714 1.25076 14.2713 1.28208 14.1773L4.40708 4.80235C4.44854 4.67787 4.52812 4.5696 4.63455 4.49288C4.74098 4.41615 4.86885 4.37486 5.00005 4.37486C5.13125 4.37486 5.25912 4.41615 5.36554 4.49288C5.47197 4.5696 5.55155 4.67787 5.59301 4.80235L8.71801 14.1773ZM16.25 5.9375C16.25 5.13402 16.0118 4.34857 15.5654 3.6805C15.119 3.01242 14.4845 2.49172 13.7422 2.18424C12.9999 1.87676 12.183 1.79631 11.395 1.95306C10.6069 2.10981 9.88308 2.49673 9.31493 3.06488C8.74677 3.63303 8.35986 4.3569 8.20311 5.14495C8.04635 5.933 8.12681 6.74983 8.43429 7.49215C8.74177 8.23448 9.26247 8.86895 9.93054 9.31535C10.5986 9.76174 11.3841 10 12.1875 10C13.2646 9.99876 14.2972 9.57035 15.0588 8.80875C15.8204 8.04716 16.2488 7.01456 16.25 5.9375ZM17.5 11.25H10.625C10.4593 11.25 10.3003 11.3158 10.1831 11.4331C10.0659 11.5503 10 11.7092 10 11.875V16.25C10 16.4158 10.0659 16.5747 10.1831 16.6919C10.3003 16.8092 10.4593 16.875 10.625 16.875H17.5C17.6658 16.875 17.8248 16.8092 17.942 16.6919C18.0592 16.5747 18.125 16.4158 18.125 16.25V11.875C18.125 11.7092 18.0592 11.5503 17.942 11.4331C17.8248 11.3158 17.6658 11.25 17.5 11.25Z" fill="url(#hh-grad-design-systems)" />
-          <defs>
-            <linearGradient id="hh-grad-design-systems" x1="10" y1="-4.5" x2="-11" y2="29" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#FB8FE4" />
-              <stop offset="1" stop-color="#C3C5F7" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </span>
-      and UX Strategy
-      <span class="home-hero__icon" aria-hidden="true">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g clip-path="url(#hh-clip-strategy)">
-            <path d="M19.5267 9.39374L17.4134 8.86561C17.1734 7.28617 16.4346 5.82486 15.3049 4.6952C14.1752 3.56554 12.7139 2.82673 11.1345 2.58671L10.6064 0.477332C10.5725 0.34219 10.4944 0.222239 10.3846 0.136531C10.2748 0.0508232 10.1394 0.00427246 10.0001 0.00427246C9.86079 0.00427246 9.72546 0.0508232 9.61562 0.136531C9.50578 0.222239 9.42773 0.34219 9.39386 0.477332L8.86574 2.59061C7.28629 2.83063 5.82498 3.56944 4.69532 4.69911C3.56566 5.82877 2.82685 7.29007 2.58683 8.86952L0.477454 9.39764C0.342312 9.43151 0.222361 9.50957 0.136653 9.61941C0.0509453 9.72925 0.00439453 9.86457 0.00439453 10.0039C0.00439453 10.1432 0.0509453 10.2785 0.136653 10.3884C0.222361 10.4982 0.342312 10.5763 0.477454 10.6101L2.59074 11.1383C2.83075 12.7177 3.56957 14.179 4.69923 15.3087C5.82889 16.4383 7.29019 17.1772 8.86964 17.4172L9.39777 19.5305C9.43164 19.6656 9.50969 19.7855 9.61953 19.8713C9.72937 19.957 9.8647 20.0035 10.004 20.0035C10.1433 20.0035 10.2787 19.957 10.3885 19.8713C10.4983 19.7855 10.5764 19.6656 10.6103 19.5305L11.1384 17.4172C12.7178 17.1772 14.1791 16.4383 15.3088 15.3087C16.4385 14.179 17.1773 12.7177 17.4173 11.1383L19.5306 10.6101C19.6657 10.5763 19.7857 10.4982 19.8714 10.3884C19.9571 10.2785 20.0036 10.1432 20.0036 10.0039C20.0036 9.86457 19.9571 9.72925 19.8714 9.61941C19.7857 9.50957 19.6657 9.43151 19.5306 9.39764L19.5267 9.39374ZM16.0759 8.53436L12.3907 7.60936L11.4689 3.92421C12.5866 4.19324 13.6084 4.76582 14.4213 5.57878C15.2343 6.39173 15.8069 7.41346 16.0759 8.53124V8.53436ZM8.53136 3.92499L7.60949 7.60936L3.92433 8.53124C4.19336 7.41346 4.76594 6.39173 5.5789 5.57878C6.39186 4.76582 7.41359 4.19324 8.53136 3.92421V3.92499ZM3.92199 11.4695L7.60949 12.3906L8.53136 16.0758C7.41359 15.8067 6.39186 15.2342 5.5789 14.4212C4.76594 13.6082 4.19336 12.5865 3.92433 11.4687L3.92199 11.4695ZM11.4665 16.0789L12.3884 12.3937L16.0735 11.4719C15.8042 12.5888 15.2317 13.6096 14.4193 14.422C13.6068 15.2343 12.5858 15.8066 11.4689 16.0758L11.4665 16.0789Z" fill="url(#hh-grad-strategy)" />
-          </g>
-          <defs>
-            <linearGradient id="hh-grad-strategy" x1="10.004" y1="0.00427246" x2="10.004" y2="20.0035" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#88F6EA" />
-              <stop offset="1" stop-color="#E0BEF5" />
-            </linearGradient>
-            <clipPath id="hh-clip-strategy">
-              <rect width="20" height="20" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
-      </span>
-      .
-      <br />
-      I bridge business and development, translating complexity into <span
-        class="home-hero__highlight">scalable designs</span
-      >
-      <span class="home-hero__icon" aria-hidden="true">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16.875 3.125H3.125C2.79348 3.125 2.47554 3.2567 2.24112 3.49112C2.0067 3.72554 1.875 4.04348 1.875 4.375V15.625C1.875 15.9565 2.0067 16.2745 2.24112 16.5089C2.47554 16.7433 2.79348 16.875 3.125 16.875H16.875C17.2065 16.875 17.5245 16.7433 17.7589 16.5089C17.9933 16.2745 18.125 15.9565 18.125 15.625V4.375C18.125 4.04348 17.9933 3.72554 17.7589 3.49112C17.5245 3.2567 17.2065 3.125 16.875 3.125ZM15.625 15H4.375C4.20924 15 4.05027 14.9342 3.93306 14.8169C3.81585 14.6997 3.75 14.5408 3.75 14.375V5.625C3.75 5.45924 3.81585 5.30027 3.93306 5.18306C4.05027 5.06585 4.20924 5 4.375 5C4.54076 5 4.69973 5.06585 4.81694 5.18306C4.93415 5.30027 5 5.45924 5 5.625V11.6164L7.68281 8.93281C7.74086 8.8747 7.80979 8.8286 7.88566 8.79715C7.96154 8.7657 8.04287 8.74951 8.125 8.74951C8.20713 8.74951 8.28846 8.7657 8.36434 8.79715C8.44021 8.8286 8.50914 8.8747 8.56719 8.93281L10 10.3664L13.4914 6.875H11.25C11.0842 6.875 10.9253 6.80915 10.8081 6.69194C10.6908 6.57473 10.625 6.41576 10.625 6.25C10.625 6.08424 10.6908 5.92527 10.8081 5.80806C10.9253 5.69085 11.0842 5.625 11.25 5.625H15C15.1658 5.625 15.3247 5.69085 15.4419 5.80806C15.5592 5.92527 15.625 6.08424 15.625 6.25V10C15.625 10.1658 15.5592 10.3247 15.4419 10.4419C15.3247 10.5592 15.1658 10.625 15 10.625C14.8342 10.625 14.6753 10.5592 14.5581 10.4419C14.4408 10.3247 14.375 10.1658 14.375 10V7.75859L10.4422 11.6922C10.3841 11.7503 10.3152 11.7964 10.2393 11.8279C10.1635 11.8593 10.0821 11.8755 10 11.8755C9.91787 11.8755 9.83654 11.8593 9.76066 11.8279C9.68479 11.7964 9.61586 11.7503 9.55781 11.6922L8.125 10.2586L5 13.3836V13.75H15.625C15.7908 13.75 15.9497 13.8158 16.0669 13.9331C16.1842 14.0503 16.25 14.2092 16.25 14.375C16.25 14.5408 16.1842 14.6997 16.0669 14.8169C15.9497 14.9342 15.7908 15 15.625 15Z" fill="url(#hh-grad-scalable)" />
-          <defs>
-            <linearGradient id="hh-grad-scalable" x1="10" y1="3.125" x2="10" y2="16.875" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#B1C76F" />
-              <stop offset="1" stop-color="#82FE88" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </span>
-      .
-    </p>
-
-    <div class="home-hero__meta-group">
-      <p class="home-hero__meta">
-        <span class="text-[var(--color-text-body)]">Currently at:</span>
-        <span class="text-white font-semibold">{currentlyAt}</span>
-      </p>
-      <p class="home-hero__meta">
-        <span class="text-[var(--color-text-body)]">I worked with:</span>
-        <span class="text-white font-semibold">{workedWith.join(", ")}</span>
+<Container pyClass="pt-[clamp(96px,15vw,200px)] pb-[clamp(96px,15vw,200px)]">
+  <div class="home-hero">
+    <div class="home-hero__title">
+      <p class="home-hero__paragraph">
+        I&rsquo;m a UX/Product Designer, with 5 yrs experience on <span class="home-hero__word" data-word={words[0].key} data-open="false"><a class={`home-hero__highlight home-hero__highlight--${words[0].color}`} href="#end-to-end">{words[0].label}</a><span class="hh-sheet" role="dialog" aria-modal="true" aria-hidden="true"><span class="hh-sheet__backdrop" data-close></span><span class="hh-sheet__panel"><button type="button" class="hh-sheet__close" aria-label="Chiudi" data-close><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9 9L23 23M23 9L9 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg></button><span class="hh-sheet__icon-wrap"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M26.7322 15.6826L12.7322 30.6826C12.5838 30.8409 12.388 30.9467 12.1742 30.984C11.9604 31.0213 11.7404 30.988 11.5472 30.8892C11.354 30.7904 11.1982 30.6315 11.1032 30.4364C11.0083 30.2413 10.9794 30.0206 11.0209 29.8076L12.8534 20.6414L5.64965 17.9364C5.49494 17.8785 5.35697 17.7832 5.24808 17.659C5.13918 17.5348 5.06275 17.3855 5.02561 17.2246C4.98847 17.0637 4.99177 16.896 5.03523 16.7366C5.07869 16.5773 5.16094 16.4312 5.27465 16.3114L19.2747 1.31136C19.423 1.15303 19.6188 1.04725 19.8326 1.00998C20.0464 0.972711 20.2664 1.00598 20.4596 1.10476C20.6528 1.20354 20.8086 1.36248 20.9036 1.55759C20.9985 1.75269 21.0274 1.97338 20.9859 2.18636L19.1484 11.3626L26.3521 14.0639C26.5057 14.1221 26.6426 14.2173 26.7506 14.341C26.8587 14.4647 26.9346 14.6131 26.9717 14.7732C27.0087 14.9332 27.0058 15.0998 26.9632 15.2585C26.9205 15.4171 26.8395 15.5628 26.7271 15.6826H26.7322Z" fill="url(#hh-tt-grad-green)" /><defs><linearGradient id="hh-tt-grad-green" x1="15.9987" y1="0.995117" x2="15.9987" y2="30.9988" gradientUnits="userSpaceOnUse"><stop stop-color="#B1C76F" /><stop offset="1" stop-color="#82FE88" /></linearGradient></defs></svg></span><span class="hh-sheet__body">{words[0].tooltip}</span></span></span></span> projects and focused on <span class="home-hero__word" data-word={words[1].key} data-open="false"><a class={`home-hero__highlight home-hero__highlight--${words[1].color}`} href="#design-systems">{words[1].label}</a><span class="hh-sheet" role="dialog" aria-modal="true" aria-hidden="true"><span class="hh-sheet__backdrop" data-close></span><span class="hh-sheet__panel"><button type="button" class="hh-sheet__close" aria-label="Chiudi" data-close><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9 9L23 23M23 9L9 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg></button><span class="hh-sheet__icon-wrap"><svg width="24" height="24" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19.1796 31.1902C19.2485 31.3969 19.2673 31.617 19.2345 31.8324C19.2016 32.0478 19.118 32.2523 18.9906 32.429C18.8632 32.6058 18.6957 32.7497 18.5017 32.849C18.3078 32.9483 18.093 33 17.8751 33H4.1251C3.90722 33 3.69245 32.9483 3.4985 32.849C3.30455 32.7497 3.13697 32.6058 3.00956 32.429C2.88216 32.2523 2.79859 32.0478 2.76573 31.8324C2.73287 31.617 2.75167 31.3969 2.82057 31.1902L9.69557 10.5652C9.78679 10.2913 9.96187 10.0531 10.196 9.88433C10.4301 9.71553 10.7115 9.6247 11.0001 9.6247C11.2887 9.6247 11.5701 9.71553 11.8042 9.88433C12.0383 10.0531 12.2134 10.2913 12.3046 10.5652L19.1796 31.1902ZM35.7501 13.0625C35.7501 11.2948 35.2259 9.56686 34.2439 8.0971C33.2618 6.62733 31.8659 5.48179 30.2328 4.80533C28.5997 4.12887 26.8027 3.95188 25.069 4.29674C23.3353 4.64159 21.7428 5.49281 20.4928 6.74274C19.2429 7.99267 18.3917 9.58518 18.0468 11.3189C17.702 13.0526 17.879 14.8496 18.5554 16.4827C19.2319 18.1159 20.3774 19.5117 21.8472 20.4938C23.317 21.4758 25.0449 22 26.8126 22C29.1821 21.9973 31.4538 21.0548 33.1294 19.3793C34.8049 17.7037 35.7474 15.432 35.7501 13.0625ZM38.5001 24.75H23.3751C23.0104 24.75 22.6607 24.8949 22.4028 25.1527C22.145 25.4106 22.0001 25.7603 22.0001 26.125V35.75C22.0001 36.1147 22.145 36.4644 22.4028 36.7223C22.6607 36.9801 23.0104 37.125 23.3751 37.125H38.5001C38.8648 37.125 39.2145 36.9801 39.4724 36.7223C39.7302 36.4644 39.8751 36.1147 39.8751 35.75V26.125C39.8751 25.7603 39.7302 25.4106 39.4724 25.1527C39.2145 24.8949 38.8648 24.75 38.5001 24.75Z" fill="url(#hh-tt-grad-purple)" /><defs><linearGradient id="hh-tt-grad-purple" x1="22" y1="-9.9" x2="-24.2" y2="63.8" gradientUnits="userSpaceOnUse"><stop stop-color="#FB8FE4" /><stop offset="1" stop-color="#C3C5F7" /></linearGradient></defs></svg></span><span class="hh-sheet__body">{words[1].tooltip}</span></span></span></span> and <span class="home-hero__word" data-word={words[2].key} data-open="false"><a class={`home-hero__highlight home-hero__highlight--${words[2].color}`} href="#strategy">{words[2].label}</a><span class="hh-sheet" role="dialog" aria-modal="true" aria-hidden="true"><span class="hh-sheet__backdrop" data-close></span><span class="hh-sheet__panel"><button type="button" class="hh-sheet__close" aria-label="Chiudi" data-close><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9 9L23 23M23 9L9 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg></button><span class="hh-sheet__icon-wrap"><svg width="24" height="24" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g clip-path="url(#hh-tt-clip-blue)"><path d="M42.9568 20.6666L38.3076 19.5047C37.7796 16.0299 36.1542 12.8151 33.6689 10.3298C31.1837 7.84455 27.9688 6.21916 24.494 5.69112L23.3321 1.0505C23.2576 0.753184 23.0859 0.489292 22.8443 0.300735C22.6026 0.112177 22.3049 0.00976562 21.9984 0.00976562C21.6919 0.00976562 21.3942 0.112177 21.1525 0.300735C20.9109 0.489292 20.7391 0.753184 20.6646 1.0505L19.5028 5.69971C16.028 6.22776 12.8131 7.85314 10.3279 10.3384C7.8426 12.8237 6.21721 16.0385 5.68917 19.5133L1.04854 20.6752C0.751231 20.7497 0.487339 20.9214 0.298782 21.1631C0.110224 21.4047 0.0078125 21.7024 0.0078125 22.0089C0.0078125 22.3154 0.110224 22.6132 0.298782 22.8548C0.487339 23.0965 0.751231 23.2682 1.04854 23.3427L5.69776 24.5046C6.22581 27.9793 7.85119 31.1942 10.3364 33.6795C12.8217 36.1647 16.0366 37.7901 19.5114 38.3182L20.6732 42.9674C20.7477 43.2647 20.9195 43.5286 21.1611 43.7171C21.4028 43.9057 21.7005 44.0081 22.007 44.0081C22.3135 44.0081 22.6112 43.9057 22.8529 43.7171C23.0945 43.5286 23.2662 43.2647 23.3407 42.9674L24.5026 38.3182C27.9774 37.7901 31.1923 36.1647 33.6775 33.6795C36.1628 31.1942 37.7882 27.9793 38.3162 24.5046L42.9654 23.3427C43.2627 23.2682 43.5266 23.0965 43.7152 22.8548C43.9037 22.6132 44.0061 22.3154 44.0061 22.0089C44.0061 21.7024 43.9037 21.4047 43.7152 21.1631C43.5266 20.9214 43.2627 20.7497 42.9654 20.6752L42.9568 20.6666ZM35.3651 18.776L27.2578 16.741L25.2296 8.63362C27.6887 9.22549 29.9365 10.4852 31.725 12.2737C33.5136 14.0622 34.7732 16.31 35.3651 18.7691V18.776ZM18.7671 8.63534L16.739 16.741L8.63167 18.7691C9.22354 16.31 10.4832 14.0622 12.2717 12.2737C14.0602 10.4852 16.308 9.22549 18.7671 8.63362V8.63534ZM8.62651 25.2333L16.739 27.2597L18.7671 35.3671C16.308 34.7752 14.0602 33.5155 12.2717 31.727C10.4832 29.9385 9.22354 27.6907 8.63167 25.2316L8.62651 25.2333ZM25.2245 35.3739L27.2526 27.2666L35.36 25.2385C34.7674 27.6957 33.508 29.9416 31.7205 31.7287C29.9331 33.5159 27.6869 34.7749 25.2296 35.3671L25.2245 35.3739Z" fill="url(#hh-tt-grad-blue)" /></g><defs><linearGradient id="hh-tt-grad-blue" x1="22.007" y1="0.00976562" x2="22.007" y2="44.0081" gradientUnits="userSpaceOnUse"><stop stop-color="#88F6EA" /><stop offset="1" stop-color="#5B80E6" /></linearGradient><clipPath id="hh-tt-clip-blue"><rect width="44" height="44" fill="white" /></clipPath></defs></svg></span><span class="hh-sheet__body">{words[2].tooltip}</span></span></span></span>.
       </p>
     </div>
+
+    <div class="home-hero__aura" aria-hidden="true">
+      <svg viewBox="0 0 744 740" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <g opacity="0.8">
+          <g filter="url(#hh-aura-blur-cyan)">
+            <circle class="home-hero__aura-cyan" cx="310.5" cy="310.5" r="110.5" fill="#C3C5F7" />
+          </g>
+          <g filter="url(#hh-aura-blur-orange)">
+            <ellipse class="home-hero__aura-orange" cx="407" cy="403.5" rx="137" ry="136.5" fill="#FC642D" />
+          </g>
+        </g>
+        <defs>
+          <filter id="hh-aura-blur-cyan" x="0" y="0" width="621" height="621" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+            <feGaussianBlur stdDeviation="100" result="effect1_foregroundBlur" />
+          </filter>
+          <filter id="hh-aura-blur-orange" x="70" y="67" width="674" height="673" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+            <feGaussianBlur stdDeviation="100" result="effect1_foregroundBlur" />
+          </filter>
+        </defs>
+      </svg>
+    </div>
   </div>
+
 </Container>
 
 <style>
-  /* h1 — Bricolage Grotesque (font-hero), medium 500, 60px desktop con
-   * scala fluida 36→60 tra 640 e 1440vw (stesso pattern di --text-hero). */
+  .home-hero {
+    display: flex;
+    align-items: center;
+    gap: 152px;
+    width: 100%;
+    position: relative;
+  }
+
   .home-hero__title {
-    font-size: clamp(36px, calc(16.8px + 3vw), 60px);
-    font-weight: 500;
+    flex: 0 1 auto;
+    min-width: 0;
+    /* Container testo 696px fisso su viewport ≥ 1192 + padding.
+     * Su viewport più piccoli si riduce naturalmente col flow. */
+    max-width: 696px;
+    width: 100%;
   }
 
-  /* Lead text — scala fluida 16→20px tra 640 e 1440vw, stesso pattern
-   * usato per --text-hero del case study. */
-  .home-hero__lead {
-    font-size: clamp(16px, calc(12.8px + 0.5vw), 20px);
-    line-height: 1.55;
+  /* Testo hero: paragrafo che scorre naturalmente in inline flow.
+   * Font: Libre Caslon Condensed (var --font-hero), weight 400 regular.
+   * Le parole highlighted sono inline-block wrappers per contenere il tooltip. */
+  .home-hero__paragraph {
+    font-family: var(--font-hero);
+    font-weight: 400;
+    font-size: clamp(28px, calc(14.4px + 2.125vw), 45px);
+    line-height: 1.25;
+    color: #ffffff;
+    margin: 0;
   }
 
+  /* === Word wrapper (contiene highlight + tooltip) === */
+  .home-hero__word {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Colori per parola (variabili consumate dal tooltip animato) */
+  .home-hero__word[data-word="end-to-end"] {
+    --tt-c1: #b1c76f;
+    --tt-c2: #82fe88;
+  }
+  .home-hero__word[data-word="design-systems"] {
+    --tt-c1: #fb8fe4;
+    --tt-c2: #c3c5f7;
+  }
+  .home-hero__word[data-word="strategy"] {
+    --tt-c1: #88f6ea;
+    --tt-c2: #5b80e6;
+  }
+
+  /* === Highlights (link colorati con gradient text-fill, italic medium) === */
   .home-hero__highlight {
-    font-weight: 600;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 4px;
+    font-style: italic;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 200ms ease;
   }
 
-  /* Icone inline accanto al testo */
+  .home-hero__highlight:hover {
+    opacity: 0.75;
+  }
+
+  .home-hero__highlight--green {
+    background-image: linear-gradient(180deg, #b1c76f 0%, #82fe88 100%);
+    text-decoration-color: #82fe88;
+  }
+  .home-hero__highlight--purple {
+    background-image: linear-gradient(186deg, #fb8fe4 5%, #c3c5f7 100%);
+    text-decoration-color: #c3c5f7;
+  }
+  .home-hero__highlight--blue {
+    background-image: linear-gradient(180deg, #88f6ea 0%, #5b80e6 100%);
+    text-decoration-color: #5b80e6;
+  }
+
+  /* === Sheet (tooltip desktop / bottom sheet mobile) ===
+   * Stessa struttura semantica di chapter-sheet / header-sheet:
+   * root (positioning) + backdrop + panel. La variante colorata del bordo
+   * è aggiunta via conic-gradient border-box + @property --tt-angle. */
+  .hh-sheet {
+    /* Desktop default: floating panel accanto alla parola */
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 200ms ease,
+      visibility 0s 200ms;
+  }
+
+  .hh-sheet__backdrop {
+    /* Nascosto su desktop; visibile su mobile */
+    display: none;
+  }
+
+  .hh-sheet__panel {
+    position: relative;
+    width: max-content;
+    max-width: min(500px, calc(100vw - 40px));
+    padding: 24px;
+    border: 2px solid transparent;
+    border-radius: 18px;
+    /* Variante border colorato — solid #272727 (padding-box) + conic-gradient
+     * animato che ruota (border-box). I colori sono presi dalle CSS vars
+     * settate su .home-hero__word[data-word="..."] (--tt-c1, --tt-c2). */
+    background:
+      linear-gradient(var(--color-bg), var(--color-bg)) padding-box,
+      conic-gradient(
+          from var(--tt-angle, 0deg),
+          var(--tt-c1),
+          var(--tt-c2),
+          var(--tt-c1)
+        )
+        border-box;
+    animation: hh-rotate-border 3s linear infinite;
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+    /* Layout desktop: icon-left + body-right */
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  /* Cerchio con icona colorata a sinistra del body */
+  .hh-sheet__icon-wrap {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid var(--tt-c2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hh-sheet__icon-wrap svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+
+  @property --tt-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  @keyframes hh-rotate-border {
+    to {
+      --tt-angle: 360deg;
+    }
+  }
+
+  .hh-sheet__body {
+    margin: 0;
+    flex: 1 1 auto;
+  }
+
+  .hh-sheet__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: #ffffff;
+    cursor: pointer;
+    appearance: none;
+    transition: opacity 200ms ease;
+  }
+
+  .hh-sheet__close:hover {
+    opacity: 0.7;
+  }
+
+  /* Desktop: mostra su hover del word o quando data-open */
+  @media (hover: hover) {
+    .home-hero__word:hover .hh-sheet,
+    .home-hero__word[data-open="true"] .hh-sheet {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transition-delay: 0s;
+    }
+  }
+
+  /* === Mobile / touch: bottom sheet full-viewport ===
+   * Match esatto della struttura chapter-sheet / header-sheet:
+   * sheet root fixed inset:0, backdrop absolute inset:0, panel slide-up. */
+  @media (max-width: 767px), (hover: none) {
+    .hh-sheet {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: none;
+      transition: none;
+      display: block;
+    }
+
+    .home-hero__word[data-open="true"] .hh-sheet {
+      pointer-events: auto;
+    }
+
+    .hh-sheet__backdrop {
+      display: block;
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity 280ms ease;
+    }
+
+    .home-hero__word[data-open="true"] .hh-sheet__backdrop {
+      opacity: 1;
+    }
+
+    .hh-sheet__panel {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: auto;
+      max-width: none;
+      /* Layout column su mobile: icona sopra, testo sotto */
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 32px 60px calc(24px + env(safe-area-inset-bottom, 0px)) 20px;
+      border-radius: 40px 40px 0 0;
+      max-height: 85vh;
+      /* Min height 30vh come richiesto */
+      min-height: 30vh;
+      overflow-y: auto;
+      transform: translateY(100%);
+      visibility: hidden;
+      transition:
+        transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s 360ms;
+      /* Mobile: bottom sheet base senza border colorato — solid bg come
+       * chapter-sheet / header-sheet. Sovrascrive il background padding+border-box. */
+      border: 0;
+      background:
+        rgba(50, 50, 50, 0.92) padding-box;
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+      backdrop-filter: blur(24px) saturate(140%);
+      border-top: 1px solid var(--color-border);
+      animation: none;
+    }
+
+    .home-hero__word[data-open="true"] .hh-sheet__panel {
+      transform: translateY(0);
+      visibility: visible;
+      transition:
+        transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s;
+    }
+
+    /* Su mobile la X torna visibile per chiudere la bottom sheet */
+    .hh-sheet__close {
+      display: inline-flex;
+    }
+  }
+
+  /* === Icone === */
   .home-hero__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    vertical-align: -4px;
-    /* +4px ai lati → con lo space char dell'HTML (~4px) = ~8px di gap totale */
-    margin-inline: 4px;
+    flex-shrink: 0;
   }
 
-  /* Meta group — distanza dal lead = 36px esatti (parent flex gap
-   * = var(--space-lg) + margin-top compensativo). */
-  .home-hero__meta-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    margin-top: calc(36px - var(--space-lg));
+  .home-hero__icon svg {
+    width: clamp(20px, calc(10.4px + 1.5vw), 32px);
+    height: clamp(20px, calc(10.4px + 1.5vw), 32px);
+    display: block;
   }
 
-  /* Riga meta: label + value sulla stessa riga con 8px di gap.
-   * flex-wrap permette il wrap pulito su mobile. */
-  .home-hero__meta {
+  .home-hero__icon--lg svg {
+    width: clamp(28px, calc(14.4px + 2.125vw), 44px);
+    height: clamp(28px, calc(14.4px + 2.125vw), 44px);
+  }
+
+  /* === CTA row === */
+  .home-hero__actions {
     display: flex;
+    align-items: center;
+    gap: 10px;
     flex-wrap: wrap;
-    align-items: baseline;
-    column-gap: 8px;
-    row-gap: 4px;
-    font-size: clamp(16px, calc(12.8px + 0.5vw), 20px);
-    line-height: 1.5;
+  }
+
+  .home-hero__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border-radius: 25px;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: normal;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
+  }
+
+  .home-hero__btn--secondary {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+  }
+
+  .home-hero__btn--secondary:hover {
+    background-color: rgba(255, 255, 255, 0.28);
+  }
+
+  .home-hero__btn--ghost {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #ffffff;
+  }
+
+  .home-hero__btn--ghost:hover {
+    color: var(--color-accent-1);
+  }
+
+  /* === Aura (blob animato sulla destra) — hidden per ora ===
+   * Il blob orange è 274px, il cyan 221px (dimensioni Figma). */
+  .home-hero__aura {
+    display: none;
+    flex: 0 0 auto;
+    width: 344px;
+    aspect-ratio: 744 / 740;
+    position: relative;
+    align-self: center;
+    overflow: visible;
+  }
+
+  .home-hero__aura svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+  }
+
+  .home-hero__aura-cyan,
+  .home-hero__aura-orange {
+    transform-box: fill-box;
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  .home-hero__aura-cyan {
+    animation: home-hero-aura-cyan 8s ease-in-out infinite alternate;
+  }
+
+  .home-hero__aura-orange {
+    animation: home-hero-aura-orange 10s ease-in-out infinite alternate;
+  }
+
+  @keyframes home-hero-aura-cyan {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      transform: translate(60px, 40px) scale(1.1);
+    }
+  }
+
+  @keyframes home-hero-aura-orange {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      transform: translate(-50px, -50px) scale(1.15);
+    }
+  }
+
+  /* Noise texture sopra l'aura */
+  .home-hero__aura::after {
+    content: "";
+    position: absolute;
+    inset: -10%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    mix-blend-mode: overlay;
+    opacity: 0.7;
+    pointer-events: none;
+    /* Mask circolare per limitare la grana all'area dei blob */
+    -webkit-mask-image: radial-gradient(circle at center, #000 30%, transparent 70%);
+    mask-image: radial-gradient(circle at center, #000 30%, transparent 70%);
+  }
+
+  /* Mobile: aura in fondo, testo full width */
+  @media (max-width: 767px) {
+    .home-hero {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .home-hero__title {
+      max-width: 100%;
+    }
+    .home-hero__aura {
+      width: clamp(180px, 60vw, 320px);
+      align-self: center;
+      order: -1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hh-sheet__panel,
+    .home-hero__aura-cyan,
+    .home-hero__aura-orange {
+      animation: none;
+    }
   }
 </style>
+
+<script>
+  const words = Array.from(
+    document.querySelectorAll<HTMLElement>(".home-hero__word"),
+  );
+
+  const closeAll = () => {
+    words.forEach((w) => {
+      w.dataset.open = "false";
+    });
+  };
+
+  words.forEach((word) => {
+    const link = word.querySelector<HTMLAnchorElement>(".home-hero__highlight");
+    const closers = word.querySelectorAll<HTMLElement>("[data-close]");
+
+    if (link) {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = word.dataset.open === "true";
+        closeAll();
+        word.dataset.open = isOpen ? "false" : "true";
+      });
+    }
+
+    // Close button (in top-right) e backdrop chiudono lo sheet
+    closers.forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.stopPropagation();
+        word.dataset.open = "false";
+      });
+    });
+  });
+
+  // Chiude cliccando fuori
+  document.addEventListener("click", (e) => {
+    const target = e.target as Element;
+    if (!target.closest(".home-hero__word")) closeAll();
+  });
+
+  // Chiude con ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAll();
+  });
+</script>
