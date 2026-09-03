@@ -1,94 +1,264 @@
 /*
  * Design tokens — single source of truth.
- * Esposti come custom properties + utility Tailwind via @theme.
- * Valori derivati direttamente dal Figma case study template.
+ *
+ * Architecture (mirrors Figma variable collections):
+ *   1. Primitives — raw values (colors HEX, spacing px/rem, font sizes)
+ *   2. Semantic   — aliases pointing to primitives (bg-page, text-primary, gap-section)
+ *   3. Components — component-specific aliases pointing to semantic (card/bg, chip/border)
+ *
+ * Type scale è fluida (clamp) tra viewport 320px e 1440px.
+ * Spacing responsive tra Desktop (≥768px) e Mobile (<768px) via media query.
+ * Colors non hanno modes: valori uguali su tutti i breakpoint.
  */
 
 @theme {
-  /* ============================================
-   * COLORI — Dark only (v1)
-   * ============================================ */
-  --color-bg: #272727;
-  --color-surface: rgba(129, 139, 166, 0.1);
-  --color-tag-bg: rgba(129, 139, 166, 0.19);
-  --color-header-bg: rgba(0, 0, 0, 0.1);
+  /* ══════════════════════════════════════════════════════════════
+   * TYPOGRAPHY
+   * ══════════════════════════════════════════════════════════════ */
 
-  --color-text-title: #ffffff;
-  --color-text-body: #cccccc;
-  --color-text-tag: rgba(255, 255, 255, 0.76);
-  --color-text-muted: #868686;
+  /* ── Font families ─────────────────────────────────────────── */
+  --font-serif: "Libre Caslon Condensed", ui-serif, Georgia, serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --color-border: rgba(255, 255, 255, 0.1);
+  /* ── Font weights ──────────────────────────────────────────── */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
 
-  --color-accent-1: #9be2ec;
-  --color-accent-2: #fc642d;
+  /* ── Line heights ──────────────────────────────────────────── */
+  --leading-tight: 1.15;
+  --leading-snug: 1.25;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.75;
 
-  /* ============================================
-   * FONT FAMILIES
-   * ============================================ */
-  /* Display + Hero: Libre Caslon Condensed (variable font, wght 200-900) */
-  --font-display: "Libre Caslon Condensed", ui-serif, Georgia, serif;
-  --font-hero: "Libre Caslon Condensed", ui-serif, Georgia, serif;
-  /* Body + h2 paragraph titles: IBM Plex Sans */
-  --font-body: "IBM Plex Sans", system-ui, sans-serif;
-  /* Labels + tag: IBM Plex Mono */
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  /* ── Letter spacing ────────────────────────────────────────── */
+  --tracking-tight: -0.014em;   /* tag pill (≈ -0.2px @ 14px) */
+  --tracking-wide: 0.08em;      /* label uppercase (≈ 0.96px @ 12px) */
 
-  /* ============================================
-   * TYPE SCALE — px assoluti dal Figma
-   * (le utility Tailwind text-* di default rimangono disponibili;
-   *  questi sono i soli token usati nella case study page)
-   * ============================================ */
-  --text-tag: 14px;
-  --text-body: 16px;
-  --text-card-title: 18px;
-  --text-section: 32px;
-  /* Titolo case study fluido: 32px @ 640vw → 44px @ 1440vw */
-  --text-hero: clamp(32px, calc(22.4px + 1.5vw), 44px);
+  /* ── Type scale (fluid clamp 320 → 1440) ───────────────────── */
+  --text-display: clamp(2rem, calc(1.821rem + 0.893vw), 2.625rem);
+  --text-display--line-height: 1.15;
 
-  /* ============================================
-   * RADIUS
-   * ============================================ */
-  --radius-tag: 8px;
-  --radius-card: 16px;
+  --text-h1: clamp(1.625rem, calc(1.518rem + 0.536vw), 2rem);
+  --text-h1--line-height: 1.2;
 
-  /* ============================================
-   * CONTAINER
-   * ============================================ */
-  --container-case-study: 1192px;
-  --container-case-study-hero: 1300px;
+  --text-h2: clamp(1.375rem, calc(1.339rem + 0.179vw), 1.5rem);
+  --text-h2--line-height: 1.25;
 
-  /* ============================================
-   * SPACING SCALE (4/8 base — ritmo Sophia Yang)
-   * Scala: 4, 8, 12, 16, 24, 32, 48, 64, 80, 120
-   *
-   * I token medi/grandi sono fluidi: scalano tra 640vw (min) e
-   * 1440vw (max) via clamp(). Sotto 640 e sopra 1440 si fissano agli
-   * estremi. I piccoli (≤ 16px) restano statici — scalarli darebbe
-   * differenze sub-pixel non percepibili e potrebbe rompere allineamenti.
-   * ============================================ */
-  --space-2xs: 4px;
-  --space-xs: 8px;
-  --space-sm: 12px;
-  --space-md: 16px;
-  --space-lg: clamp(20px, calc(16.8px + 0.5vw), 24px);   /* 20 → 24 */
-  --space-xl: clamp(24px, calc(17.6px + 1vw), 32px);     /* 24 → 32 */
-  --space-2xl: clamp(36px, calc(26.4px + 1.5vw), 48px);  /* 36 → 48 */
-  --space-3xl: clamp(44px, calc(28px + 2.5vw), 64px);    /* 44 → 64 */
+  --text-h3: clamp(1.25rem, calc(1.214rem + 0.179vw), 1.375rem);
+  --text-h3--line-height: 1.3;
 
-  /* Ruoli semantici (alias) */
-  /*
-   * --space-section è applicato come padding TOP+BOTTOM su ogni
-   * <Section>: tra due sezioni consecutive il gap totale è 2×.
-   * Quindi qui dimezziamo rispetto al valore "percepito" desiderato.
-   * Esempio: a 1440vw → 56+56 = 112px di gap tra sezioni.
-   */
-  --space-section: clamp(40px, calc(27.2px + 2vw), 56px);     /* tra sezioni principali */
-  --space-block: clamp(36px, calc(26.4px + 1.5vw), 48px);     /* tra blocchi dentro una sezione */
-  --space-stack-lg: clamp(24px, calc(17.6px + 1vw), 32px);    /* tra titolo e descrizione/immagine */
-  --space-stack-md: clamp(20px, calc(16.8px + 0.5vw), 24px);  /* tra label e titolo, tra paragrafi */
-  --space-stack-sm: 16px;        /* tra heading e prima riga di body */
-  --space-inline: 12px;          /* gap inline (tag+linea, icona+label) */
-  --space-card-pad: clamp(20px, calc(16.8px + 0.5vw), 24px);  /* padding interno card */
-  --space-page-bottom: clamp(72px, calc(33.6px + 6vw), 120px); /* 72 → 120 */
+  --text-h4: clamp(1.125rem, calc(1.089rem + 0.179vw), 1.25rem);
+  --text-h4--line-height: 1.3;
+
+  --text-h5: clamp(1rem, calc(0.964rem + 0.179vw), 1.125rem);
+  --text-h5--line-height: 1.4;
+
+  --text-body: clamp(0.938rem, calc(0.911rem + 0.089vw), 1rem);
+  --text-body--line-height: 1.75;
+
+  --text-body-sm: clamp(0.813rem, calc(0.786rem + 0.089vw), 0.875rem);
+  --text-body-sm--line-height: 1.55;
+
+  --text-eyebrow: clamp(0.813rem, calc(0.786rem + 0.089vw), 0.875rem);
+  --text-eyebrow--line-height: 1.2;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.2;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+
+  /* ══════════════════════════════════════════════════════════════
+   * COLORS — PRIMITIVES (raw HEX values)
+   * ══════════════════════════════════════════════════════════════ */
+
+  /* Neutral warm (12 step) */
+  --color-neutral-0:   #ffffff;
+  --color-neutral-25:  #fdfdfd;
+  --color-neutral-50:  #f7f7f5;
+  --color-neutral-100: #f3f3f1;
+  --color-neutral-200: #e9e9e9;
+  --color-neutral-300: #d4d3d3;
+  --color-neutral-400: #9e9f9f;
+  --color-neutral-500: #838383;
+  --color-neutral-600: #5a5248;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #1e1a15;
+  --color-neutral-900: #000000;
+
+  /* Blue brand */
+  --color-blue-50:  #eff7ff;
+  --color-blue-600: #0066cc;
+
+  /* Orange warning */
+  --color-orange-500: #ff4500;
+
+  /* Green positive */
+  --color-green-500: #22c55e;
+  --color-green-600: #74a495;
+  --color-green-700: #45675c;
+
+  /* Pink accent */
+  --color-pink-700: #8b0182;
+
+  /* Illustration only (diagram-specific) */
+  --color-illustration-blue-50:   #f5fafe;
+  --color-illustration-blue-100:  #c9cdd0;
+  --color-illustration-blue-300:  #90c7fd;
+  --color-illustration-blue-gray: #576d80;
+  --color-illustration-pink-50:   #fceefa;
+  --color-illustration-pink-300:  #da9dea;
+
+  /* Alpha overlays (using rgba) */
+  --color-alpha-white-20: rgba(255, 255, 255, 0.2);
+  --color-alpha-white-50: rgba(255, 255, 255, 0.5);
+  --color-alpha-white-85: rgba(255, 255, 255, 0.85);
+  --color-alpha-black-08: rgba(30, 26, 21, 0.08);
+
+  /* ══════════════════════════════════════════════════════════════
+   * COLORS — SEMANTIC (aliases → primitives)
+   * ══════════════════════════════════════════════════════════════ */
+
+  /* Background */
+  --color-bg-page:            var(--color-neutral-50);
+  --color-bg-elevated:        var(--color-neutral-25);
+  --color-bg-inverse:         var(--color-neutral-800);
+  --color-bg-subtle-warm:     var(--color-neutral-100);
+  --color-bg-overlay-medium:  var(--color-alpha-white-50);
+  --color-bg-overlay-strong:  var(--color-alpha-white-85);
+  --color-bg-info-subtle:     var(--color-blue-50);
+  --color-bg-accent-subtle:   var(--color-illustration-pink-50);
+
+  /* Text */
+  --color-text-heading:            var(--color-neutral-800);
+  --color-text-body:               var(--color-neutral-800);
+  --color-text-body-secondary:     var(--color-neutral-700);
+  --color-text-muted:              var(--color-neutral-500);
+  --color-text-eyebrow:            var(--color-neutral-600);
+  --color-text-on-inverse:         var(--color-neutral-0);
+  --color-text-link:               var(--color-blue-600);
+  --color-text-highlight-info:     var(--color-blue-600);
+  --color-text-highlight-warning:  var(--color-orange-500);
+  --color-text-highlight-success:  var(--color-green-700);
+
+  /* Border */
+  --color-border-faint:              var(--color-neutral-200);
+  --color-border-default:            var(--color-neutral-300);
+  --color-border-emphasized:         var(--color-neutral-400);
+  --color-border-on-inverse:         var(--color-neutral-0);
+  --color-border-highlight-info:     var(--color-blue-600);
+  --color-border-highlight-warning:  var(--color-orange-500);
+  --color-border-highlight-success:  var(--color-green-600);
+  --color-border-highlight-accent:   var(--color-pink-700);
+
+  /* Accent */
+  --color-accent-success:  var(--color-green-500);
+  --color-accent-warning:  var(--color-orange-500);
+  --color-accent-info:     var(--color-blue-600);
+
+  /* ══════════════════════════════════════════════════════════════
+   * COLORS — COMPONENTS (aliases → semantic)
+   * ══════════════════════════════════════════════════════════════ */
+
+  /* Card */
+  --color-card-bg:            var(--color-bg-overlay-medium);
+  --color-card-bg-highlight:  var(--color-bg-elevated);
+  --color-card-border:        var(--color-border-default);
+
+  /* Callout */
+  --color-callout-info-bg:       var(--color-bg-info-subtle);
+  --color-callout-info-border:   var(--color-border-highlight-info);
+  --color-callout-accent-bg:     var(--color-bg-accent-subtle);
+  --color-callout-accent-border: var(--color-border-highlight-accent);
+
+  /* Meta box (my-role container) */
+  --color-meta-bg:      var(--color-bg-subtle-warm);
+  --color-meta-border:  var(--color-border-emphasized);
+
+  /* Chip / Tag pill */
+  --color-chip-bg:          var(--color-bg-overlay-strong);
+  --color-chip-border:      var(--color-border-faint);
+  --color-chip-dot-success: var(--color-accent-success);
+
+  /* Quote (border-left AFTER metric) */
+  --color-quote-border-success: var(--color-border-highlight-success);
+
+  /* ══════════════════════════════════════════════════════════════
+   * SPACING — PRIMITIVES (numeric scale, rem)
+   * ══════════════════════════════════════════════════════════════ */
+
+  --spacing-0:   0;
+  --spacing-2:   0.125rem;  /*   2px */
+  --spacing-4:   0.25rem;   /*   4px */
+  --spacing-8:   0.5rem;    /*   8px */
+  --spacing-12:  0.75rem;   /*  12px */
+  --spacing-16:  1rem;      /*  16px */
+  --spacing-20:  1.25rem;   /*  20px */
+  --spacing-24:  1.5rem;    /*  24px */
+  --spacing-32:  2rem;      /*  32px */
+  --spacing-40:  2.5rem;    /*  40px */
+  --spacing-48:  3rem;      /*  48px */
+  --spacing-64:  4rem;      /*  64px */
+  --spacing-80:  5rem;      /*  80px */
+  --spacing-96:  6rem;      /*  96px */
+  --spacing-128: 8rem;      /* 128px */
+  --spacing-160: 10rem;     /* 160px */
+
+  /* ══════════════════════════════════════════════════════════════
+   * SPACING — SEMANTIC (Desktop default values)
+   * Mobile overrides applied via media query below @theme.
+   * ══════════════════════════════════════════════════════════════ */
+
+  /* Gap (between elements in a stack or inline row) */
+  --spacing-gap-xs:          var(--spacing-4);
+  --spacing-gap-sm:          var(--spacing-8);
+  --spacing-gap-md:          var(--spacing-12);
+  --spacing-gap-lg:          var(--spacing-16);
+  --spacing-gap-xl:          var(--spacing-24);   /* → 20 mobile */
+  --spacing-gap-2xl:         var(--spacing-32);   /* → 24 mobile */
+  --spacing-gap-section:     var(--spacing-48);   /* → 32 mobile */
+  --spacing-gap-section-lg:  var(--spacing-64);   /* → 48 mobile */
+  --spacing-gap-section-tight: var(--spacing-24); /* → 16 mobile */
+
+  /* Padding (inside elements) */
+  --spacing-padding-xs:  var(--spacing-8);
+  --spacing-padding-sm:  var(--spacing-12);
+  --spacing-padding-md:  var(--spacing-16);
+  --spacing-padding-lg:  var(--spacing-24);       /* → 20 mobile */
+  --spacing-padding-xl:  var(--spacing-32);       /* → 24 mobile */
+
+  /* Gutter (page/container horizontal margin) */
+  --spacing-gutter-page:      var(--spacing-128); /* → 20 mobile (dramatic) */
+  --spacing-gutter-container: var(--spacing-24);  /* → 16 mobile */
+}
+
+/* ══════════════════════════════════════════════════════════════
+ * MOBILE OVERRIDES (< 768px)
+ * Rispecchia il "Mobile" mode delle Figma Spacing collection.
+ * Solo i token che scalano vengono overridden — quelli fissi
+ * (xs, sm, md, lg per gap/padding) restano invariati.
+ * ══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+  :root {
+    /* Gap */
+    --spacing-gap-xl:            var(--spacing-20);
+    --spacing-gap-2xl:           var(--spacing-24);
+    --spacing-gap-section:       var(--spacing-32);
+    --spacing-gap-section-lg:    var(--spacing-48);
+    --spacing-gap-section-tight: var(--spacing-16);
+
+    /* Padding */
+    --spacing-padding-lg: var(--spacing-20);
+    --spacing-padding-xl: var(--spacing-24);
+
+    /* Gutter */
+    --spacing-gutter-page:      var(--spacing-20);
+    --spacing-gutter-container: var(--spacing-16);
+  }
 }

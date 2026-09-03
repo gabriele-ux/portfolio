@@ -1,63 +1,144 @@
 @import "tailwindcss";
+@import "./tokens.css";
 
-/* Libre Caslon Condensed — self-hosted variable font (weight axis 200-900) */
+/* ── Font-face: Libre Caslon Condensed (self-hosted variable) ── */
 @font-face {
   font-family: "Libre Caslon Condensed";
-  src: url("/fonts/LibreCaslonCondensed%5Bwght%5D.ttf") format("truetype-variations");
-  font-weight: 200 900;
+  src: url("/fonts/LibreCaslonCondensed[wght].ttf") format("truetype-variations");
+  font-weight: 400 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: "Libre Caslon Condensed";
-  src: url("/fonts/LibreCaslonCondensed-Italic%5Bwght%5D.ttf") format("truetype-variations");
-  font-weight: 200 900;
+  src: url("/fonts/LibreCaslonCondensed-Italic[wght].ttf") format("truetype-variations");
+  font-weight: 400 900;
   font-style: italic;
   font-display: swap;
 }
 
-/* IBM Plex Sans — body + h2 paragraph titles */
-@import "@fontsource/ibm-plex-sans/latin-300.css";
-@import "@fontsource/ibm-plex-sans/latin-400.css";
-@import "@fontsource/ibm-plex-sans/latin-500.css";
-@import "@fontsource/ibm-plex-sans/latin-600.css";
-
-/* IBM Plex Mono — labels */
-@import "@fontsource/ibm-plex-mono/latin-300.css";
-@import "@fontsource/ibm-plex-mono/latin-400.css";
-@import "@fontsource/ibm-plex-mono/latin-500.css";
-
-@import "./tokens.css";
-
 @layer base {
   html {
-    font-family: var(--font-body);
-    background-color: var(--color-bg);
-    color: var(--color-text-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    line-height: 1.6;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    font-variation-settings: "opsz" 14;
+  }
+}
+
+/* ── Utility classes semantiche ────────────────────────────────
+ * Preferire queste alle utility Tailwind generate (text-h1, ecc.)
+ * quando serve applicare family + weight + size in un colpo solo.
+ * Le varianti .type-body-strong / .type-body-number si combinano
+ * a .type-body per cambiare solo il peso.
+ * ------------------------------------------------------------ */
+@layer components {
+  .type-display {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-display);
+    line-height: var(--leading-tight);
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    color: var(--color-text-title);
-    font-family: var(--font-body);
-    line-height: 1.2;
-    letter-spacing: -0.01em;
+  .type-h1 {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
   }
 
-  /* Paragraphs → IBM Plex Sans Light (300) as default */
-  p {
-    font-weight: 300;
+  .type-h2 {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-h2);
+    line-height: var(--leading-snug);
   }
 
-  ::selection {
-    background-color: var(--color-accent-1);
-    color: #1a1a1a;
+  .type-h3 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-h3);
+    line-height: var(--leading-snug);
+    font-variation-settings: "opsz" 14;
+  }
+
+  .type-h4 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-h4);
+    line-height: var(--leading-snug);
+    font-variation-settings: "opsz" 14;
+  }
+
+  .type-h5 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-h5);
+    line-height: var(--leading-normal);
+    font-variation-settings: "opsz" 14;
+  }
+
+  .type-body {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    font-variation-settings: "opsz" 14;
+  }
+
+  .type-body-strong {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .type-body-number {
+    font-weight: var(--font-weight-black);
+  }
+
+  .type-body-sm {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-normal);
+    font-variation-settings: "opsz" 14;
+  }
+
+  .type-eyebrow {
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-eyebrow);
+    line-height: var(--leading-tight);
+  }
+
+  .type-tag {
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--text-eyebrow);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .type-label {
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-label);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .type-caption {
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--text-caption);
+    line-height: var(--leading-normal);
   }
 }
 
