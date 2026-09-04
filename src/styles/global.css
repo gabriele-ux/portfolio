@@ -32,6 +32,11 @@
     line-height: var(--leading-relaxed);
     font-variation-settings: "opsz" 14;
   }
+
+  strong,
+  b {
+    font-weight: var(--font-weight-semibold);
+  }
 }
 
 /* ── Utility classes semantiche ────────────────────────────────

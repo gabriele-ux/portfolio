@@ -64,17 +64,18 @@ const cover = "/playground/placeholder.svg";
         title="One complex system growing at different speed"
       />
       <p class="body-copy">
-        I'm part of a 3-person Design System team, still fairly new. We
-        maintain 4 core libraries; UI designers use them across different
-        products. The governance system was slowly built over the past years.
-        There's still a lot to figure out, and I joined while it was taking
-        shape.
+        I'm part of a <strong>3-person Design System team</strong>, still
+        fairly new. We maintain <strong>4 core libraries</strong>; UI
+        designers use them across different products. The governance system
+        was slowly built over the past years. There's still a lot to figure
+        out, and I joined while it was taking shape.
       </p>
       <p class="body-copy">
         Every project runs on its own timeline, so at any given moment,
-        different designers can be working with different versions of the same
-        component, all at once. That much movement naturally creates entropy.
-        Our job is to fight it: rationalize, simplify, keep things fast.
+        different designers can be working with{" "}
+        <strong>different versions of the same component, all at once</strong>.
+        That much movement naturally creates entropy. Our job is to fight it:{" "}
+        <strong>rationalize, simplify, keep things fast</strong>.
       </p>
       <Media
         src={cover}
@@ -92,13 +93,13 @@ const cover = "/playground/placeholder.svg";
         title="The design system team was turning into a help desk"
       />
       <p class="body-copy">
-        Even though we had a process to communicate updates, the same
-        questions kept coming back:
+        Even though we had a process to communicate updates, the{" "}
+        <strong>same questions kept coming back</strong>:
       </p>
       <Media src={cover} alt="Recurring questions from designers" />
       <MetaBox variant="data">
         <MetaItem label="TICKET ANALYSIS - 1 YEAR PERIOD">
-          <strong style="font-weight: var(--font-weight-semibold);">12%</strong> of <strong style="font-weight: var(--font-weight-semibold);">273</strong> requests where about <strong style="font-weight: var(--font-weight-semibold);">component changes</strong> or which version to use
+          <strong>12%</strong> of <strong>273</strong> requests where about <strong>component changes</strong> or which version to use
         </MetaItem>
       </MetaBox>
     </section>
@@ -170,7 +171,8 @@ const cover = "/playground/placeholder.svg";
     <Spacer size="sm" />
 
     <p class="body-copy">
-      We already had a process to communicate changes but it wasn't working. I needed to find out why.
+      We already had a process to communicate changes but{" "}
+      <strong>it wasn't working</strong>. I needed to find out why.
     </p>
 
     <Spacer size="lg" />
@@ -182,8 +184,9 @@ const cover = "/playground/placeholder.svg";
         title="There was no visibility into changes on the libraries"
       />
       <p class="body-copy">
-        To understand why, I audited the workflows, and interviewed everyone
-        that worked with the design system.
+        To understand why, I <strong>audited the workflows</strong>, and{" "}
+        <strong>interviewed everyone</strong> that worked with the design
+        system.
       </p>
       <Media
         src={cover}
@@ -300,16 +303,17 @@ const cover = "/playground/placeholder.svg";
         title="A changelog could close the information gap, but no viable solution satisfied our needs and workflow"
       />
       <p class="body-copy">
-        I benchmarked 10 Design Systems to understand how other teams handled
-        component evolution.
+        I <strong>benchmarked 10 Design Systems</strong> to understand how
+        other teams handled component evolution.
       </p>
       <p class="body-copy">
-        8 used changelogs or release notes as part of their documentation,
-        which confirmed that a changelog was a sensible direction.
+        <strong>8 used changelogs or release notes</strong> as part of their
+        documentation, which confirmed that a changelog was a sensible
+        direction.
       </p>
       <p class="body-copy">
-        I then evaluated the available options against the teams' needs and
-        feedback:
+        I then <strong>evaluated the available options</strong> against the
+        teams' needs and feedback:
       </p>
       <p class="body-copy" style="color: var(--color-text-muted);">
         <em>Card grid comparing the four options — awaiting <code>Card</code> component.</em>
@@ -331,17 +335,19 @@ const cover = "/playground/placeholder.svg";
         title="I used AI to iterate faster and surface technical constraints"
       />
       <p class="body-copy">
-        This was a new domain for me, and I was designing a software system
-        from scratch without a predefined architecture or dedicated engineering
-        resource. I knew the objectives, but not yet how all the technical
-        pieces would fit together.
+        This was a new domain for me, and I was{" "}
+        <strong>designing a software system from scratch</strong> without a
+        predefined architecture or dedicated engineering resource. I knew the
+        objectives, but not yet how all the technical pieces would fit
+        together.
       </p>
       <p class="body-copy">
-        I defined lightweight requirements, used Claude Code to build
-        functional versions of the plugin, tested them in the real workflow,
-        and refined the architecture as I learned. This allowed me to make
-        technical and design decisions based on real usage rather than
-        assumptions, while making the most of the limited time available.
+        I defined lightweight requirements,{" "}
+        <strong>used Claude Code to build functional versions of the plugin</strong>,
+        tested them in the real workflow, and refined the architecture as I
+        learned. This allowed me to make technical and design decisions{" "}
+        <strong>based on real usage rather than assumptions</strong>, while
+        making the most of the limited time available.
       </p>
     </section>
 
@@ -354,10 +360,11 @@ const cover = "/playground/placeholder.svg";
         title="From a changelog plugin, to an AI-ready infrastructure"
       />
       <p class="body-copy">
-        As I tested the workflow in real files, each iteration exposed
-        something I hadn't accounted for. These findings changed where
-        information should live, how much effort designers should spend
-        recording it, and how the system should handle the growing history.
+        As I <strong>tested the workflow in real files</strong>, each
+        iteration exposed something I hadn't accounted for. These findings
+        changed where information should live, how much effort designers
+        should spend recording it, and how the system should handle the
+        growing history.
       </p>
     </section>
 
@@ -387,19 +394,20 @@ const cover = "/playground/placeholder.svg";
         </div>
       </Confront>
       <p class="body-copy">
-        Initial approach: I didn't know the technology so I started simple by
-        adding tables under each component for designers to fill in, then the
-        plugin would collect the changes into a list ready to be shared on
-        Slack.
+        <strong>Initial approach:</strong> I didn't know the technology so I
+        started simple by adding tables under each component for designers to
+        fill in, then the plugin would collect the changes into a list ready
+        to be shared on Slack.
       </p>
       <p class="body-copy">
-        Evidence: Designers filled in the minimum details possible. We weren't
-        getting the information we needed and the workflow was too demanding.
+        <strong>Evidence:</strong> Designers filled in the minimum details
+        possible. We weren't getting the information we needed and the
+        workflow was too demanding.
       </p>
       <p class="body-copy">
-        Pivot: I introduced a guided form that captured what we actually
-        needed, and automated anything that could be automated, like creating
-        the table for new components.
+        <strong>Pivot:</strong> I introduced a guided form that captured what
+        we actually needed, and automated anything that could be automated,
+        like creating the table for new components.
       </p>
     </div>
 
@@ -429,14 +437,16 @@ const cover = "/playground/placeholder.svg";
         </div>
       </Confront>
       <p class="body-copy">
-        Evidence: The changelog on libraries made changes visible, but
-        designers wouldn't necessarily consult it as they pulled components
-        straight from the assets panel and never saw it in other files.
+        <strong>Evidence:</strong> The changelog on libraries made changes
+        visible, but designers wouldn't necessarily consult it as they pulled
+        components straight from the assets panel and never saw it in other
+        files.
       </p>
       <p class="body-copy">
-        Pivot: Version info is now written automatically into the component's
-        description, so it's visible to everyone. A warning icon on
-        component's titles help designers notice an evolution at a glance.
+        <strong>Pivot:</strong> Version info is now written automatically
+        into the component's description, so it's visible to everyone. A
+        warning icon on component's titles help designers notice an evolution
+        at a glance.
       </p>
     </div>
 
@@ -466,21 +476,21 @@ const cover = "/playground/placeholder.svg";
         </div>
       </Confront>
       <p class="body-copy">
-        Initial approach: All component changes were stored in Figma before
-        being sent to Slack for review.
+        <strong>Initial approach:</strong> All component changes were stored
+        in Figma before being sent to Slack for review.
       </p>
       <p class="body-copy">
-        Evidence: Storing the data directly in Figma made it easy to overwrite
-        changes when multiple designers edited the same file, risking data
-        loss and duplicated entries. It was also difficult to track which
-        changes had already been shared on Slack.
+        <strong>Evidence:</strong> Storing the data directly in Figma made it
+        easy to overwrite changes when multiple designers edited the same
+        file, risking data loss and duplicated entries. It was also difficult
+        to track which changes had already been shared on Slack.
       </p>
       <p class="body-copy">
-        Pivot: I synced the changes to a GitHub repository, giving us a more
-        reliable and structured way to store the data and making it usable by
-        AI. To help designers understand what was still waiting to be shared,
-        I introduced a Sync Queue: basically a cart where pending changes
-        wait for the next sync.
+        <strong>Pivot:</strong> I synced the changes to a GitHub repository,
+        giving us a more reliable and structured way to store the data and
+        making it usable by AI. To help designers understand what was still
+        waiting to be shared, I introduced a Sync Queue: basically a cart
+        where pending changes wait for the next sync.
       </p>
     </div>
 
