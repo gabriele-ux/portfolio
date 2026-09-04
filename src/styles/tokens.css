@@ -225,7 +225,7 @@
   --spacing-gap-xl:          var(--spacing-24);   /* → 20 mobile */
   --spacing-gap-2xl:         var(--spacing-32);   /* → 24 mobile */
   --spacing-gap-section:     var(--spacing-48);   /* → 32 mobile */
-  --spacing-gap-section-lg:  var(--spacing-64);   /* → 48 mobile */
+  --spacing-gap-section-lg:  var(--spacing-80);   /* → 48 mobile */
   --spacing-gap-section-tight: var(--spacing-24); /* → 16 mobile */
 
   /* Padding (inside elements) */

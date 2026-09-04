@@ -1,0 +1,609 @@
+---
+import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
+import HeroCover from "../../components/HeroCover.astro";
+import TagList from "../../components/TagList.astro";
+import MetaBox from "../../components/MetaBox.astro";
+import MetaItem from "../../components/MetaItem.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import Media from "../../components/Media.astro";
+import TransitionCallout from "../../components/TransitionCallout.astro";
+import CalloutList from "../../components/CalloutList.astro";
+import CalloutItem from "../../components/CalloutItem.astro";
+import Confront from "../../components/Confront.astro";
+import Spacer from "../../components/Spacer.astro";
+
+const title =
+  "I turned fragmented Design System changes into a shared, searchable source of truth";
+
+const heroTags = [
+  { label: "Shipped", dot: "success" as const },
+  { label: "Design System" },
+  { label: "UX" },
+  { label: "UI" },
+];
+
+const heroMeta = [
+  { label: "ROLE", value: "Full end-to-end ownership" },
+  { label: "TIMELINE", value: "6 weeks" },
+  {
+    label: "TECHNIQUES",
+    value:
+      "Data Analysis, Benchmark, Interviews, Flow Mapping, Prototyping, User Tests",
+  },
+  { label: "TOOLS", value: "Claude Code, Figjam" },
+];
+
+const cover = "/playground/placeholder.svg";
+---
+
+<CaseStudyLayout title={title}>
+  <HeroCover src={cover} alt="Case study cover" />
+
+  <article class="case-study">
+    <Spacer size="md" />
+
+    <section class="hero-content">
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        {title}
+      </h1>
+      <TagList tags={heroTags} />
+    </section>
+
+    <Spacer size="sm" />
+
+    <MetaBox>
+      {heroMeta.map((m) => <MetaItem label={m.label} value={m.value} />)}
+    </MetaBox>
+
+    <Spacer size="lg" />
+
+    <!-- BACKGROUND -->
+    <section class="section">
+      <SectionHeader
+        eyebrow="The background"
+        title="One complex system growing at different speed"
+      />
+      <p class="body-copy">
+        I'm part of a 3-person Design System team, still fairly new. We
+        maintain 4 core libraries; UI designers use them across different
+        products. The governance system was slowly built over the past years.
+        There's still a lot to figure out, and I joined while it was taking
+        shape.
+      </p>
+      <p class="body-copy">
+        Every project runs on its own timeline, so at any given moment,
+        different designers can be working with different versions of the same
+        component, all at once. That much movement naturally creates entropy.
+        Our job is to fight it: rationalize, simplify, keep things fast.
+      </p>
+      <Media
+        src={cover}
+        alt="Applications and product teams responsibilities diagram"
+        caption="TEAMS' RESPONSABILITIES AND INTERACTION"
+      />
+    </section>
+
+    <Spacer size="lg" />
+
+    <!-- PROBLEM -->
+    <section class="section">
+      <SectionHeader
+        eyebrow="Problem"
+        title="The design system team was turning into a help desk"
+      />
+      <p class="body-copy">
+        Even though we had a process to communicate updates, the same
+        questions kept coming back:
+      </p>
+      <Media src={cover} alt="Recurring questions from designers" />
+      <MetaBox variant="data">
+        <MetaItem label="TICKET ANALYSIS - 1 YEAR PERIOD">
+          <strong style="font-weight: var(--font-weight-semibold);">12%</strong> of <strong style="font-weight: var(--font-weight-semibold);">273</strong> requests where about <strong style="font-weight: var(--font-weight-semibold);">component changes</strong> or which version to use
+        </MetaItem>
+      </MetaBox>
+    </section>
+
+    <Spacer size="sm" />
+
+    <TransitionCallout
+      title="This impacted our work in two ways"
+      variant="warning"
+    />
+
+    <Spacer size="sm" />
+
+    <!-- PAIN POINTS -->
+    <section class="section-tight">
+      <p class="eyebrow-line">PAIN POINTS</p>
+      <CalloutList>
+        <CalloutItem
+          title="Hours lost answering questions"
+          variant="warning"
+          iconStyle="filled"
+        >
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          In the last year, our team spent up to a day for each question to
+          recover the info on changes trough slack, email, and asking around
+        </CalloutItem>
+        <CalloutItem
+          title="Risk of using wrong components"
+          variant="warning"
+          iconStyle="outlined"
+        >
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+            ></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          Designers struggled to pick the right version for each project,
+          risking outdated components in their flows, and having to replace
+          them later
+        </CalloutItem>
+      </CalloutList>
+    </section>
+
+    <Spacer size="sm" />
+
+    <p class="body-copy">
+      We already had a process to communicate changes but it wasn't working. I needed to find out why.
+    </p>
+
+    <Spacer size="lg" />
+
+    <!-- DISCOVERY -->
+    <section class="section">
+      <SectionHeader
+        eyebrow="Discovery"
+        title="There was no visibility into changes on the libraries"
+      />
+      <p class="body-copy">
+        To understand why, I audited the workflows, and interviewed everyone
+        that worked with the design system.
+      </p>
+      <Media
+        src={cover}
+        alt="Actual workflow between UX/UI and Design System teams"
+        caption="THE ACTUAL WORKFLOW AND THE MAJOR PAINT POINT"
+      />
+    </section>
+
+    <Spacer size="sm" />
+
+    <MetaBox variant="insight">
+      <MetaItem
+        label="INSIGHT"
+        value="Changes were communicated, but there was no shared source of truth for tracking and retrieving them."
+      />
+    </MetaBox>
+
+    <Spacer size="sm" />
+
+    <TransitionCallout
+      title="I defined project objectives to guide the design phase"
+      variant="info"
+    />
+
+    <Spacer size="sm" />
+
+    <!-- OUR NEEDS -->
+    <section class="section-tight">
+      <p class="eyebrow-line">OUR NEEDS</p>
+      <CalloutList>
+        <CalloutItem
+          title="Retrievabile"
+          variant="info"
+          iconStyle="filled"
+        >
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          Changes need to live somewhere stable and be easy to find later
+        </CalloutItem>
+        <CalloutItem
+          title="Frictionless"
+          variant="info"
+          iconStyle="outlined"
+        >
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M13 2 L3 14 h9 l-1 8 10-12 h-9 z"></path>
+          </svg>
+          The solution needs to fit into UX/UI workflow as they will be using
+          it in their UI Kits
+        </CalloutItem>
+        <CalloutItem
+          title="Proactive"
+          variant="info"
+          iconStyle="filled"
+        >
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"
+            ></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          Changes need to reach people, not just wait to be found
+        </CalloutItem>
+      </CalloutList>
+    </section>
+
+    <Spacer size="sm" />
+
+    <MetaBox variant="hmw">
+      <MetaItem
+        label="HOW MIGHT WE"
+        value="Make component changes easy to track and retrieve?"
+      />
+    </MetaBox>
+
+    <Spacer size="lg" />
+
+    <!-- EVALUATION / RESEARCH & CONSTRAINTS -->
+    <section class="section">
+      <SectionHeader
+        eyebrow="Research & Constraints"
+        title="A changelog could close the information gap, but no viable solution satisfied our needs and workflow"
+      />
+      <p class="body-copy">
+        I benchmarked 10 Design Systems to understand how other teams handled
+        component evolution.
+      </p>
+      <p class="body-copy">
+        8 used changelogs or release notes as part of their documentation,
+        which confirmed that a changelog was a sensible direction.
+      </p>
+      <p class="body-copy">
+        I then evaluated the available options against the teams' needs and
+        feedback:
+      </p>
+      <p class="body-copy" style="color: var(--color-text-muted);">
+        <em>Card grid comparing the four options — awaiting <code>Card</code> component.</em>
+      </p>
+      <MetaBox variant="decision">
+        <MetaItem
+          label="DESIGN DECISION"
+          value="No existing option satisfied our needs, so I chose to develop a custom plugin for Figma."
+        />
+      </MetaBox>
+    </section>
+
+    <Spacer size="lg" />
+
+    <!-- STRATEGY -->
+    <section class="section">
+      <SectionHeader
+        eyebrow="Strategy"
+        title="I used AI to iterate faster and surface technical constraints"
+      />
+      <p class="body-copy">
+        This was a new domain for me, and I was designing a software system
+        from scratch without a predefined architecture or dedicated engineering
+        resource. I knew the objectives, but not yet how all the technical
+        pieces would fit together.
+      </p>
+      <p class="body-copy">
+        I defined lightweight requirements, used Claude Code to build
+        functional versions of the plugin, tested them in the real workflow,
+        and refined the architecture as I learned. This allowed me to make
+        technical and design decisions based on real usage rather than
+        assumptions, while making the most of the limited time available.
+      </p>
+    </section>
+
+    <Spacer size="lg" />
+
+    <!-- PIVOTS -->
+    <section class="section">
+      <SectionHeader
+        eyebrow="Pivots"
+        title="From a changelog plugin, to an AI-ready infrastructure"
+      />
+      <p class="body-copy">
+        As I tested the workflow in real files, each iteration exposed
+        something I hadn't accounted for. These findings changed where
+        information should live, how much effort designers should spend
+        recording it, and how the system should handle the growing history.
+      </p>
+    </section>
+
+    <Spacer size="md" />
+
+    <div class="pivot-block">
+      <h3 class="type-h2" style="color: var(--color-text-heading);">
+        01/ Reduce the effort to log a change
+      </h3>
+      <Confront
+        tabs={[
+          { label: "AFTER", value: "after" },
+          { label: "BEFORE", value: "before" },
+        ]}
+      >
+        <div
+          data-panel="after"
+          class="pivot-panel"
+          style="background-image: url('/playground/placeholder.svg');"
+        >
+        </div>
+        <div
+          data-panel="before"
+          class="pivot-panel"
+          style="background-image: url('/playground/placeholder.svg');"
+        >
+        </div>
+      </Confront>
+      <p class="body-copy">
+        Initial approach: I didn't know the technology so I started simple by
+        adding tables under each component for designers to fill in, then the
+        plugin would collect the changes into a list ready to be shared on
+        Slack.
+      </p>
+      <p class="body-copy">
+        Evidence: Designers filled in the minimum details possible. We weren't
+        getting the information we needed and the workflow was too demanding.
+      </p>
+      <p class="body-copy">
+        Pivot: I introduced a guided form that captured what we actually
+        needed, and automated anything that could be automated, like creating
+        the table for new components.
+      </p>
+    </div>
+
+    <Spacer size="md" />
+
+    <div class="pivot-block">
+      <h3 class="type-h2" style="color: var(--color-text-heading);">
+        02/ Put changes where designers see them
+      </h3>
+      <Confront
+        tabs={[
+          { label: "AFTER", value: "after" },
+          { label: "BEFORE", value: "before" },
+        ]}
+      >
+        <div
+          data-panel="after"
+          class="pivot-panel"
+          style="background-image: url('/playground/placeholder.svg');"
+        >
+        </div>
+        <div
+          data-panel="before"
+          class="pivot-panel"
+          style="background-image: url('/playground/placeholder.svg');"
+        >
+        </div>
+      </Confront>
+      <p class="body-copy">
+        Evidence: The changelog on libraries made changes visible, but
+        designers wouldn't necessarily consult it as they pulled components
+        straight from the assets panel and never saw it in other files.
+      </p>
+      <p class="body-copy">
+        Pivot: Version info is now written automatically into the component's
+        description, so it's visible to everyone. A warning icon on
+        component's titles help designers notice an evolution at a glance.
+      </p>
+    </div>
+
+    <Spacer size="md" />
+
+    <div class="pivot-block">
+      <h3 class="type-h2" style="color: var(--color-text-heading);">
+        03/ Create a reliable source of truth
+      </h3>
+      <Confront
+        tabs={[
+          { label: "AFTER", value: "after" },
+          { label: "BEFORE", value: "before" },
+        ]}
+      >
+        <div
+          data-panel="after"
+          class="pivot-panel"
+          style="background-image: url('/playground/placeholder.svg');"
+        >
+        </div>
+        <div
+          data-panel="before"
+          class="pivot-panel"
+          style="background-image: url('/playground/placeholder.svg');"
+        >
+        </div>
+      </Confront>
+      <p class="body-copy">
+        Initial approach: All component changes were stored in Figma before
+        being sent to Slack for review.
+      </p>
+      <p class="body-copy">
+        Evidence: Storing the data directly in Figma made it easy to overwrite
+        changes when multiple designers edited the same file, risking data
+        loss and duplicated entries. It was also difficult to track which
+        changes had already been shared on Slack.
+      </p>
+      <p class="body-copy">
+        Pivot: I synced the changes to a GitHub repository, giving us a more
+        reliable and structured way to store the data and making it usable by
+        AI. To help designers understand what was still waiting to be shared,
+        I introduced a Sync Queue: basically a cart where pending changes
+        wait for the next sync.
+      </p>
+    </div>
+
+    <Spacer size="lg" />
+
+    <!-- SOLUTION -->
+    <section class="section">
+      <SectionHeader
+        eyebrow="Solution"
+        title="Making information easy to access, and where designers work"
+      />
+      <Media src={cover} alt="Overview of the plugin experience" />
+    </section>
+
+    <Spacer size="lg" />
+
+    <!-- IMPACT -->
+    <section class="section">
+      <SectionHeader
+        eyebrow="Impact"
+        title="From hours of investigation to a shared source of truth"
+      />
+      <p class="body-copy" style="color: var(--color-text-muted);">
+        <em>Awaiting <code>ImpactCard</code> / <code>MetricRow</code> / <code>Quote</code> — content:</em>
+      </p>
+      <ul class="body-copy" style="padding-left: 1.25rem;">
+        <li>
+          <strong>Recover change context</strong> — AFTER ✅ ~5 min · BEFORE up to 1 working day. Quote: "Designers can now retrieve the context behind a past component change without reconstructing it from Slack, email and conversations"
+        </li>
+        <li>
+          <strong>Release note: everyone up-to-date</strong> — AFTER ✅ ~25 min of review · BEFORE ~4h manual work. Quote: "The weekly release note is generated automatically from the same structured change data and sent to Slack for review."
+        </li>
+        <li>
+          <strong>Reduce the risk of outdated components</strong> — AFTER ✅ Component history and replacement context are available where needed · BEFORE Changes could be missed and outdated versions could reach final files
+        </li>
+      </ul>
+    </section>
+
+    <Spacer size="lg" />
+
+    <!-- LEARNINGS -->
+    <section class="section">
+      <SectionHeader
+        eyebrow="Learnings"
+        title="What this project changed in the way I work"
+      />
+      <p class="body-copy" style="color: var(--color-text-muted);">
+        <em>Awaiting <code>LearningRow</code> — content:</em>
+      </p>
+      <div class="body-copy">
+        <p style="margin: 0 0 0.5rem 0;">
+          <strong>I learned how to do design in a "terminal"</strong>
+        </p>
+        <p style="margin: 0 0 1.5rem 0;">
+          The faster I could generate and change working software, the easier it became to lose the rationale behind decisions. I kept a lightweight change and decision log and repeatedly checked new ideas against the original goals to avoid scope drift.
+        </p>
+        <p style="margin: 0 0 0.5rem 0;">
+          <strong>I learned to never trust AI, no matter how confident it sounds</strong>
+        </p>
+        <p style="margin: 0;">
+          AI suggestions can sound convincing, especially outside your strongest technical domain. I learned to challenge them, ask for alternatives and validate doubts with experts. One example was moving from one large Markdown changelog to a component-centric structure after investigating retrieval and maintainability.
+        </p>
+      </div>
+    </section>
+  </article>
+</CaseStudyLayout>
+
+<style>
+  .case-study {
+    display: grid;
+    grid-template-columns: minmax(0, 760px);
+    justify-content: center;
+    padding-block-end: var(--spacing-gap-section-lg);
+    padding-inline: var(--spacing-gutter-page);
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-xl);
+  }
+
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-xl);
+  }
+
+  .section-tight {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-md);
+  }
+
+  .pivot-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-xl);
+  }
+
+  .body-copy {
+    margin: 0;
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    font-variation-settings: "opsz" 14;
+  }
+
+  .eyebrow-line {
+    margin: 0;
+    color: var(--color-text-eyebrow);
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-eyebrow);
+    line-height: var(--leading-tight);
+  }
+
+  .pivot-panel {
+    min-height: 360px;
+    background-size: cover;
+    background-position: center;
+  }
+</style>

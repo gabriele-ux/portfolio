@@ -65,7 +65,7 @@
 
   .type-h2 {
     font-family: var(--font-serif);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-normal);
     font-size: var(--text-h2);
     line-height: var(--leading-snug);
   }

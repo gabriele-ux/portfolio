@@ -42,7 +42,11 @@ const {
     position: relative;
     padding: 32px 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
     isolation: isolate;
   }
 
@@ -91,15 +95,29 @@ const {
   .callout-box {
     position: relative;
     z-index: 1;
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-padding-sm) var(--spacing-padding-md);
+    padding: var(--spacing-padding-sm);
     border: 1px solid var(--connector-color);
     border-radius: 8px;
     background-color: var(--color-bg-elevated);
     text-align: center;
+    animation: callout-glow 3.2s ease-in-out infinite;
+  }
+
+  @keyframes callout-glow {
+    0%,
+    100% {
+      box-shadow:
+        0 0 20px 0
+          color-mix(in oklab, var(--connector-color) 22%, transparent);
+    }
+    50% {
+      box-shadow:
+        0 0 44px 6px
+          color-mix(in oklab, var(--connector-color) 40%, transparent);
+    }
   }
 
   .callout-title {

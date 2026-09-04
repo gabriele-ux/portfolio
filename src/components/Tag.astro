@@ -8,13 +8,13 @@ interface Props {
 const { label, dot, class: className = "" } = Astro.props;
 ---
 
-<span class:list={["chip", className]}>
-  {dot === "success" && <span class="chip-dot" aria-hidden="true" />}
-  <span class="type-tag chip-label">{label}</span>
+<span class:list={["tag", className]}>
+  {dot === "success" && <span class="tag-dot" aria-hidden="true" />}
+  <span class="type-tag tag-label">{label}</span>
 </span>
 
 <style>
-  .chip {
+  .tag {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-gap-sm);
@@ -28,7 +28,7 @@ const { label, dot, class: className = "" } = Astro.props;
     box-sizing: border-box;
   }
 
-  .chip-dot {
+  .tag-dot {
     width: 6px;
     height: 6px;
     border-radius: 999px;
@@ -36,7 +36,7 @@ const { label, dot, class: className = "" } = Astro.props;
     flex-shrink: 0;
   }
 
-  .chip-label {
+  .tag-label {
     line-height: 1;
   }
 </style>

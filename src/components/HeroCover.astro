@@ -1,0 +1,32 @@
+---
+interface Props {
+  src: string;
+  alt?: string;
+  height?: number;
+  class?: string;
+}
+
+const { src, alt = "", height = 515, class: className = "" } = Astro.props;
+---
+
+<figure
+  class:list={["hero-cover", className]}
+  style={`--hero-height: ${height}px;`}
+>
+  <img src={src} alt={alt} class="hero-cover-img" loading="eager" />
+</figure>
+
+<style>
+  .hero-cover {
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .hero-cover-img {
+    display: block;
+    width: 100%;
+    height: var(--hero-height);
+    object-fit: cover;
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroCover from "../../components/HeroCover.astro";
+---
+
+<BaseLayout title="Playground / HeroCover">
+  <HeroCover src="/playground/placeholder.svg" alt="Case study cover" />
+
+  <main class="mx-auto max-w-[900px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        HeroCover
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Full-width case-study cover image. Default height 515px (from Figma), overridable via <code>height</code>.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        CUSTOM HEIGHT (320px)
+      </h2>
+      <HeroCover
+        src="/playground/placeholder.svg"
+        alt="Shorter cover"
+        height={320}
+      />
+    </section>
+  </main>
+</BaseLayout>

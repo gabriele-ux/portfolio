@@ -1,0 +1,23 @@
+---
+interface Props {
+  size?: "sm" | "md" | "lg";
+}
+
+const { size = "md" } = Astro.props;
+
+const varMap: Record<string, string> = {
+  sm: "var(--spacing-gap-section-tight)",
+  md: "var(--spacing-gap-section)",
+  lg: "var(--spacing-gap-section-lg)",
+};
+---
+
+<div class="spacer" aria-hidden="true" style={`height: ${varMap[size]};`}></div>
+
+<style>
+  .spacer {
+    width: 100%;
+    max-width: none !important;
+    flex-shrink: 0;
+  }
+</style>
