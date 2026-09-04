@@ -29,6 +29,12 @@ const decoration = decorationSrc[variant];
 </div>
 
 <style>
+  @property --metabox-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
   .meta-box {
     position: relative;
     display: grid;
@@ -65,11 +71,80 @@ const decoration = decorationSrc[variant];
     }
   }
 
-  /* HMW / Decision — pale blue background */
+  /* HMW / Decision — pale blue background, animated border */
   .meta-box.is-hmw,
   .meta-box.is-decision {
     background-color: var(--color-illustration-blue-50);
-    border-color: var(--color-border-faint);
+    border: 0;
+    padding: calc(var(--spacing-padding-xl) + 1px);
+    --accent: var(--color-accent-info);
+    --ring-faint: var(--color-border-faint);
+  }
+
+  /* Static faint border replacement (sits exactly on the outer edge) */
+  .meta-box.is-hmw::before,
+  .meta-box.is-decision::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--ring-faint);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Rotating bright dot with glow */
+  .meta-box.is-hmw::after,
+  .meta-box.is-decision::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--metabox-angle),
+      transparent 0deg,
+      transparent 300deg,
+      var(--accent) 340deg,
+      #ffffff 358deg,
+      #ffffff 362deg,
+      var(--accent) 380deg,
+      transparent 420deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    filter: drop-shadow(0 0 6px var(--accent));
+    animation: metabox-spin 5s linear infinite;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  @keyframes metabox-spin {
+    to {
+      --metabox-angle: 360deg;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .meta-box.is-hmw::after,
+    .meta-box.is-decision::after {
+      animation: none;
+    }
   }
 
   /* HMW — italic caslon value */
