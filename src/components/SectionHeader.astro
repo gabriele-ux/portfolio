@@ -3,6 +3,7 @@ interface Props {
   eyebrow?: string;
   title: string;
   size?: "default" | "large";
+  id?: string;
   class?: string;
 }
 
@@ -10,11 +11,12 @@ const {
   eyebrow,
   title,
   size = "default",
+  id,
   class: className = "",
 } = Astro.props;
 ---
 
-<header class:list={["section-header", className]}>
+<header class:list={["section-header", className]} id={id}>
   {eyebrow && <p class="type-eyebrow section-eyebrow">{eyebrow}</p>}
   <h2
     class:list={[

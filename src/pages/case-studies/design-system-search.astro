@@ -14,6 +14,19 @@ import OptionCard from "../../components/OptionCard.astro";
 import OptionRow from "../../components/OptionRow.astro";
 import Confront from "../../components/Confront.astro";
 import Spacer from "../../components/Spacer.astro";
+import CaseStudyNav from "../../components/CaseStudyNav.astro";
+
+const navSections = [
+  { id: "background", label: "The Background" },
+  { id: "problem", label: "The Problem" },
+  { id: "discovery", label: "Discovery" },
+  { id: "research", label: "Research & Constraints" },
+  { id: "strategy", label: "Strategy" },
+  { id: "pivots", label: "Pivots" },
+  { id: "solution", label: "Solution" },
+  { id: "impact", label: "Impact" },
+  { id: "learnings", label: "Learnings" },
+];
 
 const title =
   "I turned fragmented Design System changes into a shared, searchable source of truth";
@@ -42,7 +55,10 @@ const cover = "/playground/placeholder.svg";
 <CaseStudyLayout title={title}>
   <HeroCover src={cover} alt="Case study cover" />
 
-  <article class="case-study">
+  <div class="case-study-body">
+    <CaseStudyNav sections={navSections} />
+
+    <article class="case-study">
     <Spacer size="md" />
 
     <section class="hero-content">
@@ -63,6 +79,7 @@ const cover = "/playground/placeholder.svg";
     <!-- BACKGROUND -->
     <section class="section">
       <SectionHeader
+        id="background"
         eyebrow="The background"
         title="One complex system growing at different speed"
       />
@@ -92,6 +109,7 @@ const cover = "/playground/placeholder.svg";
     <!-- PROBLEM -->
     <section class="section">
       <SectionHeader
+        id="problem"
         eyebrow="Problem"
         title="The design system team was turning into a help desk"
       />
@@ -181,6 +199,7 @@ const cover = "/playground/placeholder.svg";
     <!-- DISCOVERY -->
     <section class="section">
       <SectionHeader
+        id="discovery"
         eyebrow="Discovery"
         title="There was no visibility into changes on the libraries"
       />
@@ -296,6 +315,7 @@ const cover = "/playground/placeholder.svg";
     <!-- EVALUATION / RESEARCH & CONSTRAINTS -->
     <section class="section">
       <SectionHeader
+        id="research"
         eyebrow="Research & Constraints"
         title="A changelog could close the information gap, but no viable solution satisfied our needs and workflow"
       />
@@ -359,6 +379,7 @@ const cover = "/playground/placeholder.svg";
     <!-- STRATEGY -->
     <section class="section">
       <SectionHeader
+        id="strategy"
         eyebrow="Strategy"
         title="I used AI to iterate faster and surface technical constraints"
       />
@@ -384,6 +405,7 @@ const cover = "/playground/placeholder.svg";
     <!-- PIVOTS -->
     <section class="section">
       <SectionHeader
+        id="pivots"
         eyebrow="Pivots"
         title="From a changelog plugin, to an AI-ready infrastructure"
       />
@@ -527,6 +549,7 @@ const cover = "/playground/placeholder.svg";
     <!-- SOLUTION -->
     <section class="section">
       <SectionHeader
+        id="solution"
         eyebrow="Solution"
         title="Making information easy to access, and where designers work"
       />
@@ -538,6 +561,7 @@ const cover = "/playground/placeholder.svg";
     <!-- IMPACT -->
     <section class="section">
       <SectionHeader
+        id="impact"
         eyebrow="Impact"
         title="From hours of investigation to a shared source of truth"
       />
@@ -562,6 +586,7 @@ const cover = "/playground/placeholder.svg";
     <!-- LEARNINGS -->
     <section class="section">
       <SectionHeader
+        id="learnings"
         eyebrow="Learnings"
         title="What this project changed in the way I work"
       />
@@ -584,9 +609,14 @@ const cover = "/playground/placeholder.svg";
       </div>
     </section>
   </article>
+  </div>
 </CaseStudyLayout>
 
 <style>
+  .case-study-body {
+    position: relative;
+  }
+
   .case-study {
     display: grid;
     grid-template-columns: minmax(0, 760px);
