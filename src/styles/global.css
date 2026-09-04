@@ -26,6 +26,7 @@
   }
 
   body {
+    background-color: var(--color-bg-page);
     font-family: var(--font-sans);
     font-weight: var(--font-weight-light);
     font-size: var(--text-body);
@@ -125,7 +126,7 @@
 
   .type-eyebrow {
     font-family: var(--font-mono);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-normal);
     font-size: var(--text-eyebrow);
     line-height: var(--leading-tight);
   }

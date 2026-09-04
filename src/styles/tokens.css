@@ -80,18 +80,18 @@
    * COLORS — PRIMITIVES (raw HEX values)
    * ══════════════════════════════════════════════════════════════ */
 
-  /* Neutral warm (12 step) */
+  /* Neutral cool (12 step) — coerente con bg #f3f3f4 */
   --color-neutral-0:   #ffffff;
-  --color-neutral-25:  #fdfdfd;
-  --color-neutral-50:  #f7f7f5;
-  --color-neutral-100: #f3f3f1;
-  --color-neutral-200: #e9e9e9;
-  --color-neutral-300: #d4d3d3;
-  --color-neutral-400: #9e9f9f;
-  --color-neutral-500: #838383;
-  --color-neutral-600: #5a5248;
-  --color-neutral-700: #404040;
-  --color-neutral-800: #1e1a15;
+  --color-neutral-25:  #fdfdfe;
+  --color-neutral-50:  #f7f7f8;
+  --color-neutral-100: #f3f3f4;
+  --color-neutral-200: #e8e9eb;
+  --color-neutral-300: #d3d3d6;
+  --color-neutral-400: #9c9da1;
+  --color-neutral-500: #808187;
+  --color-neutral-600: #525460;
+  --color-neutral-700: #3c3d43;
+  --color-neutral-800: #17181d;
   --color-neutral-900: #000000;
 
   /* Blue brand */
@@ -128,7 +128,7 @@
    * ══════════════════════════════════════════════════════════════ */
 
   /* Background */
-  --color-bg-page:            var(--color-neutral-50);
+  --color-bg-page:            var(--color-neutral-100);
   --color-bg-elevated:        var(--color-neutral-25);
   --color-bg-inverse:         var(--color-neutral-800);
   --color-bg-subtle-warm:     var(--color-neutral-100);
