@@ -9,6 +9,9 @@ import Media from "../../components/Media.astro";
 import TransitionCallout from "../../components/TransitionCallout.astro";
 import CalloutList from "../../components/CalloutList.astro";
 import CalloutItem from "../../components/CalloutItem.astro";
+import OptionCardList from "../../components/OptionCardList.astro";
+import OptionCard from "../../components/OptionCard.astro";
+import OptionRow from "../../components/OptionRow.astro";
 import Confront from "../../components/Confront.astro";
 import Spacer from "../../components/Spacer.astro";
 
@@ -318,9 +321,40 @@ const cover = "/playground/placeholder.svg";
         I then <strong>evaluated the available options</strong> against the
         teams' needs and feedback:
       </p>
-      <p class="body-copy" style="color: var(--color-text-muted);">
-        <em>Card grid comparing the four options — awaiting <code>Card</code> component.</em>
-      </p>
+      <OptionCardList>
+        <OptionCard title="1. Track on Figma">
+          <OptionRow type="check">Already in the workflow</OptionRow>
+          <OptionRow type="cross">
+            Require to search manually each page to find information (<em
+              >fails: proactive + retrievability</em
+            >)
+          </OptionRow>
+        </OptionCard>
+        <OptionCard title="2. Figma Release Note">
+          <OptionRow type="check">Native in the tool</OptionRow>
+          <OptionRow type="cross">
+            Not tied to individual components, and not searchable (<em
+              >fails: proactive + retrievability</em
+            >)
+          </OptionRow>
+        </OptionCard>
+        <OptionCard title="3. Community Plugins">
+          <OptionRow type="check">Already integrated in Figma</OptionRow>
+          <OptionRow type="cross">
+            None allowed to easily retrieve information (<em
+              >fails: proactive + frictionless</em
+            >)
+          </OptionRow>
+        </OptionCard>
+        <OptionCard title="4. ZeroHeight">
+          <OptionRow type="check">
+            Changelog and release notes out of the box
+          </OptionRow>
+          <OptionRow type="cross">
+            Another touchpoint to maintain (<em>fails: frictionless</em>)
+          </OptionRow>
+        </OptionCard>
+      </OptionCardList>
       <MetaBox variant="decision">
         <MetaItem
           label="DESIGN DECISION"
