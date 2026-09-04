@@ -1,0 +1,89 @@
+---
+interface Props {
+  href?: string;
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
+  /** Forza uno stato visivo (utile per playground/screenshot). Non modifica il comportamento reale. */
+  state?: "default" | "hover" | "active" | "focus";
+  class?: string;
+}
+
+const {
+  href,
+  disabled = false,
+  type = "button",
+  state = "default",
+  class: className = "",
+} = Astro.props;
+
+const Tag = href ? "a" : "button";
+const forcedClass = state !== "default" ? `is-${state}` : "";
+---
+
+<Tag
+  href={href}
+  type={!href ? type : undefined}
+  disabled={!href && disabled ? true : undefined}
+  aria-disabled={href && disabled ? "true" : undefined}
+  class:list={["btn", forcedClass, disabled && "is-disabled", className]}
+>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-gap-md);
+    padding: var(--spacing-padding-xs) var(--spacing-padding-sm);
+    border-radius: 999px;
+    background-color: var(--color-accent-warning);
+    color: var(--color-text-on-inverse);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 0;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+    font-variation-settings: "opsz" 14;
+    transition:
+      background-color 120ms ease,
+      transform 120ms ease,
+      box-shadow 120ms ease;
+  }
+
+  .btn:hover:not(.is-disabled),
+  .btn.is-hover {
+    background-color: color-mix(
+      in oklab,
+      var(--color-accent-warning) 88%,
+      black
+    );
+  }
+
+  .btn:active:not(.is-disabled),
+  .btn.is-active {
+    background-color: color-mix(
+      in oklab,
+      var(--color-accent-warning) 76%,
+      black
+    );
+    transform: translateY(1px);
+  }
+
+  .btn:focus-visible:not(.is-disabled),
+  .btn.is-focus {
+    outline: 2px solid var(--color-accent-warning);
+    outline-offset: 2px;
+  }
+
+  .btn.is-disabled,
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+</style>

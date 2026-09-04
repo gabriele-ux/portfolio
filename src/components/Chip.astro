@@ -1,0 +1,42 @@
+---
+interface Props {
+  label: string;
+  dot?: "success";
+  class?: string;
+}
+
+const { label, dot, class: className = "" } = Astro.props;
+---
+
+<span class:list={["chip", className]}>
+  {dot === "success" && <span class="chip-dot" aria-hidden="true" />}
+  <span class="type-tag chip-label">{label}</span>
+</span>
+
+<style>
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-gap-sm);
+    height: 36px;
+    padding: 0 var(--spacing-padding-md);
+    border: 1px solid var(--color-chip-border);
+    background-color: var(--color-chip-bg);
+    border-radius: 8px;
+    color: var(--color-text-body);
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+
+  .chip-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background-color: var(--color-chip-dot-success);
+    flex-shrink: 0;
+  }
+
+  .chip-label {
+    line-height: 1;
+  }
+</style>

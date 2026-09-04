@@ -1,0 +1,38 @@
+---
+interface Props {
+  label: string;
+  value?: string;
+}
+
+const { label, value } = Astro.props;
+---
+
+<div class="meta-item">
+  <p class="type-label meta-label">{label}</p>
+  {
+    value !== undefined ? (
+      <p class="type-body meta-value">{value}</p>
+    ) : (
+      <div class="type-body meta-value">
+        <slot />
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-sm);
+  }
+
+  .meta-label {
+    color: var(--color-text-eyebrow);
+  }
+
+  .meta-value {
+    color: var(--color-text-body-secondary);
+    font-weight: var(--font-weight-normal);
+  }
+</style>

@@ -1,0 +1,102 @@
+---
+interface Props {
+  src: string;
+  alt?: string;
+  caption?: string;
+  type?: "image" | "video";
+  aspect?: string;
+  class?: string;
+}
+
+const {
+  src,
+  alt = "",
+  caption,
+  type,
+  aspect = "760 / 362",
+  class: className = "",
+} = Astro.props;
+
+const isVideo =
+  type === "video" ||
+  (!type && /\.(mp4|webm|mov|ogg|ogv|m4v)$/i.test(src));
+---
+
+<figure class:list={["media", className]}>
+  <div class="media-content" style={`aspect-ratio: ${aspect};`}>
+    {
+      isVideo ? (
+        <video
+          src={src}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-label={alt || undefined}
+        />
+      ) : (
+        <img src={src} alt={alt} loading="lazy" />
+      )
+    }
+  </div>
+
+  {
+    caption && (
+      <figcaption class="type-caption media-caption">
+        <svg
+          class="media-caption-arrow"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="12" y1="19" x2="12" y2="5" />
+          <polyline points="5 12 12 5 19 12" />
+        </svg>
+        <span>{caption}</span>
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .media {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-sm);
+    margin: 0;
+  }
+
+  .media-content {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--color-card-border);
+    border-radius: 8px;
+    background-color: var(--color-bg-elevated);
+  }
+
+  .media-content > img,
+  .media-content > video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .media-caption {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-gap-xs);
+    color: var(--color-text-muted);
+  }
+
+  .media-caption-arrow {
+    flex-shrink: 0;
+  }
+</style>

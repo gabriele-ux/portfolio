@@ -1,0 +1,94 @@
+---
+import TabList from "./TabList.astro";
+import TabItem from "./TabItem.astro";
+
+interface Tab {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  tabs: Tab[];
+  initial?: number;
+  ariaLabel?: string;
+  class?: string;
+}
+
+const {
+  tabs,
+  initial = 0,
+  ariaLabel = "Compared views",
+  class: className = "",
+} = Astro.props;
+---
+
+<div class:list={["confront", className]} data-initial={initial}>
+  <TabList ariaLabel={ariaLabel} class="confront-tablist">
+    {
+      tabs.map((t, i) => (
+        <TabItem label={t.label} value={t.value} selected={i === initial} />
+      ))
+    }
+  </TabList>
+
+  <div class="confront-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .confront {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-sm);
+    width: 100%;
+  }
+
+  .confront-content {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: var(--color-neutral-0);
+    border: 1px solid var(--color-card-border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .confront-content > :global([data-panel]) {
+    grid-column: 1;
+    grid-row: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 250ms ease,
+      visibility 250ms;
+  }
+
+  .confront-content > :global([data-panel].is-active) {
+    opacity: 1;
+    visibility: visible;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".confront").forEach((confront) => {
+    const initial = Number(confront.dataset.initial) || 0;
+    const tabList = confront.querySelector(".confront-tablist");
+    const panels = confront.querySelectorAll<HTMLElement>(
+      ".confront-content > [data-panel]"
+    );
+
+    panels.forEach((p, i) =>
+      p.classList.toggle("is-active", i === initial)
+    );
+
+    tabList?.addEventListener("tab-change", ((
+      e: CustomEvent<{ index: number; value: string }>
+    ) => {
+      const targetValue = e.detail.value;
+      panels.forEach((p) => {
+        p.classList.toggle("is-active", p.dataset.panel === targetValue);
+      });
+    }) as EventListener);
+  });
+</script>

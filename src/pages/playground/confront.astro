@@ -1,0 +1,80 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Confront from "../../components/Confront.astro";
+---
+
+<BaseLayout title="Playground / Confront">
+  <main class="mx-auto max-w-[900px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        Confront
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        TabList + content container. Clicking a tab crossfades between panels.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        BEFORE / AFTER
+      </h2>
+      <Confront
+        tabs={[
+          { label: "AFTER", value: "after" },
+          { label: "BEFORE", value: "before" },
+        ]}
+      >
+        <div data-panel="after" class="p-10 min-h-[360px] flex items-center justify-center">
+          <p
+            class="type-callout text-center max-w-md"
+            style="color: var(--color-text-heading);"
+          >
+            After — a guided form that captures what we actually needed.
+          </p>
+        </div>
+        <div data-panel="before" class="p-10 min-h-[360px] flex items-center justify-center">
+          <p
+            class="type-callout text-center max-w-md"
+            style="color: var(--color-text-muted);"
+          >
+            Before — tables under each component for designers to fill in.
+          </p>
+        </div>
+      </Confront>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        3 PANELS
+      </h2>
+      <Confront
+        tabs={[
+          { label: "ONE", value: "one" },
+          { label: "TWO", value: "two" },
+          { label: "THREE", value: "three" },
+        ]}
+        initial={0}
+      >
+        <div data-panel="one" class="p-10 min-h-[240px] flex items-center justify-center">
+          <p class="type-h2" style="color: var(--color-text-heading);">Panel one</p>
+        </div>
+        <div data-panel="two" class="p-10 min-h-[240px] flex items-center justify-center">
+          <p class="type-h2" style="color: var(--color-text-heading);">Panel two</p>
+        </div>
+        <div data-panel="three" class="p-10 min-h-[240px] flex items-center justify-center">
+          <p class="type-h2" style="color: var(--color-text-heading);">Panel three</p>
+        </div>
+      </Confront>
+    </section>
+  </main>
+</BaseLayout>

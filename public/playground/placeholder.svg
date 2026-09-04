@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 362" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f3f3f1"/>
+      <stop offset="1" stop-color="#d4d3d3"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="362" fill="url(#g)"/>
+  <text x="380" y="188" text-anchor="middle" font-family="DM Mono, monospace" font-size="14" letter-spacing="4" fill="#838383">MEDIA PLACEHOLDER</text>
+</svg>

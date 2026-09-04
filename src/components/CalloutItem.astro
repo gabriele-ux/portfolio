@@ -1,0 +1,96 @@
+---
+interface Props {
+  title: string;
+  variant?: "warning" | "info" | "neutral";
+  iconStyle?: "filled" | "outlined";
+  class?: string;
+}
+
+const {
+  title,
+  variant = "neutral",
+  iconStyle = "filled",
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "callout-item",
+    `is-${variant}`,
+    `icon-${iconStyle}`,
+    className,
+  ]}
+>
+  <span class="callout-icon" aria-hidden="true">
+    <slot name="icon" />
+  </span>
+  <div class="callout-content">
+    <h3 class="type-h4 callout-title">{title}</h3>
+    <p class="type-body callout-description">
+      <slot />
+    </p>
+  </div>
+</div>
+
+<style>
+  .callout-item {
+    display: flex;
+    gap: var(--spacing-gap-xl);
+    padding: var(--spacing-padding-md) 0;
+    align-items: flex-start;
+  }
+
+  .callout-item:not(:last-child) {
+    border-bottom: 1px solid var(--color-border-faint);
+  }
+
+  .callout-item {
+    --accent: var(--color-neutral-800);
+  }
+  .callout-item.is-warning {
+    --accent: var(--color-accent-warning);
+  }
+  .callout-item.is-info {
+    --accent: var(--color-accent-info);
+  }
+
+  .callout-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+
+  .callout-item.icon-filled .callout-icon {
+    background-color: var(--accent);
+    color: var(--color-text-on-inverse);
+  }
+
+  .callout-item.icon-outlined .callout-icon {
+    background-color: transparent;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+  }
+
+  .callout-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-xs);
+    min-width: 0;
+  }
+
+  .callout-title {
+    color: var(--color-text-heading);
+    margin: 0;
+  }
+
+  .callout-description {
+    color: var(--color-text-body-secondary);
+    margin: 0;
+  }
+</style>

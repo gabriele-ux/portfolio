@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+---
+
+<BaseLayout title="Playground / Header">
+  <section
+    class="w-full border-b"
+    style="border-color: var(--color-border-faint);"
+  >
+    <Header />
+  </section>
+
+  <main class="mx-auto max-w-[900px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        Header
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Full-width top bar with logo + brand on the left and CTA button on the right. The CTA uses the existing Button component.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        DEFAULT
+      </h2>
+      <div
+        class="border"
+        style="border-color: var(--color-border-faint);"
+      >
+        <Header />
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        CUSTOM BRAND + CTA
+      </h2>
+      <div
+        class="border"
+        style="border-color: var(--color-border-faint);"
+      >
+        <Header
+          brand="Studio LR"
+          cta={{ label: "Contact", href: "mailto:hello@example.com" }}
+        />
+      </div>
+    </section>
+  </main>
+</BaseLayout>

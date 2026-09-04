@@ -46,6 +46,9 @@
   --text-h1: clamp(1.625rem, calc(1.518rem + 0.536vw), 2rem);
   --text-h1--line-height: 1.2;
 
+  --text-callout: clamp(1.25rem, calc(1.107rem + 0.714vw), 1.75rem);
+  --text-callout--line-height: 1.2;
+
   --text-h2: clamp(1.375rem, calc(1.339rem + 0.179vw), 1.5rem);
   --text-h2--line-height: 1.25;
 

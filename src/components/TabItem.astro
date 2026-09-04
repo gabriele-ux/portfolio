@@ -1,0 +1,49 @@
+---
+interface Props {
+  label: string;
+  selected?: boolean;
+  value?: string;
+}
+
+const { label, selected = false, value } = Astro.props;
+---
+
+<button
+  type="button"
+  role="tab"
+  class="tab-item"
+  aria-selected={selected ? "true" : "false"}
+  data-value={value ?? label}
+>
+  <span class="type-label">{label}</span>
+</button>
+
+<style>
+  .tab-item {
+    flex: 1 1 0;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 var(--spacing-padding-sm);
+    border: 0;
+    background: transparent;
+    color: var(--color-text-on-inverse);
+    cursor: pointer;
+    border-radius: 999px;
+    transition: color 200ms ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tab-item[aria-selected="true"] {
+    color: var(--color-text-heading);
+  }
+
+  .tab-item:focus-visible {
+    outline: 2px solid var(--color-accent-info);
+    outline-offset: 2px;
+  }
+</style>

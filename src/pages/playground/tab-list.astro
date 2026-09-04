@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TabList from "../../components/TabList.astro";
+import TabItem from "../../components/TabItem.astro";
+---
+
+<BaseLayout title="Playground / TabList">
+  <main class="mx-auto max-w-[900px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        TabList
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Segmented control up to 5 tabs. Only one selected at a time. Click to switch — the white indicator slides between tabs.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        2 TABS
+      </h2>
+      <TabList ariaLabel="Before / After">
+        <TabItem label="AFTER" selected />
+        <TabItem label="BEFORE" />
+      </TabList>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        3 TABS
+      </h2>
+      <TabList ariaLabel="Timeline">
+        <TabItem label="PAST" />
+        <TabItem label="PRESENT" selected />
+        <TabItem label="FUTURE" />
+      </TabList>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        5 TABS
+      </h2>
+      <TabList ariaLabel="Steps">
+        <TabItem label="STEP 01" selected />
+        <TabItem label="STEP 02" />
+        <TabItem label="STEP 03" />
+        <TabItem label="STEP 04" />
+        <TabItem label="STEP 05" />
+      </TabList>
+    </section>
+
+  </main>
+</BaseLayout>

@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Chip from "../../components/Chip.astro";
+---
+
+<BaseLayout title="Playground / Chip">
+  <main class="mx-auto max-w-[720px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        Chip
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Static pill tag used to label status or category. Optional success dot.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        VARIANTS
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div
+          class="p-6 border flex flex-col gap-3 items-center"
+          style="background-color: var(--color-bg-elevated); border-color: var(--color-border-faint);"
+        >
+          <span class="type-label" style="color: var(--color-text-muted);">
+            Default
+          </span>
+          <Chip label="Design System" />
+        </div>
+
+        <div
+          class="p-6 border flex flex-col gap-3 items-center"
+          style="background-color: var(--color-bg-elevated); border-color: var(--color-border-faint);"
+        >
+          <span class="type-label" style="color: var(--color-text-muted);">
+            With dot (success)
+          </span>
+          <Chip label="Shipped" dot="success" />
+        </div>
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        LABEL LENGTHS
+      </h2>
+      <div
+        class="p-6 border flex flex-wrap gap-2 items-center"
+        style="background-color: var(--color-bg-elevated); border-color: var(--color-border-faint);"
+      >
+        <Chip label="A" />
+        <Chip label="B2B" />
+        <Chip label="Shipped" dot="success" />
+        <Chip label="Design System" />
+        <Chip label="A really long chip label" />
+      </div>
+    </section>
+  </main>
+</BaseLayout>

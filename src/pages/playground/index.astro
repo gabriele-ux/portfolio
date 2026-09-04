@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const components = [
+  { name: "Button", href: "/playground/button" },
+  { name: "Chip", href: "/playground/chip" },
+  { name: "MetaBox", href: "/playground/metabox" },
+  { name: "Media", href: "/playground/media" },
+  { name: "TransitionCallout", href: "/playground/transition-callout" },
+  { name: "CalloutList", href: "/playground/callout-list" },
+  { name: "TabList", href: "/playground/tab-list" },
+  { name: "Confront", href: "/playground/confront" },
+  { name: "Header", href: "/playground/header" },
+];
+---
+
+<BaseLayout title="Playground">
+  <main class="mx-auto max-w-[720px] px-6 py-16 flex flex-col gap-8">
+    <header class="flex flex-col gap-2">
+      <p
+        class="type-label"
+        style="color: var(--color-text-eyebrow);"
+      >
+        PLAYGROUND
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        Component library
+      </h1>
+    </header>
+
+    <ul class="flex flex-col divide-y" style="border-color: var(--color-border-faint);">
+      {
+        components.map((c) => (
+          <li>
+            <a
+              href={c.href}
+              class="flex items-center justify-between py-4 group"
+              style="color: var(--color-text-body);"
+            >
+              <span class="type-h4">{c.name}</span>
+              <span
+                class="type-body group-hover:translate-x-1 transition-transform"
+                style="color: var(--color-text-muted);"
+              >
+                →
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</BaseLayout>

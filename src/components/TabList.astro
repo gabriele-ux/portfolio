@@ -1,0 +1,89 @@
+---
+interface Props {
+  ariaLabel?: string;
+  class?: string;
+}
+
+const { ariaLabel = "Tabs", class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={["tab-list", className]}
+  role="tablist"
+  aria-label={ariaLabel}
+>
+  <span class="tab-indicator" aria-hidden="true"></span>
+  <slot />
+</div>
+
+<style>
+  .tab-list {
+    position: relative;
+    display: flex;
+    padding: 3px;
+    border-radius: 999px;
+    background-color: var(--color-neutral-500);
+    border: 1px solid var(--color-card-border);
+    isolation: isolate;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .tab-indicator {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    width: calc((100% - 6px) / var(--tab-count, 1));
+    border-radius: 999px;
+    background-color: var(--color-neutral-0);
+    transform: translateX(calc(var(--tab-index, 0) * 100%));
+    transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".tab-list").forEach((list) => {
+    const tabs = Array.from(
+      list.querySelectorAll<HTMLButtonElement>(".tab-item")
+    );
+    if (tabs.length === 0) return;
+
+    list.style.setProperty("--tab-count", String(tabs.length));
+
+    const initialIndex = Math.max(
+      0,
+      tabs.findIndex((t) => t.getAttribute("aria-selected") === "true")
+    );
+    tabs.forEach((t, i) =>
+      t.setAttribute("aria-selected", i === initialIndex ? "true" : "false")
+    );
+    list.style.setProperty("--tab-index", String(initialIndex));
+
+    tabs.forEach((tab, idx) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t, i) =>
+          t.setAttribute("aria-selected", i === idx ? "true" : "false")
+        );
+        list.style.setProperty("--tab-index", String(idx));
+        list.dispatchEvent(
+          new CustomEvent("tab-change", {
+            detail: { index: idx, value: tab.dataset.value ?? "" },
+            bubbles: true,
+          })
+        );
+      });
+
+      tab.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        e.preventDefault();
+        const dir = e.key === "ArrowRight" ? 1 : -1;
+        const next = (idx + dir + tabs.length) % tabs.length;
+        tabs[next].focus();
+        tabs[next].click();
+      });
+    });
+  });
+</script>

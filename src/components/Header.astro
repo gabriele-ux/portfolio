@@ -1,0 +1,70 @@
+---
+import Button from "./Button.astro";
+
+interface Props {
+  brand?: string;
+  logoSrc?: string;
+  homeHref?: string;
+  cta?: { label: string; href: string };
+  class?: string;
+}
+
+const {
+  brand = "Gabriele La Rosa",
+  logoSrc = "/logo.svg",
+  homeHref = "/",
+  cta = { label: "Let's talk", href: "#" },
+  class: className = "",
+} = Astro.props;
+---
+
+<header class:list={["header", className]}>
+  <a href={homeHref} class="header-left" aria-label={brand}>
+    <img
+      src={logoSrc}
+      alt=""
+      class="header-logo"
+      width="39"
+      height="39"
+      aria-hidden="true"
+    />
+    <span class="header-brand">{brand}</span>
+  </a>
+  <Button href={cta.href}>{cta.label}</Button>
+</header>
+
+<style>
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--spacing-padding-xl);
+    height: 69px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .header-left {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-gap-md);
+    text-decoration: none;
+    color: var(--color-text-heading);
+  }
+
+  .header-logo {
+    display: block;
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+  }
+
+  .header-brand {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-normal);
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--color-text-heading);
+    font-variation-settings: "opsz" 14;
+  }
+</style>

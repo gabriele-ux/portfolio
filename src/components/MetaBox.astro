@@ -1,0 +1,97 @@
+---
+interface Props {
+  variant?: "default" | "hmw" | "data" | "decision" | "insight";
+  class?: string;
+}
+
+const { variant = "default", class: className = "" } = Astro.props;
+
+const decorationSrc: Record<string, string | undefined> = {
+  hmw: "/decorations/metabox-hmw.svg",
+  decision: "/decorations/metabox-decision.svg",
+};
+
+const decoration = decorationSrc[variant];
+---
+
+<div class:list={["meta-box", `is-${variant}`, className]}>
+  {
+    decoration && (
+      <img
+        class="meta-decoration"
+        src={decoration}
+        alt=""
+        aria-hidden="true"
+      />
+    )
+  }
+  <slot />
+</div>
+
+<style>
+  .meta-box {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: var(--spacing-gap-2xl);
+    column-gap: var(--spacing-gap-2xl);
+    padding: var(--spacing-padding-xl);
+    background-color: var(--color-meta-bg);
+    border: 1px solid var(--color-meta-border);
+    border-radius: 16px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .meta-box > :not(.meta-decoration) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .meta-decoration {
+    position: absolute;
+    top: -16px;
+    right: -119px;
+    width: 170px;
+    height: 173px;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  @media (min-width: 768px) {
+    .meta-box.is-default {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* HMW / Decision — pale blue background */
+  .meta-box.is-hmw,
+  .meta-box.is-decision {
+    background-color: var(--color-illustration-blue-50);
+    border-color: var(--color-border-faint);
+  }
+
+  /* HMW — italic caslon value */
+  .meta-box.is-hmw :global(.meta-value) {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-callout);
+    line-height: var(--leading-tight);
+    color: var(--color-text-heading);
+  }
+
+  /* Insight — dark background, light text */
+  .meta-box.is-insight {
+    background-color: var(--color-neutral-800);
+    border-color: var(--color-neutral-800);
+  }
+  .meta-box.is-insight :global(.meta-label) {
+    color: var(--color-text-on-inverse);
+    opacity: 0.65;
+  }
+  .meta-box.is-insight :global(.meta-value) {
+    color: var(--color-text-on-inverse);
+  }
+</style>

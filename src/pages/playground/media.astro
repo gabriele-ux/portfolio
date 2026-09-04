@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Media from "../../components/Media.astro";
+---
+
+<BaseLayout title="Playground / Media">
+  <main class="mx-auto max-w-[900px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        Media
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Container for image or video with optional caption below.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        IMAGE + CAPTION
+      </h2>
+      <Media
+        src="/playground/placeholder.svg"
+        alt="Placeholder"
+        caption="TEAMS' RESPONSABILITIES AND INTERACTION"
+      />
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        IMAGE, NO CAPTION
+      </h2>
+      <Media src="/playground/placeholder.svg" alt="Placeholder" />
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        VIDEO (auto-detected from .mp4)
+      </h2>
+      <Media
+        src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+        caption="Short muted looping video, no controls."
+      />
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        CUSTOM ASPECT RATIO (16 / 9)
+      </h2>
+      <Media
+        src="/playground/placeholder.svg"
+        alt="Placeholder"
+        aspect="16 / 9"
+        caption="Same component, different aspect ratio"
+      />
+    </section>
+  </main>
+</BaseLayout>

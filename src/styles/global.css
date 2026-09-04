@@ -55,6 +55,14 @@
     line-height: var(--leading-tight);
   }
 
+  .type-callout {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-style: italic;
+    font-size: var(--text-callout);
+    line-height: var(--leading-tight);
+  }
+
   .type-h2 {
     font-family: var(--font-serif);
     font-weight: var(--font-weight-medium);
