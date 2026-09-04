@@ -1,0 +1,82 @@
+---
+interface Props {
+  type: "check" | "cross";
+  class?: string;
+}
+
+const { type, class: className = "" } = Astro.props;
+---
+
+<li class:list={["option-row", `is-${type}`, className]}>
+  <span class="option-row-icon" aria-hidden="true">
+    {
+      type === "check" ? (
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="8" fill="currentColor" />
+          <path
+            d="M4.5 8.5 L7 11 L12 6"
+            stroke="#fff"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      ) : (
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="8" fill="currentColor" />
+          <path
+            d="M5.25 5.25 L10.75 10.75 M10.75 5.25 L5.25 10.75"
+            stroke="#fff"
+            stroke-width="1.75"
+            stroke-linecap="round"
+          />
+        </svg>
+      )
+    }
+  </span>
+  <span class="option-row-text"><slot /></span>
+</li>
+
+<style>
+  .option-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-gap-xs);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .option-row-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+  }
+
+  .option-row.is-check .option-row-icon {
+    color: var(--color-accent-success);
+  }
+  .option-row.is-cross .option-row-icon {
+    color: var(--color-accent-warning);
+  }
+
+  .option-row-text {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--color-text-body-secondary);
+    min-width: 0;
+    word-break: break-word;
+  }
+
+  .option-row-text :global(em),
+  .option-row-text :global(.emphasis) {
+    font-style: normal;
+    color: var(--color-accent-warning);
+  }
+</style>
