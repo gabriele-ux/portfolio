@@ -3,6 +3,8 @@ interface Props {
   title: string;
   variant?: "warning" | "info" | "neutral";
   iconStyle?: "filled" | "outlined";
+  badge?: string;
+  badgeColor?: string;
   class?: string;
 }
 
@@ -10,8 +12,13 @@ const {
   title,
   variant = "neutral",
   iconStyle = "filled",
+  badge,
+  badgeColor,
   class: className = "",
 } = Astro.props;
+
+const hasBadge = !!badge;
+const badgeStyle = badgeColor ? `background-color: ${badgeColor};` : undefined;
 ---
 
 <div
@@ -19,13 +26,19 @@ const {
     "callout-item",
     `is-${variant}`,
     `icon-${iconStyle}`,
+    { "has-badge": hasBadge },
     className,
   ]}
 >
-  <span class="callout-icon" aria-hidden="true">
-    <slot name="icon" />
-  </span>
+  {
+    !hasBadge && (
+      <span class="callout-icon" aria-hidden="true">
+        <slot name="icon" />
+      </span>
+    )
+  }
   <div class="callout-content">
+    {hasBadge && <span class="callout-badge" style={badgeStyle}>{badge}</span>}
     <h3 class="type-h5 callout-title">{title}</h3>
     <p class="type-body callout-description">
       <slot />
@@ -39,6 +52,10 @@ const {
     gap: var(--spacing-gap-xl);
     padding: var(--spacing-padding-md) 0;
     align-items: flex-start;
+  }
+
+  .callout-item.has-badge {
+    gap: 0;
   }
 
   .callout-item:not(:last-child) {
@@ -82,6 +99,20 @@ const {
     flex-direction: column;
     gap: var(--spacing-gap-xs);
     min-width: 0;
+  }
+
+  .callout-badge {
+    align-self: flex-start;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: #74a495;
+    color: var(--color-text-on-inverse);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: 12px;
+    line-height: 17px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
   }
 
   .callout-title {

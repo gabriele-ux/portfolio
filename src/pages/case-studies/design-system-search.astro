@@ -12,9 +12,62 @@ import CalloutItem from "../../components/CalloutItem.astro";
 import OptionCardList from "../../components/OptionCardList.astro";
 import OptionCard from "../../components/OptionCard.astro";
 import OptionRow from "../../components/OptionRow.astro";
+import EvaluationTable from "../../components/EvaluationTable.astro";
+
+const evaluationOptions = [
+  {
+    title: "1. Track on Figma",
+    rows: [
+      { type: "check" as const, text: "Already in the workflow" },
+      {
+        type: "cross" as const,
+        text: "Require to search manually each page to find information",
+        emphasis: "fails: proactive + retrievability",
+      },
+    ],
+  },
+  {
+    title: "2. Figma Release Note",
+    rows: [
+      { type: "check" as const, text: "Native in the tool" },
+      {
+        type: "cross" as const,
+        text: "Not tied to individual components, and not searchable",
+        emphasis: "fails: proactive + retrievability",
+      },
+    ],
+  },
+  {
+    title: "3. Community Plugins",
+    rows: [
+      { type: "check" as const, text: "Already integrated in Figma" },
+      {
+        type: "cross" as const,
+        text: "None allowed to easily retrieve information",
+        emphasis: "fails: proactive + frictionless",
+      },
+    ],
+  },
+  {
+    title: "4. ZeroHeight",
+    rows: [
+      {
+        type: "check" as const,
+        text: "Changelog and release notes out of the box",
+      },
+      {
+        type: "cross" as const,
+        text: "Another touchpoint to maintain",
+        emphasis: "fails: frictionless",
+      },
+    ],
+  },
+];
 import Confront from "../../components/Confront.astro";
 import Spacer from "../../components/Spacer.astro";
 import CaseStudyNav from "../../components/CaseStudyNav.astro";
+import ImpactCardList from "../../components/ImpactCardList.astro";
+import ImpactCard from "../../components/ImpactCard.astro";
 
 const navSections = [
   { id: "background", label: "The Background" },
@@ -84,19 +137,22 @@ const cover = "/playground/placeholder.svg";
         title="One complex system growing at different speed"
       />
       <p class="body-copy">
-        I'm part of a small <strong>Design System team at a big multinational
-        </strong>. There are 3 of us, and we maintain the libraries for{" "}
-        <strong>4 touchpoints, each one spanning 5+ brands</strong> — used
-        every day by <strong>15 designers</strong>.
+        I'm part of a small <strong>Design System team at a big
+        multinational</strong>. There are <strong>3 of us</strong>, and we
+        maintain the main libraries across <strong>4 touchpoints and 5+
+        brands</strong>, used by around <strong>15 designers</strong>.
       </p>
       <p class="body-copy">
-        The team is fairly new, and the governance is still being built. Our
-        end users are developers and UI designers — the UI designers, in
-        particular, own vertical products with their own UI Kits on top. With{" "}
-        <strong>5+ vertical products</strong> running in parallel, the
-        environment is highly dynamic: many projects moving at once, released
-        on different timelines. That much movement creates entropy. Our job is
-        to fight it: <strong>optimize processes and libraries</strong>.
+        The Design System is still relatively new, and its governance is
+        being built while products keep moving. <strong>5+ vertical
+        products</strong> run in parallel, each with its own timelines and,
+        when needed, its own UI Kit for product-specific needs.
+      </p>
+      <p class="body-copy">
+        This means components can <strong>evolve in different places and at
+        different speeds</strong>. Our job is to keep those changes aligned
+        and make sure the Design System remains a reliable reference for
+        everyone.
       </p>
       <Media
         src="/case-studies/design-system-search/diagram-teams.jpg"
@@ -112,11 +168,10 @@ const cover = "/playground/placeholder.svg";
       <SectionHeader
         id="problem"
         eyebrow="Problem"
-        title="The design system team was turning into a help desk"
+        title="Design System changes were getting lost between teams"
       />
       <p class="body-copy">
-        Even though we had a process to communicate updates, the{" "}
-        <strong>same questions kept coming back</strong>:
+        The same questions kept coming back:
       </p>
       <Media
         src="/case-studies/design-system-search/diagram-questions.jpg"
@@ -127,66 +182,49 @@ const cover = "/playground/placeholder.svg";
           <strong>12%</strong> of <strong>273</strong> requests where about <strong>component changes</strong> or which version to use
         </MetaItem>
       </MetaBox>
+      <p class="body-copy">
+        This wasn't just slowing down the Design System team. It also meant
+        that UX/UI designers could <strong>miss changes</strong> while
+        working on their projects, creating their own adaptations or using
+        an outdated version.
+      </p>
     </section>
 
-    <Spacer size="sm" />
+    <Spacer size="xs" />
 
     <TransitionCallout
       title="This impacted our work in two ways"
       variant="warning"
     />
 
-    <Spacer size="sm" />
+    <Spacer size="xs" />
 
     <!-- PAIN POINTS -->
     <section class="section-tight">
-      <p class="eyebrow-line">PAIN POINTS</p>
+      <p class="eyebrow-line">THE PROBLEMS</p>
       <CalloutList>
         <CalloutItem
-          title="Hours lost answering questions"
+          title="Hours lost reconstructing context"
           variant="warning"
-          iconStyle="filled"
+          badge="TEAM DESIGN SYSTEM"
+          badgeColor="var(--color-accent-info)"
         >
-          <svg
-            slot="icon"
-            width="20"
-            height="20"
-            viewBox="0 0 21 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M10.7789 6.34057V9.78591L13.6417 11.5034C13.7859 11.59 13.8898 11.7304 13.9305 11.8936C13.9713 12.0568 13.9455 12.2295 13.8589 12.3737C13.7723 12.5179 13.6319 12.6218 13.4687 12.6625C13.3055 12.7032 13.1328 12.6774 12.9886 12.5908L9.81833 10.6887C9.72449 10.6323 9.64686 10.5526 9.59297 10.4573C9.53908 10.362 9.51077 10.2544 9.51081 10.1449V6.34057C9.51081 6.17241 9.57761 6.01113 9.69652 5.89222C9.81543 5.77331 9.9767 5.70651 10.1449 5.70651C10.313 5.70651 10.4743 5.77331 10.5932 5.89222C10.7121 6.01113 10.7789 6.17241 10.7789 6.34057ZM17.7536 4.43838C17.5855 4.43838 17.4242 4.50519 17.3053 4.6241C17.1864 4.74301 17.1196 4.90428 17.1196 5.07245V6.49909C16.6163 5.91575 16.1027 5.35381 15.5249 4.76889C14.4675 3.71136 13.1219 2.98888 11.6562 2.69174C10.1905 2.3946 8.66976 2.53597 7.28397 3.09819C5.89818 3.6604 4.70879 4.61853 3.86443 5.85285C3.02006 7.08718 2.55817 8.54296 2.53645 10.0383C2.51473 11.5336 2.93415 13.0022 3.74231 14.2605C4.55047 15.5189 5.71153 16.5111 7.08041 17.1133C8.44929 17.7156 9.96528 17.9011 11.439 17.6466C12.9127 17.3922 14.2787 16.7091 15.3664 15.6827C15.4269 15.6254 15.4757 15.5568 15.5097 15.4808C15.5438 15.4047 15.5625 15.3227 15.5649 15.2393C15.5672 15.156 15.5531 15.0731 15.5234 14.9952C15.4937 14.9173 15.449 14.8461 15.3917 14.7855C15.3345 14.7249 15.2659 14.6762 15.1898 14.6421C15.1137 14.6081 15.0317 14.5893 14.9484 14.587C14.8651 14.5846 14.7821 14.5987 14.7042 14.6284C14.6264 14.6581 14.5551 14.7029 14.4945 14.7601C13.5879 15.6146 12.4496 16.183 11.2218 16.3944C9.99397 16.6058 8.73111 16.4508 7.59087 15.9488C6.45064 15.4468 5.48357 14.6199 4.81043 13.5716C4.13729 12.5232 3.78791 11.2998 3.80592 10.0541C3.82393 8.80835 4.20853 7.59553 4.91169 6.56707C5.61485 5.53861 6.60542 4.7401 7.75969 4.27124C8.91395 3.80238 10.1808 3.68396 11.4019 3.93076C12.6231 4.17756 13.7445 4.77864 14.6261 5.65895C15.2713 6.31204 15.8364 6.94135 16.4062 7.6087H14.5833C14.4151 7.6087 14.2539 7.6755 14.135 7.79441C14.016 7.91332 13.9492 8.07459 13.9492 8.24276C13.9492 8.41092 14.016 8.5722 14.135 8.69111C14.2539 8.81002 14.4151 8.87682 14.5833 8.87682H17.7536C17.9218 8.87682 18.0831 8.81002 18.202 8.69111C18.3209 8.5722 18.3877 8.41092 18.3877 8.24276V5.07245C18.3877 4.90428 18.3209 4.74301 18.202 4.6241C18.0831 4.50519 17.9218 4.43838 17.7536 4.43838Z"
-              fill="currentColor"
-            ></path>
-          </svg>
-          In the last year, our team spent up to a day for each question to
-          recover the info on changes trough slack, email, and asking around
+          Finding out what changed, why, and when could take up to a full
+          working day, searching through Slack, email and conversations.
         </CalloutItem>
         <CalloutItem
-          title="Risk of using wrong components"
+          title="No visibility on other vertical product evolution"
           variant="warning"
-          iconStyle="outlined"
+          badge="TEAM UX/UI"
         >
-          <svg
-            slot="icon"
-            width="20"
-            height="20"
-            viewBox="0 0 21 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M18.6517 9.25107L11.039 1.63756C10.8014 1.40137 10.48 1.2688 10.1449 1.2688C9.80993 1.2688 9.48852 1.40137 9.25092 1.63756L1.64217 9.25107C1.40598 9.48866 1.27341 9.81007 1.27341 10.1451C1.27341 10.4801 1.40598 10.8015 1.64217 11.0391L9.25488 18.6526C9.49248 18.8888 9.81389 19.0214 10.1489 19.0214C10.4839 19.0214 10.8053 18.8888 11.0429 18.6526L18.6557 11.0391C18.8918 10.8015 19.0244 10.4801 19.0244 10.1451C19.0244 9.81007 18.8918 9.48866 18.6557 9.25107H18.6517ZM9.51088 6.34072C9.51088 6.17255 9.57769 6.01128 9.6966 5.89237C9.81551 5.77346 9.97678 5.70666 10.1449 5.70666C10.3131 5.70666 10.4744 5.77346 10.5933 5.89237C10.7122 6.01128 10.779 6.17255 10.779 6.34072V10.7792C10.779 10.9473 10.7122 11.1086 10.5933 11.2275C10.4744 11.3464 10.3131 11.4132 10.1449 11.4132C9.97678 11.4132 9.81551 11.3464 9.6966 11.2275C9.57769 11.1086 9.51088 10.9473 9.51088 10.7792V6.34072ZM10.1449 14.5835C9.95684 14.5835 9.77295 14.5277 9.61655 14.4232C9.46014 14.3187 9.33824 14.1702 9.26625 13.9964C9.19426 13.8226 9.17543 13.6314 9.21213 13.4469C9.24883 13.2624 9.33941 13.0929 9.47242 12.9599C9.60544 12.8269 9.7749 12.7363 9.9594 12.6996C10.1439 12.6629 10.3351 12.6818 10.5089 12.7537C10.6827 12.8257 10.8312 12.9476 10.9358 13.104C11.0403 13.2604 11.096 13.4443 11.096 13.6324C11.096 13.8847 10.9958 14.1266 10.8175 14.305C10.6391 14.4833 10.3972 14.5835 10.1449 14.5835Z"
-              fill="currentColor"
-            ></path>
-          </svg>
-          Designers struggled to pick the right version for each project,
-          risking outdated components in their flows, and having to replace
-          them later
+          They couldn't see how components were changing in other products.
+          When they had to pick one, they didn't know if a newer version was
+          in the works, or whether their edits would affect other teams.
+          Most of the time, they had to stop and ask.
         </CalloutItem>
       </CalloutList>
     </section>
+
 
     <Spacer size="sm" />
 
@@ -202,21 +240,27 @@ const cover = "/playground/placeholder.svg";
       <SectionHeader
         id="discovery"
         eyebrow="Discovery"
-        title="There was no visibility into changes on the libraries"
+        title="The problem wasn't communication. It was where the information lived."
       />
       <p class="body-copy">
-        To understand why, I <strong>audited the workflows</strong>, and{" "}
-        <strong>interviewed everyone</strong> that worked with the design
-        system.
+        To understand why the same questions kept coming back, I{" "}
+        <strong>audited the workflow</strong> between the Design System and UI
+        teams and looked at the cases behind those requests.
       </p>
       <Media
         src="/case-studies/design-system-search/discovery.jpg"
         alt="Actual workflow between UX/UI and Design System teams"
         caption="THE ACTUAL WORKFLOW AND THE MAJOR PAINT POINT"
       />
+      <p class="body-copy">
+        The existing workflow did have a communication step: changes were
+        shared through Slack or email, but <strong>only with the person who
+        requested them</strong>, so <strong>visibility never reached the rest
+        of the teams</strong>.
+      </p>
     </section>
 
-    <Spacer size="sm" />
+    <Spacer size="xs" />
 
     <MetaBox variant="insight">
       <MetaItem
@@ -225,10 +269,10 @@ const cover = "/playground/placeholder.svg";
       />
     </MetaBox>
 
-    <Spacer size="sm" />
+    <Spacer size="xs" />
 
     <TransitionCallout
-      title="I defined project objectives to guide the design phase"
+      title="I defined three requirements for the solution"
       variant="info"
     />
 
@@ -239,9 +283,30 @@ const cover = "/playground/placeholder.svg";
       <p class="eyebrow-line">OUR NEEDS</p>
       <CalloutList>
         <CalloutItem
-          title="Retrievabile"
+          title="Frictionless"
           variant="info"
           iconStyle="filled"
+        >
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 21 21"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.9493 9.94365L8.07237 19.4546C7.9783 19.555 7.85413 19.622 7.7186 19.6457C7.58307 19.6693 7.44353 19.6482 7.32103 19.5856C7.19854 19.5229 7.09974 19.4222 7.03954 19.2985C6.97935 19.1748 6.96103 19.0348 6.98734 18.8998L8.14926 13.0878L3.58163 11.3727C3.48353 11.336 3.39605 11.2755 3.32701 11.1968C3.25796 11.118 3.2095 11.0234 3.18595 10.9214C3.1624 10.8193 3.16449 10.713 3.19205 10.612C3.2196 10.5109 3.27176 10.4183 3.34385 10.3423L12.2207 0.831376C12.3148 0.730984 12.439 0.663913 12.5745 0.640283C12.71 0.616653 12.8496 0.637746 12.9721 0.70038C13.0946 0.763013 13.1934 0.863789 13.2536 0.987499C13.3138 1.11121 13.3321 1.25114 13.3058 1.38618L12.1407 7.2045L16.7083 8.91726C16.8057 8.9542 16.8925 9.01455 16.961 9.09299C17.0295 9.17143 17.0776 9.26554 17.1011 9.367C17.1246 9.46846 17.1228 9.57414 17.0957 9.67471C17.0687 9.77529 17.0173 9.86765 16.9461 9.94365H16.9493Z"
+              fill="currentColor"
+            ></path>
+          </svg>
+          The solution needs to fit into our teams' workflow, or it won't
+          be adopted.
+        </CalloutItem>
+        <CalloutItem
+          title="Retrievabile"
+          variant="info"
+          iconStyle="outlined"
         >
           <svg
             slot="icon"
@@ -257,27 +322,6 @@ const cover = "/playground/placeholder.svg";
             ></path>
           </svg>
           Changes need to live somewhere stable and be easy to find later
-        </CalloutItem>
-        <CalloutItem
-          title="Frictionless"
-          variant="info"
-          iconStyle="outlined"
-        >
-          <svg
-            slot="icon"
-            width="20"
-            height="20"
-            viewBox="0 0 21 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.9493 9.94365L8.07237 19.4546C7.9783 19.555 7.85413 19.622 7.7186 19.6457C7.58307 19.6693 7.44353 19.6482 7.32103 19.5856C7.19854 19.5229 7.09974 19.4222 7.03954 19.2985C6.97935 19.1748 6.96103 19.0348 6.98734 18.8998L8.14926 13.0878L3.58163 11.3727C3.48353 11.336 3.39605 11.2755 3.32701 11.1968C3.25796 11.118 3.2095 11.0234 3.18595 10.9214C3.1624 10.8193 3.16449 10.713 3.19205 10.612C3.2196 10.5109 3.27176 10.4183 3.34385 10.3423L12.2207 0.831376C12.3148 0.730984 12.439 0.663913 12.5745 0.640283C12.71 0.616653 12.8496 0.637746 12.9721 0.70038C13.0946 0.763013 13.1934 0.863789 13.2536 0.987499C13.3138 1.11121 13.3321 1.25114 13.3058 1.38618L12.1407 7.2045L16.7083 8.91726C16.8057 8.9542 16.8925 9.01455 16.961 9.09299C17.0295 9.17143 17.0776 9.26554 17.1011 9.367C17.1246 9.46846 17.1228 9.57414 17.0957 9.67471C17.0687 9.77529 17.0173 9.86765 16.9461 9.94365H16.9493Z"
-              fill="currentColor"
-            ></path>
-          </svg>
-          The solution needs to fit into UX/UI workflow as they will be using
-          it in their UI Kits
         </CalloutItem>
         <CalloutItem
           title="Proactive"
@@ -321,56 +365,24 @@ const cover = "/playground/placeholder.svg";
         title="A changelog could close the information gap, but no viable solution satisfied our needs and workflow"
       />
       <p class="body-copy">
-        I <strong>benchmarked 10 Design Systems</strong> to understand how
-        other teams handled component evolution.
-      </p>
-      <p class="body-copy">
-        <strong>8 used changelogs or release notes</strong> as part of their
-        documentation, which confirmed that a changelog was a sensible
-        direction.
+        I benchmarked 10 Design Systems to see how other teams tracked
+        library evolution. <strong>Changelogs</strong> emerged as the most
+        common approach.
       </p>
       <p class="body-copy">
         I then <strong>evaluated the available options</strong> against the
         teams' needs and feedback:
       </p>
-      <OptionCardList>
-        <OptionCard title="1. Track on Figma">
-          <OptionRow type="check">Already in the workflow</OptionRow>
-          <OptionRow type="cross">
-            Require to search manually each page to find information (<em
-              >fails: proactive + retrievability</em
-            >)
-          </OptionRow>
-        </OptionCard>
-        <OptionCard title="2. Figma Release Note">
-          <OptionRow type="check">Native in the tool</OptionRow>
-          <OptionRow type="cross">
-            Not tied to individual components, and not searchable (<em
-              >fails: proactive + retrievability</em
-            >)
-          </OptionRow>
-        </OptionCard>
-        <OptionCard title="3. Community Plugins">
-          <OptionRow type="check">Already integrated in Figma</OptionRow>
-          <OptionRow type="cross">
-            None allowed to easily retrieve information (<em
-              >fails: proactive + frictionless</em
-            >)
-          </OptionRow>
-        </OptionCard>
-        <OptionCard title="4. ZeroHeight">
-          <OptionRow type="check">
-            Changelog and release notes out of the box
-          </OptionRow>
-          <OptionRow type="cross">
-            Another touchpoint to maintain (<em>fails: frictionless</em>)
-          </OptionRow>
-        </OptionCard>
-      </OptionCardList>
+      <EvaluationTable options={evaluationOptions} />
+      <p class="body-copy">
+        No existing option satisfied <strong>retrievability</strong>,{" "}
+        <strong>frictionless input</strong> and <strong>proactive
+        communication</strong> at the same time.
+      </p>
       <MetaBox variant="decision">
         <MetaItem
           label="DESIGN DECISION"
-          value="No existing option satisfied our needs, so I chose to develop a custom plugin for Figma."
+          value="Forcing a tool that didn't fit our workflow would only add friction. The only option left was to build something custom around how the team actually worked."
         />
       </MetaBox>
     </section>
@@ -570,20 +582,38 @@ const cover = "/playground/placeholder.svg";
         eyebrow="Impact"
         title="From hours of investigation to a shared source of truth"
       />
-      <p class="body-copy" style="color: var(--color-text-muted);">
-        <em>Awaiting <code>ImpactCard</code> / <code>MetricRow</code> / <code>Quote</code> — content:</em>
-      </p>
-      <ul class="body-copy" style="padding-left: 1.25rem;">
-        <li>
-          <strong>Recover change context</strong> — AFTER ✅ ~5 min · BEFORE up to 1 working day. Quote: "Designers can now retrieve the context behind a past component change without reconstructing it from Slack, email and conversations"
-        </li>
-        <li>
-          <strong>Release note: everyone up-to-date</strong> — AFTER ✅ ~25 min of review · BEFORE ~4h manual work. Quote: "The weekly release note is generated automatically from the same structured change data and sent to Slack for review."
-        </li>
-        <li>
-          <strong>Reduce the risk of outdated components</strong> — AFTER ✅ Component history and replacement context are available where needed · BEFORE Changes could be missed and outdated versions could reach final files
-        </li>
-      </ul>
+      <ImpactCardList>
+        <ImpactCard
+          number="01 /"
+          title="Recover component history"
+          metric="6h → ~5 min"
+          insight="~99% less time"
+        >
+          What could take up to a working day of searching through Slack,
+          email and conversations can now be found in a few minutes.
+        </ImpactCard>
+
+        <ImpactCard
+          number="02 /"
+          title="Prepare release notes"
+          metric="~4h → ~25 min"
+          insight="~90% less manual work"
+        >
+          The weekly release note is now generated automatically from the
+          same structured change data. The team only reviews it before
+          sharing it on Slack.
+        </ImpactCard>
+
+        <ImpactCard
+          number="03 /"
+          title="Keep designers aligned"
+          metric="6 of 8 designers use the plugin regularly"
+        >
+          Changes are now recorded in one shared history, making component
+          versions easier to check and reducing the risk of outdated
+          components being used in project files.
+        </ImpactCard>
+      </ImpactCardList>
     </section>
 
     <Spacer size="lg" />

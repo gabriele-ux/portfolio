@@ -1,0 +1,89 @@
+---
+interface Props {
+  number: string;
+  title: string;
+  metric: string;
+  insight?: string;
+  class?: string;
+}
+
+const { number, title, metric, insight, class: className = "" } = Astro.props;
+---
+
+<article class:list={["impact-card", className]}>
+  <header class="impact-card-header">
+    <p class="type-label impact-card-number">{number}</p>
+    <h3 class="type-h4 impact-card-title">{title}</h3>
+  </header>
+
+  <div class="impact-card-metrics">
+    <p class="impact-card-metric">{metric}</p>
+    {insight && <p class="impact-card-insight">{insight}</p>}
+  </div>
+
+  <p class="type-body impact-card-description">
+    <slot />
+  </p>
+</article>
+
+<style>
+  .impact-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-md);
+    padding: var(--spacing-padding-lg, 24px);
+    background-color: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    border-radius: 8px;
+  }
+
+  .impact-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-xs);
+  }
+
+  .impact-card-number {
+    color: var(--color-text-body-secondary);
+    margin: 0;
+  }
+
+  .impact-card-title {
+    color: var(--color-text-heading);
+    margin: 0;
+  }
+
+  .impact-card-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-block: var(--spacing-gap-sm);
+    border-top: 1px solid var(--color-border-default);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  .impact-card-metric {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-size: clamp(1.5rem, calc(1.4rem + 0.5vw), 1.875rem);
+    line-height: 1.15;
+    color: var(--color-text-heading);
+  }
+
+  .impact-card-insight {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--color-accent-success);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .impact-card-description {
+    color: var(--color-text-body-secondary);
+    margin: 0;
+  }
+</style>

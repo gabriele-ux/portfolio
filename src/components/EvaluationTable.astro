@@ -1,0 +1,236 @@
+---
+interface Row {
+  type: "check" | "cross";
+  text: string;
+  emphasis?: string;
+}
+
+interface Option {
+  title: string;
+  rows: Row[];
+}
+
+interface Props {
+  options: Option[];
+  toolLabel?: string;
+  findingsLabel?: string;
+  class?: string;
+}
+
+const {
+  options,
+  toolLabel = "Tool",
+  findingsLabel = "Findings",
+  class: className = "",
+} = Astro.props;
+---
+
+<div class="evaluation-wrap">
+<table class:list={["evaluation-table", className]}>
+  <thead>
+    <tr>
+      <th scope="col">{toolLabel}</th>
+      <th scope="col">{findingsLabel}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      options.map((o) => (
+        <tr>
+          <td class="eval-tool">
+            <span class="eval-mobile-label" aria-hidden="true">
+              {toolLabel}
+            </span>
+            <span class="eval-tool-title">{o.title}</span>
+          </td>
+          <td class="eval-findings">
+            <span class="eval-mobile-label" aria-hidden="true">
+              {findingsLabel}
+            </span>
+            <ul class="eval-findings-list">
+              {o.rows.map((r) => (
+                <li class:list={["eval-row", `is-${r.type}`]}>
+                  <span class="eval-icon" aria-hidden="true">
+                    {r.type === "check" ? (
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="8" fill="currentColor" />
+                        <path
+                          d="M4.5 8.5 L7 11 L12 6"
+                          stroke="#fff"
+                          stroke-width="1.75"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="8" fill="currentColor" />
+                        <path
+                          d="M5.25 5.25 L10.75 10.75 M10.75 5.25 L5.25 10.75"
+                          stroke="#fff"
+                          stroke-width="1.75"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    )}
+                  </span>
+                  <span class="eval-text">
+                    {r.text}
+                    {r.emphasis && (
+                      <em class="eval-emphasis"> ({r.emphasis})</em>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>
+</div>
+
+<style>
+  .evaluation-wrap {
+    background-color: var(--color-bg-overlay-medium);
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .evaluation-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+  }
+
+  .evaluation-table th,
+  .evaluation-table td {
+    padding: 16px 20px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  .evaluation-table thead th {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--color-text-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  .evaluation-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .eval-tool {
+    width: 32%;
+  }
+  .eval-tool-title {
+    display: block;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-text-heading);
+  }
+
+  .eval-findings-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .eval-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--color-text-body-secondary);
+  }
+  .eval-row.is-check .eval-icon {
+    color: var(--color-accent-success);
+  }
+  .eval-row.is-cross .eval-icon {
+    color: var(--color-accent-warning);
+  }
+
+  .eval-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+  }
+
+  .eval-emphasis {
+    color: var(--color-accent-warning);
+    font-style: normal;
+  }
+
+  .eval-mobile-label {
+    display: none;
+  }
+
+  /* ── Mobile: stack rows as cards ───────────────────────────── */
+  @media (max-width: 639px) {
+    .evaluation-wrap {
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+      overflow: visible;
+    }
+    .evaluation-table,
+    .evaluation-table tbody {
+      display: block;
+    }
+    .evaluation-table thead {
+      display: none;
+    }
+    .evaluation-table tr {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px;
+      background-color: var(--color-bg-overlay-medium);
+      border: 1px solid var(--color-border-default);
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .evaluation-table tbody tr:last-child {
+      margin-bottom: 0;
+    }
+    .evaluation-table td {
+      display: block;
+      padding: 0;
+      border: none;
+      width: auto;
+    }
+    .eval-mobile-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-weight: var(--font-weight-normal);
+      font-size: 11px;
+      line-height: 1.4;
+      color: var(--color-text-eyebrow);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+  }
+</style>

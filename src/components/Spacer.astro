@@ -1,11 +1,12 @@
 ---
 interface Props {
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
 }
 
 const { size = "md" } = Astro.props;
 
 const varMap: Record<string, string> = {
+  xs: "var(--spacing-gap-2xl)",
   sm: "var(--spacing-gap-section-tight)",
   md: "var(--spacing-gap-section)",
   lg: "var(--spacing-gap-section-lg)",
