@@ -550,22 +550,24 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
         </div>
       </Confront>
       <p class="body-copy">
-        <strong>Initial approach:</strong> I chose the simplest approach:
-        saving changes to Figma's internal memory, and then sending them to
-        Slack to be communicated.
+        <strong>Initial approach:</strong> I used Figma as a source of truth
+        for the changelog data. The plugin simply sent the added changes to
+        Slack to be collected and communicated.
       </p>
       <p class="body-copy">
-        <strong>Evidence:</strong> With the data stored directly in Figma,
-        concurrent edits by multiple designers frequently overwrote each
-        other, causing data loss and duplicated entries. It was also hard to
-        tell which changes had already been shared on Slack.
+        <strong>Evidence:</strong> Changes often got overwritten because
+        multiple designers were using the plugin at the same time. Also, it
+        was impossible to know which changes had already been sent to Slack
+        for communication, leading to duplication or loss of data.
       </p>
       <p class="body-copy">
-        <strong>Pivot:</strong> I synced the changes to a GitHub repository,
-        giving us a more reliable and structured way to store the data and
-        making it usable by AI. To help designers understand what was still
-        waiting to be shared, I introduced a Sync Queue: basically a cart
-        where pending changes wait for the next sync.
+        <strong>Pivot:</strong> I moved the data to <strong>GitHub</strong>{" "}
+        and tested a few repository structures to make it reliable and easy
+        to retrieve. Once structured, the same data could also feed AI
+        features, like searching changelogs by project or generating release
+        notes automatically. I also added a <strong>Sync Queue</strong>:
+        a cart-like view that shows what's about to be synced, so designers
+        can review before sending.
       </p>
     </div>
 
