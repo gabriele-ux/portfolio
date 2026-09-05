@@ -443,17 +443,25 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
           { label: "BEFORE", value: "before" },
         ]}
       >
-        <div
-          data-panel="after"
-          class="pivot-panel"
-          style="background-image: url('/playground/placeholder.svg');"
-        >
+        <div data-panel="after" class="pivot-panel">
+          <video
+            src="/case-studies/design-system-search/pivot1.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          ></video>
         </div>
-        <div
-          data-panel="before"
-          class="pivot-panel"
-          style="background-image: url('/playground/placeholder.svg');"
-        >
+        <div data-panel="before" class="pivot-panel">
+          <video
+            src="/case-studies/design-system-search/pivot1-5.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          ></video>
         </div>
       </Confront>
       <p class="body-copy">
@@ -705,8 +713,17 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
   }
 
   .pivot-panel {
-    min-height: 360px;
+    aspect-ratio: 16 / 9;
     background-size: cover;
     background-position: center;
+    overflow: hidden;
+  }
+
+  .pivot-panel > video,
+  .pivot-panel > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 </style>
