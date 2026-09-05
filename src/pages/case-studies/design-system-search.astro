@@ -84,18 +84,19 @@ const cover = "/playground/placeholder.svg";
         title="One complex system growing at different speed"
       />
       <p class="body-copy">
-        I'm part of a <strong>3-person Design System team</strong>, still
-        fairly new. We maintain <strong>4 core libraries</strong>; UI
-        designers use them across different products. The governance system
-        was slowly built over the past years. There's still a lot to figure
-        out, and I joined while it was taking shape.
+        I'm part of a small <strong>Design System team at a big multinational
+        </strong>. There are 3 of us, and we maintain the libraries for{" "}
+        <strong>4 touchpoints, each one spanning 5+ brands</strong> — used
+        every day by <strong>15 designers</strong>.
       </p>
       <p class="body-copy">
-        Every project runs on its own timeline, so at any given moment,
-        different designers can be working with{" "}
-        <strong>different versions of the same component, all at once</strong>.
-        That much movement naturally creates entropy. Our job is to fight it:{" "}
-        <strong>rationalize, simplify, keep things fast</strong>.
+        The team is fairly new, and the governance is still being built. Our
+        end users are developers and UI designers — the UI designers, in
+        particular, own vertical products with their own UI Kits on top. With{" "}
+        <strong>5+ vertical products</strong> running in parallel, the
+        environment is highly dynamic: many projects moving at once, released
+        on different timelines. That much movement creates entropy. Our job is
+        to fight it: <strong>optimize processes and libraries</strong>.
       </p>
       <Media
         src="/case-studies/design-system-search/diagram-teams.jpg"
@@ -444,20 +445,23 @@ const cover = "/playground/placeholder.svg";
         </div>
       </Confront>
       <p class="body-copy">
-        <strong>Initial approach:</strong> I didn't know the technology so I
-        started simple by adding tables under each component for designers to
-        fill in, then the plugin would collect the changes into a list ready
-        to be shared on Slack.
+        <strong>Initial approach:</strong> Since I was still testing the
+        technology, I kept it simple: I added tables under each component
+        that designers would fill in manually, and the plugin picked up
+        whatever they wrote.
       </p>
       <p class="body-copy">
-        <strong>Evidence:</strong> Designers filled in the minimum details
-        possible. We weren't getting the information we needed and the
-        workflow was too demanding.
+        <strong>Evidence:</strong> Testing showed that designers weren't
+        filling in all the fields, and some of the missing ones were
+        critical. On top of that, we needed to start tracking new data
+        useful to the UI team, like the project code.
       </p>
       <p class="body-copy">
-        <strong>Pivot:</strong> I introduced a guided form that captured what
-        we actually needed, and automated anything that could be automated,
-        like creating the table for new components.
+        <strong>Pivot:</strong> I introduced a form with required fields to
+        capture everything we needed, using UX copy to guide people through
+        it. I cut further friction by automating what I could, like grabbing
+        the date and designer's name, and the creation of the component
+        sheets.
       </p>
     </div>
 
@@ -489,7 +493,7 @@ const cover = "/playground/placeholder.svg";
       <p class="body-copy">
         <strong>Evidence:</strong> The changelog on libraries made changes
         visible, but designers wouldn't necessarily consult it as they pulled
-        components straight from the assets panel and never saw it in other
+        components straight from the asset panel while working on figma
         files.
       </p>
       <p class="body-copy">
@@ -526,14 +530,15 @@ const cover = "/playground/placeholder.svg";
         </div>
       </Confront>
       <p class="body-copy">
-        <strong>Initial approach:</strong> All component changes were stored
-        in Figma before being sent to Slack for review.
+        <strong>Initial approach:</strong> I chose the simplest approach:
+        saving changes to Figma's internal memory, and then sending them to
+        Slack to be communicated.
       </p>
       <p class="body-copy">
-        <strong>Evidence:</strong> Storing the data directly in Figma made it
-        easy to overwrite changes when multiple designers edited the same
-        file, risking data loss and duplicated entries. It was also difficult
-        to track which changes had already been shared on Slack.
+        <strong>Evidence:</strong> With the data stored directly in Figma,
+        concurrent edits by multiple designers frequently overwrote each
+        other, causing data loss and duplicated entries. It was also hard to
+        tell which changes had already been shared on Slack.
       </p>
       <p class="body-copy">
         <strong>Pivot:</strong> I synced the changes to a GitHub repository,
