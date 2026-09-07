@@ -76,6 +76,9 @@
   --text-caption: 0.75rem;
   --text-caption--line-height: 1.4;
 
+  --text-metric: 2.625rem; /* 42px — KPI display number */
+  --text-metric--line-height: 1.1;
+
   /* ══════════════════════════════════════════════════════════════
    * COLORS — PRIMITIVES (raw HEX values)
    * ══════════════════════════════════════════════════════════════ */

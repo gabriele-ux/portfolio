@@ -100,6 +100,14 @@
     font-variation-settings: "opsz" 14;
   }
 
+  .type-h6 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: 1rem; /* 16px fixed */
+    line-height: 1.5;
+    font-variation-settings: "opsz" 14;
+  }
+
   .type-body {
     font-family: var(--font-sans);
     font-weight: var(--font-weight-light);
@@ -120,6 +128,14 @@
     font-family: var(--font-sans);
     font-weight: var(--font-weight-light);
     font-size: var(--text-body-sm);
+    line-height: var(--leading-normal);
+    font-variation-settings: "opsz" 14;
+  }
+
+  .type-body-xs {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-caption);
     line-height: var(--leading-normal);
     font-variation-settings: "opsz" 14;
   }

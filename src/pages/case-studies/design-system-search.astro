@@ -578,7 +578,7 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
       <SectionHeader
         id="solution"
         eyebrow="Solution"
-        title="Making information easy to access, and where designers work"
+        title="A system that captures, retrieves, and distributes information where needed"
       />
       <Media src={cover} alt="Overview of the plugin experience" />
     </section>
@@ -592,37 +592,68 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
         eyebrow="Impact"
         title="From hours of investigation to a shared source of truth"
       />
-      <ImpactCardList>
+      <p class="body-copy">
+        The work delivered a <strong>single, structured source of truth</strong>{" "}
+        that gives every designer access to the same information. This cuts
+        the time needed to reconstruct a component's history and keeps
+        everyone aligned on library progress through{" "}
+        <strong>automated release notes</strong>. A few open questions remain,
+        to be measured later to confirm the real impact.
+      </p>
+      <ImpactCardList cols={2}>
         <ImpactCard
-          number="01 /"
-          title="Recover component history"
-          metric="6h → ~5 min"
-          insight="~99% less time"
-        >
-          What could take up to a working day of searching through Slack,
-          email and conversations can now be found in a few minutes.
-        </ImpactCard>
-
+          title="Source of truth"
+          metricValue={1}
+          beforeLabel="BEFORE"
+          beforeValue="Not available. Split between Slack, emails, people"
+        />
         <ImpactCard
-          number="02 /"
+          title="Recover change context"
+          metricPrefix="~"
+          metricValue={5}
+          metricSuffix="min"
+          beforeLabel="BEFORE"
+          beforeValue="Up to 1 working day"
+        />
+        <ImpactCard
           title="Prepare release notes"
-          metric="~4h → ~25 min"
-          insight="~90% less manual work"
-        >
-          The weekly release note is now generated automatically from the
-          same structured change data. The team only reviews it before
-          sharing it on Slack.
-        </ImpactCard>
-
+          metricPrefix="~"
+          metricValue={25}
+          metricSuffix="min"
+          beforeLabel="BEFORE"
+          beforeValue="~4h of manual work"
+        />
         <ImpactCard
-          number="03 /"
-          title="Keep designers aligned"
-          metric="6 of 8 designers use the plugin regularly"
-        >
-          Changes are now recorded in one shared history, making component
-          versions easier to check and reducing the risk of outdated
-          components being used in project files.
-        </ImpactCard>
+          title="Team adoption"
+          metricValue={6}
+          metricSuffix="/ 8"
+          arrow={false}
+          beforeValue={`Designers that logged at least 1 change<br class="desktop-break" />in the past 30 days`}
+        />
+      </ImpactCardList>
+
+      <p class="eyebrow-line" style="margin-top: 8px;">
+        EXPECTED — TO MEASURE AT Q2
+      </p>
+      <ImpactCardList cols={2}>
+        <ImpactCard
+          title="Similar tickets"
+          metricPrefix="-"
+          metricValue={70}
+          metricSuffix="%"
+          color="neutral"
+          arrow={false}
+          beforeLabel="EXPECTED REDUCTION"
+          beforeValue="To re-run the same Slack ticket analysis at Q2"
+        />
+        <ImpactCard
+          title="Rework on delivered flows"
+          metricText="Baseline"
+          color="neutral"
+          arrow={false}
+          beforeLabel="TO SET AT Q2"
+          beforeValue="Track hours spent replacing outdated components in delivered flows to establish a baseline"
+        />
       </ImpactCardList>
     </section>
 
@@ -727,5 +758,15 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  :global(.desktop-break) {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    :global(.desktop-break) {
+      display: inline;
+    }
   }
 </style>
