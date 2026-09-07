@@ -13,6 +13,7 @@ import OptionCardList from "../../components/OptionCardList.astro";
 import OptionCard from "../../components/OptionCard.astro";
 import OptionRow from "../../components/OptionRow.astro";
 import EvaluationTable from "../../components/EvaluationTable.astro";
+import SolutionFlow from "../../components/SolutionFlow.astro";
 
 const evaluationOptions = [
   {
@@ -580,7 +581,9 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
         eyebrow="Solution"
         title="A system that captures, retrieves, and distributes information where needed"
       />
-      <Media src={cover} alt="Overview of the plugin experience" />
+      <div class="solution-flow-bleed">
+        <SolutionFlow />
+      </div>
     </section>
 
     <Spacer size="lg" />
@@ -711,6 +714,17 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
     display: flex;
     flex-direction: column;
     gap: var(--spacing-gap-xl);
+  }
+
+  /* Symmetric bleed for the solution flow.
+     Extra per side scales fluidly from 0px @ vw 1250 to 100px @ vw 1450,
+     capped so the schema never overlaps the sticky side nav (218px + safety).
+     Below vw 1250 (menu clearance runs out) it stays at 100% of the content
+     column. */
+  .solution-flow-bleed {
+    --flow-extra: clamp(0px, calc((100vw - 1250px) / 2), 100px);
+    width: calc(100% + var(--flow-extra) * 2);
+    margin-inline: calc(var(--flow-extra) * -1);
   }
 
   .section-tight {
