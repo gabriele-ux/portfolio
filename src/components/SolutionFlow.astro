@@ -11,8 +11,7 @@ const decision = { id: "decision", label: "Designer's need?" };
 // Ordered top → bottom in the middle column.
 // "Add new component" moved to the top and tagged UI + Design System.
 const branches: FlowNode[] = [
-  { id: "add", label: "Add new component", personas: ["ui", "ds"] },
-  { id: "evolve", label: "Update component", personas: ["ui"] },
+  { id: "evolve", label: "Add/Update component", personas: ["ui", "ds"] },
   { id: "use", label: "Use component", personas: ["ui"] },
 ];
 
@@ -45,15 +44,10 @@ type ModalContent = {
   mediaBg?: string;
 };
 const modalContent: Record<string, ModalContent> = {
-  add: {
-    title: "Add a new component to the library",
-    description:
-      "Placeholder. Designers can add a new component with its metadata, screenshots and usage guidelines directly from the Figma plugin.",
-  },
   evolve: {
-    title: "Update an existing component",
+    title: "Add or update a component",
     description:
-      "Placeholder. Every change to a component is captured in a structured changelog, so evolutions are reviewable and never lost.",
+      "Placeholder. Designers can add a new component or update an existing one directly from the Figma plugin. Every change is captured in a structured changelog, so nothing gets lost.",
   },
   use: {
     title: "Use a component from the library",
@@ -63,7 +57,9 @@ const modalContent: Record<string, ModalContent> = {
   sync: {
     title: "Everything synced in one place",
     description:
-      "Placeholder. The plugin syncs to a GitHub repository that becomes the single source of truth. From here, AI features can generate release notes and reminders.",
+      "Following pivot 3, I built a real source of truth on GitHub. The data is structured, unique, and easy for scripts and LLMs to use, which adds value and helps us hit our three goals: frictionless, retrievable, and proactive.",
+    video: "/case-studies/design-system-search/sync.mp4",
+    mediaAspect: "1920 / 1080",
   },
   search: {
     title: "Fast search of past changes",
@@ -362,25 +358,21 @@ const modalAttrs = (id: string) => {
     justify-content: center;
     align-items: center;
   }
-  /* col-3, col-4, col-5 all share the same 3-row grid so items at
-     grid-row 2 line up on a single horizontal axis across the flow. */
-  .col-3,
+  /* col-4 and col-5: 3-row grid so items at grid-row 2 line up on the
+     central horizontal axis (sync, release, and the diamond). */
   .col-4,
   .col-5 {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
   }
-  .col-3 > *:nth-child(1),
   .col-5 > *:nth-child(1) {
     grid-row: 1;
     align-self: start;
   }
-  .col-3 > *:nth-child(2),
   .col-5 > *:nth-child(2) {
     grid-row: 2;
     align-self: center;
   }
-  .col-3 > *:nth-child(3),
   .col-5 > *:nth-child(3) {
     grid-row: 3;
     align-self: end;
@@ -388,6 +380,14 @@ const modalAttrs = (id: string) => {
   .col-4 .node-sync {
     grid-row: 2;
     align-self: center;
+  }
+  /* col-3 has only 2 items — center them as a group with a fixed gap
+     so they sit visually balanced instead of pinned to top/middle. */
+  .col-3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--spacing-gap-2xl);
   }
 
   /* ══════ Node — shared ══════ */
@@ -762,10 +762,8 @@ const modalAttrs = (id: string) => {
   };
 
   const CONNECTIONS: Connection[] = [
-    { from: "decision", to: "add", elbowFromSource: 28 },
     { from: "decision", to: "evolve", elbowFromSource: 28 },
     { from: "decision", to: "use", elbowFromSource: 28 },
-    { from: "add", to: "sync" },
     { from: "evolve", to: "sync" },
     { from: "sync", to: "release", elbowFromSource: 32 },
     // Update reminders arrow leaves sync from BOTTOM, goes down, then

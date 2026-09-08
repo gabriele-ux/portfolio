@@ -14,6 +14,7 @@ import OptionCard from "../../components/OptionCard.astro";
 import OptionRow from "../../components/OptionRow.astro";
 import EvaluationTable from "../../components/EvaluationTable.astro";
 import SolutionFlow from "../../components/SolutionFlow.astro";
+import Pivot2BeforeSchema from "../../components/Pivot2BeforeSchema.astro";
 
 const evaluationOptions = [
   {
@@ -454,15 +455,11 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
             preload="metadata"
           ></video>
         </div>
-        <div data-panel="before" class="pivot-panel">
-          <video
-            src="/case-studies/design-system-search/pivot1-5.mp4"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-          ></video>
+        <div data-panel="before" class="pivot-panel pivot-panel-centered">
+          <img
+            src="/case-studies/design-system-search/manually.png"
+            alt="Manual process before pivot 1"
+          />
         </div>
       </Confront>
       <p class="body-copy">
@@ -498,17 +495,18 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
           { label: "BEFORE", value: "before" },
         ]}
       >
-        <div
-          data-panel="after"
-          class="pivot-panel"
-          style="background-image: url('/playground/placeholder.svg');"
-        >
+        <div data-panel="after" class="pivot-panel">
+          <video
+            src="/case-studies/design-system-search/evolution.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          ></video>
         </div>
-        <div
-          data-panel="before"
-          class="pivot-panel"
-          style="background-image: url('/playground/placeholder.svg');"
-        >
+        <div data-panel="before" class="pivot-panel">
+          <Pivot2BeforeSchema />
         </div>
       </Confront>
       <p class="body-copy">
@@ -772,6 +770,19 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  /* Centered variant: image fits fully inside the panel without cropping,
+     centered horizontally and vertically. */
+  .pivot-panel-centered {
+    background: #f3f5f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pivot-panel-centered > img {
+    object-fit: contain;
+    object-position: center;
   }
 
   :global(.desktop-break) {

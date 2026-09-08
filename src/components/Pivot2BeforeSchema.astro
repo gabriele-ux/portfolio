@@ -1,0 +1,178 @@
+---
+// Non-interactive schema for the "before" panel of pivot 2.
+// Shows two parallel tracks — the library evolves the component in isolation,
+// while the designer works on their project file without any visibility of
+// those evolutions unless they explicitly open the library.
+---
+
+<div class="p2s" aria-label="Before pivot 2: library and designer disconnected">
+  {/* ── Library track ── */}
+  <div class="p2s-lane">
+    <span class="p2s-lane-label">UI Kit Product 1</span>
+    <div class="p2s-lane-flow">
+      <div class="p2s-node">Marco ships new component version</div>
+      <svg class="p2s-arrow" width="28" height="10" viewBox="0 0 28 10" fill="none" aria-hidden="true">
+        <path d="M0 5H26M22 1L26 5L22 9" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="p2s-node p2s-node-updated">Publishes card "Dashboard" v2, go live 30.09.26</div>
+    </div>
+  </div>
+
+  {/* ── Disconnect indicator ── */}
+  <div class="p2s-disconnect" aria-hidden="true">
+    <div class="p2s-dashed-line"></div>
+    <span class="p2s-disconnect-label">Line of visibility</span>
+    <div class="p2s-dashed-line"></div>
+  </div>
+
+  {/* ── Designer track ── */}
+  <div class="p2s-lane">
+    <span class="p2s-lane-label">Project to go live 30.09.26</span>
+    <div class="p2s-lane-flow">
+      <div class="p2s-node">Giulia works on the file</div>
+      <svg class="p2s-arrow" width="28" height="10" viewBox="0 0 28 10" fill="none" aria-hidden="true">
+        <path d="M0 5H26M22 1L26 5L22 9" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="p2s-node">Opens the asset panel</div>
+      <svg class="p2s-arrow" width="28" height="10" viewBox="0 0 28 10" fill="none" aria-hidden="true">
+        <path d="M0 5H26M22 1L26 5L22 9" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="p2s-node p2s-node-warning">
+        <svg class="p2s-node-danger" width="19" height="19" viewBox="0 0 19 19" fill="none" aria-hidden="true">
+          <rect width="18.9231" height="18.9231" rx="9.46154" fill="var(--color-accent-warning)" />
+          <path d="M14.4926 8.93258L9.99029 4.42976C9.84976 4.29008 9.65968 4.21167 9.46154 4.21167C9.2634 4.21167 9.07331 4.29008 8.93279 4.42976L4.43279 8.93258C4.2931 9.0731 4.21469 9.26319 4.21469 9.46133C4.21469 9.65947 4.2931 9.84956 4.43279 9.99008L8.93513 14.4929C9.07565 14.6326 9.26574 14.711 9.46388 14.711C9.66202 14.711 9.85211 14.6326 9.99263 14.4929L14.495 9.99008C14.6347 9.84956 14.7131 9.65947 14.7131 9.46133C14.7131 9.26319 14.6347 9.0731 14.495 8.93258H14.4926ZM9.08654 7.21133C9.08654 7.11187 9.12605 7.01649 9.19637 6.94616C9.2667 6.87584 9.36208 6.83633 9.46154 6.83633C9.56099 6.83633 9.65638 6.87584 9.7267 6.94616C9.79703 7.01649 9.83654 7.11187 9.83654 7.21133V9.83633C9.83654 9.93578 9.79703 10.0312 9.7267 10.1015C9.65638 10.1718 9.56099 10.2113 9.46154 10.2113C9.36208 10.2113 9.2667 10.1718 9.19637 10.1015C9.12605 10.0312 9.08654 9.93578 9.08654 9.83633V7.21133ZM9.46154 12.0863C9.35028 12.0863 9.24153 12.0533 9.14903 11.9915C9.05653 11.9297 8.98443 11.8419 8.94185 11.7391C8.89928 11.6363 8.88814 11.5232 8.90984 11.4141C8.93155 11.305 8.98512 11.2047 9.06379 11.1261C9.14246 11.0474 9.24268 10.9938 9.3518 10.9721C9.46091 10.9504 9.57401 10.9616 9.6768 11.0041C9.77958 11.0467 9.86743 11.1188 9.92924 11.2113C9.99105 11.3038 10.024 11.4126 10.024 11.5238C10.024 11.673 9.96477 11.8161 9.85928 11.9216C9.75379 12.0271 9.61072 12.0863 9.46154 12.0863Z" fill="#ffffff" />
+        </svg>
+        Giulia grabs card Dashboard, unaware of which version is correct
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .p2s {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(16px, 3.2%, 32px);
+    background: #f3f5f6;
+    box-sizing: border-box;
+    gap: clamp(40px, 10%, 88px);
+  }
+
+  .p2s-lane {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    width: 100%;
+    max-width: 640px;
+  }
+
+  .p2s-lane-label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+    color: var(--color-text-heading);
+    text-align: center;
+    width: 100%;
+  }
+
+  .p2s-lane-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-width: 0;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  .p2s-node {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-text-heading);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    line-height: 1.35;
+    text-align: center;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .p2s-node-updated {
+    border-color: var(--color-border-highlight-info);
+    background: var(--color-bg-info-subtle);
+    color: var(--color-text-highlight-info);
+  }
+
+  .p2s-node-warning {
+    border-color: var(--color-border-highlight-warning);
+    position: relative;
+    overflow: visible;
+  }
+
+  .p2s-node-danger {
+    position: absolute;
+    top: -9px;
+    right: -9px;
+    flex-shrink: 0;
+  }
+
+  .p2s-node-wide {
+    white-space: normal;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .p2s-arrow {
+    color: var(--color-border-emphasized);
+    flex-shrink: 0;
+  }
+
+  .p2s-disconnect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--color-text-muted);
+    min-width: 0;
+    width: 100%;
+    max-width: 640px;
+  }
+
+  .p2s-dashed-line {
+    flex: 1;
+    height: 0;
+    border-top: 1px dashed var(--color-border-emphasized);
+    min-width: 12px;
+  }
+
+  .p2s-disconnect-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.2;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .p2s-node,
+    .p2s-lane-label,
+    .p2s-disconnect-label {
+      font-size: 10px;
+    }
+    .p2s-lane-flow {
+      gap: 8px;
+    }
+  }
+</style>
