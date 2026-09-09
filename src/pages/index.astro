@@ -1,14 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
-import DotMesh from "../components/DotMesh.astro";
+import Footer from "../components/Footer.astro";
+import DotGlobe from "../components/DotGlobe.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 
 const projects = [
   {
     href: "/case-studies/design-system-search",
     title:
-      "I turned fragmented Design System changes into a shared, searchable source of truth",
+      "I built a system to keep 8+ designers aligned on changes from 4+ libraries",
     heroImage: "/case-studies/design-system-search/hero-cover.jpg",
     heroImageAlt: "Design System Search — case study cover",
     tags: [
@@ -25,84 +26,187 @@ const projects = [
   <Header />
 
   <section class="hero" aria-labelledby="hero-title">
-    <DotMesh />
     <div class="hero-inner">
-      <h1 id="hero-title" class="hero-title">
-        UX/Product Designer that help big organisation in improving their
-        systems — <em>specialized in Design System.</em>
-      </h1>
+      <div class="hero-content">
+        <h1 id="hero-title" class="hero-title">
+          I'm a <em>UX/Product Designer</em>
+        </h1>
+        <div class="hero-body">
+          <p>
+            I like <em>complex systems</em>, and turning design into something
+            developers can actually build.
+          </p>
+          <p>
+            <strong>5+ years</strong> designing <em>multi-brand design systems</em>
+            for <strong>B2C entertainment</strong> and
+            <strong>public sector</strong> platforms.
+          </p>
+          <p>
+            <em>Currently exploring how AI fits into design system workflows.</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-globe">
+          <DotGlobe />
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="projects" aria-label="Selected projects">
-    <div class="projects-grid">
-      {
-        projects.map((p) => (
-          <ProjectCard
-            href={p.href}
-            title={p.title}
-            heroImage={p.heroImage}
-            heroImageAlt={p.heroImageAlt}
-            tags={p.tags}
-          />
-        ))
-      }
+  <section class="projects" aria-labelledby="projects-heading">
+    <div class="projects-inner">
+      <h2 id="projects-heading" class="projects-heading">
+        Some of my projects
+      </h2>
+      <div class="projects-grid">
+        {
+          projects.map((p) => (
+            <ProjectCard
+              href={p.href}
+              title={p.title}
+              heroImage={p.heroImage}
+              heroImageAlt={p.heroImageAlt}
+              tags={p.tags}
+            />
+          ))
+        }
+      </div>
     </div>
   </section>
+
+  <Footer />
 </BaseLayout>
 
 <style>
   .hero {
     position: relative;
-    isolation: isolate;
-    min-height: min(70vh, 620px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-gap-section-lg) var(--spacing-gutter-page);
-    overflow: hidden;
-  }
-
-  .hero :global(.dot-mesh) {
-    --dot-color: rgba(23, 24, 29, 0.28);
-    z-index: 0;
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 8vw, 10rem);
+    background:
+      radial-gradient(
+        ellipse at 78% 30%,
+        var(--color-bg-elevated) 0%,
+        transparent 55%
+      ),
+      linear-gradient(
+        180deg,
+        var(--color-bg-subtle-warm) 0%,
+        var(--color-bg-page) 100%
+      );
   }
 
   .hero-inner {
-    position: relative;
-    z-index: 1;
-    max-width: 1040px;
-    text-align: center;
-    pointer-events: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(2rem, 6vw, 6rem);
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  .hero-content {
+    min-width: 0;
+    text-align: left;
   }
 
   .hero-title {
     font-family: var(--font-serif);
     font-weight: var(--font-weight-medium);
-    font-size: clamp(1.75rem, calc(1.3rem + 2.25vw), 3rem);
+    font-size: clamp(2rem, calc(1.4rem + 3vw), 3.5rem);
     line-height: 1.15;
     letter-spacing: -0.005em;
     color: var(--color-text-heading);
     margin: 0;
-    max-width: 24ch;
-    margin-inline: auto;
+    text-wrap: balance;
   }
 
   .hero-title em {
     font-style: italic;
     font-weight: var(--font-weight-medium);
-    color: var(--color-text-body-secondary);
+  }
+
+  .hero-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 56ch;
+    margin: clamp(1.25rem, 2.5vw, 2rem) 0 0;
+    text-align: left;
+  }
+
+  .hero-body p {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: clamp(1rem, calc(0.95rem + 0.25vw), 1.125rem);
+    line-height: 1.6;
+    color: var(--color-text-body);
+    margin: 0;
+    font-variation-settings: "opsz" 14;
+  }
+
+  .hero-body em {
+    font-style: italic;
+    font-weight: var(--font-weight-normal);
+  }
+
+  .hero-body strong {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-heading);
+  }
+
+  /* ── 3D dot globe (right column) ──────────────────────────── */
+  .hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-globe {
+    position: relative;
+    width: clamp(240px, 30vw, 460px);
+    aspect-ratio: 1;
+  }
+
+  .hero-globe :global(.dot-globe) {
+    --dot-color: rgba(23, 24, 29, 0.85);
+  }
+
+  @media (max-width: 767px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+    }
+    .hero-visual {
+      order: -1;
+      justify-content: flex-start;
+    }
+    .hero-globe {
+      width: clamp(200px, 50vw, 320px);
+    }
   }
 
   .projects {
     padding: var(--spacing-gap-section-lg) clamp(1.25rem, 8vw, 10rem);
   }
 
+  .projects-inner {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  .projects-heading {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-h2);
+    line-height: var(--leading-snug);
+    color: var(--color-text-heading);
+    margin: 0 0 var(--spacing-gap-section-lg);
+    font-variation-settings: "opsz" 14;
+  }
+
   .projects-grid {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-gap-section);
-    max-width: 1600px;
-    margin: 0 auto;
   }
 </style>

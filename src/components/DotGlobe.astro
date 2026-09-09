@@ -1,0 +1,221 @@
+---
+/*
+ * DotGlobe — 3D globe made of dots (canvas 2D).
+ * Uses a Fibonacci sphere to distribute N points uniformly, then projects
+ * them with an orthographic camera. Auto-rotates slowly; the pointer adds
+ * a subtle target tilt that eases in/out.
+ */
+
+interface Props {
+  class?: string;
+  points?: number;
+  dotSize?: number;
+  spinSpeed?: number;
+  tiltStrength?: number;
+}
+
+const {
+  class: className = "",
+  points = 900,
+  dotSize = 1.6,
+  spinSpeed = 0.15,
+  tiltStrength = 0.6,
+} = Astro.props;
+---
+
+<canvas
+  class:list={["dot-globe", className]}
+  aria-hidden="true"
+  data-points={points}
+  data-dot-size={dotSize}
+  data-spin-speed={spinSpeed}
+  data-tilt-strength={tiltStrength}></canvas>
+
+<style>
+  .dot-globe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+  }
+</style>
+
+<script>
+  type P3 = { x: number; y: number; z: number };
+
+  const canvases = document.querySelectorAll<HTMLCanvasElement>(".dot-globe");
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  canvases.forEach((canvas) => initGlobe(canvas));
+
+  function initGlobe(canvas: HTMLCanvasElement) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const N = Number(canvas.dataset.points ?? 900);
+    const DOT = Number(canvas.dataset.dotSize ?? 1.6);
+    const SPIN = Number(canvas.dataset.spinSpeed ?? 0.15);
+    const TILT = Number(canvas.dataset.tiltStrength ?? 0.6);
+
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let width = 0;
+    let height = 0;
+    let radius = 0;
+    let cx = 0;
+    let cy = 0;
+    let dotColor = "rgba(23, 24, 29, 0.9)";
+
+    // Fibonacci sphere — uniform distribution
+    const points: P3[] = [];
+    const golden = Math.PI * (3 - Math.sqrt(5));
+    for (let i = 0; i < N; i++) {
+      const y = 1 - (i / (N - 1)) * 2; // 1 → -1
+      const r = Math.sqrt(1 - y * y);
+      const theta = golden * i;
+      points.push({
+        x: Math.cos(theta) * r,
+        y,
+        z: Math.sin(theta) * r,
+      });
+    }
+
+    // Rotation state
+    let baseAngleY = 0;
+    let baseAngleX = -0.25; // slight tilt so poles are visible
+    let targetTiltX = 0;
+    let targetTiltY = 0;
+    let tiltX = 0;
+    let tiltY = 0;
+    let lastT = performance.now();
+    let raf = 0;
+
+    function readColor() {
+      const styles = getComputedStyle(canvas);
+      const v = styles.getPropertyValue("--dot-color").trim();
+      if (v) dotColor = v;
+    }
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx = width / 2;
+      cy = height / 2;
+      radius = Math.min(width, height) * 0.45;
+    }
+
+    function frame(t: number) {
+      const dt = Math.min(0.05, (t - lastT) / 1000);
+      lastT = t;
+
+      // Auto spin
+      baseAngleY += SPIN * dt;
+
+      // Ease pointer tilt toward target
+      tiltX += (targetTiltX - tiltX) * 0.08;
+      tiltY += (targetTiltY - tiltY) * 0.08;
+
+      const angleY = baseAngleY + tiltY;
+      const angleX = baseAngleX + tiltX;
+      const cy_ = Math.cos(angleY);
+      const sy_ = Math.sin(angleY);
+      const cx_ = Math.cos(angleX);
+      const sx_ = Math.sin(angleX);
+
+      ctx!.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < points.length; i++) {
+        const p = points[i];
+        // Rotate around Y
+        const x1 = p.x * cy_ + p.z * sy_;
+        const z1 = -p.x * sy_ + p.z * cy_;
+        // Rotate around X
+        const y2 = p.y * cx_ - z1 * sx_;
+        const z2 = p.y * sx_ + z1 * cx_;
+
+        // Project
+        const px = cx + x1 * radius;
+        const py = cy + y2 * radius;
+
+        // Depth-based visibility: z2 ∈ [-1, 1]
+        // Front-facing (z2 > 0) is more visible; back-facing fades out
+        const depth = (z2 + 1) / 2; // 0..1
+        const alpha = 0.15 + depth * 0.85;
+        const size = DOT * (0.5 + depth * 0.7);
+
+        ctx!.globalAlpha = alpha;
+        ctx!.fillStyle = dotColor;
+        ctx!.beginPath();
+        ctx!.arc(px, py, size, 0, Math.PI * 2);
+        ctx!.fill();
+      }
+      ctx!.globalAlpha = 1;
+
+      raf = requestAnimationFrame(frame);
+    }
+
+    function drawStatic() {
+      const angleY = baseAngleY;
+      const angleX = baseAngleX;
+      const cy_ = Math.cos(angleY);
+      const sy_ = Math.sin(angleY);
+      const cx_ = Math.cos(angleX);
+      const sx_ = Math.sin(angleX);
+
+      ctx!.clearRect(0, 0, width, height);
+      for (const p of points) {
+        const x1 = p.x * cy_ + p.z * sy_;
+        const z1 = -p.x * sy_ + p.z * cy_;
+        const y2 = p.y * cx_ - z1 * sx_;
+        const z2 = p.y * sx_ + z1 * cx_;
+        const px = cx + x1 * radius;
+        const py = cy + y2 * radius;
+        const depth = (z2 + 1) / 2;
+        ctx!.globalAlpha = 0.15 + depth * 0.85;
+        ctx!.fillStyle = dotColor;
+        ctx!.beginPath();
+        ctx!.arc(px, py, DOT * (0.5 + depth * 0.7), 0, Math.PI * 2);
+        ctx!.fill();
+      }
+      ctx!.globalAlpha = 1;
+    }
+
+    function onPointerMove(e: PointerEvent) {
+      const rect = canvas.getBoundingClientRect();
+      const nx = (e.clientX - rect.left) / rect.width - 0.5; // -0.5..0.5
+      const ny = (e.clientY - rect.top) / rect.height - 0.5;
+      targetTiltY = nx * TILT;
+      targetTiltX = ny * TILT * 0.5;
+    }
+
+    function onPointerLeave() {
+      targetTiltY = 0;
+      targetTiltX = 0;
+    }
+
+    const ro = new ResizeObserver(() => {
+      resize();
+      if (reduceMotion) drawStatic();
+    });
+    ro.observe(canvas);
+
+    readColor();
+    resize();
+
+    if (reduceMotion) {
+      drawStatic();
+    } else {
+      canvas.addEventListener("pointermove", onPointerMove, { passive: true });
+      canvas.addEventListener("pointerleave", onPointerLeave, { passive: true });
+      canvas.addEventListener("pointercancel", onPointerLeave, { passive: true });
+      lastT = performance.now();
+      raf = requestAnimationFrame(frame);
+    }
+  }
+</script>

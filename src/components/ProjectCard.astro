@@ -263,7 +263,7 @@ const {
   }
 
   /* ── Responsive ───────────────────────────────────────────── */
-  @media (max-width: 768px) {
+  @media (max-width: 654px) {
     .bento {
       padding-bottom: 0;
     }
@@ -282,8 +282,14 @@ const {
   @media (max-width: 640px) {
     .project-card-footer {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: stretch;
       gap: var(--spacing-gap-lg);
+    }
+    .project-card-info {
+      width: 100%;
+    }
+    .project-card-title {
+      text-wrap: initial;
     }
     .project-card-cta {
       align-self: stretch;

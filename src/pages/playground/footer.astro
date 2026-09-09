@@ -1,16 +1,9 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
 ---
 
-<BaseLayout title="Playground / Header">
-  <section
-    class="w-full border-b"
-    style="border-color: var(--color-border-faint);"
-  >
-    <Header />
-  </section>
-
+<BaseLayout title="Playground / Footer">
   <main class="mx-auto max-w-[900px] px-6 py-16 flex flex-col gap-12">
     <header class="flex flex-col gap-2">
       <a
@@ -24,12 +17,14 @@ import Header from "../../components/Header.astro";
         COMPONENT
       </p>
       <h1 class="type-display" style="color: var(--color-text-heading);">
-        Header (Top bar)
+        Footer
       </h1>
       <p class="type-body" style="color: var(--color-text-body-secondary);">
-        Sticky top bar (Figma 160:2109). Left: gradient icon + brand name in DM
-        Sans 16. Right: orange Button (from Button.astro) with 44px height,
-        radius 99. Padding 24 · 10. Turns glassy on scroll (blur + saturate).
+        Homepage footer ported from the main branch. Dark background with
+        animated ambient blobs (orange + light blue, via design tokens) and a
+        noise overlay. Contains a meta row (LAST UPDATED + CURRENTLY with a
+        live Milan clock and sun/moon icon) and a center block with a serif
+        heading and two round CTA buttons (email copy + LinkedIn).
       </p>
     </header>
 
@@ -38,38 +33,37 @@ import Header from "../../components/Header.astro";
         DEFAULT
       </h2>
       <div
-        class="border"
-        style="border-color: var(--color-border-faint); background: var(--color-bg-page);"
+        class="border overflow-hidden"
+        style="border-color: var(--color-border-faint); border-radius: 16px;"
       >
-        <Header />
+        <Footer />
       </div>
     </section>
 
     <section class="flex flex-col gap-4">
       <h2 class="type-label" style="color: var(--color-text-eyebrow);">
-        CUSTOM BRAND + CTA
+        CUSTOM HEADING + EMAIL
       </h2>
       <div
-        class="border"
-        style="border-color: var(--color-border-faint); background: var(--color-bg-page);"
+        class="border overflow-hidden"
+        style="border-color: var(--color-border-faint); border-radius: 16px;"
       >
-        <Header
-          brand="Studio LR"
-          ctaLabel="Contact"
-          ctaHref="mailto:hello@example.com"
+        <Footer
+          heading="Let's make something great together."
+          email="hello@example.com"
         />
       </div>
     </section>
 
     <section class="flex flex-col gap-4">
       <h2 class="type-label" style="color: var(--color-text-eyebrow);">
-        ON DARK CONTEXT
+        DIFFERENT LOCATION + TIMEZONE
       </h2>
       <div
         class="border overflow-hidden"
-        style="border-color: var(--color-border-faint); background: var(--color-neutral-800); border-radius: 12px;"
+        style="border-color: var(--color-border-faint); border-radius: 16px;"
       >
-        <Header />
+        <Footer location="London" timeZone="Europe/London" />
       </div>
     </section>
   </main>
