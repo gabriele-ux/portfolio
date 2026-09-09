@@ -14,6 +14,7 @@ import OptionCard from "../../components/OptionCard.astro";
 import OptionRow from "../../components/OptionRow.astro";
 import EvaluationTable from "../../components/EvaluationTable.astro";
 import SolutionFlow from "../../components/SolutionFlow.astro";
+import StrategyFlow from "../../components/StrategyFlow.astro";
 import Pivot2BeforeSchema from "../../components/Pivot2BeforeSchema.astro";
 import Pivot1BeforeMock from "../../components/Pivot1BeforeMock.astro";
 
@@ -450,23 +451,24 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
       <SectionHeader
         id="strategy"
         eyebrow="Strategy"
-        title="I used AI to iterate faster and surface technical constraints"
+        title="I used AI as an accelerator to explore, test, and choose based on data"
       />
       <p class="body-copy">
-        This was a new domain for me, and I was{" "}
-        <strong>designing a software system from scratch</strong> without a
-        predefined architecture or dedicated engineering resource. I knew the
-        objectives, but not yet how all the technical pieces would fit
-        together.
+        This was a <strong>new and technical domain</strong> for me, and I{" "}
+        <strong>didn't have a developer on the project</strong>. To move fast
+        without cutting corners, I used AI as an accelerator to build and
+        test different directions myself.
       </p>
       <p class="body-copy">
-        I defined lightweight requirements,{" "}
-        <strong>used Claude Code to build functional versions of the plugin</strong>,
-        tested them in the real workflow, and refined the architecture as I
-        learned. This allowed me to make technical and design decisions{" "}
-        <strong>based on real usage rather than assumptions</strong>, while
-        making the most of the limited time available.
+        I set <strong>lightweight requirements</strong> based on the team's
+        goals and needs, then <strong>explored different directions with
+        AI</strong>. I evaluated each one with <strong>UI designers in real
+        usage</strong> and iterated constantly. That let me try
+        <strong> divergent solutions</strong>, for example an automatic
+        detection script versus a manual form, and pick the one the data
+        supported.
       </p>
+      <StrategyFlow />
     </section>
 
     <Spacer size="lg" />
@@ -482,8 +484,8 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
         As I <strong>tested the workflow in real files</strong>, each
         iteration exposed something I hadn't accounted for. These findings
         changed where information should live, how much effort designers
-        should spend recording it, and how the system should handle the
-        growing history.
+        should spend recording it, and how the system should handle
+        data.
       </p>
     </section>
 
