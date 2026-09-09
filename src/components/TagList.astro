@@ -8,14 +8,15 @@ interface TagData {
 
 interface Props {
   tags: TagData[];
+  size?: "md" | "sm";
   class?: string;
 }
 
-const { tags, class: className = "" } = Astro.props;
+const { tags, size = "md", class: className = "" } = Astro.props;
 ---
 
 <div class:list={["tag-list", className]}>
-  {tags.map((t) => <Tag label={t.label} dot={t.dot} />)}
+  {tags.map((t) => <Tag label={t.label} dot={t.dot} size={size} />)}
 </div>
 
 <style>

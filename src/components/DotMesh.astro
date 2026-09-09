@@ -1,0 +1,184 @@
+---
+interface Props {
+  class?: string;
+  spacing?: number;
+  dotSize?: number;
+  influenceRadius?: number;
+  maxDisplacement?: number;
+}
+
+const {
+  class: className = "",
+  spacing = 26,
+  dotSize = 1.6,
+  influenceRadius = 140,
+  maxDisplacement = 18,
+} = Astro.props;
+---
+
+<canvas
+  class:list={["dot-mesh", className]}
+  aria-hidden="true"
+  data-spacing={spacing}
+  data-dot-size={dotSize}
+  data-influence-radius={influenceRadius}
+  data-max-displacement={maxDisplacement}></canvas>
+
+<style>
+  .dot-mesh {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dot-mesh {
+      pointer-events: none;
+    }
+  }
+</style>
+
+<script>
+  type Dot = {
+    ox: number;
+    oy: number;
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+  };
+
+  const canvases = document.querySelectorAll<HTMLCanvasElement>(".dot-mesh");
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  canvases.forEach((canvas) => initDotMesh(canvas));
+
+  function initDotMesh(canvas: HTMLCanvasElement) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const spacing = Number(canvas.dataset.spacing ?? 26);
+    const dotSize = Number(canvas.dataset.dotSize ?? 1.6);
+    const influenceRadius = Number(canvas.dataset.influenceRadius ?? 140);
+    const maxDisplacement = Number(canvas.dataset.maxDisplacement ?? 18);
+    const r2 = influenceRadius * influenceRadius;
+
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let width = 0;
+    let height = 0;
+    let dots: Dot[] = [];
+    let pointer = { x: -9999, y: -9999, active: false };
+    let raf = 0;
+    let dotColor = "rgba(0, 0, 0, 0.35)";
+
+    function readDotColor() {
+      const styles = getComputedStyle(canvas);
+      const v = styles.getPropertyValue("--dot-color").trim();
+      if (v) dotColor = v;
+    }
+
+    function build() {
+      const rect = canvas.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      dots = [];
+      const cols = Math.floor(width / spacing);
+      const rows = Math.floor(height / spacing);
+      const offsetX = (width - cols * spacing) / 2 + spacing / 2;
+      const offsetY = (height - rows * spacing) / 2 + spacing / 2;
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const ox = offsetX + i * spacing;
+          const oy = offsetY + j * spacing;
+          dots.push({ ox, oy, x: ox, y: oy, vx: 0, vy: 0 });
+        }
+      }
+    }
+
+    function draw() {
+      ctx!.clearRect(0, 0, width, height);
+      ctx!.fillStyle = dotColor;
+
+      for (let k = 0; k < dots.length; k++) {
+        const d = dots[k];
+        let tx = d.ox;
+        let ty = d.oy;
+
+        if (pointer.active) {
+          const dx = d.ox - pointer.x;
+          const dy = d.oy - pointer.y;
+          const dist2 = dx * dx + dy * dy;
+          if (dist2 < r2 && dist2 > 0.01) {
+            const dist = Math.sqrt(dist2);
+            const falloff = 1 - dist / influenceRadius;
+            const push = falloff * falloff * maxDisplacement;
+            tx = d.ox + (dx / dist) * push;
+            ty = d.oy + (dy / dist) * push;
+          }
+        }
+
+        // spring-lerp toward target
+        d.x += (tx - d.x) * 0.18;
+        d.y += (ty - d.y) * 0.18;
+
+        ctx!.beginPath();
+        ctx!.arc(d.x, d.y, dotSize, 0, Math.PI * 2);
+        ctx!.fill();
+      }
+
+      raf = requestAnimationFrame(draw);
+    }
+
+    function drawStatic() {
+      ctx!.clearRect(0, 0, width, height);
+      ctx!.fillStyle = dotColor;
+      for (let k = 0; k < dots.length; k++) {
+        const d = dots[k];
+        ctx!.beginPath();
+        ctx!.arc(d.ox, d.oy, dotSize, 0, Math.PI * 2);
+        ctx!.fill();
+      }
+    }
+
+    function onPointerMove(e: PointerEvent) {
+      const rect = canvas.getBoundingClientRect();
+      pointer.x = e.clientX - rect.left;
+      pointer.y = e.clientY - rect.top;
+      pointer.active = true;
+    }
+
+    function onPointerLeave() {
+      pointer.active = false;
+      pointer.x = -9999;
+      pointer.y = -9999;
+    }
+
+    const ro = new ResizeObserver(() => {
+      build();
+      if (reduceMotion) drawStatic();
+    });
+    ro.observe(canvas);
+
+    readDotColor();
+    build();
+
+    if (reduceMotion) {
+      drawStatic();
+    } else {
+      canvas.addEventListener("pointermove", onPointerMove, { passive: true });
+      canvas.addEventListener("pointerleave", onPointerLeave, { passive: true });
+      canvas.addEventListener("pointercancel", onPointerLeave, { passive: true });
+      raf = requestAnimationFrame(draw);
+    }
+  }
+</script>

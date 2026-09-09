@@ -1,0 +1,336 @@
+---
+import TagList from "./TagList.astro";
+
+interface TagData {
+  label: string;
+  dot?: "success";
+}
+
+interface Props {
+  href: string;
+  title: string;
+  heroImage?: string;
+  heroImageAlt?: string;
+  tags?: TagData[];
+  cta?: string;
+  class?: string;
+}
+
+const {
+  href,
+  title,
+  heroImage,
+  heroImageAlt = "",
+  tags = [],
+  cta = "View design process",
+  class: className = "",
+} = Astro.props;
+---
+
+<a href={href} class:list={["project-card", className]}>
+  <div class="bento">
+    <div class="bento-inner">
+      <div class="bento-hero bento-tile">
+        {
+          heroImage ? (
+            <img
+              class="bento-image"
+              src={heroImage}
+              alt={heroImageAlt}
+              loading="lazy"
+            />
+          ) : (
+            <div class="bento-placeholder" aria-hidden="true" />
+          )
+        }
+      </div>
+      <div class="bento-stack">
+        <div class="bento-tile bento-cell-1" aria-hidden="true">
+          <div class="bento-placeholder"></div>
+        </div>
+        <div class="bento-tile bento-cell-2" aria-hidden="true">
+          <div class="bento-placeholder"></div>
+        </div>
+        <div class="bento-tile bento-cell-3" aria-hidden="true">
+          <div class="bento-placeholder"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-card-footer">
+    <div class="project-card-info">
+      <h3 class="project-card-title">{title}</h3>
+      {tags.length > 0 && <TagList tags={tags} size="sm" />}
+    </div>
+
+    <span class="project-card-cta">
+      <span class="cta-label">{cta}</span>
+      <svg
+        class="cta-arrow"
+        width="14"
+        height="14"
+        viewBox="0 0 14 14"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </span>
+  </div>
+</a>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-2xl);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* ── Bento wrapper — aspect-ratio via padding-bottom hack ── */
+  .bento {
+    position: relative;
+    width: 100%;
+    padding-bottom: 55.72%; /* 526 / 944 */
+  }
+
+  .bento-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    gap: 12px;
+    perspective: 1200px;
+  }
+
+  .bento-hero {
+    flex: 2.33 1 0;
+    min-width: 0;
+  }
+
+  .bento-stack {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bento-cell-1 {
+    flex: 150.48 1 0;
+    min-height: 0;
+  }
+  .bento-cell-2 {
+    flex: 100.31 1 0;
+    min-height: 0;
+  }
+  .bento-cell-3 {
+    flex: 250.81 1 0;
+    min-height: 0;
+  }
+
+  .bento-tile {
+    position: relative;
+    background-color: var(--color-neutral-0);
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transform-origin: center;
+    transition:
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 400ms ease;
+    will-change: transform;
+  }
+
+  .bento-tile:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+    z-index: 1;
+  }
+
+  .bento-tile.is-tilting {
+    transition:
+      transform 120ms linear,
+      box-shadow 400ms ease;
+  }
+
+  @media (hover: none) {
+    .bento-tile {
+      transform: none !important;
+    }
+    .bento-tile:hover {
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bento-tile,
+    .bento-tile.is-tilting {
+      transition: none;
+      transform: none !important;
+    }
+  }
+
+  .bento-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-bg-page);
+    background-image: radial-gradient(
+      circle,
+      var(--color-border-default) 1px,
+      transparent 1px
+    );
+    background-size: 20px 20px;
+  }
+
+  .bento-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Footer: title/meta + CTA ─────────────────────────────── */
+  .project-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-gap-lg);
+    padding: 0 var(--spacing-padding-md);
+  }
+
+  .project-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-md);
+    min-width: 0;
+    flex: 1;
+  }
+
+  .project-card-title {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-size: clamp(1.5rem, calc(1.2rem + 1.5vw), 2.25rem);
+    line-height: 1.18;
+    letter-spacing: -0.005em;
+    color: var(--color-text-heading);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  /* ── CTA pill (bordered black, per Figma) ─────────────────── */
+  .project-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    height: 50px;
+    padding: 0 24px;
+    border: 1px solid var(--color-neutral-800);
+    border-radius: 999px;
+    background-color: transparent;
+    color: var(--color-neutral-800);
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-normal);
+    font-size: 1.25rem;
+    line-height: 1;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition:
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .project-card:hover .project-card-cta {
+    background-color: var(--color-neutral-800);
+    color: var(--color-text-on-inverse);
+  }
+
+  .cta-arrow {
+    flex-shrink: 0;
+    transition: transform 180ms ease;
+  }
+
+  .project-card:hover .cta-arrow {
+    transform: translate(1px, -1px);
+  }
+
+  /* ── Responsive ───────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .bento {
+      padding-bottom: 0;
+    }
+    .bento-inner {
+      position: static;
+    }
+    .bento-hero {
+      flex: 1 1 auto;
+      aspect-ratio: 4 / 3;
+    }
+    .bento-stack {
+      display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .project-card-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-gap-lg);
+    }
+    .project-card-cta {
+      align-self: stretch;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  const MAX_TILT = 12;
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+  const isTouch = window.matchMedia("(hover: none)").matches;
+
+  if (!reduceMotion && !isTouch) {
+    const tiles = document.querySelectorAll<HTMLElement>(".bento-tile");
+    tiles.forEach((tile) => {
+      let rafId = 0;
+
+      const onMove = (e: PointerEvent) => {
+        const rect = tile.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          // Opposite direction: side under the cursor pushes AWAY
+          const rotY = px * MAX_TILT;
+          const rotX = -py * MAX_TILT;
+          tile.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        });
+      };
+
+      const onEnter = () => {
+        tile.classList.add("is-tilting");
+      };
+
+      const onLeave = () => {
+        if (rafId) cancelAnimationFrame(rafId);
+        tile.classList.remove("is-tilting");
+        tile.style.transform = "";
+      };
+
+      tile.addEventListener("pointerenter", onEnter);
+      tile.addEventListener("pointermove", onMove, { passive: true });
+      tile.addEventListener("pointerleave", onLeave);
+      tile.addEventListener("pointercancel", onLeave);
+    });
+  }
+</script>

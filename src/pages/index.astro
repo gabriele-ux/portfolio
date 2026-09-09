@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import DotMesh from "../components/DotMesh.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+
+const projects = [
+  {
+    href: "/case-studies/design-system-search",
+    title:
+      "I turned fragmented Design System changes into a shared, searchable source of truth",
+    heroImage: "/case-studies/design-system-search/hero-cover.jpg",
+    heroImageAlt: "Design System Search — case study cover",
+    tags: [
+      { label: "Shipped", dot: "success" as const },
+      { label: "Design System" },
+      { label: "UX" },
+      { label: "UI" },
+    ],
+  },
+];
+---
+
+<BaseLayout title="Gabriele La Rosa — UX/Product Designer">
+  <Header />
+
+  <section class="hero" aria-labelledby="hero-title">
+    <DotMesh />
+    <div class="hero-inner">
+      <h1 id="hero-title" class="hero-title">
+        UX/Product Designer that help big organisation in improving their
+        systems — <em>specialized in Design System.</em>
+      </h1>
+    </div>
+  </section>
+
+  <section class="projects" aria-label="Selected projects">
+    <div class="projects-grid">
+      {
+        projects.map((p) => (
+          <ProjectCard
+            href={p.href}
+            title={p.title}
+            heroImage={p.heroImage}
+            heroImageAlt={p.heroImageAlt}
+            tags={p.tags}
+          />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    min-height: min(70vh, 620px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-gap-section-lg) var(--spacing-gutter-page);
+    overflow: hidden;
+  }
+
+  .hero :global(.dot-mesh) {
+    --dot-color: rgba(23, 24, 29, 0.28);
+    z-index: 0;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1040px;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-size: clamp(1.75rem, calc(1.3rem + 2.25vw), 3rem);
+    line-height: 1.15;
+    letter-spacing: -0.005em;
+    color: var(--color-text-heading);
+    margin: 0;
+    max-width: 24ch;
+    margin-inline: auto;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-body-secondary);
+  }
+
+  .projects {
+    padding: var(--spacing-gap-section-lg) clamp(1.25rem, 8vw, 10rem);
+  }
+
+  .projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-section);
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+</style>
