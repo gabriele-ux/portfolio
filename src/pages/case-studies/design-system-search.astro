@@ -15,6 +15,7 @@ import OptionRow from "../../components/OptionRow.astro";
 import EvaluationTable from "../../components/EvaluationTable.astro";
 import SolutionFlow from "../../components/SolutionFlow.astro";
 import Pivot2BeforeSchema from "../../components/Pivot2BeforeSchema.astro";
+import Pivot1BeforeMock from "../../components/Pivot1BeforeMock.astro";
 
 const evaluationOptions = [
   {
@@ -142,7 +143,7 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
         I'm part of a small <strong>Design System team at a big
         multinational</strong>. There are <strong>3 of us</strong>, and we
         maintain the main libraries across <strong>4 touchpoints and 5+
-        brands</strong>, used by around <strong>15 designers</strong>.
+        brands</strong>, used by around <strong>8 designers</strong>.
       </p>
       <p class="body-copy">
         The Design System is still relatively new, and its governance is
@@ -160,6 +161,7 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
         src="/case-studies/design-system-search/diagram-teams.jpg"
         alt="Applications and product teams responsibilities diagram"
         caption="TEAMS' RESPONSABILITIES AND INTERACTION"
+        aspect="3032 / 1440"
       />
     </section>
 
@@ -215,14 +217,13 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
           working day, searching through Slack, email and conversations.
         </CalloutItem>
         <CalloutItem
-          title="No visibility on other vertical product evolution"
+          title="No visibility on other projects"
           variant="warning"
           badge="TEAM UX/UI"
         >
-          They couldn't see how components were changing in other products.
+          They couldn't see how components were changing in other projects.
           When they had to pick one, they didn't know if a newer version was
           in the works, or whether their edits would affect other teams.
-          Most of the time, they had to stop and ask.
         </CalloutItem>
       </CalloutList>
     </section>
@@ -437,7 +438,7 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
 
     <div class="pivot-block">
       <h3 class="type-h2" style="color: var(--color-text-heading);">
-        01/ Reduce the effort to log a change
+        01/ Automate what's reliable, ask designers for the rest
       </h3>
       <Confront
         tabs={[
@@ -447,7 +448,7 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
       >
         <div data-panel="after" class="pivot-panel">
           <video
-            src="/case-studies/design-system-search/pivot1.mp4"
+            src="/case-studies/design-system-search/form.mp4"
             autoplay
             muted
             loop
@@ -458,28 +459,27 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
         <div data-panel="before" class="pivot-panel pivot-panel-centered">
           <img
             src="/case-studies/design-system-search/manually.png"
-            alt="Manual process before pivot 1"
+            alt="Change detector v0.1 prototype: automatic detection listing every node change with a per-row request to add context"
           />
         </div>
       </Confront>
       <p class="body-copy">
-        <strong>Initial approach:</strong> Since I was still testing the
-        technology, I kept it simple: I added tables under each component
-        that designers would fill in manually, and the plugin picked up
-        whatever they wrote.
+        <strong>Initial approach:</strong> I wanted zero friction for
+        designers. My first attempt was a detection script that scanned the
+        files and logged changes automatically, then asked the designer to
+        fill in only the missing context.
       </p>
       <p class="body-copy">
-        <strong>Evidence:</strong> Testing showed that designers weren't
-        filling in all the fields, and some of the missing ones were
-        critical. On top of that, we needed to start tracking new data
-        useful to the UI team, like the project code.
+        <strong>Evidence:</strong> The script wasn't reliable on complex
+        files (missed real changes, flagged meaningless ones), and even
+        when it worked it still lacked the "why" only designers can give:
+        the project, and the reason.
       </p>
       <p class="body-copy">
-        <strong>Pivot:</strong> I introduced a form with required fields to
-        capture everything we needed, using UX copy to guide people through
-        it. I cut further friction by automating what I could, like grabbing
-        the date and designer's name, and the creation of the component
-        sheets.
+        <strong>Pivot:</strong> I moved to a semi-manual approach: a form
+        in the plugin guides designers through all the required info.
+        Automation handles the reliable stuff (date, author, component
+        sheets), designers add project details.
       </p>
     </div>
 
@@ -510,10 +510,10 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
         </div>
       </Confront>
       <p class="body-copy">
-        <strong>Evidence:</strong> The changelog on libraries made changes
-        visible, but designers wouldn't necessarily consult it as they pulled
-        components straight from the asset panel while working on figma
-        files.
+        <strong>Evidence:</strong> The changelog was now available per
+        component in each library, but designers didn't consult it as they
+        pulled components straight from the asset panel while working on
+        Figma files.
       </p>
       <p class="body-copy">
         <strong>Pivot:</strong> Version info is now written automatically
@@ -535,38 +535,42 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
           { label: "BEFORE", value: "before" },
         ]}
       >
-        <div
-          data-panel="after"
-          class="pivot-panel"
-          style="background-image: url('/playground/placeholder.svg');"
-        >
+        <div data-panel="after" class="pivot-panel">
+          <video
+            src="/case-studies/design-system-search/pivot3.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          ></video>
         </div>
-        <div
-          data-panel="before"
-          class="pivot-panel"
-          style="background-image: url('/playground/placeholder.svg');"
-        >
+        <div data-panel="before" class="pivot-panel pivot-panel-centered pivot-panel-shrink">
+          <img
+            src="/case-studies/design-system-search/pivot3-before.png"
+            alt="Before pivot 3: Figma as source of truth for changelog data"
+          />
         </div>
       </Confront>
       <p class="body-copy">
-        <strong>Initial approach:</strong> I used Figma as a source of truth
-        for the changelog data. The plugin simply sent the added changes to
-        Slack to be collected and communicated.
+        <strong>Evidence:</strong> With Figma as source of truth for the
+        changelog data, changes often got overwritten because multiple
+        designers were using the plugin at the same time. It was also
+        impossible to know which changes had already been sent to Slack,
+        leading to duplication or lost data.
       </p>
       <p class="body-copy">
-        <strong>Evidence:</strong> Changes often got overwritten because
-        multiple designers were using the plugin at the same time. Also, it
-        was impossible to know which changes had already been sent to Slack
-        for communication, leading to duplication or loss of data.
+        <strong>Exploration:</strong> I looked at ways to save the data
+        reliably. I considered RAG databases and tested different{" "}
+        <strong>GitHub</strong> configurations, weighing each option by{" "}
+        <strong>effort</strong>, <strong>time</strong> and{" "}
+        <strong>result</strong>.
       </p>
       <p class="body-copy">
-        <strong>Pivot:</strong> I moved the data to <strong>GitHub</strong>{" "}
-        and tested a few repository structures to make it reliable and easy
-        to retrieve. Once structured, the same data could also feed AI
-        features, like searching changelogs by project or generating release
-        notes automatically. I also added a <strong>Sync Queue</strong>:
-        a cart-like view that shows what's about to be synced, so designers
-        can review before sending.
+        <strong>Pivot:</strong> I chose <strong>GitHub</strong> to sync
+        the data on as the best effort-to-result ratio for this phase of
+        the project. Moreover, the data saved there can feed AI features
+        like changelog search and automatic release notes.
       </p>
     </div>
 
@@ -783,6 +787,12 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
   .pivot-panel-centered > img {
     object-fit: contain;
     object-position: center;
+  }
+  /* Modifier: scale the centered image down to 80% within its panel
+     (extra breathing room around the image). */
+  .pivot-panel-centered.pivot-panel-shrink > img {
+    width: 80%;
+    height: 80%;
   }
 
   :global(.desktop-break) {
