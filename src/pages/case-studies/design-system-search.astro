@@ -150,35 +150,32 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
         <div class="in-short-row">
           <dt class="in-short-term">What I did</dt>
           <dd class="in-short-def">
-            Designed a Figma plugin and a GitHub-based source of truth that
-            captures changes at the file, surfaces them where needed, and
-            sends reminders and a weekly release note to keep everyone up to
-            date.
+            Defined a solution around the team's workflow and needs. Built a
+            Figma plugin and a GitHub-based source of truth that capture
+            changes to libraries and structure the data for AI to pick up,
+            powering things like automatic release notes and advanced search
+            so everyone stays up to date.
           </dd>
         </div>
         <div class="in-short-row">
           <dt class="in-short-term">Result</dt>
           <dd class="in-short-def">
-            <strong>1 unified source of truth.</strong> Context recovery from <strong>~1 day</strong> to <strong>~5 min</strong>, release note creation from <strong>~4h</strong> to <strong>~25 min</strong>, adopted by <strong>6/8</strong> designers.
+            <strong>1 unified source of truth.</strong> Context recovery from <strong>~1 day</strong> to <strong>~5 min</strong>, weekly release note creation from <strong>~4h</strong> to <strong>~25 min</strong>, adopted by <strong>6/8</strong> designers.
           </dd>
         </div>
       </dl>
       <a href="#solution" class="in-short-cta">
-        See how the solution works
+        <span>See how the solution works</span>
         <svg
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
+          width="18"
+          height="18"
+          viewBox="0 0 256 256"
+          fill="currentColor"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
         >
           <path
-            d="M3.333 8h9.334M8.667 3.333L13.333 8l-4.666 4.667"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"
           ></path>
         </svg>
       </a>
@@ -882,25 +879,70 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
     color: var(--color-text-heading);
   }
 
+  /* Outline variant of the primary orange button in the header:
+     transparent bg + accent-warning border/text, same shape and states. */
   .in-short-cta {
-    align-self: flex-start;
+    align-self: flex-end;
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-gap-sm);
-    color: var(--color-accent-info);
+    justify-content: center;
+    gap: var(--spacing-gap-md);
+    padding: var(--spacing-padding-xs) var(--spacing-padding-sm);
+    border: 1px solid var(--color-accent-warning);
+    border-radius: 999px;
+    background-color: var(--color-neutral-0);
+    color: var(--color-accent-warning);
     font-family: var(--font-sans);
     font-weight: var(--font-weight-medium);
-    font-size: var(--text-body-sm);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-    padding-block: var(--spacing-gap-xs);
-    transition: gap 0.15s ease;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-decoration: none;
+    width: fit-content;
+    user-select: none;
+    font-variation-settings: "opsz" 14;
+    transition:
+      background-color 120ms ease,
+      border-color 120ms ease,
+      color 120ms ease,
+      transform 120ms ease;
+  }
+
+  .in-short-cta svg {
+    flex-shrink: 0;
   }
 
   .in-short-cta:hover {
-    gap: var(--spacing-gap-md);
-    text-decoration-thickness: 2px;
+    background-color: color-mix(
+      in oklab,
+      var(--color-accent-warning) 12%,
+      transparent
+    );
+    border-color: color-mix(
+      in oklab,
+      var(--color-accent-warning) 88%,
+      black
+    );
+    color: color-mix(in oklab, var(--color-accent-warning) 88%, black);
+  }
+
+  .in-short-cta:active {
+    background-color: color-mix(
+      in oklab,
+      var(--color-accent-warning) 20%,
+      transparent
+    );
+    border-color: color-mix(
+      in oklab,
+      var(--color-accent-warning) 76%,
+      black
+    );
+    color: color-mix(in oklab, var(--color-accent-warning) 76%, black);
+    transform: translateY(1px);
+  }
+
+  .in-short-cta:focus-visible {
+    outline: 2px solid var(--color-accent-warning);
+    outline-offset: 2px;
   }
 
   @media (max-width: 600px) {
