@@ -81,16 +81,16 @@ const {
   <div class="nav-sheet-backdrop" data-sheet-close></div>
   <div class="nav-sheet-panel">
     <div class="nav-sheet-header">
-      <p class="nav-sheet-title">INDEX</p>
+      <h2 class="nav-sheet-title">Index</h2>
       <button
         type="button"
         class="nav-sheet-close"
         aria-label="Close index"
         data-sheet-close
       >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
-            d="M4 4L12 12M12 4L4 12"
+            d="M6 6L18 18M6 18L18 6"
             stroke="currentColor"
             stroke-width="1.5"
             stroke-linecap="round"></path>
@@ -218,10 +218,10 @@ const {
     border-radius: 999px;
     background-color: var(--color-neutral-800);
     color: var(--color-text-on-inverse);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
     font-size: 14px;
     line-height: 1;
-    text-transform: uppercase;
     cursor: pointer;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   }
@@ -254,7 +254,7 @@ const {
     padding: 20px 24px 32px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 48px;
     animation: nav-slide-up 0.25s ease;
   }
   .nav-sheet-header {
@@ -264,25 +264,33 @@ const {
   }
   .nav-sheet-title {
     margin: 0;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    color: var(--color-text-eyebrow);
-    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+    color: var(--color-text-heading);
   }
   .nav-sheet-close {
-    background: none;
-    border: none;
-    padding: 6px;
-    cursor: pointer;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--color-border-default);
+    background: transparent;
     color: var(--color-text-body);
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 999px;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
   }
-  .nav-sheet-close:hover {
-    background-color: var(--color-bg-subtle-warm);
+  .nav-sheet-close:hover,
+  .nav-sheet-close:focus-visible {
+    background: var(--color-bg-subtle-warm);
+    border-color: var(--color-border-emphasized);
+    outline: none;
   }
   .nav-sheet-list {
     list-style: none;
@@ -357,32 +365,18 @@ const {
   };
 
   if (targets.size > 0 && "IntersectionObserver" in window) {
-    const visible = new Set<string>();
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const id = entry.target.id;
-          if (entry.isIntersecting) visible.add(id);
-          else visible.delete(id);
-        }
-        let bestId: string | null = null;
-        let bestTop = -Infinity;
-        for (const id of visible) {
-          const el = targets.get(id);
-          if (!el) continue;
-          const top = el.getBoundingClientRect().top;
-          if (top <= 120 && top > bestTop) {
-            bestTop = top;
-            bestId = id;
-          }
-        }
-        if (bestId) setActive(bestId);
-      },
-      { rootMargin: "-100px 0px -60% 0px", threshold: [0, 0.5, 1] }
-    );
-    targets.forEach((el) => observer.observe(el));
+    const orderedIds = Array.from(targets.keys());
+    const lastId = orderedIds[orderedIds.length - 1] ?? null;
 
-    const scrollPick = () => {
+    const pickActive = (): string | null => {
+      // When user has scrolled (near) the bottom, force the last section
+      // active — otherwise it can never satisfy the 120px threshold if the
+      // page doesn't scroll far enough past it.
+      const doc = document.documentElement;
+      const nearBottom =
+        window.innerHeight + window.scrollY >= doc.scrollHeight - 24;
+      if (nearBottom && lastId) return lastId;
+
       let bestId: string | null = null;
       let bestTop = -Infinity;
       for (const [id, el] of targets) {
@@ -392,10 +386,22 @@ const {
           bestId = id;
         }
       }
-      if (bestId) setActive(bestId);
+      return bestId;
     };
-    window.addEventListener("scroll", scrollPick, { passive: true });
-    scrollPick();
+
+    const applyActive = () => {
+      const id = pickActive();
+      if (id) setActive(id);
+    };
+
+    const observer = new IntersectionObserver(
+      () => applyActive(),
+      { rootMargin: "-100px 0px -60% 0px", threshold: [0, 0.5, 1] }
+    );
+    targets.forEach((el) => observer.observe(el));
+
+    window.addEventListener("scroll", applyActive, { passive: true });
+    applyActive();
   }
 
   // ── Smooth scroll on click ─────────────────────────────────

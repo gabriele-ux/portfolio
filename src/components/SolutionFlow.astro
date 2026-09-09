@@ -47,12 +47,12 @@ const modalContent: Record<string, ModalContent> = {
   evolve: {
     title: "Add or update a component",
     description:
-      "Placeholder. Designers can add a new component or update an existing one directly from the Figma plugin. Every change is captured in a structured changelog, so nothing gets lost.",
+      "The designer opens the plugin, picks the component, and fills in what changed, why, and when it goes live. Author and date are added automatically, so nothing has to be tracked by hand.",
   },
   use: {
     title: "Use a component from the library",
     description:
-      "Placeholder. Designers pick and drop a component in their file; the system records the usage automatically.",
+      "When a designer drops a component into their file, the current version and any recent updates are already there in the component description. If a newer version is on the way, a small warning icon on the title makes it easy to spot before starting the work.",
   },
   sync: {
     title: "Everything synced in one place",
@@ -262,7 +262,7 @@ const modalAttrs = (id: string) => {
       <line x1="12" y1="19" x2="12" y2="5" />
       <polyline points="5 12 12 5 19 12" />
     </svg>
-    <span>Click on each step to see the implemented feature</span>
+    <span><span class="flow-caption-cta">Click</span> on each step to see the implemented feature</span>
   </figcaption>
 
   {/* ─────────── Modal ─────────── */}
@@ -591,6 +591,9 @@ const modalAttrs = (id: string) => {
   }
   .flow-caption-arrow {
     flex-shrink: 0;
+  }
+  .flow-caption-cta {
+    font-weight: var(--font-weight-medium);
   }
 
   @media (max-width: 799px) {

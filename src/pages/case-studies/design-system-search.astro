@@ -71,8 +71,10 @@ import Spacer from "../../components/Spacer.astro";
 import CaseStudyNav from "../../components/CaseStudyNav.astro";
 import ImpactCardList from "../../components/ImpactCardList.astro";
 import ImpactCard from "../../components/ImpactCard.astro";
+import CaseStudyFooter from "../../components/CaseStudyFooter.astro";
 
 const navSections = [
+  { id: "in-short", label: "In Short" },
   { id: "background", label: "The Background" },
   { id: "problem", label: "The Problem" },
   { id: "discovery", label: "Discovery" },
@@ -129,6 +131,57 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
     <MetaBox>
       {heroMeta.map((m) => <MetaItem label={m.label} value={m.value} />)}
     </MetaBox>
+
+    <Spacer size="sm" />
+
+    <!-- IN SHORT / TL;DR -->
+    <aside id="in-short" class="in-short" aria-label="TL;DR summary">
+      <p class="eyebrow-line in-short-eyebrow">IN SHORT</p>
+      <dl class="in-short-list">
+        <div class="in-short-row">
+          <dt class="in-short-term">The problem</dt>
+          <dd class="in-short-def">
+            Design System changes lived in Slack, email and heads. Designers
+            spent up to a full day reconstructing context and often missed
+            updates.
+          </dd>
+        </div>
+        <div class="in-short-row">
+          <dt class="in-short-term">What I did</dt>
+          <dd class="in-short-def">
+            Designed a Figma plugin and a GitHub-based source of truth that
+            captures changes at the file, surfaces them where needed, and
+            sends reminders and a weekly release note to keep everyone up to
+            date.
+          </dd>
+        </div>
+        <div class="in-short-row">
+          <dt class="in-short-term">Result</dt>
+          <dd class="in-short-def">
+            <strong>1 unified source of truth.</strong> Context recovery from <strong>~1 day</strong> to <strong>~5 min</strong>, release note creation from <strong>~4h</strong> to <strong>~25 min</strong>, adopted by <strong>6/8</strong> designers.
+          </dd>
+        </div>
+      </dl>
+      <a href="#solution" class="in-short-cta">
+        See how the solution works
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M3.333 8h9.334M8.667 3.333L13.333 8l-4.666 4.667"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </a>
+    </aside>
 
     <Spacer size="lg" />
 
@@ -691,6 +744,8 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
     </section>
   </article>
   </div>
+
+  <CaseStudyFooter />
 </CaseStudyLayout>
 
 <style>
@@ -739,6 +794,118 @@ const cover = "/case-studies/design-system-search/hero-cover.jpg";
     display: flex;
     flex-direction: column;
     gap: var(--spacing-gap-xl);
+  }
+
+  /* IN SHORT / TL;DR card — aurora hue-shift on blue tones */
+  .in-short {
+    position: relative;
+    border: 1px solid rgba(226, 227, 255, 0.55);
+    border-radius: 12px;
+    padding: var(--spacing-padding-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-2xl);
+    background: linear-gradient(
+      120deg,
+      rgba(226, 227, 255, 0.7) 0%,
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(211, 239, 255, 0.7) 100%
+    );
+    background-size: 220% 220%;
+    animation: in-short-aurora 14s ease-in-out infinite;
+  }
+
+  @keyframes in-short-aurora {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .in-short {
+      animation: none;
+    }
+  }
+
+  .in-short-eyebrow {
+    margin: 0;
+    color: var(--color-accent-info);
+  }
+
+  .in-short-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-md);
+    margin: 0;
+  }
+
+  .in-short-row {
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr);
+    gap: var(--spacing-gap-lg);
+    align-items: baseline;
+    padding-block: var(--spacing-gap-sm);
+    border-top: 1px solid var(--color-alpha-black-08);
+  }
+
+  .in-short-row:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .in-short-term {
+    margin: 0;
+    color: var(--color-text-heading);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-tight);
+  }
+
+  .in-short-def {
+    margin: 0;
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+  }
+
+  .in-short-def strong {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-heading);
+  }
+
+  .in-short-cta {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-gap-sm);
+    color: var(--color-accent-info);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-body-sm);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    padding-block: var(--spacing-gap-xs);
+    transition: gap 0.15s ease;
+  }
+
+  .in-short-cta:hover {
+    gap: var(--spacing-gap-md);
+    text-decoration-thickness: 2px;
+  }
+
+  @media (max-width: 600px) {
+    .in-short-row {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-gap-xs);
+    }
   }
 
   .body-copy {

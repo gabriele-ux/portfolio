@@ -1,0 +1,155 @@
+---
+import Button from "./Button.astro";
+
+interface RelatedProject {
+  href: string;
+  title: string;
+  cover?: string;
+  eyebrow?: string;
+}
+
+interface Props {
+  email?: string;
+  invitation?: string;
+  relatedProjects?: RelatedProject[];
+}
+
+const {
+  email = "gabrielelarosa013@gmail.com",
+  invitation = "Let's build awesome products together :)",
+  relatedProjects = [],
+} = Astro.props;
+---
+
+<footer class="case-study-footer">
+  {
+    relatedProjects.length > 0 && (
+      <section class="footer-projects" aria-label="Other projects">
+        <p class="eyebrow">Other projects</p>
+        <ul class="projects-grid">
+          {relatedProjects.map((p) => (
+            <li>
+              <a class="project-card" href={p.href}>
+                {p.cover && (
+                  <div class="project-cover" style={`background-image: url(${p.cover});`} />
+                )}
+                <div class="project-meta">
+                  {p.eyebrow && <span class="project-eyebrow">{p.eyebrow}</span>}
+                  <span class="project-title">{p.title}</span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <section class="footer-contact" aria-label="Get in touch">
+    <h2 class="footer-invitation">{invitation}</h2>
+    <Button href={`mailto:${email}`}>{email}</Button>
+  </section>
+</footer>
+
+<style>
+  .case-study-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-section-lg);
+    padding-block: calc(var(--spacing-gap-section-lg) * 2);
+    padding-inline: var(--spacing-gutter-page);
+    background-color: var(--color-bg-inverse);
+    color: var(--color-text-on-inverse);
+  }
+
+  /* ── Other projects (renders only when data provided) ── */
+  .footer-projects {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-xl);
+    max-width: 1200px;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: var(--color-text-on-inverse);
+    opacity: 0.65;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--text-eyebrow);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .projects-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-gap-xl);
+  }
+
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-md);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .project-cover {
+    aspect-ratio: 16 / 10;
+    background-color: var(--color-neutral-200);
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+  }
+
+  .project-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .project-eyebrow {
+    color: var(--color-text-on-inverse);
+    opacity: 0.65;
+    font-family: var(--font-mono);
+    font-size: var(--text-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .project-title {
+    color: var(--color-text-on-inverse);
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-h3);
+    line-height: var(--leading-tight);
+  }
+
+  /* ── Contact block ── */
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-gap-2xl);
+    max-width: 640px;
+    margin-inline: auto;
+  }
+
+  .footer-invitation {
+    margin: 0;
+    color: var(--color-text-on-inverse);
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-display);
+    line-height: var(--text-display--line-height);
+    letter-spacing: -0.01em;
+  }
+</style>
