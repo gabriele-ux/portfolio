@@ -47,34 +47,18 @@ const steps: Step[] = [
     </ol>
 
     <div class="loop" aria-hidden="true">
-      <svg
-        class="loop-arrow"
-        viewBox="0 0 400 40"
-        preserveAspectRatio="none"
-      >
-        <path
-          d="M 396 4 L 396 24 Q 396 36 384 36 L 16 36 Q 4 36 4 24 L 4 4"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.25"
-          stroke-linecap="round"
-          marker-end="url(#loop-arrow-head)"
-        />
-        <defs>
-          <marker
-            id="loop-arrow-head"
-            viewBox="0 0 10 10"
-            refX="9"
-            refY="5"
-            markerWidth="6"
-            markerHeight="6"
-            markerUnits="strokeWidth"
-            orient="auto-start-reverse"
+      <div class="loop-track">
+        <span class="loop-arrowhead">
+          <svg
+            width="10"
+            height="6"
+            viewBox="0 0 10 6"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" />
-          </marker>
-        </defs>
-      </svg>
+            <path d="M0,6 L5,0 L10,6 Z" fill="currentColor" />
+          </svg>
+        </span>
+      </div>
       <span class="loop-label">Iterate on findings</span>
     </div>
   </div>
@@ -135,7 +119,7 @@ const steps: Step[] = [
 
   .step-label {
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-normal);
     font-size: 12px;
     line-height: 1.35;
     color: var(--color-text-heading);
@@ -153,32 +137,40 @@ const steps: Step[] = [
   /* ── Loop-back indicator ── */
   .loop {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 4px;
+    padding-top: 8px;
     color: var(--color-border-emphasized);
   }
 
-  .loop-arrow {
+  .loop-track {
+    position: relative;
+    height: 20px;
+    border-left: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .loop-arrowhead {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 40px;
-    pointer-events: none;
-    overflow: visible;
+    top: -4px;
+    left: -5px;
+    line-height: 0;
+    color: currentColor;
   }
 
   .loop-label {
-    position: relative;
-    background: var(--color-card-bg);
+    position: absolute;
+    bottom: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-bg-elevated);
     padding: 2px 10px;
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--color-text-eyebrow);
-    margin-top: 20px;
+    white-space: nowrap;
   }
 
   /* ── Mobile ── */
@@ -204,13 +196,16 @@ const steps: Step[] = [
     .loop {
       padding-top: 8px;
     }
-    .loop-arrow {
+    .loop-track {
       display: none;
     }
     .loop-label {
+      position: static;
+      transform: none;
       background: transparent;
-      margin-top: 0;
       padding: 0;
+      display: block;
+      text-align: center;
     }
   }
 </style>
