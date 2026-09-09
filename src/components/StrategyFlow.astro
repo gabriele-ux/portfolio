@@ -1,0 +1,211 @@
+---
+interface Step {
+  num: string;
+  label: string;
+}
+
+const steps: Step[] = [
+  { num: "01", label: "Define requirements from team goals" },
+  { num: "02", label: "Explore directions with AI" },
+  { num: "03", label: "Test with UI designers in real use" },
+  { num: "04", label: "Pick based on data, or iterate" },
+];
+---
+
+<figure class="strategy-flow" aria-label="Iterative strategy loop">
+  <div class="strategy-frame">
+    <ol class="strategy-steps">
+      {
+        steps.map((s, i) => (
+          <>
+            <li class="step">
+              <span class="step-num">{s.num}</span>
+              <span class="step-label">{s.label}</span>
+            </li>
+            {i < steps.length - 1 && (
+              <li class="step-arrow" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="12"
+                  viewBox="0 0 16 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1 6h13m0 0L9 1m5 5-5 5"
+                    stroke="currentColor"
+                    stroke-width="1.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </li>
+            )}
+          </>
+        ))
+      }
+    </ol>
+
+    <div class="loop" aria-hidden="true">
+      <div class="loop-track">
+        <span class="loop-arrowhead">
+          <svg
+            width="10"
+            height="6"
+            viewBox="0 0 10 6"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M0,6 L5,0 L10,6 Z" fill="currentColor" />
+          </svg>
+        </span>
+      </div>
+      <span class="loop-label">Iterate on findings</span>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .strategy-flow {
+    margin: 0;
+    width: 100%;
+  }
+
+  .strategy-frame {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border-default);
+    border-radius: 8px;
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ── Steps row (desktop) ── */
+  .strategy-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .step {
+    flex: 1 1 0;
+    min-width: 0;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    border-radius: 8px;
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
+    box-shadow: 0 1px 0 var(--color-alpha-black-08);
+  }
+
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-highlight-info);
+    line-height: 1;
+  }
+
+  .step-label {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-normal);
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--color-text-heading);
+    max-width: 18ch;
+  }
+
+  .step-arrow {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-border-emphasized);
+  }
+
+  /* ── Loop-back indicator ── */
+  .loop {
+    position: relative;
+    padding-top: 8px;
+    color: var(--color-border-emphasized);
+  }
+
+  .loop-track {
+    position: relative;
+    height: 20px;
+    border-left: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .loop-arrowhead {
+    position: absolute;
+    top: -4px;
+    left: -5px;
+    line-height: 0;
+    color: currentColor;
+  }
+
+  .loop-label {
+    position: absolute;
+    bottom: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-bg-elevated);
+    padding: 2px 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-eyebrow);
+    white-space: nowrap;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    .strategy-steps {
+      flex-direction: column;
+      gap: 6px;
+    }
+    .step {
+      flex-direction: row;
+      justify-content: flex-start;
+      text-align: left;
+      gap: 12px;
+      padding: 12px 14px;
+    }
+    .step-label {
+      max-width: none;
+    }
+    .step-arrow {
+      transform: rotate(90deg);
+      padding-block: 2px;
+    }
+    .loop {
+      padding-top: 8px;
+    }
+    .loop-track {
+      display: none;
+    }
+    .loop-label {
+      position: static;
+      transform: none;
+      background: transparent;
+      padding: 0;
+      display: block;
+      text-align: center;
+    }
+  }
+</style>

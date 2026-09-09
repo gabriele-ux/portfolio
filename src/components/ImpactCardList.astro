@@ -1,0 +1,45 @@
+---
+interface Props {
+  cols?: 2 | 3 | 4 | "auto";
+  class?: string;
+}
+
+const { cols = "auto", class: className = "" } = Astro.props;
+---
+
+<div class:list={["impact-card-list", `cols-${cols}`, className]}>
+  <slot />
+</div>
+
+<style>
+  .impact-card-list {
+    display: grid;
+    gap: var(--spacing-gap-md);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .impact-card-list.cols-auto {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  @media (min-width: 640px) {
+    .impact-card-list.cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .impact-card-list.cols-3 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .impact-card-list.cols-4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .impact-card-list.cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .impact-card-list.cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

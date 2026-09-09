@@ -1,0 +1,226 @@
+---
+interface Props {
+  title: string;
+  metricPrefix?: string;
+  metricValue?: number;
+  metricText?: string;
+  metricSuffix?: string;
+  arrow?: boolean;
+  color?: "success" | "info" | "warning" | "neutral";
+  beforeLabel?: string;
+  beforeValue?: string;
+  class?: string;
+}
+
+const {
+  title,
+  metricPrefix,
+  metricValue,
+  metricText,
+  metricSuffix,
+  arrow = true,
+  color = "success",
+  beforeLabel,
+  beforeValue,
+  class: className = "",
+} = Astro.props;
+
+const hasAnimatedNumber = typeof metricValue === "number";
+---
+
+<article class:list={["impact-card", `is-${color}`, className]}>
+  <h6 class="type-h6 impact-card-title">{title}</h6>
+
+  <div class="impact-card-metric-row">
+    <div class="impact-card-metric">
+      {metricPrefix && <span class="impact-card-prefix">{metricPrefix}</span>}
+      {hasAnimatedNumber ? (
+        <span class="impact-card-num" data-target={metricValue}>0</span>
+      ) : (
+        metricText && <span class="impact-card-text">{metricText}</span>
+      )}
+      {metricSuffix && <span class="impact-card-suffix">{metricSuffix}</span>}
+    </div>
+    {
+      arrow && (
+        <span class="impact-card-arrow" aria-hidden="true">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M24.9999 10.9996V23.9996C24.9999 24.2648 24.8946 24.5192 24.7071 24.7067C24.5195 24.8942 24.2652 24.9996 23.9999 24.9996H10.9999C10.7347 24.9996 10.4804 24.8942 10.2928 24.7067C10.1053 24.5192 9.99995 24.2648 9.99995 23.9996C9.99995 23.7344 10.1053 23.48 10.2928 23.2925C10.4804 23.1049 10.7347 22.9996 10.9999 22.9996H21.5862L7.29245 8.70708C7.1048 8.51944 6.99939 8.26494 6.99939 7.99958C6.99939 7.73422 7.1048 7.47972 7.29245 7.29208C7.48009 7.10444 7.73458 6.99902 7.99995 6.99902C8.26531 6.99902 8.51981 7.10444 8.70745 7.29208L22.9999 21.5858V10.9996C22.9999 10.7344 23.1053 10.48 23.2928 10.2925C23.4804 10.1049 23.7347 9.99958 23.9999 9.99958C24.2652 9.99958 24.5195 10.1049 24.7071 10.2925C24.8946 10.48 24.9999 10.7344 24.9999 10.9996Z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
+      )
+    }
+  </div>
+
+  {
+    (beforeLabel || beforeValue) && (
+      <div class="impact-card-before">
+        {beforeLabel && (
+          <p class="type-caption impact-card-before-label">{beforeLabel}</p>
+        )}
+        {beforeValue && (
+          <p class="type-body-xs impact-card-before-value" set:html={beforeValue} />
+        )}
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .impact-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    background-color: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+    --impact-accent: var(--color-accent-success);
+  }
+  .impact-card.is-info {
+    --impact-accent: var(--color-accent-info);
+  }
+  .impact-card.is-warning {
+    --impact-accent: var(--color-accent-warning);
+  }
+  .impact-card.is-neutral {
+    --impact-accent: var(--color-text-heading);
+  }
+
+  .impact-card-title {
+    margin: 0;
+    color: var(--color-text-heading);
+  }
+
+  .impact-card-metric-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .impact-card-metric {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    font-family: var(--font-serif);
+    font-style: normal;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-metric);
+    line-height: var(--text-metric--line-height);
+    color: var(--impact-accent);
+  }
+
+  .impact-card-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--impact-accent);
+    opacity: 0;
+    transform: translate(-6px, 6px);
+    transition:
+      opacity 500ms ease 450ms,
+      transform 550ms cubic-bezier(0.16, 1, 0.3, 1) 450ms;
+  }
+
+  .impact-card.is-visible .impact-card-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .impact-card-before {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 4px;
+    border-left: 1px solid var(--color-border-default);
+    padding-left: 8px;
+  }
+
+  .impact-card-before-label {
+    margin: 0;
+    color: var(--color-text-body-secondary);
+    text-transform: uppercase;
+  }
+
+  .impact-card-before-value {
+    margin: 0;
+    color: var(--color-text-body-secondary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .impact-card-arrow {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const cards =
+    document.querySelectorAll<HTMLElement>(".impact-card");
+
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  const animateNumber = (
+    el: HTMLElement,
+    target: number,
+    duration = 1400
+  ) => {
+    if (prefersReducedMotion) {
+      el.textContent = target.toString();
+      return;
+    }
+    const start = performance.now();
+    const raf = (now: number) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+      const current = Math.round(target * eased);
+      el.textContent = current.toString();
+      if (t < 1) requestAnimationFrame(raf);
+      else el.textContent = target.toString();
+    };
+    requestAnimationFrame(raf);
+  };
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const card = entry.target as HTMLElement;
+          if (entry.isIntersecting && !card.dataset.animated) {
+            card.dataset.animated = "true";
+            card.classList.add("is-visible");
+            const numEl = card.querySelector<HTMLElement>(
+              ".impact-card-num"
+            );
+            const target = Number(numEl?.dataset.target ?? 0);
+            if (numEl && !isNaN(target)) {
+              animateNumber(numEl, target);
+            }
+          }
+        }
+      },
+      { threshold: 0.35 }
+    );
+    cards.forEach((c) => observer.observe(c));
+  } else {
+    cards.forEach((card) => {
+      card.classList.add("is-visible");
+      const numEl = card.querySelector<HTMLElement>(".impact-card-num");
+      const target = Number(numEl?.dataset.target ?? 0);
+      if (numEl && !isNaN(target)) numEl.textContent = target.toString();
+    });
+  }
+</script>

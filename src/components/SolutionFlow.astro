@@ -1,0 +1,1113 @@
+---
+type Persona = "ui" | "ds";
+interface FlowNode {
+  id: string;
+  label: string;
+  personas?: Persona[];
+}
+
+const decision = { id: "decision", label: "Designer's need?" };
+
+// Ordered top → bottom in the middle column.
+// "Add new component" moved to the top and tagged UI + Design System.
+const branches: FlowNode[] = [
+  { id: "evolve", label: "Add/Update component", personas: ["ui", "ds"] },
+  { id: "use", label: "Use component", personas: ["ui"] },
+];
+
+const sync: FlowNode = { id: "sync", label: "Synced in one place" };
+
+const outcomes: FlowNode[] = [
+  { id: "search", label: "Fast search of past changes", personas: ["ds"] },
+  { id: "release", label: "Team aligned via release notes", personas: ["ds", "ui"] },
+  { id: "advice", label: "Team aligned via smart reminders", personas: ["ui"] },
+];
+
+const openIcon = `<svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M3.5 3h3.5v3.5M7 3L3 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+const closeIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+
+const personaLabels: Record<Persona, string> = { ui: "UI", ds: "DS" };
+
+// Modal content per clickable node. Placeholder copy — replace with real
+// screenshots/video + description when materials are ready.
+type ModalContent = {
+  title: string;
+  description: string;
+  video?: string;
+  image?: string;
+  /** Optional aspect-ratio override for the media box, e.g. "4128 / 2928"
+      to match the native size of an image and avoid cropping/letterbox. */
+  mediaAspect?: string;
+  /** Optional override for the media background (e.g. "#000" for videos
+      with dark UI that need matching letterbox bars). */
+  mediaBg?: string;
+};
+const modalContent: Record<string, ModalContent> = {
+  evolve: {
+    title: "Add or update a component",
+    description:
+      "The designer opens the plugin, picks the component, and fills in what changed, why, and when it goes live. Author and date are added automatically, so nothing has to be tracked by hand.",
+  },
+  use: {
+    title: "Use a component from the library",
+    description:
+      "When a designer drops a component into their file, the current version and any recent updates are already there in the component description. If a newer version is on the way, a small warning icon on the title makes it easy to spot before starting the work.",
+  },
+  sync: {
+    title: "Everything synced in one place",
+    description:
+      "Following pivot 3, I built a real source of truth on GitHub. The data is structured, unique, and easy for scripts and LLMs to use, which adds value and helps us hit our three goals: frictionless, retrievable, and proactive.",
+    video: "/case-studies/design-system-search/sync.mp4",
+    mediaAspect: "1920 / 1080",
+  },
+  search: {
+    title: "Fast search of past changes",
+    description:
+      "Every change lives in one central repository, searchable with an AI chat. Finding and double-checking a past change now takes about 5 minutes. Before, digging through scattered sources could take a full day.",
+    image: "/case-studies/design-system-search/aichat.png",
+    mediaAspect: "6824 / 3416",
+  },
+  release: {
+    title: "Team aligned via release notes",
+    description:
+      "An automated script pulls every change logged during the previous week and turns it into a human-readable release note. We review it, then publish. This cuts a ~4h weekly task down to a ~25min review.",
+    image: "/case-studies/design-system-search/weekly-release.png",
+    mediaAspect: "4128 / 2928",
+  },
+  advice: {
+    title: "Team aligned via smart reminders",
+    description:
+      "An automated script picks up the \"go-live\" dates logged in the changelog and, on the go-live day, reminds designers that the updated component must be used for any project shipping after that date. Proactive communication, by default.",
+    image: "/case-studies/design-system-search/reminders.png",
+    mediaAspect: "4128 / 2928",
+  },
+};
+
+const modalAttrs = (id: string) => {
+  const c = modalContent[id];
+  if (!c) return {};
+  const attrs: Record<string, string> = {
+    "data-modal-title": c.title,
+    "data-modal-description": c.description,
+  };
+  if (c.video) attrs["data-modal-video"] = c.video;
+  if (c.image) attrs["data-modal-image"] = c.image;
+  if (c.mediaAspect) attrs["data-modal-media-aspect"] = c.mediaAspect;
+  if (c.mediaBg) attrs["data-modal-media-bg"] = c.mediaBg;
+  return attrs;
+};
+---
+
+<figure class="solution-flow" aria-label="Interactive solution flow">
+  {/* ─────────── Desktop ─────────── */}
+  <div class="flow-desktop-frame">
+  <div class="flow-desktop" data-flow-root>
+    <svg class="flow-lines" aria-hidden="true">
+      <defs>
+        <marker
+          id="flow-arrow"
+          viewBox="0 0 10 10"
+          refX="9"
+          refY="5"
+          markerWidth="8"
+          markerHeight="8"
+          markerUnits="strokeWidth"
+          orient="auto-start-reverse"
+        >
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" />
+        </marker>
+      </defs>
+      <g fill="none" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></g>
+    </svg>
+
+    <div class="flow-grid">
+      <div class="col col-2">
+        <div class="diamond-wrap" data-flow-node={decision.id}>
+          <div class="diamond" role="presentation">
+            <span class="diamond-label">{decision.label}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-3">
+        {branches.map((n) => (
+          <button type="button" class="node clickable" data-flow-node={n.id} {...modalAttrs(n.id)}>
+            {n.personas && (
+              <span class="chip-row">
+                {n.personas.map((p) => (
+                  <span class:list={["chip", `chip-${p}`]}>{personaLabels[p]}</span>
+                ))}
+              </span>
+            )}
+            <span class="node-label">{n.label}</span>
+            <span class="node-badge" set:html={openIcon} />
+          </button>
+        ))}
+      </div>
+
+      <div class="col col-4">
+        <button
+          type="button"
+          class="node clickable node-sync"
+          data-flow-node={sync.id}
+          {...modalAttrs(sync.id)}
+        >
+          <span class="node-label">{sync.label}</span>
+          <span class="node-badge" set:html={openIcon} />
+        </button>
+      </div>
+
+      <div class="col col-5">
+        {outcomes.map((n) => (
+          <button type="button" class="node clickable" data-flow-node={n.id} {...modalAttrs(n.id)}>
+            {n.personas && (
+              <span class="chip-row">
+                {n.personas.map((p) => (
+                  <span class:list={["chip", `chip-${p}`]}>{personaLabels[p]}</span>
+                ))}
+              </span>
+            )}
+            <span class="node-label">{n.label}</span>
+            <span class="node-badge" set:html={openIcon} />
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+  </div>
+
+  {/* ─────────── Mobile ─────────── */}
+  <ol class="flow-mobile" aria-label="Solution flow steps">
+    <li class="m-item m-decision">
+      <div class="diamond-mobile" role="presentation">
+        <span class="diamond-label">{decision.label}</span>
+      </div>
+    </li>
+    <li class="m-item m-connector" aria-hidden="true">
+      <svg width="12" height="28" viewBox="0 0 12 28" fill="none">
+        <path d="M6 0 L6 20" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+        <path d="M1 20 L11 20 L6 27 Z" fill="currentColor" />
+      </svg>
+    </li>
+
+    <li class="m-item m-group-label"><span>Options</span></li>
+    {branches.map((n) => (
+      <li class="m-item">
+        <button type="button" class="node clickable" {...modalAttrs(n.id)}>
+          {n.personas && (
+            <span class="chip-row">
+              {n.personas.map((p) => (
+                <span class:list={["chip", `chip-${p}`]}>{personaLabels[p]}</span>
+              ))}
+            </span>
+          )}
+          <span class="node-label">{n.label}</span>
+          <span class="node-badge" set:html={openIcon} />
+        </button>
+      </li>
+    ))}
+
+    <li class="m-item m-connector" aria-hidden="true">
+      <svg width="12" height="28" viewBox="0 0 12 28" fill="none">
+        <path d="M6 0 L6 20" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+        <path d="M1 20 L11 20 L6 27 Z" fill="currentColor" />
+      </svg>
+    </li>
+    <li class="m-item m-group-label"><span>What happens next</span></li>
+    <li class="m-item">
+      <button type="button" class="node clickable" {...modalAttrs(sync.id)}>
+        <span class="node-label">{sync.label}</span>
+        <span class="node-badge" set:html={openIcon} />
+      </button>
+    </li>
+
+    <li class="m-item m-connector" aria-hidden="true">
+      <svg width="12" height="28" viewBox="0 0 12 28" fill="none">
+        <path d="M6 0 L6 20" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+        <path d="M1 20 L11 20 L6 27 Z" fill="currentColor" />
+      </svg>
+    </li>
+    <li class="m-item m-group-label"><span>Outcomes</span></li>
+    {outcomes.map((n) => (
+      <li class="m-item">
+        <button type="button" class="node clickable" {...modalAttrs(n.id)}>
+          {n.personas && (
+            <span class="chip-row">
+              {n.personas.map((p) => (
+                <span class:list={["chip", `chip-${p}`]}>{personaLabels[p]}</span>
+              ))}
+            </span>
+          )}
+          <span class="node-label">{n.label}</span>
+          <span class="node-badge" set:html={openIcon} />
+        </button>
+      </li>
+    ))}
+  </ol>
+
+  <figcaption class="type-caption flow-caption">
+    <svg
+      class="flow-caption-arrow"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <line x1="12" y1="19" x2="12" y2="5" />
+      <polyline points="5 12 12 5 19 12" />
+    </svg>
+    <span><span class="flow-caption-cta">Click</span> on each step to see the implemented feature</span>
+  </figcaption>
+
+  {/* ─────────── Modal ─────────── */}
+  <dialog class="solution-modal" data-flow-modal aria-labelledby="solution-modal-title">
+    <article class="modal-content">
+      <header class="modal-header">
+        <h2 id="solution-modal-title" class="modal-title" data-modal-title-el>&nbsp;</h2>
+        <button
+          type="button"
+          class="modal-close"
+          aria-label="Close"
+          data-modal-close
+          set:html={closeIcon}
+        />
+      </header>
+      <div class="modal-media" data-modal-media aria-hidden="true">
+        <video
+          class="modal-media-video"
+          data-modal-video-el
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+        ></video>
+        <img class="modal-media-image" data-modal-image-el alt="" />
+      </div>
+      <p class="modal-description" data-modal-description-el>&nbsp;</p>
+    </article>
+  </dialog>
+</figure>
+
+<style>
+  .solution-flow {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ══════ Desktop frame ══════ */
+  .flow-desktop-frame {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border-default);
+    border-radius: 8px;
+    padding: 32px 20px;
+  }
+
+  /* ══════ Desktop layout ══════ */
+  .flow-desktop {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1200 / 560;
+  }
+
+  .flow-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    color: var(--color-border-default);
+    overflow: visible;
+  }
+  .flow-lines g {
+    stroke: currentColor;
+  }
+
+  .flow-grid {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 12fr) minmax(0, 9fr)
+      minmax(0, 18fr) minmax(0, 9fr)
+      minmax(0, 21fr) minmax(0, 9fr)
+      minmax(0, 22fr);
+    align-items: stretch;
+  }
+  .col-2 { grid-column: 1; }
+  .col-3 { grid-column: 3; }
+  .col-4 { grid-column: 5; }
+  .col-5 { grid-column: 7; }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+  .col-2 {
+    justify-content: center;
+    align-items: center;
+  }
+  /* col-4 and col-5: 3-row grid so items at grid-row 2 line up on the
+     central horizontal axis (sync, release, and the diamond). */
+  .col-4,
+  .col-5 {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+  .col-5 > *:nth-child(1) {
+    grid-row: 1;
+    align-self: start;
+  }
+  .col-5 > *:nth-child(2) {
+    grid-row: 2;
+    align-self: center;
+  }
+  .col-5 > *:nth-child(3) {
+    grid-row: 3;
+    align-self: end;
+  }
+  .col-4 .node-sync {
+    grid-row: 2;
+    align-self: center;
+  }
+  /* col-3 has only 2 items — center them as a group with a fixed gap
+     so they sit visually balanced instead of pinned to top/middle. */
+  .col-3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--spacing-gap-2xl);
+  }
+
+  /* ══════ Node — shared ══════ */
+  .node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 4px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    min-height: 56px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--color-text-body);
+    background: transparent;
+    border: none;
+    cursor: default;
+  }
+
+  .node-label {
+    display: block;
+    max-width: 16ch;
+  }
+
+  /* ── Clickable ── */
+  .node.clickable {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-text-heading);
+    cursor: pointer;
+    box-shadow: 0 1px 0 var(--color-alpha-black-08);
+    transition:
+      transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 200ms ease,
+      border-color 200ms ease;
+  }
+  .node.clickable:hover,
+  .node.clickable:focus-visible {
+    transform: translateY(-2px);
+    border-color: #141414;
+    box-shadow:
+      0 6px 16px -8px rgba(20, 20, 20, 0.22),
+      0 2px 4px -2px rgba(30, 26, 21, 0.08);
+    outline: none;
+  }
+  .node.clickable:active {
+    transform: translateY(0);
+  }
+
+  /* Badge — CTA affordance in the corner */
+  .node-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: #141414;
+    color: var(--color-text-on-inverse);
+    border: 1px solid #141414;
+    transition:
+      transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 200ms ease;
+  }
+  .node.clickable:hover .node-badge,
+  .node.clickable:focus-visible .node-badge {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 4px rgba(20, 20, 20, 0.12);
+  }
+
+  /* ── Passive ── */
+  .node.passive {
+    background: transparent;
+    border: 1px dashed var(--color-border-default);
+    color: var(--color-text-body-secondary);
+  }
+
+  /* ══════ Chips (persona tags) ══════ */
+  .chip-row {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: 9px;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-on-inverse);
+  }
+  .chip-ui {
+    background: #74a495; /* callout default — UI/UX team */
+  }
+  .chip-ds {
+    background: var(--color-accent-info);
+  }
+
+  /* ══════ Diamond ══════ */
+  /* Wrap is axis-aligned; the inner rotated shape is INSCRIBED inside it
+     (inset ≈ w × (1 − 1/√2) / 2). That way the wrap's middle-left/right
+     coincide with the diamond's left/right vertices, so lines terminate
+     precisely at the tip and the arrowhead stays visible. */
+  .diamond-wrap {
+    width: 80px;
+    height: 80px;
+    position: relative;
+  }
+  .diamond {
+    position: absolute;
+    inset: 0;
+    background: var(--color-bg-info-subtle);
+    border: 1px solid var(--color-border-highlight-info);
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .diamond-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-text-highlight-info);
+    text-align: center;
+    max-width: 66px;
+  }
+
+  /* ══════ Mobile ══════ */
+  .flow-mobile {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .m-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .m-item .node,
+  .m-item .diamond-mobile {
+    width: 100%;
+  }
+  .m-connector {
+    color: var(--color-border-default);
+    align-self: center;
+    padding-block: 2px;
+  }
+  .m-group-label {
+    justify-content: flex-start;
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-eyebrow);
+    padding-block: 4px;
+    width: 100%;
+  }
+  .diamond-mobile {
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border-highlight-info);
+    background: var(--color-bg-info-subtle);
+    text-align: center;
+  }
+  .diamond-mobile .diamond-label {
+    color: var(--color-text-highlight-info);
+    transform: none;
+    max-width: none;
+  }
+
+  /* ══════ Caption ══════ */
+  .flow-caption {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-gap-xs);
+    margin-top: var(--spacing-gap-md);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+  .flow-caption-arrow {
+    flex-shrink: 0;
+  }
+  .flow-caption-cta {
+    font-weight: var(--font-weight-medium);
+  }
+
+  @media (max-width: 799px) {
+    .flow-desktop-frame {
+      display: none;
+    }
+    .flow-mobile {
+      display: flex;
+    }
+    /* Caption moves above the schema (with arrow pointing DOWN toward it). */
+    .flow-caption {
+      order: -1;
+      margin-top: 0;
+      margin-bottom: var(--spacing-gap-md);
+    }
+    .flow-caption-arrow {
+      transform: scaleY(-1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .node.clickable,
+    .node-badge {
+      transition: none;
+    }
+    .node.clickable:hover,
+    .node.clickable:focus-visible,
+    .node.clickable:hover .node-badge,
+    .node.clickable:focus-visible .node-badge {
+      transform: none;
+    }
+  }
+
+  /* ══════ Modal ══════ */
+  .solution-modal {
+    padding: 0;
+    border: none;
+    background: transparent;
+    max-width: none;
+    max-height: none;
+    margin: auto;
+  }
+  .solution-modal::backdrop {
+    background: rgba(30, 26, 21, 0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-content {
+    background: var(--color-card-bg-highlight);
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+    padding: var(--spacing-padding-xl);
+    width: min(1120px, calc(100vw - 40px));
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-xl);
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-gap-lg);
+  }
+  .modal-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
+    color: var(--color-text-heading);
+    max-width: 60ch;
+  }
+  .modal-close {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--color-border-default);
+    background: transparent;
+    color: var(--color-text-body);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+  .modal-close:hover,
+  .modal-close:focus-visible {
+    background: var(--color-bg-subtle-warm);
+    border-color: var(--color-border-emphasized);
+    outline: none;
+  }
+
+  .modal-media {
+    background: var(--color-neutral-200);
+    border-radius: 12px;
+    aspect-ratio: 1140 / 562;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  .modal-media-video,
+  .modal-media-image {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: var(--color-neutral-200);
+  }
+  .modal-media.has-video .modal-media-video,
+  .modal-media.has-image .modal-media-image {
+    display: block;
+  }
+
+  .modal-description {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-body);
+    max-width: 80ch;
+  }
+
+  /* Mobile: bottom-sheet full-screen */
+  @media (max-width: 799px) {
+    .solution-modal {
+      width: 100vw;
+      height: 100vh;
+      max-width: 100vw;
+      max-height: 100vh;
+      margin: 0;
+    }
+    .modal-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      max-height: 100vh;
+      border-radius: 12px 12px 0 0;
+      padding: var(--spacing-padding-lg);
+    }
+    .modal-title {
+      font-size: var(--text-h2);
+      line-height: var(--text-h2--line-height);
+    }
+  }
+</style>
+
+<script>
+  type Side = "left" | "right" | "top" | "bottom";
+  type Connection = {
+    from: string;
+    to: string;
+    /** Which edge to exit from on the source. Default "right". */
+    fromSide?: Side;
+    /** Which edge to enter on the target. Default "left". */
+    toSide?: Side;
+    /** For horizontal routes: force the elbow at this many px from the
+        source (instead of the midpoint). Keeps sibling branches perfectly
+        symmetric across viewports. */
+    elbowFromSource?: number;
+  };
+
+  const CONNECTIONS: Connection[] = [
+    { from: "decision", to: "evolve", elbowFromSource: 28 },
+    { from: "decision", to: "use", elbowFromSource: 28 },
+    { from: "evolve", to: "sync" },
+    { from: "sync", to: "release", elbowFromSource: 32 },
+    // Update reminders arrow leaves sync from BOTTOM, goes down, then
+    // turns 90° and enters update reminders from the LEFT side.
+    { from: "sync", to: "advice", fromSide: "bottom", toSide: "left" },
+    // Search reads FROM sync — arrow enters sync from the top edge.
+    { from: "search", to: "sync", fromSide: "left", toSide: "top" },
+  ];
+
+  const CORNER_RADIUS = 10;
+  const TARGET_GAP = 4;
+
+  /** Z-path: horizontal → vertical → horizontal. Both endpoints on
+      horizontal edges (left/right of source and target). Works with
+      any combination of dx/dy signs. */
+  function orthogonalPath(
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    elbowFromSource?: number
+  ): string {
+    if (Math.abs(y1 - y2) < 0.5) {
+      return `M ${x1} ${y1} H ${x2}`;
+    }
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const dxSign = Math.sign(dx) || 1;
+    const dySign = Math.sign(dy) || 1;
+    let mx: number;
+    if (typeof elbowFromSource === "number") {
+      const clampedOffset = Math.max(2, Math.min(Math.abs(dx) - 2, elbowFromSource));
+      mx = x1 + dxSign * clampedOffset;
+    } else {
+      mx = x1 + dx / 2;
+    }
+    const r = Math.max(
+      0,
+      Math.min(
+        CORNER_RADIUS,
+        Math.abs(mx - x1) - 1,
+        Math.abs(x2 - mx) - 1,
+        Math.abs(dy) / 2 - 1
+      )
+    );
+    if (r < 1) {
+      return `M ${x1} ${y1} H ${mx} V ${y2} H ${x2}`;
+    }
+    // At corner 1 (h→v): sweep=1 if dxSign and dySign agree (both +/+ or -/-),
+    // sweep=0 otherwise. Corner 2 (v→h) uses the inverse.
+    const sweep1 = dxSign === dySign ? 1 : 0;
+    const sweep2 = 1 - sweep1;
+    return [
+      `M ${x1} ${y1}`,
+      `H ${mx - r * dxSign}`,
+      `A ${r} ${r} 0 0 ${sweep1} ${mx} ${y1 + r * dySign}`,
+      `V ${y2 - r * dySign}`,
+      `A ${r} ${r} 0 0 ${sweep2} ${mx + r * dxSign} ${y2}`,
+      `H ${x2}`,
+    ].join(" ");
+  }
+
+  /** L-path: horizontal from source, then vertical into target's top/bottom
+      edge. Ends going vertically so the arrow marker points into the
+      target from above or below. */
+  function elbowPath(x1: number, y1: number, x2: number, y2: number): string {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const dxSign = Math.sign(dx) || 1;
+    const dySign = Math.sign(dy) || 1;
+    const r = Math.max(
+      0,
+      Math.min(
+        CORNER_RADIUS,
+        Math.abs(dx) / 2 - 1,
+        Math.abs(dy) / 2 - 1
+      )
+    );
+    if (r < 1) {
+      return `M ${x1} ${y1} H ${x2} V ${y2}`;
+    }
+    const sweep = dxSign === dySign ? 1 : 0;
+    return [
+      `M ${x1} ${y1}`,
+      `H ${x2 - r * dxSign}`,
+      `A ${r} ${r} 0 0 ${sweep} ${x2} ${y1 + r * dySign}`,
+      `V ${y2}`,
+    ].join(" ");
+  }
+
+  /** V-H L-path: vertical from source's top/bottom, then horizontal into
+      target's left/right edge. Mirror of elbowPath for vertical sources. */
+  function elbowPathVertical(x1: number, y1: number, x2: number, y2: number): string {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const dxSign = Math.sign(dx) || 1;
+    const dySign = Math.sign(dy) || 1;
+    const r = Math.max(
+      0,
+      Math.min(
+        CORNER_RADIUS,
+        Math.abs(dx) / 2 - 1,
+        Math.abs(dy) / 2 - 1
+      )
+    );
+    if (r < 1) {
+      return `M ${x1} ${y1} V ${y2} H ${x2}`;
+    }
+    // At corner (v→h): sweep = 0 if dxSign === dySign else 1
+    // (inverse of h→v sweep in elbowPath).
+    const sweep = dxSign === dySign ? 0 : 1;
+    return [
+      `M ${x1} ${y1}`,
+      `V ${y2 - r * dySign}`,
+      `A ${r} ${r} 0 0 ${sweep} ${x1 + r * dxSign} ${y2}`,
+      `H ${x2}`,
+    ].join(" ");
+  }
+
+  /** V-H-V path: vertical from source's top/bottom, horizontal, then
+      vertical into target's top/bottom. Used when both source and target
+      are attached on vertical edges — the horizontal midpoint runs
+      through the "gap" between rows, avoiding any container in between. */
+  function verticalPath(x1: number, y1: number, x2: number, y2: number): string {
+    if (Math.abs(x1 - x2) < 0.5) {
+      return `M ${x1} ${y1} V ${y2}`;
+    }
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const dxSign = Math.sign(dx) || 1;
+    const dySign = Math.sign(dy) || 1;
+    const my = y1 + dy / 2;
+    const r = Math.max(
+      0,
+      Math.min(
+        CORNER_RADIUS,
+        Math.abs(dx) / 2 - 1,
+        Math.abs(my - y1) - 1,
+        Math.abs(y2 - my) - 1
+      )
+    );
+    if (r < 1) {
+      return `M ${x1} ${y1} V ${my} H ${x2} V ${y2}`;
+    }
+    // Corner sweeps mirror orthogonalPath's, but v→h → h→v transitions.
+    const sweep1 = dxSign === dySign ? 0 : 1;
+    const sweep2 = 1 - sweep1;
+    return [
+      `M ${x1} ${y1}`,
+      `V ${my - r * dySign}`,
+      `A ${r} ${r} 0 0 ${sweep1} ${x1 + r * dxSign} ${my}`,
+      `H ${x2 - r * dxSign}`,
+      `A ${r} ${r} 0 0 ${sweep2} ${x2} ${my + r * dySign}`,
+      `V ${y2}`,
+    ].join(" ");
+  }
+
+  function drawFlow(root: HTMLElement) {
+    const svg = root.querySelector<SVGSVGElement>(".flow-lines");
+    const g = svg?.querySelector<SVGGElement>("g");
+    if (!svg || !g) return;
+
+    const rootRect = root.getBoundingClientRect();
+    svg.setAttribute("viewBox", `0 0 ${rootRect.width} ${rootRect.height}`);
+    svg.setAttribute("preserveAspectRatio", "none");
+
+    while (g.firstChild) g.removeChild(g.firstChild);
+
+    const nodes = new Map<string, DOMRect>();
+    root.querySelectorAll<HTMLElement>("[data-flow-node]").forEach((el) => {
+      const id = el.dataset.flowNode;
+      if (id) nodes.set(id, el.getBoundingClientRect());
+    });
+
+    for (const conn of CONNECTIONS) {
+      const from = nodes.get(conn.from);
+      const to = nodes.get(conn.to);
+      if (!from || !to) continue;
+
+      const fromSide = conn.fromSide ?? "right";
+      const toSide = conn.toSide ?? "left";
+
+      // Source exit point
+      let x1: number, y1: number;
+      if (fromSide === "right") {
+        x1 = from.right - rootRect.left;
+        y1 = from.top - rootRect.top + from.height / 2;
+      } else if (fromSide === "left") {
+        x1 = from.left - rootRect.left;
+        y1 = from.top - rootRect.top + from.height / 2;
+      } else if (fromSide === "top") {
+        x1 = from.left - rootRect.left + from.width / 2;
+        y1 = from.top - rootRect.top;
+      } else {
+        x1 = from.left - rootRect.left + from.width / 2;
+        y1 = from.bottom - rootRect.top;
+      }
+
+      // Target entry point (with a small gap so the arrow tip sits outside
+      // the target's edge).
+      let x2: number, y2: number;
+      if (toSide === "left") {
+        x2 = to.left - rootRect.left - TARGET_GAP;
+        y2 = to.top - rootRect.top + to.height / 2;
+      } else if (toSide === "right") {
+        x2 = to.right - rootRect.left + TARGET_GAP;
+        y2 = to.top - rootRect.top + to.height / 2;
+      } else if (toSide === "top") {
+        x2 = to.left - rootRect.left + to.width / 2;
+        y2 = to.top - rootRect.top - TARGET_GAP;
+      } else {
+        x2 = to.left - rootRect.left + to.width / 2;
+        y2 = to.bottom - rootRect.top + TARGET_GAP;
+      }
+
+      const fromVertical = fromSide === "top" || fromSide === "bottom";
+      const toVertical = toSide === "top" || toSide === "bottom";
+      let d: string;
+      if (fromVertical && toVertical) {
+        d = verticalPath(x1, y1, x2, y2);
+      } else if (fromVertical) {
+        d = elbowPathVertical(x1, y1, x2, y2);
+      } else if (toVertical) {
+        d = elbowPath(x1, y1, x2, y2);
+      } else {
+        d = orthogonalPath(x1, y1, x2, y2, conn.elbowFromSource);
+      }
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", d);
+      path.setAttribute("marker-end", "url(#flow-arrow)");
+      g.appendChild(path);
+    }
+  }
+
+  function init() {
+    const roots = document.querySelectorAll<HTMLElement>("[data-flow-root]");
+    roots.forEach((root) => {
+      const render = () => drawFlow(root);
+      render();
+      const ro = new ResizeObserver(render);
+      ro.observe(root);
+      root.querySelectorAll<HTMLElement>("[data-flow-node]").forEach((el) => {
+        ro.observe(el);
+      });
+      if ("fonts" in document) {
+        (document as any).fonts.ready.then(render);
+      }
+      window.addEventListener("load", render, { once: true });
+    });
+  }
+
+  function initModals() {
+    const figures = document.querySelectorAll<HTMLElement>(".solution-flow");
+    figures.forEach((figure) => {
+      const modal = figure.querySelector<HTMLDialogElement>("[data-flow-modal]");
+      if (!modal) return;
+      const titleEl = modal.querySelector<HTMLElement>("[data-modal-title-el]");
+      const descEl = modal.querySelector<HTMLElement>("[data-modal-description-el]");
+      const mediaEl = modal.querySelector<HTMLElement>("[data-modal-media]");
+      const videoEl = modal.querySelector<HTMLVideoElement>("[data-modal-video-el]");
+      const imageEl = modal.querySelector<HTMLImageElement>("[data-modal-image-el]");
+      const closeBtn = modal.querySelector<HTMLButtonElement>("[data-modal-close]");
+
+      const resetMedia = () => {
+        if (videoEl) {
+          videoEl.pause();
+          videoEl.removeAttribute("src");
+          videoEl.load();
+        }
+        if (imageEl) {
+          imageEl.removeAttribute("src");
+        }
+        if (mediaEl) {
+          mediaEl.classList.remove("has-video", "has-image");
+          mediaEl.style.aspectRatio = "";
+          mediaEl.style.background = "";
+        }
+        if (videoEl) videoEl.style.background = "";
+        if (imageEl) imageEl.style.background = "";
+      };
+
+      const openWith = (btn: HTMLElement) => {
+        if (titleEl) titleEl.textContent = btn.dataset.modalTitle ?? "";
+        if (descEl) descEl.textContent = btn.dataset.modalDescription ?? "";
+
+        resetMedia();
+
+        const videoSrc = btn.dataset.modalVideo;
+        const imageSrc = btn.dataset.modalImage;
+        const mediaAspect = btn.dataset.modalMediaAspect;
+        const mediaBg = btn.dataset.modalMediaBg;
+
+        if (videoSrc && videoEl && mediaEl) {
+          videoEl.src = videoSrc;
+          mediaEl.classList.add("has-video");
+          videoEl.play().catch(() => {});
+        } else if (imageSrc && imageEl && mediaEl) {
+          imageEl.src = imageSrc;
+          mediaEl.classList.add("has-image");
+        }
+
+        if (mediaEl && mediaAspect) {
+          mediaEl.style.aspectRatio = mediaAspect;
+        }
+        if (mediaEl && mediaBg) {
+          mediaEl.style.background = mediaBg;
+          if (videoEl) videoEl.style.background = mediaBg;
+          if (imageEl) imageEl.style.background = mediaBg;
+        }
+
+        modal.showModal();
+      };
+
+      figure
+        .querySelectorAll<HTMLButtonElement>("button.node.clickable[data-modal-title]")
+        .forEach((btn) => {
+          btn.addEventListener("click", () => openWith(btn));
+        });
+
+      const closeModal = () => {
+        resetMedia();
+        modal.close();
+      };
+
+      closeBtn?.addEventListener("click", closeModal);
+      // Backdrop click: native <dialog> click event targets the dialog itself
+      // when the backdrop is clicked (content clicks bubble from children).
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      init();
+      initModals();
+    });
+  } else {
+    init();
+    initModals();
+  }
+</script>

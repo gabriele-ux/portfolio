@@ -1,0 +1,28 @@
+---
+import Tag from "./Tag.astro";
+
+interface TagData {
+  label: string;
+  dot?: "success";
+}
+
+interface Props {
+  tags: TagData[];
+  size?: "md" | "sm";
+  class?: string;
+}
+
+const { tags, size = "md", class: className = "" } = Astro.props;
+---
+
+<div class:list={["tag-list", className]}>
+  {tags.map((t) => <Tag label={t.label} dot={t.dot} size={size} />)}
+</div>
+
+<style>
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-gap-sm);
+  }
+</style>

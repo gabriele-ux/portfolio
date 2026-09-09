@@ -1,0 +1,77 @@
+---
+interface Props {
+  label: string;
+  selected?: boolean;
+  value?: string;
+  chosen?: boolean;
+}
+
+const { label, selected = false, value, chosen = false } = Astro.props;
+---
+
+<button
+  type="button"
+  role="tab"
+  class="tab-item"
+  aria-selected={selected ? "true" : "false"}
+  data-value={value ?? label}
+>
+  <span class="tab-item-content">
+    {
+      chosen && (
+        <svg
+          class="tab-item-check"
+          width="14"
+          height="14"
+          viewBox="0 0 256 256"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M128,24A104,104,0,1,0,232,128,104.13,104.13,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z" />
+        </svg>
+      )
+    }
+    <span class="type-label">{label}</span>
+  </span>
+</button>
+
+<style>
+  .tab-item {
+    flex: 1 1 0;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 var(--spacing-padding-sm);
+    border: 0;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    border-radius: 999px;
+    transition: color 200ms ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tab-item[aria-selected="true"] {
+    color: var(--color-text-heading);
+  }
+
+  .tab-item:focus-visible {
+    outline: 2px solid var(--color-accent-info);
+    outline-offset: 2px;
+  }
+
+  .tab-item-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tab-item-check {
+    flex-shrink: 0;
+    color: var(--color-neutral-800);
+  }
+</style>

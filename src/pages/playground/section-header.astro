@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+---
+
+<BaseLayout title="Playground / SectionHeader">
+  <main class="mx-auto max-w-[900px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        SectionHeader
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Optional eyebrow (DM Mono uppercase) + title. Default title is H1 (Libre Caslon 32), <code>size="large"</code> is display (42).
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        DEFAULT (H1)
+      </h2>
+      <SectionHeader
+        eyebrow="The background"
+        title="One complex system growing at different speed"
+      />
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        LARGE (DISPLAY)
+      </h2>
+      <SectionHeader
+        eyebrow="Pivots"
+        title="From a changelog plugin, to an AI-ready infrastructure"
+        size="large"
+      />
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        NO EYEBROW
+      </h2>
+      <SectionHeader title="A title without an eyebrow above" />
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,91 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import MetaBox from "../../components/MetaBox.astro";
+import MetaItem from "../../components/MetaItem.astro";
+---
+
+<BaseLayout title="Playground / MetaBox">
+  <main class="mx-auto max-w-[900px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        MetaBox
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Container for label/value metadata pairs. Two responsive columns.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        DEFAULT (2 COLUMNS)
+      </h2>
+      <MetaBox>
+        <MetaItem label="ROLE" value="Full end-to-end ownership" />
+        <MetaItem label="TIMELINE" value="6 weeks" />
+        <MetaItem
+          label="TECHNIQUES"
+          value="Data Analysis, Benchmark, Interviews, Flow Mapping, Prototyping, User Tests"
+        />
+        <MetaItem label="TOOLS" value="Claude Code, Figjam" />
+      </MetaBox>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        HMW (LIBRE CASLON ITALIC DISPLAY)
+      </h2>
+      <MetaBox variant="hmw">
+        <MetaItem
+          label="HOW MIGHT WE"
+          value="Make component changes easy to track and retrieve?"
+        />
+      </MetaBox>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        DATA
+      </h2>
+      <MetaBox variant="data">
+        <MetaItem
+          label="TICKET ANALYSIS — 1 YEAR PERIOD"
+          value="12% of 273 requests were about component changes or which version to use"
+        />
+      </MetaBox>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        DECISION
+      </h2>
+      <MetaBox variant="decision">
+        <MetaItem
+          label="DESIGN DECISION"
+          value="No existing option satisfied our needs, so I chose to develop a custom plugin for Figma."
+        />
+      </MetaBox>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        INSIGHT (DARK)
+      </h2>
+      <MetaBox variant="insight">
+        <MetaItem
+          label="INSIGHT"
+          value="Changes were communicated, but there was no shared source of truth for tracking and retrieving them."
+        />
+      </MetaBox>
+    </section>
+  </main>
+</BaseLayout>

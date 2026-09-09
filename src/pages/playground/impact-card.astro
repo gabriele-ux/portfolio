@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ImpactCardList from "../../components/ImpactCardList.astro";
+import ImpactCard from "../../components/ImpactCard.astro";
+---
+
+<BaseLayout title="Playground / ImpactCard">
+  <main class="mx-auto max-w-[1200px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        ImpactCard
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        KPI card with animated count-up and arrow reveal. Title uses
+        <code>.type-h6</code>, metric uses <code>--text-metric</code> (42px)
+        with accent color, before section uses <code>.type-caption</code>.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        LIST (3 CARDS — SUCCESS)
+      </h2>
+      <ImpactCardList>
+        <ImpactCard
+          title="Recover change context"
+          metricPrefix="~"
+          metricValue={5}
+          metricSuffix="min"
+          beforeLabel="BEFORE"
+          beforeValue="Up to 1 working day"
+        />
+        <ImpactCard
+          title="Prepare release notes"
+          metricPrefix="~"
+          metricValue={25}
+          metricSuffix="min"
+          beforeLabel="BEFORE"
+          beforeValue="~4h of manual work"
+        />
+        <ImpactCard
+          title="Keep designers aligned"
+          metricValue={6}
+          metricSuffix="/ 8 designers"
+          beforeLabel="ADOPTION"
+          beforeValue="Use the plugin regularly"
+        />
+      </ImpactCardList>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        COLOR VARIANTS
+      </h2>
+      <ImpactCardList>
+        <ImpactCard
+          title="Info variant"
+          metricValue={42}
+          metricSuffix="pts"
+          color="info"
+          beforeLabel="TARGET"
+          beforeValue="Set at 40 points"
+        />
+        <ImpactCard
+          title="Warning variant"
+          metricValue={12}
+          metricSuffix="%"
+          color="warning"
+          beforeLabel="THRESHOLD"
+          beforeValue="Exceeded budget"
+        />
+        <ImpactCard
+          title="Neutral variant"
+          metricValue={100}
+          metricSuffix="k"
+          color="neutral"
+          arrow={false}
+          beforeLabel="TOTAL"
+          beforeValue="Reached this quarter"
+        />
+      </ImpactCardList>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        WITHOUT BEFORE SECTION
+      </h2>
+      <div style="max-width: 320px;">
+        <ImpactCard
+          title="Simple KPI"
+          metricPrefix="~"
+          metricValue={99}
+          metricSuffix="%"
+        />
+      </div>
+    </section>
+  </main>
+</BaseLayout>

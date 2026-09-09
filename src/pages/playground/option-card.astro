@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import OptionCardList from "../../components/OptionCardList.astro";
+import OptionCard from "../../components/OptionCard.astro";
+import OptionRow from "../../components/OptionRow.astro";
+---
+
+<BaseLayout title="Playground / OptionCard">
+  <main class="mx-auto max-w-[1200px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        OptionCard
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Card with a numbered title and a list of check/cross rows. Wrap in
+        <code>&lt;OptionCardList&gt;</code> to get a responsive grid: 4 cols on
+        desktop, 2 on tablet, 1 on mobile.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        LIST (4 ITEMS)
+      </h2>
+      <OptionCardList>
+        <OptionCard title="1. Track on Figma">
+          <OptionRow type="check">Already in the workflow</OptionRow>
+          <OptionRow type="cross">
+            Require to search manually each page to find information (<em
+              >fails: proactive + retrievability</em
+            >)
+          </OptionRow>
+        </OptionCard>
+
+        <OptionCard title="2. Slack broadcast">
+          <OptionRow type="check">Everyone gets notified</OptionRow>
+          <OptionRow type="cross">
+            Messages get buried fast (<em>fails: retrievability</em>)
+          </OptionRow>
+        </OptionCard>
+
+        <OptionCard title="3. Shared changelog page">
+          <OptionRow type="check">Stable source of truth</OptionRow>
+          <OptionRow type="cross">
+            Requires people to remember to open it (<em>fails: proactive</em>)
+          </OptionRow>
+        </OptionCard>
+
+        <OptionCard title="4. Plugin inside Figma">
+          <OptionRow type="check">Zero context switching</OptionRow>
+          <OptionRow type="check">Push + pull model</OptionRow>
+        </OptionCard>
+      </OptionCardList>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        LIST (3 ITEMS)
+      </h2>
+      <OptionCardList>
+        <OptionCard title="A. First option">
+          <OptionRow type="check">Something good</OptionRow>
+          <OptionRow type="cross">Something bad</OptionRow>
+        </OptionCard>
+        <OptionCard title="B. Second option">
+          <OptionRow type="check">Another good thing</OptionRow>
+        </OptionCard>
+        <OptionCard title="C. Third option">
+          <OptionRow type="cross">Only a downside here</OptionRow>
+        </OptionCard>
+      </OptionCardList>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        SINGLE CARD (STANDALONE)
+      </h2>
+      <div style="max-width: 374px;">
+        <OptionCard title="Standalone card">
+          <OptionRow type="check">Works without the list wrapper</OptionRow>
+          <OptionRow type="cross">
+            Same visual (<em>fixed width demo</em>)
+          </OptionRow>
+        </OptionCard>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Tag from "../../components/Tag.astro";
+import TagList from "../../components/TagList.astro";
+---
+
+<BaseLayout title="Playground / Tag">
+  <main class="mx-auto max-w-[900px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        Tag / TagList
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Static pill tag (h36, radius 8). Optional success dot. TagList wraps
+        multiple tags with an 8px gap.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        TAG — VARIANTS
+      </h2>
+      <div class="flex gap-2 flex-wrap items-center">
+        <Tag label="Design System" />
+        <Tag label="Shipped" dot="success" />
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        TAGLIST
+      </h2>
+      <TagList
+        tags={[
+          { label: "Shipped", dot: "success" },
+          { label: "Design System" },
+          { label: "B2B" },
+          { label: "6 weeks" },
+        ]}
+      />
+    </section>
+  </main>
+</BaseLayout>

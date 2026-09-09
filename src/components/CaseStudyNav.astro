@@ -1,0 +1,442 @@
+---
+interface Section {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  sections: Section[];
+  backHref?: string;
+  backLabel?: string;
+  class?: string;
+}
+
+const {
+  sections,
+  backHref = "/",
+  backLabel = "Back",
+  class: className = "",
+} = Astro.props;
+---
+
+<div class="case-study-nav-wrap">
+  <aside
+    class:list={["case-study-nav", className]}
+    aria-label="Case study sections"
+  >
+    <a class="nav-back" href={backHref}>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path
+          d="M10 3.5L5.5 8L10 12.5"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+      <span>{backLabel}</span>
+    </a>
+
+    <ul class="nav-list">
+      {
+        sections.map((s) => (
+          <li>
+            <a class="nav-item" href={`#${s.id}`} data-nav-target={s.id}>
+              <span class="nav-dash" aria-hidden="true">
+                —
+              </span>
+              <span class="nav-label">{s.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </aside>
+</div>
+
+<button
+  class="nav-fab"
+  type="button"
+  aria-label="Open index"
+  aria-expanded="false"
+  aria-controls="case-study-nav-sheet"
+>
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+    <path
+      d="M3 4.5H15M3 9H15M3 13.5H15"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"></path>
+  </svg>
+  <span>Index</span>
+</button>
+
+<div
+  class="nav-sheet"
+  id="case-study-nav-sheet"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Case study index"
+  hidden
+>
+  <div class="nav-sheet-backdrop" data-sheet-close></div>
+  <div class="nav-sheet-panel">
+    <div class="nav-sheet-header">
+      <h2 class="nav-sheet-title">Index</h2>
+      <button
+        type="button"
+        class="nav-sheet-close"
+        aria-label="Close index"
+        data-sheet-close
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M6 6L18 18M6 18L18 6"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+    <ul class="nav-sheet-list">
+      {
+        sections.map((s) => (
+          <li>
+            <a
+              class="nav-item"
+              href={`#${s.id}`}
+              data-nav-target={s.id}
+              data-sheet-close
+            >
+              <span class="nav-dash" aria-hidden="true">
+                —
+              </span>
+              <span class="nav-label">{s.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  /* ── Desktop sticky nav (absolute in .case-study-body) ─────── */
+  .case-study-nav-wrap {
+    position: absolute;
+    top: var(--spacing-gap-section);
+    left: 40px;
+    bottom: 0;
+    width: 178px;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  .case-study-nav {
+    position: sticky;
+    top: 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    pointer-events: auto;
+  }
+
+  .nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 999px;
+    background-color: var(--color-bg-elevated);
+    color: var(--color-text-body);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1;
+    width: fit-content;
+    transition: background-color 0.15s ease;
+  }
+  .nav-back:hover {
+    background-color: var(--color-bg-subtle-warm);
+  }
+  .nav-back svg {
+    flex-shrink: 0;
+  }
+
+  .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .nav-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: 12px;
+    line-height: 17px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #6d6d6d;
+    transition: color 0.15s ease;
+  }
+  .nav-item:hover {
+    color: #404040;
+  }
+
+  /* Dash is not rendered when inactive → label sits flush left.
+     When active, dash appears and pushes the label to the right. */
+  .nav-dash {
+    display: none;
+    color: #cd3700;
+  }
+  .nav-item.is-active {
+    color: #cd3700;
+  }
+  .nav-item.is-active .nav-dash {
+    display: inline-block;
+  }
+
+  /* ── Mobile floating button ────────────────────────────────── */
+  .nav-fab {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 30;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 999px;
+    background-color: var(--color-neutral-800);
+    color: var(--color-text-on-inverse);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  }
+
+  /* ── Bottom sheet ──────────────────────────────────────────── */
+  .nav-sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: flex;
+    align-items: flex-end;
+    justify-content: stretch;
+  }
+  .nav-sheet[hidden] {
+    display: none;
+  }
+  .nav-sheet-backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(30, 26, 21, 0.45);
+    animation: nav-fade-in 0.2s ease;
+  }
+  .nav-sheet-panel {
+    position: relative;
+    width: 100%;
+    max-height: 75vh;
+    overflow-y: auto;
+    background-color: var(--color-bg-elevated);
+    border-radius: 16px 16px 0 0;
+    padding: 20px 24px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    animation: nav-slide-up 0.25s ease;
+  }
+  .nav-sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-sheet-title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+    color: var(--color-text-heading);
+  }
+  .nav-sheet-close {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--color-border-default);
+    background: transparent;
+    color: var(--color-text-body);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+  .nav-sheet-close:hover,
+  .nav-sheet-close:focus-visible {
+    background: var(--color-bg-subtle-warm);
+    border-color: var(--color-border-emphasized);
+    outline: none;
+  }
+  .nav-sheet-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  @keyframes nav-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes nav-slide-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  /* ── Responsive switch ─────────────────────────────────────── */
+  @media (max-width: 1199px) {
+    .case-study-nav-wrap {
+      display: none;
+    }
+    .nav-fab {
+      display: inline-flex;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-sheet-backdrop,
+    .nav-sheet-panel {
+      animation: none;
+    }
+    .nav-item,
+    .nav-back {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const nav = document.querySelector<HTMLElement>(".case-study-nav");
+  const fab = document.querySelector<HTMLButtonElement>(".nav-fab");
+  const sheet = document.querySelector<HTMLElement>("#case-study-nav-sheet");
+  const allNavItems = document.querySelectorAll<HTMLAnchorElement>(
+    "[data-nav-target]"
+  );
+
+  // ── Scroll spy ─────────────────────────────────────────────
+  const targets = new Map<string, HTMLElement>();
+  allNavItems.forEach((a) => {
+    const id = a.dataset.navTarget;
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (el) targets.set(id, el);
+  });
+
+  const setActive = (id: string | null) => {
+    allNavItems.forEach((a) => {
+      a.classList.toggle("is-active", a.dataset.navTarget === id);
+    });
+  };
+
+  if (targets.size > 0 && "IntersectionObserver" in window) {
+    const orderedIds = Array.from(targets.keys());
+    const lastId = orderedIds[orderedIds.length - 1] ?? null;
+
+    const pickActive = (): string | null => {
+      // When user has scrolled (near) the bottom, force the last section
+      // active — otherwise it can never satisfy the 120px threshold if the
+      // page doesn't scroll far enough past it.
+      const doc = document.documentElement;
+      const nearBottom =
+        window.innerHeight + window.scrollY >= doc.scrollHeight - 24;
+      if (nearBottom && lastId) return lastId;
+
+      let bestId: string | null = null;
+      let bestTop = -Infinity;
+      for (const [id, el] of targets) {
+        const top = el.getBoundingClientRect().top;
+        if (top <= 120 && top > bestTop) {
+          bestTop = top;
+          bestId = id;
+        }
+      }
+      return bestId;
+    };
+
+    const applyActive = () => {
+      const id = pickActive();
+      if (id) setActive(id);
+    };
+
+    const observer = new IntersectionObserver(
+      () => applyActive(),
+      { rootMargin: "-100px 0px -60% 0px", threshold: [0, 0.5, 1] }
+    );
+    targets.forEach((el) => observer.observe(el));
+
+    window.addEventListener("scroll", applyActive, { passive: true });
+    applyActive();
+  }
+
+  // ── Smooth scroll on click ─────────────────────────────────
+  allNavItems.forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const id = a.dataset.navTarget;
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      const y = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: y, behavior: "smooth" });
+      history.replaceState(null, "", `#${id}`);
+    });
+  });
+
+  // ── Bottom sheet ───────────────────────────────────────────
+  const openSheet = () => {
+    if (!sheet || !fab) return;
+    sheet.hidden = false;
+    fab.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  };
+  const closeSheet = () => {
+    if (!sheet || !fab) return;
+    sheet.hidden = true;
+    fab.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  };
+
+  fab?.addEventListener("click", openSheet);
+  sheet
+    ?.querySelectorAll<HTMLElement>("[data-sheet-close]")
+    .forEach((el) => el.addEventListener("click", closeSheet));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && sheet && !sheet.hidden) closeSheet();
+  });
+</script>

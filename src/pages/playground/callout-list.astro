@@ -1,0 +1,164 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CalloutList from "../../components/CalloutList.astro";
+import CalloutItem from "../../components/CalloutItem.astro";
+---
+
+<BaseLayout title="Playground / CalloutList">
+  <main class="mx-auto max-w-[900px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        CalloutList
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        List of items with icon chip, title and paragraph. Divider between rows, hidden on the last one.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        WARNING VARIANT (2 ITEMS)
+      </h2>
+      <CalloutList>
+        <CalloutItem title="Hours lost answering questions" variant="warning">
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          In the last year, our team spent up to a day for each question to
+          recover the info on changes trough slack, email, and asking around.
+        </CalloutItem>
+        <CalloutItem
+          title="Risk of using wrong components"
+          variant="warning"
+          iconStyle="outlined"
+        >
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+            ></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          Designers struggled to pick the right version for each project,
+          risking outdated components in their flows, and having to replace
+          them later.
+        </CalloutItem>
+      </CalloutList>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        INFO VARIANT (3 ITEMS)
+      </h2>
+      <CalloutList>
+        <CalloutItem title="Retrievable" variant="info">
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          Changes need to live somewhere stable and be easy to find later.
+        </CalloutItem>
+        <CalloutItem title="Frictionless" variant="info" iconStyle="outlined">
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M13 2 L3 14 h9 l-1 8 10-12 h-9 z"></path>
+          </svg>
+          The solution needs to fit into UX/UI workflow as they will be using
+          it in their UI Kits.
+        </CalloutItem>
+        <CalloutItem title="Proactive" variant="info">
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          Changes need to reach people, not just wait to be found.
+        </CalloutItem>
+      </CalloutList>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        NEUTRAL VARIANT (SINGLE ITEM)
+      </h2>
+      <CalloutList>
+        <CalloutItem title="Single item, no divider" variant="neutral">
+          <svg
+            slot="icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          Any SVG can be passed via <code>slot="icon"</code>. Description text uses
+          <code>.type-body</code> (DM Sans Light 16/28).
+        </CalloutItem>
+      </CalloutList>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<BaseLayout title="Playground / Footer">
+  <main class="mx-auto max-w-[900px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        Footer
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Homepage footer ported from the main branch. Dark background with
+        animated ambient blobs (orange + light blue, via design tokens) and a
+        noise overlay. Contains a meta row (LAST UPDATED + CURRENTLY with a
+        live Milan clock and sun/moon icon) and a center block with a serif
+        heading and two round CTA buttons (email copy + LinkedIn).
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        DEFAULT
+      </h2>
+      <div
+        class="border overflow-hidden"
+        style="border-color: var(--color-border-faint); border-radius: 16px;"
+      >
+        <Footer />
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        CUSTOM HEADING + EMAIL
+      </h2>
+      <div
+        class="border overflow-hidden"
+        style="border-color: var(--color-border-faint); border-radius: 16px;"
+      >
+        <Footer
+          heading="Let's make something great together."
+          email="hello@example.com"
+        />
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        DIFFERENT LOCATION + TIMEZONE
+      </h2>
+      <div
+        class="border overflow-hidden"
+        style="border-color: var(--color-border-faint); border-radius: 16px;"
+      >
+        <Footer location="London" timeZone="Europe/London" />
+      </div>
+    </section>
+  </main>
+</BaseLayout>

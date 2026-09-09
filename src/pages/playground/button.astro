@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Button from "../../components/Button.astro";
+
+const states = [
+  { key: "default", label: "Default" },
+  { key: "hover", label: "Hover" },
+  { key: "active", label: "Active / Pressed" },
+  { key: "focus", label: "Focus (keyboard)" },
+] as const;
+---
+
+<BaseLayout title="Playground / Button">
+  <main class="mx-auto max-w-[720px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        COMPONENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        Button
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Pill button used for primary calls-to-action.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        INTERACTIVE
+      </h2>
+      <p class="type-body-sm" style="color: var(--color-text-muted);">
+        Hover, click, or tab into it to see the real interactive states.
+      </p>
+      <div
+        class="p-8 border flex items-center justify-center"
+        style="background-color: var(--color-bg-elevated); border-color: var(--color-border-faint);"
+      >
+        <Button href="#">Let's talk</Button>
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        STATES
+      </h2>
+      <p class="type-body-sm" style="color: var(--color-text-muted);">
+        Same button forced into each state so you can compare them side-by-side.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {
+          states.map((s) => (
+            <div
+              class="p-6 border flex flex-col gap-3 items-center"
+              style="background-color: var(--color-bg-elevated); border-color: var(--color-border-faint);"
+            >
+              <span
+                class="type-label"
+                style="color: var(--color-text-muted);"
+              >
+                {s.label}
+              </span>
+              <Button state={s.key}>Let's talk</Button>
+            </div>
+          ))
+        }
+
+        <div
+          class="p-6 border flex flex-col gap-3 items-center"
+          style="background-color: var(--color-bg-elevated); border-color: var(--color-border-faint);"
+        >
+          <span
+            class="type-label"
+            style="color: var(--color-text-muted);"
+          >
+            Disabled
+          </span>
+          <Button disabled>Let's talk</Button>
+        </div>
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="type-label" style="color: var(--color-text-eyebrow);">
+        AS LINK VS BUTTON
+      </h2>
+      <p class="type-body-sm" style="color: var(--color-text-muted);">
+        Passing <code>href</code> renders an <code>&lt;a&gt;</code>, otherwise a
+        <code>&lt;button&gt;</code>.
+      </p>
+      <div
+        class="p-8 border flex items-center justify-center gap-6 flex-wrap"
+        style="background-color: var(--color-bg-elevated); border-color: var(--color-border-faint);"
+      >
+        <Button href="mailto:hello@example.com">Link (a)</Button>
+        <Button type="submit">Submit (button)</Button>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
