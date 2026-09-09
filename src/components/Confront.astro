@@ -5,6 +5,7 @@ import TabItem from "./TabItem.astro";
 interface Tab {
   label: string;
   value: string;
+  chosen?: boolean;
 }
 
 interface Props {
@@ -26,7 +27,12 @@ const {
   <TabList ariaLabel={ariaLabel} class="confront-tablist">
     {
       tabs.map((t, i) => (
-        <TabItem label={t.label} value={t.value} selected={i === initial} />
+        <TabItem
+          label={t.label}
+          value={t.value}
+          selected={i === initial}
+          chosen={t.chosen}
+        />
       ))
     }
   </TabList>
