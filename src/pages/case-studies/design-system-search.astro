@@ -92,9 +92,9 @@ const title =
 
 const heroTags = [
   { label: "Shipped", dot: "success" as const },
+  { label: "AI" },
   { label: "Design System" },
   { label: "UX" },
-  { label: "UI" },
 ];
 
 const heroMeta = [
@@ -108,11 +108,17 @@ const heroMeta = [
   { label: "TOOLS", value: "Claude Code, Figjam" },
 ];
 
-const cover = "/case-studies/design-system-search/hero-cover.jpg";
+const cover = "/case-studies/design-system-search/bgcs1.jpg";
+const screen = "/case-studies/design-system-search/screencs1.png";
 ---
 
 <CaseStudyLayout title={title}>
-  <HeroCover src={cover} alt="Case study cover" />
+  <HeroCover
+    src={cover}
+    alt="Case study background"
+    screen={screen}
+    screenAlt="Case study screen preview"
+  />
 
   <div class="case-study-body">
     <CaseStudyNav sections={navSections} />
