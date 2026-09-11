@@ -1,59 +1,14 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path
-    d="M17 10H16C15.2089 10 14.4355 9.7654 13.7777 9.32588C13.1199 8.88635 12.6072 8.26164 12.3045 7.53073C12.0017 6.79983 11.9225 5.99556 12.0769 5.21964C12.2312 4.44372 12.6122 3.73098 13.1716 3.17157C13.731 2.61216 14.4437 2.2312 15.2196 2.07686C15.9956 1.92252 16.7998 2.00173 17.5307 2.30448C18.2616 2.60723 18.8864 3.11992 19.3259 3.77772C19.7654 4.43552 20 5.20888 20 6V6.534"
-    stroke="url(#fv-grad-1)"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <path
-    d="M17 6H18C18.9359 5.99967 19.8423 6.32752 20.5615 6.9265C21.2806 7.52548 21.7669 8.35765 21.9358 9.27819C22.1047 10.1987 21.9454 11.1493 21.4858 11.9646C21.0261 12.7798 20.2951 13.4081 19.42 13.74L17.13 14.61C15.7397 15.1392 14.2023 15.1329 12.8162 14.5925C11.4302 14.052 10.2943 13.0159 9.62909 11.6853C8.96388 10.3546 8.81674 8.82424 9.21623 7.39119C9.61573 5.95815 10.5334 4.72462 11.791 3.93L13.86 2.62"
-    stroke="url(#fv-grad-2)"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <path
-    d="M10 17.8C8.9 17 7.3 16.5 4.5 17C5.2 19.3 6.3 20.6 7.5 21.2C8.8 21.9 10.3 21.9 12.3 21.5C11.8 20 11.1 18.6 10 17.8Z"
-    stroke="url(#fv-grad-3)"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <path
-    d="M9.77 12C4 15 2 22 2 22"
-    stroke="url(#fv-grad-4)"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <path
-    d="M17 10C18.1046 10 19 9.10457 19 8C19 6.89543 18.1046 6 17 6C15.8954 6 15 6.89543 15 8C15 9.10457 15.8954 10 17 10Z"
-    stroke="url(#fv-grad-5)"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <defs>
-    <linearGradient id="fv-grad-1" x1="16" y1="2" x2="16" y2="10" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FC642D" />
-      <stop offset="1" stop-color="#9BE2EC" />
-    </linearGradient>
-    <linearGradient id="fv-grad-2" x1="15.4987" y1="2.62" x2="15.4987" y2="15.0024" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FC642D" />
-      <stop offset="1" stop-color="#9BE2EC" />
-    </linearGradient>
-    <linearGradient id="fv-grad-3" x1="8.4" y1="16.7998" x2="8.4" y2="21.7703" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FC642D" />
-      <stop offset="1" stop-color="#9BE2EC" />
-    </linearGradient>
-    <linearGradient id="fv-grad-4" x1="5.885" y1="12" x2="5.885" y2="22" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FC642D" />
-      <stop offset="1" stop-color="#9BE2EC" />
-    </linearGradient>
-    <linearGradient id="fv-grad-5" x1="17" y1="6" x2="17" y2="10" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FC642D" />
-      <stop offset="1" stop-color="#9BE2EC" />
-    </linearGradient>
-  </defs>
+<svg width="13" height="17" viewBox="0 0 13 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    path { fill: #404040; }
+    @media (prefers-color-scheme: dark) {
+      path { fill: #ffffff; }
+    }
+  </style>
+  <path d="M6.08051 0L3.34428 3.34428L6.08051 5.85249L9.04476 3.34428L6.08051 0Z"/>
+  <path d="M6.68856 13.3011H5.47246L5.54847 15.1253C5.9741 15.6725 6.48588 15.404 6.68856 15.2013V13.3011Z"/>
+  <path d="M0.608051 14.5172C1.35545 14.1879 3.17707 13.7268 4.48438 14.5172C5.79169 15.3077 5.63714 16.164 5.39645 16.4934C4.96575 16.7468 3.81552 17.1015 2.66022 16.4934C1.50493 15.8854 0.810735 14.9226 0.608051 14.5172Z"/>
+  <path d="M11.4872 14.5736C10.7398 14.2443 8.91819 13.7832 7.61088 14.5736C6.30357 15.3641 6.45812 16.2205 6.69881 16.5498C7.12951 16.8032 8.27974 17.1579 9.43504 16.5498C10.5903 15.9418 11.2845 14.979 11.4872 14.5736Z"/>
+  <path d="M12.0915 8.05668V1.06409C10.5714 1.30731 7.75918 3.64831 6.54308 4.7884C3.94125 7.70246 4.35798 11.5455 5.47246 13.3011C5.66026 13.5969 6.36041 13.1689 6.54308 13.3771C10.5562 13.1947 11.9142 9.75416 12.0915 8.05668Z"/>
+  <path d="M0 8.05668V1.06409C1.52013 1.30731 4.33237 3.64831 5.54847 4.7884C8.58872 8.19349 6.81524 11.933 5.54847 13.3771C1.53533 13.1947 0.177348 9.75415 0 8.05668Z"/>
 </svg>
