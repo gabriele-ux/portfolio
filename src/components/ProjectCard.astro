@@ -51,31 +51,40 @@ const {
         )
       }
     </div>
-    <div class="project-card-media project-card-media--secondary" data-tilt>
-      {
-        secondaryVideo ? (
-          <video
-            class="project-card-image"
-            src={secondaryVideo}
-            poster={secondaryVideoPoster}
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            aria-hidden="true"
-          />
-        ) : secondaryImage ? (
-          <img
-            class="project-card-image"
-            src={secondaryImage}
-            alt={secondaryImageAlt}
-            loading="lazy"
-          />
-        ) : (
-          <div class="project-card-placeholder" aria-hidden="true" />
-        )
-      }
+    <div class="project-card-media-stack">
+      <div class="project-card-media" data-tilt>
+        {
+          secondaryVideo ? (
+            <video
+              class="project-card-image"
+              src={secondaryVideo}
+              poster={secondaryVideoPoster}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-hidden="true"
+            />
+          ) : (
+            <div class="project-card-placeholder" aria-hidden="true" />
+          )
+        }
+      </div>
+      <div class="project-card-media" data-tilt>
+        {
+          secondaryImage ? (
+            <img
+              class="project-card-image"
+              src={secondaryImage}
+              alt={secondaryImageAlt}
+              loading="lazy"
+            />
+          ) : (
+            <div class="project-card-placeholder" aria-hidden="true" />
+          )
+        }
+      </div>
     </div>
   </div>
 
@@ -145,8 +154,17 @@ const {
     flex: 0 0 calc(65% - 6px);
   }
 
-  .project-card-media--secondary {
+  .project-card-media-stack {
     flex: 0 0 calc(35% - 6px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+  }
+
+  .project-card-media-stack .project-card-media {
+    flex: 1 1 0;
+    min-height: 0;
   }
 
   .project-card-media:hover {
@@ -265,9 +283,16 @@ const {
       aspect-ratio: auto;
     }
     .project-card-media--primary,
-    .project-card-media--secondary {
+    .project-card-media-stack {
       flex: 1 1 auto;
+    }
+    .project-card-media--primary,
+    .project-card-media-stack .project-card-media {
       aspect-ratio: 4 / 3;
+    }
+    .project-card-media-stack .project-card-media {
+      flex: 1 1 auto;
+      min-height: 0;
     }
   }
 
