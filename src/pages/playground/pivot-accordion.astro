@@ -1,0 +1,344 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Playground / Pivot Accordion">
+  <main class="mx-auto max-w-[760px] px-6 py-16 flex flex-col gap-12">
+    <header class="flex flex-col gap-2">
+      <a
+        href="/playground"
+        class="type-label inline-flex items-center gap-1 w-fit"
+        style="color: var(--color-text-muted);"
+      >
+        ← BACK
+      </a>
+      <p class="type-label" style="color: var(--color-text-eyebrow);">
+        EXPERIMENT
+      </p>
+      <h1 class="type-display" style="color: var(--color-text-heading);">
+        Pivot as accordion
+      </h1>
+      <p class="type-body" style="color: var(--color-text-body-secondary);">
+        Alternative to the tabbed pivot: each divergent exploration is an
+        accordion item. The chosen one is first and open by default. Only one
+        panel open at a time.
+      </p>
+    </header>
+
+    <!-- Pivot 1, mimic delle sezioni case study -->
+    <section class="pivot-block">
+      <h2 class="type-h2" style="color: var(--color-text-heading);">
+        01/ Automate what's reliable, ask designers for the rest
+      </h2>
+
+      <div class="accordion" data-single-open>
+        <!-- Item 1: chosen, aperto di default -->
+        <article class="acc-item is-open" data-open="true">
+          <button
+            type="button"
+            class="acc-header"
+            aria-expanded="true"
+            aria-controls="acc-panel-1"
+            id="acc-header-1"
+          >
+            <span class="acc-title">
+              <span class="type-label">OPTION 1: SEMI-MANUAL</span>
+              <span class="acc-badge">CHOSEN</span>
+            </span>
+            <svg
+              class="acc-chevron"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div
+            class="acc-panel"
+            id="acc-panel-1"
+            role="region"
+            aria-labelledby="acc-header-1"
+          >
+            <div class="acc-panel-inner">
+              <div class="acc-panel-body">
+                <div class="acc-media">
+                  <video
+                    src="/case-studies/design-system-search/form.mp4"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                  ></video>
+                </div>
+                <p class="body-copy">
+                  <em>[Placeholder]</em> Descrizione dell'esplorazione scelta:
+                  cosa fa, perché ha funzionato, quale evidenza ha guidato la
+                  decisione. Lorem ipsum dolor sit amet, consectetur adipiscing
+                  elit. Sed do eiusmod tempor incididunt ut labore et dolore
+                  magna aliqua.
+                </p>
+                <p class="body-copy">
+                  <em>[Placeholder]</em> Ulteriore dettaglio sul risultato o
+                  sul trade-off accettato. Ut enim ad minim veniam, quis
+                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                  commodo consequat.
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Item 2: scartata, chiusa -->
+        <article class="acc-item" data-open="false">
+          <button
+            type="button"
+            class="acc-header"
+            aria-expanded="false"
+            aria-controls="acc-panel-2"
+            id="acc-header-2"
+          >
+            <span class="acc-title">
+              <span class="type-label">OPTION 2: AUTOMATED</span>
+              <span class="acc-badge acc-badge-muted">DISCARDED</span>
+            </span>
+            <svg
+              class="acc-chevron"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div
+            class="acc-panel"
+            id="acc-panel-2"
+            role="region"
+            aria-labelledby="acc-header-2"
+          >
+            <div class="acc-panel-inner">
+              <div class="acc-panel-body">
+                <div class="acc-media acc-media-centered">
+                  <img
+                    src="/case-studies/design-system-search/manually.png"
+                    alt="Automated script v0.1: automatic detection with per-row context request"
+                  />
+                </div>
+                <p class="body-copy">
+                  <em>[Placeholder]</em> Descrizione della strada scartata:
+                  cosa aveva provato, quale ipotesi c'era dietro. Lorem ipsum
+                  dolor sit amet, consectetur adipiscing elit.
+                </p>
+                <p class="body-copy">
+                  <em>[Placeholder]</em> Perché non ha funzionato: evidenza dal
+                  test, limite emerso, motivo del pivot. Duis aute irure dolor
+                  in reprehenderit in voluptate velit esse cillum dolore.
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .pivot-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-xl);
+  }
+
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-neutral-0);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .acc-item + .acc-item {
+    border-top: 1px solid var(--color-border-faint);
+  }
+
+  .acc-header {
+    all: unset;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 20px;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: color 200ms ease, background-color 200ms ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .acc-header:hover {
+    background-color: var(--color-neutral-100, rgba(0, 0, 0, 0.02));
+  }
+
+  .acc-header:focus-visible {
+    outline: 2px solid var(--color-accent-info);
+    outline-offset: -2px;
+  }
+
+  .acc-item.is-open .acc-header {
+    color: var(--color-text-heading);
+  }
+
+  .acc-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .acc-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background-color: var(--color-neutral-800);
+    color: var(--color-text-on-inverse);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .acc-badge-muted {
+    background-color: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border-faint);
+  }
+
+  .acc-chevron {
+    flex-shrink: 0;
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .acc-item.is-open .acc-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Animated collapse via grid-row trick: pure CSS, no JS height measuring */
+  .acc-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: grid-template-rows 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .acc-item.is-open .acc-panel {
+    grid-template-rows: 1fr;
+  }
+
+  .acc-panel-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .acc-panel-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-lg);
+    padding: 12px 20px 20px;
+  }
+
+  .acc-media {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: var(--color-neutral-100, #f3f5f6);
+  }
+
+  .acc-media > video,
+  .acc-media > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .acc-media-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .acc-media-centered > img {
+    object-fit: contain;
+    object-position: center;
+    width: 80%;
+    height: 80%;
+  }
+
+  .body-copy {
+    margin: 0;
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    font-variation-settings: "opsz" 14;
+  }
+
+  .body-copy em {
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".accordion").forEach((accordion) => {
+    const singleOpen = accordion.hasAttribute("data-single-open");
+    const items = Array.from(
+      accordion.querySelectorAll<HTMLElement>(".acc-item")
+    );
+
+    items.forEach((item) => {
+      const header = item.querySelector<HTMLButtonElement>(".acc-header");
+      if (!header) return;
+
+      header.addEventListener("click", () => {
+        const isOpen = item.classList.contains("is-open");
+
+        if (singleOpen) {
+          items.forEach((other) => {
+            if (other !== item) {
+              other.classList.remove("is-open");
+              other
+                .querySelector(".acc-header")
+                ?.setAttribute("aria-expanded", "false");
+            }
+          });
+        }
+
+        item.classList.toggle("is-open", !isOpen);
+        header.setAttribute("aria-expanded", String(!isOpen));
+      });
+    });
+  });
+</script>
