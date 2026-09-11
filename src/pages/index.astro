@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import TagList from "../components/TagList.astro";
+import Button from "../components/Button.astro";
 
 const heroTags = [
   { label: "5yrs experience" },
@@ -46,9 +47,13 @@ const projects = [
         <p class="hero-note">
           Currently exploring how to improve design workflows with AI @Flutter Entertainment
         </p>
-        <a class="hero-cta" href="#projects-heading">
+        <Button
+          variant="secondary"
+          href="#projects-heading"
+          class="hero-cta"
+        >
           <span>Go to projects</span>
-        </a>
+        </Button>
       </div>
 
       <div class="hero-visual">
@@ -176,42 +181,13 @@ const projects = [
     margin-top: 0;
   }
 
-  .hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-12);
+  .hero-content :global(.hero-cta) {
     margin-top: var(--spacing-32);
     height: 44px;
     padding: 0 var(--spacing-20);
-    border: 1px solid var(--color-neutral-800);
-    border-radius: 999px;
-    background-color: transparent;
-    color: var(--color-neutral-800);
-    font-family: var(--font-sans);
-    font-weight: var(--font-weight-medium);
     font-size: 0.875rem;
     line-height: 1;
-    text-decoration: none;
     align-self: flex-start;
-    transition:
-      background-color 180ms ease,
-      color 180ms ease;
-  }
-
-  .hero-cta:hover {
-    background-color: var(--color-neutral-800);
-    color: var(--color-text-on-inverse);
-  }
-
-  .hero-cta img {
-    display: block;
-    width: 14px;
-    height: 14px;
-    transition: filter 180ms ease;
-  }
-
-  .hero-cta:hover img {
-    filter: invert(1);
   }
 
   /* ── Visual: portrait + rotating badge ─────────────────────── */

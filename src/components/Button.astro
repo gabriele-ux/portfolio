@@ -3,6 +3,7 @@ interface Props {
   href?: string;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
+  variant?: "primary" | "secondary";
   /** Forza uno stato visivo (utile per playground/screenshot). Non modifica il comportamento reale. */
   state?: "default" | "hover" | "active" | "focus";
   class?: string;
@@ -13,6 +14,7 @@ const {
   href,
   disabled = false,
   type = "button",
+  variant = "primary",
   state = "default",
   class: className = "",
   ...rest
@@ -20,6 +22,7 @@ const {
 
 const Tag = href ? "a" : "button";
 const forcedClass = state !== "default" ? `is-${state}` : "";
+const variantClass = variant === "secondary" ? "is-secondary" : "";
 ---
 
 <Tag
@@ -27,7 +30,13 @@ const forcedClass = state !== "default" ? `is-${state}` : "";
   type={!href ? type : undefined}
   disabled={!href && disabled ? true : undefined}
   aria-disabled={href && disabled ? "true" : undefined}
-  class:list={["btn", forcedClass, disabled && "is-disabled", className]}
+  class:list={[
+    "btn",
+    variantClass,
+    forcedClass,
+    disabled && "is-disabled",
+    className,
+  ]}
   {...rest}
 >
   <slot />
@@ -88,5 +97,39 @@ const forcedClass = state !== "default" ? `is-${state}` : "";
     opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
+  }
+
+  /* ── Secondary variant — bordered black, black-fill on hover ── */
+  .btn.is-secondary {
+    background-color: transparent;
+    color: var(--color-neutral-800);
+    border: 1px solid var(--color-neutral-800);
+    font-weight: var(--font-weight-normal);
+    transition:
+      background-color 180ms ease,
+      color 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .btn.is-secondary:hover:not(.is-disabled),
+  .btn.is-secondary.is-hover {
+    background-color: var(--color-neutral-800);
+    color: var(--color-text-on-inverse);
+  }
+
+  .btn.is-secondary:active:not(.is-disabled),
+  .btn.is-secondary.is-active {
+    background-color: color-mix(
+      in oklab,
+      var(--color-neutral-800) 90%,
+      white
+    );
+    transform: translateY(1px);
+  }
+
+  .btn.is-secondary:focus-visible:not(.is-disabled),
+  .btn.is-secondary.is-focus {
+    outline: 2px solid var(--color-neutral-800);
+    outline-offset: 2px;
   }
 </style>
