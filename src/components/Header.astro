@@ -13,7 +13,7 @@ interface Props {
   brand?: string;
   homeHref?: string;
   ctaLabel?: string;
-  ctaHref?: string;
+  ctaEmail?: string;
   class?: string;
 }
 
@@ -21,7 +21,7 @@ const {
   brand = "Gabriele La Rosa",
   homeHref = "/",
   ctaLabel = "Let's talk",
-  ctaHref = "mailto:gabrielelarosa013@gmail.com",
+  ctaEmail = "gabrielelarosa013@gmail.com",
   class: className = "",
 } = Astro.props;
 ---
@@ -71,7 +71,7 @@ const {
     <span class="topbar-name">{brand}</span>
   </a>
 
-  <Button href={ctaHref} class="topbar-cta">{ctaLabel}</Button>
+  <Button class="topbar-cta" data-copy-email={ctaEmail}>{ctaLabel}</Button>
 </header>
 
 <style>
@@ -163,5 +163,25 @@ const {
     };
     updateScrolled();
     window.addEventListener("scroll", updateScrolled, { passive: true });
+  }
+
+  const cta = document.querySelector<HTMLElement>(
+    ".topbar-cta[data-copy-email]"
+  );
+  if (cta) {
+    cta.addEventListener("click", async (event) => {
+      event.preventDefault();
+      const email = cta.dataset.copyEmail;
+      if (!email) return;
+      const toast = (
+        window as unknown as { showToast?: (msg: string) => void }
+      ).showToast;
+      try {
+        await navigator.clipboard.writeText(email);
+        toast?.(`Email copied — ${email}`);
+      } catch {
+        window.location.href = `mailto:${email}`;
+      }
+    });
   }
 </script>

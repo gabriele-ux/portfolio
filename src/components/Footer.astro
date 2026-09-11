@@ -44,7 +44,7 @@ const defaultLastUpdated = `${now.toLocaleDateString("en-US", {
 
 const {
   email = "gabrielelarosa013@gmail.com",
-  linkedinUrl = "https://www.linkedin.com/in/gabriele-la-rosa-9892b81b5/",
+  linkedinUrl = "https://www.linkedin.com/in/gabrielelr/",
   heading = "Let's build meaningful products :)",
   location = "Milan",
   timeZone = "Europe/Rome",
@@ -308,12 +308,16 @@ const {
       btn.addEventListener("click", async () => {
         const email = btn.dataset.email;
         if (!email) return;
+        const toast = (
+          window as unknown as { showToast?: (msg: string) => void }
+        ).showToast;
         try {
           await navigator.clipboard.writeText(email);
           btn.dataset.copied = "true";
           setTimeout(() => {
             delete btn.dataset.copied;
           }, 1200);
+          toast?.(`Email copied — ${email}`);
         } catch {
           window.location.href = `mailto:${email}`;
         }

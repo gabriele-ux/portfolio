@@ -6,6 +6,7 @@ interface Props {
   /** Forza uno stato visivo (utile per playground/screenshot). Non modifica il comportamento reale. */
   state?: "default" | "hover" | "active" | "focus";
   class?: string;
+  [key: `data-${string}`]: string | undefined;
 }
 
 const {
@@ -14,6 +15,7 @@ const {
   type = "button",
   state = "default",
   class: className = "",
+  ...rest
 } = Astro.props;
 
 const Tag = href ? "a" : "button";
@@ -26,6 +28,7 @@ const forcedClass = state !== "default" ? `is-${state}` : "";
   disabled={!href && disabled ? true : undefined}
   aria-disabled={href && disabled ? "true" : undefined}
   class:list={["btn", forcedClass, disabled && "is-disabled", className]}
+  {...rest}
 >
   <slot />
 </Tag>
