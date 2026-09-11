@@ -42,17 +42,24 @@ type ModalContent = {
   /** Optional override for the media background (e.g. "#000" for videos
       with dark UI that need matching letterbox bars). */
   mediaBg?: string;
+  /** Seconds to skip on load and to restart from at each loop. */
+  videoLoopStart?: number;
 };
 const modalContent: Record<string, ModalContent> = {
   evolve: {
     title: "Add or update a component",
     description:
-      "The designer opens the plugin, picks the component, and fills in what changed, why, and when it goes live. Author and date are added automatically, so nothing has to be tracked by hand.",
+      "The designer opens the plugin, picks the component, and fills in what changed, why, and when it goes live. Author, date, and the Figma sheet where the info is saved are filled in automatically.",
+    video: "/case-studies/design-system-search/form.mp4",
+    mediaAspect: "1920 / 1080",
   },
   use: {
     title: "Use a component from the library",
     description:
       "When a designer drops a component into their file, the current version and any recent updates are already there in the component description. If a newer version is on the way, a small warning icon on the title makes it easy to spot before starting the work.",
+    video: "/case-studies/design-system-search/evolution.mp4",
+    videoLoopStart: 7,
+    mediaAspect: "1920 / 1080",
   },
   sync: {
     title: "Everything synced in one place",
@@ -95,6 +102,8 @@ const modalAttrs = (id: string) => {
   if (c.image) attrs["data-modal-image"] = c.image;
   if (c.mediaAspect) attrs["data-modal-media-aspect"] = c.mediaAspect;
   if (c.mediaBg) attrs["data-modal-media-bg"] = c.mediaBg;
+  if (c.videoLoopStart != null)
+    attrs["data-modal-video-loop-start"] = String(c.videoLoopStart);
   return attrs;
 };
 ---
@@ -1031,11 +1040,18 @@ const modalAttrs = (id: string) => {
       const imageEl = modal.querySelector<HTMLImageElement>("[data-modal-image-el]");
       const closeBtn = modal.querySelector<HTMLButtonElement>("[data-modal-close]");
 
+      let loopHandler: (() => void) | null = null;
+
       const resetMedia = () => {
         if (videoEl) {
           videoEl.pause();
           videoEl.removeAttribute("src");
           videoEl.load();
+          videoEl.loop = true;
+          if (loopHandler) {
+            videoEl.removeEventListener("ended", loopHandler);
+            loopHandler = null;
+          }
         }
         if (imageEl) {
           imageEl.removeAttribute("src");
@@ -1059,9 +1075,22 @@ const modalAttrs = (id: string) => {
         const imageSrc = btn.dataset.modalImage;
         const mediaAspect = btn.dataset.modalMediaAspect;
         const mediaBg = btn.dataset.modalMediaBg;
+        const loopStartRaw = btn.dataset.modalVideoLoopStart;
 
         if (videoSrc && videoEl && mediaEl) {
-          videoEl.src = videoSrc;
+          if (loopStartRaw != null) {
+            const loopStart = Number(loopStartRaw) || 0;
+            // Media fragment jumps to the start position on load.
+            videoEl.src = `${videoSrc}#t=${loopStart}`;
+            videoEl.loop = false;
+            loopHandler = () => {
+              videoEl.currentTime = loopStart;
+              videoEl.play().catch(() => {});
+            };
+            videoEl.addEventListener("ended", loopHandler);
+          } else {
+            videoEl.src = videoSrc;
+          }
           mediaEl.classList.add("has-video");
           videoEl.play().catch(() => {});
         } else if (imageSrc && imageEl && mediaEl) {
