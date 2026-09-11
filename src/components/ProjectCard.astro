@@ -287,17 +287,12 @@ const {
       flex-direction: column;
       aspect-ratio: auto;
     }
-    .project-card-media--primary,
-    .project-card-media-stack {
+    .project-card-media--primary {
       flex: 1 1 auto;
-    }
-    .project-card-media--primary,
-    .project-card-media-stack .project-card-media {
       aspect-ratio: 4 / 3;
     }
-    .project-card-media-stack .project-card-media {
-      flex: 1 1 auto;
-      min-height: 0;
+    .project-card-media-stack {
+      display: none;
     }
   }
 
