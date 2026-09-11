@@ -6,17 +6,10 @@ interface Section {
 
 interface Props {
   sections: Section[];
-  backHref?: string;
-  backLabel?: string;
   class?: string;
 }
 
-const {
-  sections,
-  backHref = "/",
-  backLabel = "Back",
-  class: className = "",
-} = Astro.props;
+const { sections, class: className = "" } = Astro.props;
 ---
 
 <div class="case-study-nav-wrap">
@@ -24,18 +17,6 @@ const {
     class:list={["case-study-nav", className]}
     aria-label="Case study sections"
   >
-    <a class="nav-back" href={backHref}>
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path
-          d="M10 3.5L5.5 8L10 12.5"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-      </svg>
-      <span>{backLabel}</span>
-    </a>
-
     <ul class="nav-list">
       {
         sections.map((s) => (
@@ -139,29 +120,6 @@ const {
     align-items: flex-start;
     gap: 32px;
     pointer-events: auto;
-  }
-
-  .nav-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    border: 1px solid var(--color-border-default);
-    border-radius: 999px;
-    background-color: var(--color-bg-elevated);
-    color: var(--color-text-body);
-    text-decoration: none;
-    font-family: var(--font-sans);
-    font-size: 14px;
-    line-height: 1;
-    width: fit-content;
-    transition: background-color 0.15s ease;
-  }
-  .nav-back:hover {
-    background-color: var(--color-bg-subtle-warm);
-  }
-  .nav-back svg {
-    flex-shrink: 0;
   }
 
   .nav-list {
@@ -334,8 +292,7 @@ const {
     .nav-sheet-panel {
       animation: none;
     }
-    .nav-item,
-    .nav-back {
+    .nav-item {
       transition: none;
     }
   }

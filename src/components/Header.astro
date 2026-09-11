@@ -14,6 +14,9 @@ interface Props {
   homeHref?: string;
   ctaLabel?: string;
   ctaEmail?: string;
+  back?: boolean;
+  backHref?: string;
+  backLabel?: string;
   class?: string;
 }
 
@@ -22,6 +25,9 @@ const {
   homeHref = "/",
   ctaLabel = "Let's talk",
   ctaEmail = "gabrielelarosa013@gmail.com",
+  back = false,
+  backHref = "/",
+  backLabel = "Back",
   class: className = "",
 } = Astro.props;
 ---
@@ -31,45 +37,74 @@ const {
   data-scrolled="false"
   aria-label="Site header"
 >
-  <a href={homeHref} class="topbar-brand" aria-label={brand}>
-    <span class="topbar-icon" aria-hidden="true">
-      <svg
-        width="28"
-        height="32"
-        viewBox="0 0 28 32"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g clip-path="url(#tb-logo-clip)">
-          <rect width="27.206" height="32" rx="3.77861" fill="#3A3A3A"></rect>
+  {
+    back ? (
+      <a href={backHref} class="topbar-back" aria-label={backLabel}>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
           <path
-            d="M13.6376 7.55722L10.9014 10.9015L13.6376 13.4097L16.6019 10.9015L13.6376 7.55722Z"
-            fill="white"></path>
-          <path
-            d="M14.2457 20.8583H13.0296L13.1056 22.6825C13.5312 23.2297 14.043 22.9612 14.2457 22.7585V20.8583Z"
-            fill="white"></path>
-          <path
-            d="M8.16518 22.0745C8.91258 21.7451 10.7342 21.284 12.0415 22.0745C13.3488 22.8649 13.1943 23.7213 12.9536 24.0506C12.5229 24.304 11.3727 24.6587 10.2174 24.0506C9.06206 23.4426 8.36786 22.4798 8.16518 22.0745Z"
-            fill="white"></path>
-          <path
-            d="M19.0443 22.1309C18.2969 21.8015 16.4753 21.3404 15.168 22.1309C13.8607 22.9213 14.0152 23.7777 14.2559 24.107C14.6866 24.3604 15.8369 24.7151 16.9922 24.107C18.1475 23.499 18.8417 22.5362 19.0443 22.1309Z"
-            fill="white"></path>
-          <path
-            d="M19.6487 15.6139V8.62131C18.1285 8.86453 15.3163 11.2055 14.1002 12.3456C11.4984 15.2597 11.9151 19.1027 13.0296 20.8583C13.2174 21.1542 13.9175 20.7261 14.1002 20.9343C18.1133 20.7519 19.4713 17.3114 19.6487 15.6139Z"
-            fill="white"></path>
-          <path
-            d="M7.55713 15.6139V8.62131C9.07726 8.86453 11.8895 11.2055 13.1056 12.3456C16.1459 15.7507 14.3724 19.4902 13.1056 20.9343C9.09246 20.7519 7.73448 17.3114 7.55713 15.6139Z"
-            fill="white"></path>
-        </g>
-        <defs>
-          <clipPath id="tb-logo-clip">
-            <rect width="27.206" height="32" rx="3.77861" fill="white"></rect>
-          </clipPath>
-        </defs>
-      </svg>
-    </span>
-    <span class="topbar-name">{brand}</span>
-  </a>
+            d="M10 3.5L5.5 8L10 12.5"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span>{backLabel}</span>
+      </a>
+    ) : (
+      <a href={homeHref} class="topbar-brand" aria-label={brand}>
+        <span class="topbar-icon" aria-hidden="true">
+          <svg
+            width="28"
+            height="32"
+            viewBox="0 0 28 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#tb-logo-clip)">
+              <rect width="27.206" height="32" rx="3.77861" fill="#3A3A3A" />
+              <path
+                d="M13.6376 7.55722L10.9014 10.9015L13.6376 13.4097L16.6019 10.9015L13.6376 7.55722Z"
+                fill="white"
+              />
+              <path
+                d="M14.2457 20.8583H13.0296L13.1056 22.6825C13.5312 23.2297 14.043 22.9612 14.2457 22.7585V20.8583Z"
+                fill="white"
+              />
+              <path
+                d="M8.16518 22.0745C8.91258 21.7451 10.7342 21.284 12.0415 22.0745C13.3488 22.8649 13.1943 23.7213 12.9536 24.0506C12.5229 24.304 11.3727 24.6587 10.2174 24.0506C9.06206 23.4426 8.36786 22.4798 8.16518 22.0745Z"
+                fill="white"
+              />
+              <path
+                d="M19.0443 22.1309C18.2969 21.8015 16.4753 21.3404 15.168 22.1309C13.8607 22.9213 14.0152 23.7777 14.2559 24.107C14.6866 24.3604 15.8369 24.7151 16.9922 24.107C18.1475 23.499 18.8417 22.5362 19.0443 22.1309Z"
+                fill="white"
+              />
+              <path
+                d="M19.6487 15.6139V8.62131C18.1285 8.86453 15.3163 11.2055 14.1002 12.3456C11.4984 15.2597 11.9151 19.1027 13.0296 20.8583C13.2174 21.1542 13.9175 20.7261 14.1002 20.9343C18.1133 20.7519 19.4713 17.3114 19.6487 15.6139Z"
+                fill="white"
+              />
+              <path
+                d="M7.55713 15.6139V8.62131C9.07726 8.86453 11.8895 11.2055 13.1056 12.3456C16.1459 15.7507 14.3724 19.4902 13.1056 20.9343C9.09246 20.7519 7.73448 17.3114 7.55713 15.6139Z"
+                fill="white"
+              />
+            </g>
+            <defs>
+              <clipPath id="tb-logo-clip">
+                <rect width="27.206" height="32" rx="3.77861" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </span>
+        <span class="topbar-name">{brand}</span>
+      </a>
+    )
+  }
 
   <Button class="topbar-cta" data-copy-email={ctaEmail}>{ctaLabel}</Button>
 </header>
@@ -134,6 +169,29 @@ const {
     white-space: nowrap;
     font-variation-settings: "opsz" 14;
     color: var(--color-text-heading);
+  }
+
+  /* ── Back variant (second-level pages) ────────────────────── */
+  .topbar-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 999px;
+    background-color: var(--color-bg-elevated);
+    color: var(--color-text-body);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1;
+    transition: background-color 0.15s ease;
+  }
+  .topbar-back:hover {
+    background-color: var(--color-bg-subtle-warm);
+  }
+  .topbar-back svg {
+    flex-shrink: 0;
   }
 
   /* ── CTA — reuses Button.astro, override height per Figma (44px) ── */
