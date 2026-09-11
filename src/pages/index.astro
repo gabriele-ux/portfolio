@@ -160,7 +160,7 @@ const projects = [
 
   .hero-note {
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-light);
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);
     color: var(--color-text-heading);
@@ -213,10 +213,12 @@ const projects = [
   /* ── Visual: portrait + rotating badge ─────────────────────── */
   .hero-visual {
     position: relative;
-    width: clamp(200px, 24vw, 280px);
+    width: clamp(260px, 32vw, 440px);
     aspect-ratio: 217 / 221;
     flex-shrink: 0;
     perspective: 1200px;
+    transform: scale(0.75);
+    transform-origin: center;
   }
 
   .hero-portrait-frame {
