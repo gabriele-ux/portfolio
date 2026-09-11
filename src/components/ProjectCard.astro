@@ -11,6 +11,10 @@ interface Props {
   title: string;
   heroImage?: string;
   heroImageAlt?: string;
+  secondaryImage?: string;
+  secondaryImageAlt?: string;
+  secondaryVideo?: string;
+  secondaryVideoPoster?: string;
   tags?: TagData[];
   cta?: string;
   class?: string;
@@ -21,6 +25,10 @@ const {
   title,
   heroImage,
   heroImageAlt = "",
+  secondaryImage,
+  secondaryImageAlt = "",
+  secondaryVideo,
+  secondaryVideoPoster,
   tags = [],
   cta = "View design process",
   class: className = "",
@@ -28,39 +36,52 @@ const {
 ---
 
 <a href={href} class:list={["project-card", className]}>
-  <div class="bento">
-    <div class="bento-inner">
-      <div class="bento-hero bento-tile">
-        {
-          heroImage ? (
-            <img
-              class="bento-image"
-              src={heroImage}
-              alt={heroImageAlt}
-              loading="lazy"
-            />
-          ) : (
-            <div class="bento-placeholder" aria-hidden="true" />
-          )
-        }
-      </div>
-      <div class="bento-stack">
-        <div class="bento-tile bento-cell-1" aria-hidden="true">
-          <div class="bento-placeholder"></div>
-        </div>
-        <div class="bento-tile bento-cell-2" aria-hidden="true">
-          <div class="bento-placeholder"></div>
-        </div>
-        <div class="bento-tile bento-cell-3" aria-hidden="true">
-          <div class="bento-placeholder"></div>
-        </div>
-      </div>
+  <div class="project-card-media-row">
+    <div class="project-card-media project-card-media--primary" data-tilt>
+      {
+        heroImage ? (
+          <img
+            class="project-card-image"
+            src={heroImage}
+            alt={heroImageAlt}
+            loading="lazy"
+          />
+        ) : (
+          <div class="project-card-placeholder" aria-hidden="true" />
+        )
+      }
+    </div>
+    <div class="project-card-media project-card-media--secondary" data-tilt>
+      {
+        secondaryVideo ? (
+          <video
+            class="project-card-image"
+            src={secondaryVideo}
+            poster={secondaryVideoPoster}
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+          />
+        ) : secondaryImage ? (
+          <img
+            class="project-card-image"
+            src={secondaryImage}
+            alt={secondaryImageAlt}
+            loading="lazy"
+          />
+        ) : (
+          <div class="project-card-placeholder" aria-hidden="true" />
+        )
+      }
     </div>
   </div>
 
   <div class="project-card-footer">
     <div class="project-card-info">
-      <h3 class="project-card-title">{title}</h3>
+      <h3 class="project-card-title" set:html={title} />
       {tags.length > 0 && <TagList tags={tags} size="sm" />}
     </div>
 
@@ -96,49 +117,18 @@ const {
     color: inherit;
   }
 
-  /* ── Bento wrapper — aspect-ratio via padding-bottom hack ── */
-  .bento {
-    position: relative;
-    width: 100%;
-    padding-bottom: 55.72%; /* 526 / 944 */
-  }
-
-  .bento-inner {
-    position: absolute;
-    inset: 0;
+  /* ── Media row: primary 65% + secondary 35% ───────────────── */
+  .project-card-media-row {
     display: flex;
     gap: 12px;
+    width: 100%;
+    aspect-ratio: 5 / 2;
     perspective: 1200px;
   }
 
-  .bento-hero {
-    flex: 2.33 1 0;
-    min-width: 0;
-  }
-
-  .bento-stack {
-    flex: 1 1 0;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .bento-cell-1 {
-    flex: 150.48 1 0;
-    min-height: 0;
-  }
-  .bento-cell-2 {
-    flex: 100.31 1 0;
-    min-height: 0;
-  }
-  .bento-cell-3 {
-    flex: 250.81 1 0;
-    min-height: 0;
-  }
-
-  .bento-tile {
+  .project-card-media {
     position: relative;
+    height: 100%;
     background-color: var(--color-neutral-0);
     border-radius: 16px;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
@@ -151,35 +141,49 @@ const {
     will-change: transform;
   }
 
-  .bento-tile:hover {
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
-    z-index: 1;
+  .project-card-media--primary {
+    flex: 0 0 calc(65% - 6px);
   }
 
-  .bento-tile.is-tilting {
+  .project-card-media--secondary {
+    flex: 0 0 calc(35% - 6px);
+  }
+
+  .project-card-media:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+  }
+
+  .project-card-media.is-tilting {
     transition:
       transform 120ms linear,
       box-shadow 400ms ease;
   }
 
   @media (hover: none) {
-    .bento-tile {
+    .project-card-media {
       transform: none !important;
     }
-    .bento-tile:hover {
+    .project-card-media:hover {
       box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .bento-tile,
-    .bento-tile.is-tilting {
+    .project-card-media,
+    .project-card-media.is-tilting {
       transition: none;
       transform: none !important;
     }
   }
 
-  .bento-placeholder {
+  .project-card-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .project-card-placeholder {
     width: 100%;
     height: 100%;
     background-color: var(--color-bg-page);
@@ -191,17 +195,10 @@ const {
     background-size: 20px 20px;
   }
 
-  .bento-image {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
   /* ── Footer: title/meta + CTA ─────────────────────────────── */
   .project-card-footer {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: var(--spacing-gap-lg);
     padding: 0 var(--spacing-padding-md);
@@ -223,7 +220,6 @@ const {
     letter-spacing: -0.005em;
     color: var(--color-text-heading);
     margin: 0;
-    text-wrap: balance;
   }
 
   /* ── CTA pill (bordered black, per Figma) ─────────────────── */
@@ -264,18 +260,14 @@ const {
 
   /* ── Responsive ───────────────────────────────────────────── */
   @media (max-width: 654px) {
-    .bento {
-      padding-bottom: 0;
+    .project-card-media-row {
+      flex-direction: column;
+      aspect-ratio: auto;
     }
-    .bento-inner {
-      position: static;
-    }
-    .bento-hero {
+    .project-card-media--primary,
+    .project-card-media--secondary {
       flex: 1 1 auto;
       aspect-ratio: 4 / 3;
-    }
-    .bento-stack {
-      display: none;
     }
   }
 
@@ -287,9 +279,6 @@ const {
     }
     .project-card-info {
       width: 100%;
-    }
-    .project-card-title {
-      text-wrap: initial;
     }
     .project-card-cta {
       align-self: stretch;
@@ -306,7 +295,7 @@ const {
   const isTouch = window.matchMedia("(hover: none)").matches;
 
   if (!reduceMotion && !isTouch) {
-    const tiles = document.querySelectorAll<HTMLElement>(".bento-tile");
+    const tiles = document.querySelectorAll<HTMLElement>("[data-tilt]");
     tiles.forEach((tile) => {
       let rafId = 0;
 
@@ -316,7 +305,6 @@ const {
         const py = (e.clientY - rect.top) / rect.height - 0.5;
         if (rafId) cancelAnimationFrame(rafId);
         rafId = requestAnimationFrame(() => {
-          // Opposite direction: side under the cursor pushes AWAY
           const rotY = px * MAX_TILT;
           const rotX = -py * MAX_TILT;
           tile.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;

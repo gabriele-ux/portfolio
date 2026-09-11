@@ -34,103 +34,37 @@ const {
   <a href={homeHref} class="topbar-brand" aria-label={brand}>
     <span class="topbar-icon" aria-hidden="true">
       <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
+        width="28"
+        height="32"
+        viewBox="0 0 28 32"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          d="M17 10H16C15.2089 10 14.4355 9.7654 13.7777 9.32588C13.1199 8.88635 12.6072 8.26164 12.3045 7.53073C12.0017 6.79983 11.9225 5.99556 12.0769 5.21964C12.2312 4.44372 12.6122 3.73098 13.1716 3.17157C13.731 2.61216 14.4437 2.2312 15.2196 2.07686C15.9956 1.92252 16.7998 2.00173 17.5307 2.30448C18.2616 2.60723 18.8864 3.11992 19.3259 3.77772C19.7654 4.43552 20 5.20888 20 6V6.534"
-          stroke="url(#tb-grad-1)"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-        <path
-          d="M17 6H18C18.9359 5.99967 19.8423 6.32752 20.5615 6.9265C21.2806 7.52548 21.7669 8.35765 21.9358 9.27819C22.1047 10.1987 21.9454 11.1493 21.4858 11.9646C21.0261 12.7798 20.2951 13.4081 19.42 13.74L17.13 14.61C15.7397 15.1392 14.2023 15.1329 12.8162 14.5925C11.4302 14.052 10.2943 13.0159 9.62909 11.6853C8.96388 10.3546 8.81674 8.82424 9.21623 7.39119C9.61573 5.95815 10.5334 4.72462 11.791 3.93L13.86 2.62"
-          stroke="url(#tb-grad-2)"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-        <path
-          d="M10 17.8C8.9 17 7.3 16.5 4.5 17C5.2 19.3 6.3 20.6 7.5 21.2C8.8 21.9 10.3 21.9 12.3 21.5C11.8 20 11.1 18.6 10 17.8Z"
-          stroke="url(#tb-grad-3)"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-        <path
-          d="M9.77 12C4 15 2 22 2 22"
-          stroke="url(#tb-grad-4)"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-        <path
-          d="M17 10C18.1046 10 19 9.10457 19 8C19 6.89543 18.1046 6 17 6C15.8954 6 15 6.89543 15 8C15 9.10457 15.8954 10 17 10Z"
-          stroke="url(#tb-grad-5)"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
+        <g clip-path="url(#tb-logo-clip)">
+          <rect width="27.206" height="32" rx="3.77861" fill="#3A3A3A"></rect>
+          <path
+            d="M13.6376 7.55722L10.9014 10.9015L13.6376 13.4097L16.6019 10.9015L13.6376 7.55722Z"
+            fill="white"></path>
+          <path
+            d="M14.2457 20.8583H13.0296L13.1056 22.6825C13.5312 23.2297 14.043 22.9612 14.2457 22.7585V20.8583Z"
+            fill="white"></path>
+          <path
+            d="M8.16518 22.0745C8.91258 21.7451 10.7342 21.284 12.0415 22.0745C13.3488 22.8649 13.1943 23.7213 12.9536 24.0506C12.5229 24.304 11.3727 24.6587 10.2174 24.0506C9.06206 23.4426 8.36786 22.4798 8.16518 22.0745Z"
+            fill="white"></path>
+          <path
+            d="M19.0443 22.1309C18.2969 21.8015 16.4753 21.3404 15.168 22.1309C13.8607 22.9213 14.0152 23.7777 14.2559 24.107C14.6866 24.3604 15.8369 24.7151 16.9922 24.107C18.1475 23.499 18.8417 22.5362 19.0443 22.1309Z"
+            fill="white"></path>
+          <path
+            d="M19.6487 15.6139V8.62131C18.1285 8.86453 15.3163 11.2055 14.1002 12.3456C11.4984 15.2597 11.9151 19.1027 13.0296 20.8583C13.2174 21.1542 13.9175 20.7261 14.1002 20.9343C18.1133 20.7519 19.4713 17.3114 19.6487 15.6139Z"
+            fill="white"></path>
+          <path
+            d="M7.55713 15.6139V8.62131C9.07726 8.86453 11.8895 11.2055 13.1056 12.3456C16.1459 15.7507 14.3724 19.4902 13.1056 20.9343C9.09246 20.7519 7.73448 17.3114 7.55713 15.6139Z"
+            fill="white"></path>
+        </g>
         <defs>
-          <linearGradient
-            id="tb-grad-1"
-            x1="16"
-            y1="2"
-            x2="16"
-            y2="10"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="var(--color-orange-500)"></stop>
-            <stop offset="1" stop-color="var(--color-illustration-blue-300)"
-            ></stop>
-          </linearGradient>
-          <linearGradient
-            id="tb-grad-2"
-            x1="15.5"
-            y1="2.62"
-            x2="15.5"
-            y2="15"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="var(--color-orange-500)"></stop>
-            <stop offset="1" stop-color="var(--color-illustration-blue-300)"
-            ></stop>
-          </linearGradient>
-          <linearGradient
-            id="tb-grad-3"
-            x1="8.4"
-            y1="16.8"
-            x2="8.4"
-            y2="21.77"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="var(--color-orange-500)"></stop>
-            <stop offset="1" stop-color="var(--color-illustration-blue-300)"
-            ></stop>
-          </linearGradient>
-          <linearGradient
-            id="tb-grad-4"
-            x1="5.89"
-            y1="12"
-            x2="5.89"
-            y2="22"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="var(--color-orange-500)"></stop>
-            <stop offset="1" stop-color="var(--color-illustration-blue-300)"
-            ></stop>
-          </linearGradient>
-          <linearGradient
-            id="tb-grad-5"
-            x1="17"
-            y1="6"
-            x2="17"
-            y2="10"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="var(--color-orange-500)"></stop>
-            <stop offset="1" stop-color="var(--color-illustration-blue-300)"
-            ></stop>
-          </linearGradient>
+          <clipPath id="tb-logo-clip">
+            <rect width="27.206" height="32" rx="3.77861" fill="white"></rect>
+          </clipPath>
         </defs>
       </svg>
     </span>
@@ -181,8 +115,8 @@ const {
 
   .topbar-icon {
     display: inline-flex;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 32px;
     flex-shrink: 0;
   }
 

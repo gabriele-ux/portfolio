@@ -2,32 +2,66 @@
 interface Props {
   src: string;
   alt?: string;
-  height?: number;
+  screen?: string;
+  screenAlt?: string;
+  aspectRatio?: string;
   class?: string;
 }
 
-const { src, alt = "", height = 640, class: className = "" } = Astro.props;
+const {
+  src,
+  alt = "",
+  screen,
+  screenAlt = "",
+  aspectRatio = "16 / 9",
+  class: className = "",
+} = Astro.props;
 ---
 
 <figure
   class:list={["hero-cover", className]}
-  style={`--hero-height: ${height}px;`}
+  style={`--hero-aspect: ${aspectRatio};`}
 >
-  <img src={src} alt={alt} class="hero-cover-img" loading="eager" />
+  <img src={src} alt={alt} class="hero-cover-bg" loading="eager" />
+  {
+    screen && (
+      <img
+        src={screen}
+        alt={screenAlt}
+        class="hero-cover-screen"
+        loading="eager"
+      />
+    )
+  }
 </figure>
 
 <style>
   .hero-cover {
+    position: relative;
     width: 100%;
+    aspect-ratio: var(--hero-aspect, 16 / 9);
     margin: 0;
     overflow: hidden;
   }
 
-  .hero-cover-img {
-    display: block;
+  .hero-cover-bg {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: var(--hero-height);
-    max-height: 70vh;
+    height: 100%;
     object-fit: cover;
+  }
+
+  .hero-cover-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: block;
+    max-width: min(80%, 1100px);
+    max-height: min(80%, 70vh);
+    width: auto;
+    height: auto;
   }
 </style>
