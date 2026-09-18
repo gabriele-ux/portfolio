@@ -1,0 +1,777 @@
+---
+interface NeedFlags {
+  frictionless: boolean;
+  retrievable: boolean;
+  proactive: boolean;
+}
+
+interface Row {
+  type: "check" | "cross";
+  text: string;
+  emphasis?: string;
+}
+
+interface Item {
+  id: string;
+  title: string;
+  /** 0 = far left (outside workflow), 100 = far right (inside workflow) */
+  x: number;
+  /** 0 = bottom (low retrievability), 100 = top (high retrievability) */
+  y: number;
+  needs: NeedFlags;
+  rows: Row[];
+  isSolution?: boolean;
+}
+
+interface Props {
+  items: Item[];
+  xLabelLeft?: string;
+  xLabelRight?: string;
+  yLabelBottom?: string;
+  yLabelTop?: string;
+  sweetSpotLabel?: string;
+  caption?: string;
+}
+
+const {
+  items,
+  xLabelLeft = "Outside workflow",
+  xLabelRight = "Inside workflow",
+  yLabelBottom = "Low retrievability",
+  yLabelTop = "High retrievability",
+  sweetSpotLabel = "Sweet spot",
+  caption = "HOVER ON EACH POINT TO SEE THE DETAILS",
+} = Astro.props;
+
+const needsOrder: Array<keyof NeedFlags> = [
+  "frictionless",
+  "retrievable",
+  "proactive",
+];
+const needLabels: Record<keyof NeedFlags, string> = {
+  frictionless: "Frictionless",
+  retrievable: "Retrievable",
+  proactive: "Proactive",
+};
+---
+
+<div class="matrix-wrap">
+  <div class="matrix-panel">
+    <div class="matrix-plot">
+      <span class="axis-label axis-y-top">{yLabelTop}</span>
+      <span class="axis-label axis-y-bottom">{yLabelBottom}</span>
+      <span class="axis-label axis-x-left">{xLabelLeft}</span>
+      <span class="axis-label axis-x-right">{xLabelRight}</span>
+
+      <span class="matrix-guide matrix-guide-h" aria-hidden="true"></span>
+      <span class="matrix-guide matrix-guide-v" aria-hidden="true"></span>
+      <span class="matrix-sweetspot" aria-hidden="true">{sweetSpotLabel}</span>
+
+      {
+        items.map((it, i) => (
+          <div
+            class:list={["mx-point-wrap", it.isSolution && "is-solution"]}
+            style={`left: ${it.x}%; top: ${100 - it.y}%;`}
+            data-place-x={it.x >= 50 ? "right" : "left"}
+            data-place-y={it.y >= 50 ? "below" : "above"}
+          >
+            <button
+              type="button"
+              class="mx-point"
+              data-mx-trigger
+              aria-expanded="false"
+              aria-controls={`mx-card-${it.id}`}
+              aria-label={`${it.title} — open details`}
+            >
+              {it.isSolution ? (
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M7 0.5 L8.63 4.87 L13.29 5.24 L9.72 8.27 L10.9 12.85 L7 10.4 L3.1 12.85 L4.28 8.27 L0.71 5.24 L5.37 4.87 Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              ) : (
+                <span>{i + 1}</span>
+              )}
+            </button>
+
+            <span class="mx-label" aria-hidden="true">{it.title}</span>
+
+            <div id={`mx-card-${it.id}`} class="mx-card" role="tooltip">
+              <div class="mx-card-head">
+                <span class="mx-card-badge">
+                  {it.isSolution ? "★" : i + 1}
+                </span>
+                <span class="mx-card-title">{it.title}</span>
+              </div>
+              <div
+                class="mx-card-needs"
+                aria-label="Needs coverage"
+              >
+                {needsOrder.map((k) => (
+                  <span
+                    class:list={[
+                      "need-chip",
+                      it.needs[k] ? "is-on" : "is-off",
+                    ]}
+                  >
+                    <span
+                      class="need-dot"
+                      aria-hidden="true"
+                    />
+                    {needLabels[k]}
+                  </span>
+                ))}
+              </div>
+              <ul class="mx-card-rows">
+                {it.rows.map((r) => (
+                  <li class:list={["card-row", `is-${r.type}`]}>
+                    <span class="row-icon" aria-hidden="true">
+                      {r.type === "check" ? (
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                        >
+                          <circle cx="8" cy="8" r="8" fill="currentColor" />
+                          <path
+                            d="M4.5 8.5 L7 11 L12 6"
+                            stroke="#fff"
+                            stroke-width="1.75"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                        >
+                          <circle cx="8" cy="8" r="8" fill="currentColor" />
+                          <path
+                            d="M5.25 5.25 L10.75 10.75 M10.75 5.25 L5.25 10.75"
+                            stroke="#fff"
+                            stroke-width="1.75"
+                            stroke-linecap="round"
+                          />
+                        </svg>
+                      )}
+                    </span>
+                    <span class="row-text">
+                      {r.text}
+                      {r.emphasis && (
+                        <em class="row-emphasis"> ({r.emphasis})</em>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  {
+    caption && (
+      <figcaption class="type-caption matrix-caption">
+        <svg
+          class="matrix-caption-arrow"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="12" y1="19" x2="12" y2="5" />
+          <polyline points="5 12 12 5 19 12" />
+        </svg>
+        <span>{caption}</span>
+      </figcaption>
+    )
+  }
+
+  <ol class="matrix-legend" aria-label="Options tested">
+    {
+      items.map((it, i) => (
+        <li class:list={["legend-item", it.isSolution && "is-solution"]}>
+          <div class="legend-head">
+            <span class="legend-badge">
+              {it.isSolution ? "★" : i + 1}
+            </span>
+            <span class="legend-title">{it.title}</span>
+          </div>
+          <div class="legend-needs">
+            {needsOrder.map((k) => (
+              <span
+                class:list={[
+                  "need-chip",
+                  it.needs[k] ? "is-on" : "is-off",
+                ]}
+              >
+                <span class="need-dot" aria-hidden="true" />
+                {needLabels[k]}
+              </span>
+            ))}
+          </div>
+          <ul class="legend-rows">
+            {it.rows.map((r) => (
+              <li class:list={["card-row", `is-${r.type}`]}>
+                <span class="row-icon" aria-hidden="true">
+                  {r.type === "check" ? (
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <circle cx="8" cy="8" r="8" fill="currentColor" />
+                      <path
+                        d="M4.5 8.5 L7 11 L12 6"
+                        stroke="#fff"
+                        stroke-width="1.75"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  ) : (
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <circle cx="8" cy="8" r="8" fill="currentColor" />
+                      <path
+                        d="M5.25 5.25 L10.75 10.75 M10.75 5.25 L5.25 10.75"
+                        stroke="#fff"
+                        stroke-width="1.75"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  )}
+                </span>
+                <span class="row-text">
+                  {r.text}
+                  {r.emphasis && (
+                    <em class="row-emphasis"> ({r.emphasis})</em>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style>
+  .matrix-wrap {
+    display: block;
+  }
+
+  /* ── Matrix panel ─────────────────────────────────────────────── */
+  .matrix-panel {
+    position: relative;
+    background-color: var(--color-bg-overlay-medium);
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+    padding: 20px 20px 44px 44px;
+  }
+
+  .matrix-plot {
+    position: relative;
+    aspect-ratio: 2 / 1;
+    width: 100%;
+    border: 1px dashed var(--color-border-default);
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+
+  /* Sweet-spot quadrant tint (top-right): where the chosen solution sits */
+  .matrix-plot::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    background-color: color-mix(
+      in srgb,
+      var(--color-accent-success) 5%,
+      transparent
+    );
+    border-radius: 0 8px 0 0;
+    pointer-events: none;
+  }
+
+  /* Axis labels */
+  .axis-label {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--color-text-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .axis-y-top,
+  .axis-y-bottom {
+    left: -22px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+  .axis-y-top {
+    top: 8px;
+  }
+  .axis-y-bottom {
+    bottom: 8px;
+  }
+  .axis-x-left,
+  .axis-x-right {
+    bottom: -24px;
+  }
+  .axis-x-left {
+    left: 8px;
+  }
+  .axis-x-right {
+    right: 8px;
+  }
+
+  /* Cross guides at center */
+  .matrix-guide {
+    position: absolute;
+    background-color: var(--color-border-faint);
+    pointer-events: none;
+  }
+  .matrix-guide-h {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+  .matrix-guide-v {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+
+  /* Sweet-spot hint (top-right quadrant) */
+  .matrix-sweetspot {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent-success);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  /* ── Points ───────────────────────────────────────────────────── */
+  .mx-point-wrap {
+    position: absolute;
+    width: 0;
+    height: 0;
+    z-index: 1;
+  }
+  .mx-point-wrap.is-solution {
+    z-index: 3;
+  }
+  .mx-point-wrap:hover,
+  .mx-point-wrap:focus-within,
+  .mx-point-wrap.is-open {
+    z-index: 20;
+  }
+
+  .mx-point {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid #000;
+    border-radius: 50%;
+    background-color: #000;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .mx-point:hover,
+  .mx-point:focus-visible {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 0 0 4px var(--color-alpha-white-50, rgba(255, 255, 255, 0.5));
+    outline: none;
+  }
+
+  .is-solution .mx-point {
+    width: 36px;
+    height: 36px;
+    background-color: var(--color-accent-success);
+    color: #fff;
+    border-color: var(--color-accent-success);
+    box-shadow: 0 0 0 6px
+      color-mix(in srgb, var(--color-accent-success) 15%, transparent);
+  }
+  .is-solution .mx-point:hover,
+  .is-solution .mx-point:focus-visible {
+    box-shadow: 0 0 0 8px
+      color-mix(in srgb, var(--color-accent-success) 22%, transparent);
+  }
+
+  /* ── Persistent label next to each point ─────────────────────── */
+  .mx-label {
+    position: absolute;
+    top: 0;
+    transform: translateY(-50%);
+    padding: 4px 10px;
+    background-color: var(--color-chip-bg);
+    border: 1px solid var(--color-chip-border);
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: 12px;
+    line-height: 1.2;
+    white-space: nowrap;
+    color: var(--color-text-body-secondary);
+    z-index: 2;
+    cursor: default;
+  }
+  [data-place-x="right"] .mx-label {
+    right: 24px;
+  }
+  [data-place-x="left"] .mx-label {
+    left: 24px;
+  }
+  .is-solution .mx-label {
+    background-color: #fff;
+    border-color: var(--color-accent-success);
+    color: var(--color-accent-success);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* ── Card popover ─────────────────────────────────────────────── */
+  .mx-card {
+    position: absolute;
+    width: 280px;
+    padding: 14px 16px 16px;
+    background-color: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    border-radius: 10px;
+    box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    transition: none;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .mx-point-wrap:hover .mx-card,
+  .mx-point-wrap:focus-within .mx-card,
+  .mx-point-wrap.is-open .mx-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition:
+      opacity 0.12s ease,
+      transform 0.12s ease;
+  }
+
+  /* Card anchoring based on the point position */
+  [data-place-y="below"] .mx-card {
+    top: 20px;
+  }
+  [data-place-y="above"] .mx-card {
+    bottom: 20px;
+  }
+  [data-place-x="right"] .mx-card {
+    right: -14px;
+  }
+  [data-place-x="left"] .mx-card {
+    left: -14px;
+  }
+
+  .mx-card-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .mx-card-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: var(--color-bg-subtle-warm);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-text-body-secondary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1;
+  }
+  .is-solution .mx-card-badge {
+    background-color: var(--color-accent-success);
+    border-color: var(--color-accent-success);
+    color: #fff;
+  }
+  .mx-card-title {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: 15px;
+    line-height: 1.3;
+    color: var(--color-text-heading);
+  }
+
+  .mx-card-needs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border-faint);
+  }
+  .need-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .need-chip.is-on {
+    background-color: color-mix(
+      in srgb,
+      var(--color-accent-success) 12%,
+      transparent
+    );
+    color: var(--color-accent-success);
+  }
+  .need-chip.is-off {
+    background-color: var(--color-bg-subtle-warm);
+    color: var(--color-text-body-secondary);
+    opacity: 0.6;
+  }
+  .need-chip .need-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+  .need-chip.is-off .need-dot {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px currentColor;
+  }
+
+  .mx-card-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .card-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-text-body-secondary);
+  }
+  .card-row.is-check .row-icon {
+    color: var(--color-accent-success);
+  }
+  .card-row.is-cross .row-icon {
+    color: var(--color-accent-warning);
+  }
+  .row-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    margin-top: 2px;
+  }
+  .row-emphasis {
+    color: var(--color-accent-warning);
+    font-style: normal;
+  }
+
+  /* ── Caption below the matrix (desktop only) ─────────────────── */
+  .matrix-caption {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-gap-xs);
+    margin-top: 16px;
+    color: var(--color-text-muted);
+  }
+  .matrix-caption-arrow {
+    flex-shrink: 0;
+  }
+
+  /* ── Legend (touch fallback for the hover popover) ───────────── */
+  .matrix-legend {
+    display: none;
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .legend-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 16px 16px;
+    background-color: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    border-radius: 10px;
+  }
+  .legend-item.is-solution {
+    border-color: var(--color-accent-success);
+    background-color: color-mix(
+      in srgb,
+      var(--color-accent-success) 6%,
+      var(--color-bg-elevated)
+    );
+  }
+  .legend-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .legend-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: var(--color-bg-subtle-warm);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-text-body-secondary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1;
+  }
+  .legend-item.is-solution .legend-badge {
+    background-color: var(--color-accent-success);
+    border-color: var(--color-accent-success);
+    color: #fff;
+  }
+  .legend-title {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: 15px;
+    line-height: 1.3;
+    color: var(--color-text-heading);
+  }
+  .legend-needs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-border-faint);
+  }
+  .legend-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* ── Responsive ───────────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .matrix-panel {
+      padding: 40px 40px 48px 40px;
+    }
+    .axis-x-left,
+    .axis-x-right {
+      font-size: 10px;
+    }
+    .axis-y-top,
+    .axis-y-bottom {
+      font-size: 10px;
+    }
+    .mx-card {
+      width: 240px;
+    }
+  }
+
+  /* Touch devices: swap the popover for the card list */
+  @media (hover: none) {
+    .mx-card,
+    .mx-label,
+    .matrix-caption {
+      display: none;
+    }
+    .matrix-legend {
+      display: grid;
+    }
+  }
+</style>
+
+<script>
+  const wraps = document.querySelectorAll<HTMLElement>(".mx-point-wrap");
+
+  const closeAll = () => {
+    wraps.forEach((w) => {
+      w.classList.remove("is-open");
+      w.querySelector<HTMLButtonElement>("[data-mx-trigger]")
+        ?.setAttribute("aria-expanded", "false");
+    });
+  };
+
+  wraps.forEach((wrap) => {
+    const btn = wrap.querySelector<HTMLButtonElement>("[data-mx-trigger]");
+    btn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const wasOpen = wrap.classList.contains("is-open");
+      closeAll();
+      if (!wasOpen) {
+        wrap.classList.add("is-open");
+        btn.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement | null;
+    if (!target?.closest(".mx-point-wrap")) closeAll();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAll();
+  });
+</script>

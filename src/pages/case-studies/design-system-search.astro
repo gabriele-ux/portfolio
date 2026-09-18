@@ -12,15 +12,20 @@ import CalloutItem from "../../components/CalloutItem.astro";
 import OptionCardList from "../../components/OptionCardList.astro";
 import OptionCard from "../../components/OptionCard.astro";
 import OptionRow from "../../components/OptionRow.astro";
-import EvaluationTable from "../../components/EvaluationTable.astro";
+import PrioritizationMatrix from "../../components/PrioritizationMatrix.astro";
 import SolutionFlow from "../../components/SolutionFlow.astro";
 import StrategyFlow from "../../components/StrategyFlow.astro";
 import Pivot2BeforeSchema from "../../components/Pivot2BeforeSchema.astro";
 import Pivot1BeforeMock from "../../components/Pivot1BeforeMock.astro";
+import Accordion from "../../components/Accordion.astro";
 
-const evaluationOptions = [
+const matrixItems = [
   {
-    title: "1. Track on Figma",
+    id: "figma-tracking",
+    title: "Track on Figma",
+    x: 90,
+    y: 14,
+    needs: { frictionless: true, retrievable: false, proactive: false },
     rows: [
       { type: "check" as const, text: "Already in the workflow" },
       {
@@ -31,7 +36,11 @@ const evaluationOptions = [
     ],
   },
   {
-    title: "2. Figma Release Note",
+    id: "figma-release-notes",
+    title: "Figma Release Notes",
+    x: 66,
+    y: 30,
+    needs: { frictionless: true, retrievable: false, proactive: false },
     rows: [
       { type: "check" as const, text: "Native in the tool" },
       {
@@ -42,18 +51,26 @@ const evaluationOptions = [
     ],
   },
   {
-    title: "3. Community Plugins",
+    id: "community-plugins",
+    title: "Community Plugins",
+    x: 84,
+    y: 42,
+    needs: { frictionless: true, retrievable: false, proactive: false },
     rows: [
       { type: "check" as const, text: "Already integrated in Figma" },
       {
         type: "cross" as const,
         text: "None allowed to easily retrieve information",
-        emphasis: "fails: proactive + frictionless",
+        emphasis: "fails: proactive + retrievability",
       },
     ],
   },
   {
-    title: "4. ZeroHeight",
+    id: "zeroheight",
+    title: "ZeroHeight",
+    x: 20,
+    y: 78,
+    needs: { frictionless: false, retrievable: true, proactive: true },
     rows: [
       {
         type: "check" as const,
@@ -63,6 +80,28 @@ const evaluationOptions = [
         type: "cross" as const,
         text: "Another touchpoint to maintain",
         emphasis: "fails: frictionless",
+      },
+    ],
+  },
+  {
+    id: "self-made-plugin",
+    title: "Self-made Plugin",
+    x: 82,
+    y: 82,
+    isSolution: true,
+    needs: { frictionless: true, retrievable: true, proactive: true },
+    rows: [
+      {
+        type: "check" as const,
+        text: "Lives inside Figma, no context switch",
+      },
+      {
+        type: "check" as const,
+        text: "Full control over how data is stored and queried",
+      },
+      {
+        type: "check" as const,
+        text: "Communication can be automated",
       },
     ],
   },
@@ -81,7 +120,7 @@ const navSections = [
   { id: "discovery", label: "Discovery" },
   { id: "research", label: "Research & Constraints" },
   { id: "strategy", label: "Strategy" },
-  { id: "pivots", label: "Pivots" },
+  { id: "pivots", label: "Design Decisions" },
   { id: "solution", label: "Solution" },
   { id: "impact", label: "Impact" },
   { id: "learnings", label: "Learnings" },
@@ -438,7 +477,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         I then <strong>evaluated the available options</strong> against the
         teams' needs and feedback:
       </p>
-      <EvaluationTable options={evaluationOptions} />
+      <PrioritizationMatrix items={matrixItems} />
       <p class="body-copy">
         No existing option satisfied <strong>retrievability</strong>,{" "}
         <strong>frictionless input</strong> and <strong>proactive
@@ -446,8 +485,8 @@ const screen = "/case-studies/design-system-search/screencs1.png";
       </p>
       <MetaBox variant="decision">
         <MetaItem
-          label="DESIGN DECISION"
-          value="Forcing a tool that didn't fit our workflow would only add friction. The only option left was to build something custom around how the team actually worked."
+          label="DECISION"
+          value="The team was reluctant to change how they worked, and no existing tool covered all three needs. I chose to explore a custom solution shaped around their existing workflow."
         />
       </MetaBox>
     </section>
@@ -485,7 +524,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     <section class="section">
       <SectionHeader
         id="pivots"
-        eyebrow="Pivots"
+        eyebrow="Design Decisions"
         title="From a changelog plugin, to an AI-ready infrastructure"
       />
       <p class="body-copy">
@@ -501,49 +540,63 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 
     <div class="pivot-block">
       <h3 class="type-h2" style="color: var(--color-text-heading);">
-        01/ Automate what's reliable, ask designers for the rest
+        01/ Defining how to input data
       </h3>
-      <Confront
-        tabs={[
-          { label: "Option 1: semi-manual", value: "after", chosen: true },
-          { label: "Option 2: automated", value: "before" },
+      <p class="body-copy">
+        <strong>Evidence:</strong> Two of the team's needs pulled in
+        opposite ways. Frictionless meant fewer fields for designers.
+        Retrievable meant enough structure for AI to pick up later.
+        Getting the balance right was key, so I explored a few directions.
+      </p>
+      <Accordion
+        items={[
+          { label: "Exploration 1: semi-manual", value: "after", chosen: true },
+          { label: "Exploration 2: automated", value: "before" },
+          { label: "Exploration 3: manual", value: "option3" },
         ]}
       >
-        <div data-panel="after" class="pivot-panel">
-          <video
-            src="/case-studies/design-system-search/form.mp4"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-          ></video>
+        <div slot="after" class="acc-content-group">
+          <div class="pivot-panel">
+            <video
+              src="/case-studies/design-system-search/form.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            ></video>
+          </div>
+          <p class="body-copy">
+            I explored a form inside the plugin that walks the user
+            through the data to log. I defined required and optional
+            fields with the UI designers. Automation covers the reliable
+            stuff (date, author, component sheets). Designers fill in
+            what only they can give: the project, the reason for the
+            change, and the people involved. This exploration hit the
+            best balance between low friction and the level of detail
+            UI designers needed, like specific contacts.
+          </p>
         </div>
-        <div data-panel="before" class="pivot-panel pivot-panel-centered">
-          <img
-            src="/case-studies/design-system-search/manually.png"
-            alt="Change detector v0.1 prototype: automatic detection listing every node change with a per-row request to add context"
-          />
+        <div slot="before" class="acc-content-group">
+          <div class="pivot-panel pivot-panel-centered">
+            <img
+              src="/case-studies/design-system-search/manually.png"
+              alt="Change detector v0.1 prototype: automatic detection listing every node change with a per-row request to add context"
+            />
+          </div>
+          <p class="body-copy">
+            A detection script scans files and logs changes automatically,
+            then asks the designer to fill in only the missing context.
+            It wasn't reliable on complex files (missed real changes,
+            flagged meaningless ones), and even when it worked it still
+            lacked the "why" only designers can give: the project and the
+            reason.
+          </p>
         </div>
-      </Confront>
-      <p class="body-copy">
-        <strong>Initial approach:</strong> I wanted zero friction for
-        designers. My first attempt was a detection script that scanned the
-        files and logged changes automatically, then asked the designer to
-        fill in only the missing context.
-      </p>
-      <p class="body-copy">
-        <strong>Evidence:</strong> The script wasn't reliable on complex
-        files (missed real changes, flagged meaningless ones), and even
-        when it worked it still lacked the "why" only designers can give:
-        the project, and the reason.
-      </p>
-      <p class="body-copy">
-        <strong>Pivot:</strong> I moved to a semi-manual approach: a form
-        in the plugin guides designers through all the required info.
-        Automation handles the reliable stuff (date, author, component
-        sheets), designers add project details.
-      </p>
+        <div slot="option3" class="pivot-panel pivot-panel-centered pivot-panel-placeholder">
+          <span>Placeholder — describe the manual option here</span>
+        </div>
+      </Accordion>
     </div>
 
     <Spacer size="md" />
@@ -552,13 +605,14 @@ const screen = "/case-studies/design-system-search/screencs1.png";
       <h3 class="type-h2" style="color: var(--color-text-heading);">
         02/ Put changes where designers see them
       </h3>
-      <Confront
-        tabs={[
-          { label: "AFTER", value: "after" },
-          { label: "BEFORE", value: "before" },
+      <Accordion
+        items={[
+          { label: "After", value: "after", chosen: true },
+          { label: "Before", value: "before" },
+          { label: "Exploration 3: [add discarded exploration]", value: "option3" },
         ]}
       >
-        <div data-panel="after" class="pivot-panel">
+        <div slot="after" class="pivot-panel">
           <video
             src="/case-studies/design-system-search/evolution.mp4"
             autoplay
@@ -568,10 +622,13 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             preload="metadata"
           ></video>
         </div>
-        <div data-panel="before" class="pivot-panel">
+        <div slot="before" class="pivot-panel">
           <Pivot2BeforeSchema />
         </div>
-      </Confront>
+        <div slot="option3" class="pivot-panel pivot-panel-centered pivot-panel-placeholder">
+          <span>Placeholder — describe the third explored option here</span>
+        </div>
+      </Accordion>
       <p class="body-copy">
         <strong>Evidence:</strong> The changelog was now available per
         component in each library, but designers didn't consult it as they
@@ -592,13 +649,20 @@ const screen = "/case-studies/design-system-search/screencs1.png";
       <h3 class="type-h2" style="color: var(--color-text-heading);">
         03/ Create a reliable source of truth
       </h3>
-      <Confront
-        tabs={[
-          { label: "AFTER", value: "after" },
-          { label: "BEFORE", value: "before" },
+      <p class="body-copy">
+        <strong>Evidence:</strong> Data handling is a delicate technical
+        point in this project. From the first iterations it was clear
+        that getting it wrong would lead to data-saving issues. And once
+        the data is collected, how do I make sure it stays reliable?
+      </p>
+      <Accordion
+        items={[
+          { label: "Exploration 1: GitHub", value: "after", chosen: true },
+          { label: "Exploration 2: Figma memory", value: "before" },
+          { label: "Exploration 3: RAG Database", value: "option3" },
         ]}
       >
-        <div data-panel="after" class="pivot-panel">
+        <div slot="after" class="pivot-panel">
           <video
             src="/case-studies/design-system-search/pivot3.mp4"
             autoplay
@@ -608,20 +672,16 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             preload="metadata"
           ></video>
         </div>
-        <div data-panel="before" class="pivot-panel pivot-panel-centered pivot-panel-shrink">
+        <div slot="before" class="pivot-panel pivot-panel-centered pivot-panel-shrink">
           <img
             src="/case-studies/design-system-search/pivot3-before.png"
             alt="Before pivot 3: Figma as source of truth for changelog data"
           />
         </div>
-      </Confront>
-      <p class="body-copy">
-        <strong>Evidence:</strong> With Figma as source of truth for the
-        changelog data, changes often got overwritten because multiple
-        designers were using the plugin at the same time. It was also
-        impossible to know which changes had already been sent to Slack,
-        leading to duplication or lost data.
-      </p>
+        <div slot="option3" class="pivot-panel pivot-panel-centered pivot-panel-placeholder">
+          <span>Placeholder — describe the third explored option here</span>
+        </div>
+      </Accordion>
       <p class="body-copy">
         <strong>Exploration:</strong> I looked at ways to save the data
         reliably. I considered RAG databases and tested different{" "}
@@ -728,7 +788,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
       />
       <div class="body-copy">
         <p style="margin: 0;">
-          AI was a strong accelerator, but one moment taught me how to handle it. For the GitHub structure, its proposal was to handle the data on a single .md file. It sounded confident, but I only saw how fragile it was while implementing it. From there I learned the rhythm: ask AI to walk me through its reasoning, weigh opposite technical alternatives, and validate with people who know the terrain. Our IT team helped me land on the right setup, and since then AI has stayed a fast collaborator, not a source of truth.
+          AI was a strong accelerator, but one moment taught me how to handle it. For the GitHub structure, its proposal was to handle the data on a single .md file. It sounded confident, but I only saw how fragile it was while implementing it. From there I learned to ask AI to walk me through its reasoning, weigh opposite technical alternatives, and validate with people who know the domain. Collaborating with domain experts is still necessary. AI remains a tool.
         </p>
       </div>
     </section>
@@ -976,6 +1036,24 @@ const screen = "/case-studies/design-system-search/screencs1.png";
   .pivot-panel-centered.pivot-panel-shrink > img {
     width: 80%;
     height: 80%;
+  }
+
+  /* Wrapper for accordion slot content that stacks media + body copy. */
+  .acc-content-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-lg);
+  }
+
+  /* Placeholder variant for accordion items not yet filled with real content. */
+  .pivot-panel-placeholder {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: center;
+    padding: 24px;
   }
 
   :global(.desktop-break) {

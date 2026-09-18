@@ -1,0 +1,291 @@
+---
+interface Point {
+  label: string;
+  /** 0 = far left, 50 = center, 100 = far right. Clamped to [5, 95]. */
+  position: number;
+  chosen?: boolean;
+}
+
+interface Props {
+  leftLabel: string;
+  rightLabel: string;
+  /** Single-point mode: position of the chosen diamond. Ignored if `points` is set. */
+  position?: number;
+  /** Multi-point mode: renders one labeled diamond per point. */
+  points?: Point[];
+  class?: string;
+}
+
+const {
+  leftLabel,
+  rightLabel,
+  position,
+  points,
+  class: className = "",
+} = Astro.props;
+
+const clamp = (n: number) => Math.max(5, Math.min(95, n));
+const normalizedPoints: Point[] | null =
+  points && points.length > 0
+    ? points.map((p) => ({ ...p, position: clamp(p.position) }))
+    : null;
+const singlePos = position !== undefined ? clamp(position) : 50;
+---
+
+<div
+  class:list={[
+    "tradeoff-bar",
+    { "is-multi": !!normalizedPoints },
+    className,
+  ]}
+  style={normalizedPoints ? undefined : `--tradeoff-pos: ${singlePos}%;`}
+>
+  <div class="tradeoff-track" aria-hidden="true">
+    <span class="tradeoff-tick tradeoff-tick-left"></span>
+    <span class="tradeoff-tick tradeoff-tick-center"></span>
+    <span class="tradeoff-tick tradeoff-tick-right"></span>
+    {
+      normalizedPoints ? (
+        normalizedPoints.map((p) => (
+          <span
+            class:list={["tradeoff-point", { "is-chosen": p.chosen }]}
+            style={`--pos: ${p.position}%;`}
+          >
+            <span class="tradeoff-point-label">{p.label}</span>
+          </span>
+        ))
+      ) : (
+        <span class="tradeoff-diamond" />
+      )
+    }
+  </div>
+  <div class="tradeoff-labels">
+    <span class="tradeoff-label" data-side="left">{leftLabel}</span>
+    <span class="tradeoff-center">
+      <svg
+        class="tradeoff-arrow"
+        width="14"
+        height="14"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="17" y1="10" x2="3" y2="10"></line>
+        <polyline points="8 5 3 10 8 15"></polyline>
+      </svg>
+      <span class="tradeoff-center-label">TRADEOFF</span>
+      <svg
+        class="tradeoff-arrow"
+        width="14"
+        height="14"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="3" y1="10" x2="17" y2="10"></line>
+        <polyline points="12 5 17 10 12 15"></polyline>
+      </svg>
+    </span>
+    <span class="tradeoff-label" data-side="right">{rightLabel}</span>
+  </div>
+</div>
+
+<style>
+  .tradeoff-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    padding: 20px 24px;
+    background-color: var(--color-bg-overlay-medium);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
+  }
+
+  .tradeoff-bar.is-multi {
+    padding-top: 44px;
+  }
+
+  .tradeoff-center {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text-eyebrow);
+  }
+
+  .tradeoff-center-label {
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-bold, 700);
+    font-size: var(--text-eyebrow);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .tradeoff-arrow {
+    flex-shrink: 0;
+    color: currentColor;
+  }
+
+  .tradeoff-track {
+    position: relative;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-neutral-200);
+  }
+
+  .tradeoff-tick {
+    position: absolute;
+    top: 50%;
+    width: 1px;
+    height: 10px;
+    background-color: var(--color-border-default);
+    transform: translate(-50%, -50%);
+  }
+  .tradeoff-tick-left {
+    left: 0;
+  }
+  .tradeoff-tick-center {
+    left: 50%;
+  }
+  .tradeoff-tick-right {
+    left: 100%;
+  }
+
+  /* ─── Single-point mode ─── */
+  .tradeoff-diamond {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    background-color: var(--color-accent-info);
+    transform: translate(-50%, -50%) rotate(45deg);
+    box-shadow:
+      0 0 0 4px color-mix(in oklab, var(--color-accent-info) 18%, transparent),
+      0 1px 4px rgba(0, 0, 0, 0.08);
+    transition: left 1100ms cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: left;
+  }
+
+  .tradeoff-bar.is-visible .tradeoff-diamond {
+    left: var(--tradeoff-pos);
+  }
+
+  /* ─── Multi-point mode ─── */
+  .tradeoff-point {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transition: left 1100ms cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: left;
+  }
+
+  .tradeoff-bar.is-visible .tradeoff-point {
+    left: var(--pos);
+  }
+
+  /* Diamond marker via ::after so the container stays 0×0 as an anchor */
+  .tradeoff-point::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    background-color: transparent;
+    border: 1.5px solid var(--color-text-muted);
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .tradeoff-point.is-chosen::after {
+    width: 16px;
+    height: 16px;
+    background-color: var(--color-accent-info);
+    border-color: var(--color-accent-info);
+    box-shadow:
+      0 0 0 4px color-mix(in oklab, var(--color-accent-info) 18%, transparent),
+      0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  .tradeoff-point-label {
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .tradeoff-point.is-chosen .tradeoff-point-label {
+    color: var(--color-text-heading);
+    font-weight: var(--font-weight-bold, 700);
+  }
+
+  .tradeoff-labels {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-text-eyebrow);
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: var(--font-weight-normal);
+    line-height: var(--leading-tight);
+    letter-spacing: 0.02em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tradeoff-diamond {
+      transition: none;
+      left: var(--tradeoff-pos);
+    }
+    .tradeoff-point {
+      transition: none;
+      left: var(--pos);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .tradeoff-labels {
+      font-size: 6px;
+    }
+    .tradeoff-center-label {
+      font-size: 8px;
+    }
+  }
+</style>
+
+<script>
+  const bars = document.querySelectorAll<HTMLElement>(".tradeoff-bar");
+  if (bars.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            window.setTimeout(() => el.classList.add("is-visible"), 150);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
+    bars.forEach((bar) => observer.observe(bar));
+  }
+</script>
