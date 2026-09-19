@@ -532,7 +532,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
       <p class="body-copy">
         <strong>Testing the product with designers on real cases</strong>,
         I ran into problems and structural decisions that shaped how to
-        handle input, surface information, and manage data &mdash; turning
+        handle input, manage data, and surface information &mdash; turning
         a simple plugin into a more complex infrastructure.
       </p>
     </section>
@@ -622,72 +622,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 
     <div class="pivot-block">
       <h3 class="type-h2" style="color: var(--color-text-heading);">
-        02/ Put changes where designers see them
-      </h3>
-      <p class="body-copy">
-        <strong>Problem:</strong> The changelog was now available per
-        component in each library, but designers didn't consult it as they
-        pulled components straight from the asset panel while working on
-        Figma files.
-      </p>
-      <Accordion
-        items={[
-          { label: "Exploration 1: In-component metadata", value: "after", chosen: true },
-          { label: "Exploration 2: Dedicated tab", value: "before" },
-        ]}
-      >
-        <div slot="after" class="acc-content-group">
-          <div class="pivot-panel">
-            <video
-              src="/case-studies/design-system-search/evolution.mp4"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-            ></video>
-          </div>
-          <p class="body-copy">
-            <strong>Proposal:</strong> Added an "evolution" type to the
-            changelog form. Designers log version and release date, which
-            get written automatically into the component's description and
-            title. When they pull components from the panel, they spot the
-            version info they need right away.
-          </p>
-          <p class="body-copy">
-            <strong>Insight:</strong> Designers see version and release
-            information directly in the working file, without having to
-            open plugins or switch context. They reported that this
-            approach doesn't interrupt their workflow.
-          </p>
-        </div>
-        <div slot="before" class="acc-content-group">
-          <div class="pivot-panel pivot-panel-centered">
-            <img
-              src="/case-studies/design-system-search/evolution.png"
-              alt="Dedicated 'Evolution' tab inside the plugin listing recent component updates"
-            />
-          </div>
-          <p class="body-copy">
-            <strong>Proposal:</strong> A dedicated "Evolution" tab inside
-            the plugin lists recent updates per component, filterable and
-            searchable.
-          </p>
-          <p class="body-copy">
-            <strong>Insight:</strong> Designers had to open the plugin
-            every time to check on components, which broke their flow.
-            Updates also stayed invisible to anyone who didn't have the
-            plugin installed.
-          </p>
-        </div>
-      </Accordion>
-    </div>
-
-    <Spacer size="md" />
-
-    <div class="pivot-block">
-      <h3 class="type-h2" style="color: var(--color-text-heading);">
-        03/ Give data the proper structure
+        02/ Give data the proper structure
       </h3>
       <p class="body-copy">
         <strong>Problem:</strong> With the data in hand, storing it
@@ -755,6 +690,71 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             <strong>Insight:</strong> Setup and maintenance cost (schema
             design, hosting, embeddings pipeline) was disproportionate to
             the phase of the project.
+          </p>
+        </div>
+      </Accordion>
+    </div>
+
+    <Spacer size="md" />
+
+    <div class="pivot-block">
+      <h3 class="type-h2" style="color: var(--color-text-heading);">
+        03/ Put changes where designers see them
+      </h3>
+      <p class="body-copy">
+        <strong>Problem:</strong> The changelog was now available per
+        component in each library, but designers didn't consult it as they
+        pulled components straight from the asset panel while working on
+        Figma files.
+      </p>
+      <Accordion
+        items={[
+          { label: "Exploration 1: In-component metadata", value: "after", chosen: true },
+          { label: "Exploration 2: Dedicated tab", value: "before" },
+        ]}
+      >
+        <div slot="after" class="acc-content-group">
+          <div class="pivot-panel">
+            <video
+              src="/case-studies/design-system-search/evolution.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            ></video>
+          </div>
+          <p class="body-copy">
+            <strong>Proposal:</strong> Added an "evolution" type to the
+            changelog form. Designers log version and release date, which
+            get written automatically into the component's description and
+            title. When they pull components from the panel, they spot the
+            version info they need right away.
+          </p>
+          <p class="body-copy">
+            <strong>Insight:</strong> Designers see version and release
+            information directly in the working file, without having to
+            open plugins or switch context. They reported that this
+            approach doesn't interrupt their workflow.
+          </p>
+        </div>
+        <div slot="before" class="acc-content-group">
+          <div class="pivot-panel pivot-panel-centered">
+            <img
+              src="/case-studies/design-system-search/evolution.png"
+              alt="Dedicated 'Evolution' tab inside the plugin listing recent component updates"
+            />
+          </div>
+          <p class="body-copy">
+            <strong>Proposal:</strong> A dedicated "Evolution" tab inside
+            the plugin lists recent updates per component, filterable and
+            searchable.
+          </p>
+          <p class="body-copy">
+            <strong>Insight:</strong> Designers had to open the plugin
+            every time to check on components, which broke their flow.
+            Updates also stayed invisible to anyone who didn't have the
+            plugin installed.
           </p>
         </div>
       </Accordion>
