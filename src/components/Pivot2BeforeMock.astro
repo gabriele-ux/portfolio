@@ -1,0 +1,324 @@
+---
+// Rough prototype of the "before" panel of pivot 2: a dedicated Changelog
+// tab inside the plugin with three sub-tabs (Add changelog, Recent
+// evolutions, Settings). The active tab is "Recent evolutions", showing a
+// filterable list of component updates — this is the surface designers had
+// to remember to open, which is the very gap the pivot solves.
+---
+
+<div class="p2m" role="img" aria-label="Rudimentary mock of the dedicated changelog panel">
+  <div class="p2m-card">
+    <div class="p2m-header">
+      <span class="p2m-app">Changelog</span>
+      <span class="p2m-badge">v0.2</span>
+    </div>
+
+    <div class="p2m-tabs" role="tablist">
+      <button class="p2m-tab" type="button" role="tab" aria-selected="false">
+        Add changelog
+      </button>
+      <button class="p2m-tab p2m-tab-active" type="button" role="tab" aria-selected="true">
+        Recent evolutions
+      </button>
+      <button class="p2m-tab" type="button" role="tab" aria-selected="false">
+        Settings
+      </button>
+    </div>
+
+    <div class="p2m-toolbar">
+      <div class="p2m-search" aria-hidden="true">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1.25" />
+          <path d="M7.5 7.5L10 10" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+        </svg>
+        <span>Search components</span>
+      </div>
+      <span class="p2m-filter">All libraries ▾</span>
+    </div>
+
+    <ol class="p2m-list">
+      <li class="p2m-group">
+        <div class="p2m-date">Today, Sep 19</div>
+        <ul class="p2m-rows">
+          <li class="p2m-row">
+            <span class="p2m-thumb p2m-thumb-card" aria-hidden="true"></span>
+            <div class="p2m-info">
+              <span class="p2m-node">Card / Dashboard <span class="p2m-ver">v2</span></span>
+              <span class="p2m-hint">Evolution · go live 30 Sep · @marco</span>
+            </div>
+            <span class="p2m-tag p2m-tag-evolution">Evolution</span>
+          </li>
+          <li class="p2m-row">
+            <span class="p2m-thumb p2m-thumb-button" aria-hidden="true"></span>
+            <div class="p2m-info">
+              <span class="p2m-node">Button / Primary <span class="p2m-ver">v3</span></span>
+              <span class="p2m-hint">Bug fix · shipped · @giulia</span>
+            </div>
+            <span class="p2m-tag p2m-tag-bugfix">Bug fix</span>
+          </li>
+        </ul>
+      </li>
+
+      <li class="p2m-group">
+        <div class="p2m-date">Sep 17</div>
+        <ul class="p2m-rows">
+          <li class="p2m-row">
+            <span class="p2m-thumb p2m-thumb-input" aria-hidden="true"></span>
+            <div class="p2m-info">
+              <span class="p2m-node">Input / Text field <span class="p2m-ver">v4</span></span>
+              <span class="p2m-hint">Evolution · go live 05 Oct · @sara</span>
+            </div>
+            <span class="p2m-tag p2m-tag-evolution">Evolution</span>
+          </li>
+          <li class="p2m-row">
+            <span class="p2m-thumb p2m-thumb-icon" aria-hidden="true"></span>
+            <div class="p2m-info">
+              <span class="p2m-node">Icon / Set 24px <span class="p2m-ver">v1.2</span></span>
+              <span class="p2m-hint">New · shipped · @marco</span>
+            </div>
+            <span class="p2m-tag p2m-tag-new">New</span>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<style>
+  .p2m {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #f3f5f6;
+    box-sizing: border-box;
+  }
+
+  .p2m-card {
+    background: #ffffff;
+    border: 1px solid #d3d3d6;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #1e1a15;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .p2m-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e8e9eb;
+    background: #fafafa;
+  }
+  .p2m-app {
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .p2m-badge {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 10px;
+    color: #808187;
+    background: #f3f3f4;
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+
+  /* ── Tabs ── */
+  .p2m-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #e8e9eb;
+    background: #fafafa;
+    padding: 0 8px;
+  }
+  .p2m-tab {
+    all: unset;
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #808187;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    line-height: 1;
+  }
+  .p2m-tab-active {
+    color: #1e1a15;
+    border-bottom-color: #1e1a15;
+    background: #ffffff;
+  }
+
+  /* ── Toolbar ── */
+  .p2m-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f3f3f4;
+  }
+  .p2m-search {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border: 1px solid #e8e9eb;
+    border-radius: 4px;
+    background: #fafafa;
+    color: #808187;
+    font-size: 11px;
+    flex: 1;
+    min-width: 0;
+  }
+  .p2m-filter {
+    font-size: 11px;
+    color: #525460;
+    white-space: nowrap;
+  }
+
+  /* ── List ── */
+  .p2m-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .p2m-group {
+    display: flex;
+    flex-direction: column;
+  }
+  .p2m-date {
+    padding: 8px 16px 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #808187;
+    background: #fafafa;
+    border-bottom: 1px solid #f3f3f4;
+  }
+  .p2m-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .p2m-row {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f3f3f4;
+  }
+  .p2m-row:last-child {
+    border-bottom: none;
+  }
+
+  /* ── Thumbs (component previews) ── */
+  .p2m-thumb {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid #d3d3d6;
+    background: #fafafa;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+  }
+  .p2m-thumb-card {
+    background:
+      linear-gradient(#e8e9eb, #e8e9eb) center 6px / 20px 3px no-repeat,
+      linear-gradient(#e8e9eb, #e8e9eb) center 12px / 14px 3px no-repeat,
+      #ffffff;
+  }
+  .p2m-thumb-button {
+    background:
+      linear-gradient(#1e1a15, #1e1a15) center / 18px 8px no-repeat,
+      #ffffff;
+    background-position: center;
+  }
+  .p2m-thumb-button::after {
+    content: "";
+    position: absolute;
+    inset: 12px 7px;
+    background: #1e1a15;
+    border-radius: 999px;
+  }
+  .p2m-thumb-input {
+    background: #ffffff;
+  }
+  .p2m-thumb-input::after {
+    content: "";
+    position: absolute;
+    inset: 10px 6px;
+    border: 1px solid #d3d3d6;
+    border-radius: 3px;
+  }
+  .p2m-thumb-icon {
+    background:
+      radial-gradient(circle at 50% 50%, #1e1a15 3px, transparent 3.5px),
+      #ffffff;
+  }
+
+  /* ── Info ── */
+  .p2m-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .p2m-node {
+    font-size: 12px;
+    font-weight: 500;
+    color: #1e1a15;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .p2m-ver {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 10px;
+    color: #808187;
+    margin-left: 4px;
+  }
+  .p2m-hint {
+    font-size: 11px;
+    color: #808187;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── Tag ── */
+  .p2m-tag {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: #f3f3f4;
+    color: #525460;
+    white-space: nowrap;
+  }
+  .p2m-tag-evolution {
+    background: #eaf6ff;
+    color: #0066cc;
+  }
+  .p2m-tag-bugfix {
+    background: #fff0e8;
+    color: #b3541a;
+  }
+  .p2m-tag-new {
+    background: #e8f5ea;
+    color: #2e7d3a;
+  }
+</style>

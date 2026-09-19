@@ -90,14 +90,22 @@ const defaultIndex = chosenIdx >= 0 ? chosenIdx : 0;
   .accordion {
     display: flex;
     flex-direction: column;
-    background-color: var(--color-neutral-0);
+    background-color: transparent;
     border: 1px solid var(--color-card-border);
     border-radius: 12px;
     overflow: hidden;
   }
 
+  .acc-item {
+    background-color: #3d3d3d;
+  }
+
+  .acc-item.is-open {
+    background-color: var(--color-neutral-0);
+  }
+
   .acc-item + .acc-item {
-    border-top: 1px solid var(--color-border-faint);
+    border-top: 1px solid #a6a6a6;
   }
 
   .acc-header {
@@ -111,7 +119,7 @@ const defaultIndex = chosenIdx >= 0 ? chosenIdx : 0;
     padding: 14px 20px;
     cursor: pointer;
     color: var(--color-text-on-inverse);
-    background-color: #3d3d3d;
+    background-color: transparent;
     transition:
       color 200ms ease,
       background-color 200ms ease;
@@ -163,9 +171,9 @@ const defaultIndex = chosenIdx >= 0 ? chosenIdx : 0;
   }
 
   .acc-badge-muted {
-    background-color: var(--color-neutral-500);
+    background-color: transparent;
     color: var(--color-text-on-inverse);
-    border: none;
+    border: 1px solid var(--color-text-on-inverse);
   }
 
   .acc-item.is-open .acc-badge {
