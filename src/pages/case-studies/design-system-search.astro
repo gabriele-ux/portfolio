@@ -18,7 +18,9 @@ import PrioritizationMatrix from "../../components/PrioritizationMatrix.astro";
 import SolutionFlow from "../../components/SolutionFlow.astro";
 import StrategyFlow from "../../components/StrategyFlow.astro";
 import Pivot2BeforeSchema from "../../components/Pivot2BeforeSchema.astro";
+import Pivot2BeforeMock from "../../components/Pivot2BeforeMock.astro";
 import Pivot1BeforeMock from "../../components/Pivot1BeforeMock.astro";
+import Pivot3RagSchema from "../../components/Pivot3RagSchema.astro";
 import Accordion from "../../components/Accordion.astro";
 
 const matrixItems = [
@@ -116,7 +118,7 @@ import ImpactCard from "../../components/ImpactCard.astro";
 import CaseStudyFooter from "../../components/CaseStudyFooter.astro";
 
 const navSections = [
-  { id: "in-short", label: "Short" },
+  { id: "in-short", label: "In short" },
   { id: "background", label: "Background" },
   { id: "problem", label: "Problem" },
   { id: "discovery", label: "Discovery" },
@@ -595,8 +597,11 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           </p>
         </div>
         <div slot="option3" class="acc-content-group">
-          <div class="pivot-panel pivot-panel-centered pivot-panel-placeholder">
-            <span>Placeholder — manual table option</span>
+          <div class="pivot-panel pivot-panel-centered">
+            <img
+              src="/case-studies/design-system-search/manual.png"
+              alt="Manual table under each component that designers fill in by hand"
+            />
           </div>
           <p class="body-copy">
             <strong>Proposal:</strong> A table under each component that
@@ -626,7 +631,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
       <Accordion
         items={[
           { label: "Exploration 1: In-component metadata", value: "after", chosen: true },
-          { label: "Exploration 2: Dedicated changelog panel", value: "before" },
+          { label: "Exploration 2: Dedicated tab", value: "before" },
         ]}
       >
         <div slot="after" class="acc-content-group">
@@ -655,19 +660,22 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           </p>
         </div>
         <div slot="before" class="acc-content-group">
-          <div class="pivot-panel">
-            <Pivot2BeforeSchema />
+          <div class="pivot-panel pivot-panel-centered">
+            <img
+              src="/case-studies/design-system-search/evolution.png"
+              alt="Dedicated 'Evolution' tab inside the plugin listing recent component updates"
+            />
           </div>
           <p class="body-copy">
-            <strong>Proposal:</strong> A dedicated "Changelog" tab inside
+            <strong>Proposal:</strong> A dedicated "Evolution" tab inside
             the plugin lists recent updates per component, filterable and
             searchable.
           </p>
           <p class="body-copy">
-            <strong>Evidence:</strong> Data was well organised, but
-            designers still had to open the plugin and go looking for
-            changes. Same behavioural gap as before, just moved inside the
-            plugin.
+            <strong>Evidence:</strong> Designers had to open the plugin
+            every time to check on components, which broke their flow.
+            Updates also stayed invisible to anyone who didn't have the
+            plugin installed.
           </p>
         </div>
       </Accordion>
@@ -736,8 +744,8 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           </p>
         </div>
         <div slot="option3" class="acc-content-group">
-          <div class="pivot-panel pivot-panel-centered pivot-panel-placeholder">
-            <span>Placeholder — RAG database option</span>
+          <div class="pivot-panel">
+            <Pivot3RagSchema />
           </div>
           <p class="body-copy">
             <strong>Proposal:</strong> A dedicated database with a

@@ -43,7 +43,7 @@ const projects = [
           <TagList size="sm" tags={heroTags} />
         </div>
         <h1 id="hero-title" class="hero-claim">
-          I&rsquo;m a <strong>Product designer</strong> that turns complexity into clarity, with expertise in <em>UX,&nbsp;design systems</em> and <em>governance.</em>
+          I&rsquo;m a <strong>Product designer</strong> that turns complexity into clarity, with expertise in <em>UX</em>,&nbsp;<em>design systems</em> and <em>governance.</em>
         </h1>
         <p class="hero-note">
           Currently building an AI-ready design system and best practices @Flutter Entertainment
@@ -188,6 +188,38 @@ const projects = [
   .hero-claim em {
     font-style: italic;
     font-weight: var(--font-weight-bold);
+  }
+
+  .hero-claim strong,
+  .hero-claim em {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .hero-claim strong::before,
+  .hero-claim em::before {
+    content: "";
+    position: absolute;
+    inset: 0.05em -0.15em;
+    background: #9be2ec;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 2px;
+  }
+
+  .hero-claim strong:hover::before,
+  .hero-claim em:hover::before {
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-claim strong::before,
+    .hero-claim em::before {
+      transition: none;
+    }
   }
 
   .hero-note {
