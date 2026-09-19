@@ -110,15 +110,25 @@ const defaultIndex = chosenIdx >= 0 ? chosenIdx : 0;
     gap: 16px;
     padding: 14px 20px;
     cursor: pointer;
-    color: var(--color-text-muted);
+    color: var(--color-text-on-inverse);
+    background-color: #3d3d3d;
     transition:
       color 200ms ease,
       background-color 200ms ease;
     -webkit-tap-highlight-color: transparent;
   }
 
+  .acc-item.is-open .acc-header {
+    color: var(--color-text-heading);
+    background-color: transparent;
+  }
+
   .acc-header:hover {
-    background-color: var(--color-neutral-100, rgba(0, 0, 0, 0.02));
+    background-color: #2b2b2b;
+  }
+
+  .acc-item.is-open .acc-header:hover {
+    background-color: var(--color-neutral-50);
   }
 
   .acc-header:focus-visible {
@@ -143,8 +153,9 @@ const defaultIndex = chosenIdx >= 0 ? chosenIdx : 0;
     height: 20px;
     padding: 0 8px;
     border-radius: 999px;
-    background-color: var(--color-neutral-800);
-    color: var(--color-text-on-inverse);
+    background-color: var(--color-neutral-0);
+    color: var(--color-neutral-800);
+    border: none;
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.04em;
@@ -152,6 +163,17 @@ const defaultIndex = chosenIdx >= 0 ? chosenIdx : 0;
   }
 
   .acc-badge-muted {
+    background-color: var(--color-neutral-500);
+    color: var(--color-text-on-inverse);
+    border: none;
+  }
+
+  .acc-item.is-open .acc-badge {
+    background-color: var(--color-neutral-800);
+    color: var(--color-text-on-inverse);
+  }
+
+  .acc-item.is-open .acc-badge-muted {
     background-color: transparent;
     color: var(--color-text-muted);
     border: 1px solid var(--color-border-faint);

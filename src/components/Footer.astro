@@ -133,12 +133,9 @@ const {
     position: relative;
     width: 100%;
     overflow: hidden;
-    /* Gap tra sezione precedente e footer: 60px mobile → 100px desktop */
-    margin-top: clamp(60px, calc(35px + 3vw), 100px);
     /* Bottom padding fluido: 60px mobile → 120px desktop */
     padding-bottom: clamp(60px, calc(12px + 7.5vw), 120px);
     isolation: isolate;
-    border-radius: 32px 32px 0 0;
     background-color: var(--color-bg-inverse);
     color: var(--color-text-on-inverse);
   }

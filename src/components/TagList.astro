@@ -4,6 +4,7 @@ import Tag from "./Tag.astro";
 interface TagData {
   label: string;
   dot?: "success";
+  variant?: "default" | "inverse";
 }
 
 interface Props {
@@ -16,7 +17,11 @@ const { tags, size = "md", class: className = "" } = Astro.props;
 ---
 
 <div class:list={["tag-list", className]}>
-  {tags.map((t) => <Tag label={t.label} dot={t.dot} size={size} />)}
+  {
+    tags.map((t) => (
+      <Tag label={t.label} dot={t.dot} variant={t.variant} size={size} />
+    ))
+  }
 </div>
 
 <style>

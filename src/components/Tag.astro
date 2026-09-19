@@ -3,13 +3,20 @@ interface Props {
   label: string;
   dot?: "success";
   size?: "md" | "sm";
+  variant?: "default" | "inverse";
   class?: string;
 }
 
-const { label, dot, size = "md", class: className = "" } = Astro.props;
+const {
+  label,
+  dot,
+  size = "md",
+  variant = "default",
+  class: className = "",
+} = Astro.props;
 ---
 
-<span class:list={["tag", `is-${size}`, className]}>
+<span class:list={["tag", `is-${size}`, `is-${variant}`, className]}>
   {dot === "success" && <span class="tag-dot" aria-hidden="true" />}
   <span class="type-tag tag-label">{label}</span>
 </span>
@@ -25,6 +32,12 @@ const { label, dot, size = "md", class: className = "" } = Astro.props;
     color: var(--color-text-body);
     white-space: nowrap;
     box-sizing: border-box;
+  }
+
+  .tag.is-inverse {
+    background-color: var(--color-bg-inverse);
+    border-color: var(--color-bg-inverse);
+    color: var(--color-text-on-inverse);
   }
 
   .tag.is-md {

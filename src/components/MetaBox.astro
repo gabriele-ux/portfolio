@@ -71,9 +71,10 @@ const decoration = decorationSrc[variant];
     }
   }
 
-  /* HMW / Decision — pale blue background, animated border */
+  /* HMW / Decision / Insight — pale blue background, static faint border */
   .meta-box.is-hmw,
-  .meta-box.is-decision {
+  .meta-box.is-decision,
+  .meta-box.is-insight {
     background-color: var(--color-illustration-blue-50);
     border: 0;
     padding: calc(var(--spacing-padding-xl) + 1px);
@@ -83,7 +84,8 @@ const decoration = decorationSrc[variant];
 
   /* Static faint border replacement (sits exactly on the outer edge) */
   .meta-box.is-hmw::before,
-  .meta-box.is-decision::before {
+  .meta-box.is-decision::before,
+  .meta-box.is-insight::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -155,18 +157,5 @@ const decoration = decorationSrc[variant];
     font-size: var(--text-callout);
     line-height: var(--leading-tight);
     color: var(--color-text-heading);
-  }
-
-  /* Insight — dark background, light text */
-  .meta-box.is-insight {
-    background-color: var(--color-neutral-800);
-    border-color: var(--color-neutral-800);
-  }
-  .meta-box.is-insight :global(.meta-label) {
-    color: var(--color-text-on-inverse);
-    opacity: 0.65;
-  }
-  .meta-box.is-insight :global(.meta-value) {
-    color: var(--color-text-on-inverse);
   }
 </style>

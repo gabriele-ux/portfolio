@@ -1,155 +1,246 @@
 ---
 import Button from "./Button.astro";
 
-interface RelatedProject {
-  href: string;
-  title: string;
-  cover?: string;
-  eyebrow?: string;
-}
-
 interface Props {
   email?: string;
-  invitation?: string;
-  relatedProjects?: RelatedProject[];
+  heading?: string;
+  location?: string;
+  timeZone?: string;
+  lastUpdated?: string;
+  class?: string;
 }
+
+const now = new Date();
+const ordinal = (d: number): string => {
+  if (d > 3 && d < 21) return "th";
+  switch (d % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+};
+const day = now.getDate();
+const defaultLastUpdated = `${now.toLocaleDateString("en-US", {
+  month: "long",
+})} ${day}${ordinal(day)}, ${now.getFullYear()}`;
 
 const {
   email = "gabrielelarosa013@gmail.com",
-  invitation = "Let's build awesome products together :)",
-  relatedProjects = [],
+  heading = "Let's build meaningful products :)",
+  location = "Milan",
+  timeZone = "Europe/Rome",
+  lastUpdated = defaultLastUpdated,
+  class: className = "",
 } = Astro.props;
 ---
 
-<footer class="case-study-footer">
-  {
-    relatedProjects.length > 0 && (
-      <section class="footer-projects" aria-label="Other projects">
-        <p class="eyebrow">Other projects</p>
-        <ul class="projects-grid">
-          {relatedProjects.map((p) => (
-            <li>
-              <a class="project-card" href={p.href}>
-                {p.cover && (
-                  <div class="project-cover" style={`background-image: url(${p.cover});`} />
-                )}
-                <div class="project-meta">
-                  {p.eyebrow && <span class="project-eyebrow">{p.eyebrow}</span>}
-                  <span class="project-title">{p.title}</span>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
+<footer class:list={["case-study-footer", className]}>
+  <div class="case-study-footer__inner">
+    <div class="case-study-footer__meta">
+      <div class="case-study-footer__meta-item">
+        <span class="case-study-footer__meta-label">LAST UPDATED</span>
+        <span class="case-study-footer__meta-value">{lastUpdated}</span>
+      </div>
+      <div class="case-study-footer__meta-item case-study-footer__meta-item--right">
+        <span class="case-study-footer__meta-label">CURRENTLY</span>
+        <span
+          class="case-study-footer__meta-value case-study-footer__meta-value--icon"
+          id="cs-footer-time-wrap"
+          data-time="night"
+          data-tz={timeZone}
+        >
+          <svg
+            class="case-study-footer__icon-moon"
+            width="16"
+            height="16"
+            viewBox="0 0 256 256"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"></path>
+          </svg>
+          <svg
+            class="case-study-footer__icon-sun"
+            width="16"
+            height="16"
+            viewBox="0 0 256 256"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path>
+          </svg>
+          <span>{location}, <time id="cs-footer-time">--:--</time></span>
+        </span>
+      </div>
+    </div>
 
-  <section class="footer-contact" aria-label="Get in touch">
-    <h2 class="footer-invitation">{invitation}</h2>
-    <Button href={`mailto:${email}`}>{email}</Button>
-  </section>
+    <div class="case-study-footer__center">
+      <h2 class="case-study-footer__heading">{heading}</h2>
+      <Button
+        class="case-study-footer__cta"
+        data-email={email}
+        aria-label={`Copy email ${email}`}
+      >
+        {email}
+      </Button>
+    </div>
+  </div>
 </footer>
 
-<style>
+<style is:global>
   .case-study-footer {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-gap-section-lg);
-    padding-block: calc(var(--spacing-gap-section-lg) * 2);
-    padding-inline: var(--spacing-gutter-page);
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-top: clamp(100px, calc(60px + 4vw), 180px);
+    padding-bottom: clamp(60px, calc(12px + 7.5vw), 120px);
+    isolation: isolate;
+    border-radius: 32px 32px 0 0;
     background-color: var(--color-bg-inverse);
     color: var(--color-text-on-inverse);
   }
 
-  /* ── Other projects (renders only when data provided) ── */
-  .footer-projects {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-gap-xl);
-    max-width: 1200px;
-    width: 100%;
-    margin-inline: auto;
-  }
-
-  .eyebrow {
-    margin: 0;
-    color: var(--color-text-on-inverse);
-    opacity: 0.65;
-    text-transform: uppercase;
-    font-family: var(--font-mono);
-    font-weight: var(--font-weight-normal);
-    font-size: var(--text-eyebrow);
-    line-height: var(--leading-tight);
-    letter-spacing: var(--tracking-wide);
-  }
-
-  .projects-grid {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: var(--spacing-gap-xl);
-  }
-
-  .project-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-gap-md);
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .project-cover {
-    aspect-ratio: 16 / 10;
-    background-color: var(--color-neutral-200);
-    background-size: cover;
-    background-position: center;
-    border-radius: 12px;
-  }
-
-  .project-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .project-eyebrow {
-    color: var(--color-text-on-inverse);
-    opacity: 0.65;
-    font-family: var(--font-mono);
-    font-size: var(--text-eyebrow);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-  }
-
-  .project-title {
-    color: var(--color-text-on-inverse);
-    font-family: var(--font-serif);
-    font-weight: var(--font-weight-medium);
-    font-size: var(--text-h3);
-    line-height: var(--leading-tight);
-  }
-
-  /* ── Contact block ── */
-  .footer-contact {
+  .case-study-footer__inner {
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(64px, calc(51.2px + 2vw), 80px)
+      clamp(24px, 7vw, 160px) 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    gap: var(--spacing-gap-2xl);
-    max-width: 640px;
-    margin-inline: auto;
+    gap: clamp(24px, calc(88.8px - 4.5vw), 60px);
   }
 
-  .footer-invitation {
-    margin: 0;
-    color: var(--color-text-on-inverse);
+  .case-study-footer__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .case-study-footer__meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .case-study-footer__meta-item--right {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .case-study-footer__meta-label {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20.44px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .case-study-footer__meta-value {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19.2px;
+    letter-spacing: -0.16px;
+    color: #f9f9f9;
+  }
+
+  .case-study-footer__meta-value--icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .case-study-footer__icon-moon,
+  .case-study-footer__icon-sun {
+    display: none;
+    flex-shrink: 0;
+  }
+  .case-study-footer__meta-value--icon[data-time="night"] .case-study-footer__icon-moon {
+    display: inline-block;
+  }
+  .case-study-footer__meta-value--icon[data-time="day"] .case-study-footer__icon-sun {
+    display: inline-block;
+  }
+
+  .case-study-footer__center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(20px, calc(9.6px + 1.625vw), 32px);
+    width: 100%;
+  }
+
+  .case-study-footer__heading {
     font-family: var(--font-serif);
-    font-weight: var(--font-weight-medium);
-    font-size: var(--text-display);
-    line-height: var(--text-display--line-height);
-    letter-spacing: -0.01em;
+    font-weight: 400;
+    font-size: clamp(28px, calc(14.4px + 2.125vw), 45px);
+    line-height: 1.1;
+    color: #ffffff;
+    margin: 0;
+    text-align: center;
   }
 </style>
+
+<script>
+  function updateCaseStudyFooterTime() {
+    const timeEl = document.getElementById("cs-footer-time");
+    const wrapEl = document.getElementById("cs-footer-time-wrap");
+    if (!timeEl || !wrapEl) return;
+
+    const tz = wrapEl.dataset.tz || "Europe/Rome";
+    const now = new Date();
+
+    const timeStr = new Intl.DateTimeFormat("en-GB", {
+      timeZone: tz,
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }).format(now);
+    timeEl.textContent = timeStr;
+
+    const hourStr = new Intl.DateTimeFormat("en-GB", {
+      timeZone: tz,
+      hour: "2-digit",
+      hour12: false,
+    }).format(now);
+    const hour = parseInt(hourStr, 10);
+    const isNight = hour < 6 || hour >= 20;
+    wrapEl.dataset.time = isNight ? "night" : "day";
+  }
+  updateCaseStudyFooterTime();
+  setInterval(updateCaseStudyFooterTime, 60_000);
+
+  document
+    .querySelectorAll<HTMLButtonElement>(".case-study-footer__cta[data-email]")
+    .forEach((btn) => {
+      btn.addEventListener("click", async (event) => {
+        const email = btn.dataset.email;
+        if (!email) return;
+        event.preventDefault();
+        const toast = (
+          window as unknown as { showToast?: (msg: string) => void }
+        ).showToast;
+        try {
+          await navigator.clipboard.writeText(email);
+          btn.dataset.copied = "true";
+          setTimeout(() => {
+            delete btn.dataset.copied;
+          }, 1200);
+          toast?.(`Email copied — ${email}`);
+        } catch {
+          window.location.href = `mailto:${email}`;
+        }
+      });
+    });
+</script>

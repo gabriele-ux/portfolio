@@ -64,7 +64,7 @@ const modalContent: Record<string, ModalContent> = {
   sync: {
     title: "Everything synced in one place",
     description:
-      "Following pivot 3, I built a real source of truth on GitHub. The data is structured, unique, and easy for scripts and LLMs to use, which adds value and helps us hit our three goals: frictionless, retrievable, and proactive.",
+      "I decided to save data on GitHub as the best effort/result solution. The data is structured and easy for scripts and LLMs to use, which adds value and helps us hit our three goals: frictionless, retrievable, and proactive.",
     video: "/case-studies/design-system-search/sync.mp4",
     mediaAspect: "1920 / 1080",
   },
@@ -271,7 +271,7 @@ const modalAttrs = (id: string) => {
       <line x1="12" y1="19" x2="12" y2="5" />
       <polyline points="5 12 12 5 19 12" />
     </svg>
-    <span><span class="flow-caption-cta">Click</span> on each step to see the implemented feature</span>
+    <span>Click on each step to see the implemented feature</span>
   </figcaption>
 
   {/* ─────────── Modal ─────────── */}
@@ -590,7 +590,7 @@ const modalAttrs = (id: string) => {
   /* ══════ Caption ══════ */
   .flow-caption {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: var(--spacing-gap-xs);
     margin-top: var(--spacing-gap-md);
@@ -600,9 +600,6 @@ const modalAttrs = (id: string) => {
   }
   .flow-caption-arrow {
     flex-shrink: 0;
-  }
-  .flow-caption-cta {
-    font-weight: var(--font-weight-medium);
   }
 
   @media (max-width: 799px) {

@@ -1,11 +1,13 @@
 ---
 import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
 import HeroCover from "../../components/HeroCover.astro";
+import Button from "../../components/Button.astro";
 import TagList from "../../components/TagList.astro";
 import MetaBox from "../../components/MetaBox.astro";
 import MetaItem from "../../components/MetaItem.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
 import Media from "../../components/Media.astro";
+import QuestionsDiagram from "../../components/QuestionsDiagram.astro";
 import TransitionCallout from "../../components/TransitionCallout.astro";
 import CalloutList from "../../components/CalloutList.astro";
 import CalloutItem from "../../components/CalloutItem.astro";
@@ -114,11 +116,11 @@ import ImpactCard from "../../components/ImpactCard.astro";
 import CaseStudyFooter from "../../components/CaseStudyFooter.astro";
 
 const navSections = [
-  { id: "in-short", label: "In Short" },
-  { id: "background", label: "The Background" },
-  { id: "problem", label: "The Problem" },
+  { id: "in-short", label: "Short" },
+  { id: "background", label: "Background" },
+  { id: "problem", label: "Problem" },
   { id: "discovery", label: "Discovery" },
-  { id: "research", label: "Research & Constraints" },
+  { id: "research", label: "Research" },
   { id: "strategy", label: "Strategy" },
   { id: "pivots", label: "Design Decisions" },
   { id: "solution", label: "Solution" },
@@ -205,14 +207,13 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         <div class="in-short-row">
           <dt class="in-short-term">Result</dt>
           <dd class="in-short-def">
-            <strong>1 unified source of truth.</strong> Context recovery from <strong>~1 day</strong> to <strong>~5 min</strong>, weekly release note creation from <strong>~4h</strong> to <strong>~25 min</strong>, adopted by <strong>6/8</strong> designers.
+            <strong>1</strong> unified <strong>source of truth</strong>. Context recovery from <strong>~1 day</strong> to <strong>~5 min</strong>, weekly release note creation from <strong>~4h</strong> to <strong>~25 min</strong>, adopted by <strong>5/8</strong> designers.
           </dd>
         </div>
       </dl>
-      <a href="#solution" class="in-short-cta">
-        <span class="cta-label">See how the solution works</span>
+      <Button href="#solution" variant="secondary" class="in-short-cta">
+        See how the solution works
         <svg
-          class="cta-arrow"
           width="14"
           height="14"
           viewBox="0 0 14 14"
@@ -228,7 +229,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             stroke-linejoin="round"
           ></path>
         </svg>
-      </a>
+      </Button>
     </aside>
 
     <Spacer size="lg" />
@@ -278,10 +279,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
       <p class="body-copy">
         The same questions kept coming back:
       </p>
-      <Media
-        src="/case-studies/design-system-search/diagram-questions.jpg"
-        alt="Recurring questions from designers"
-      />
+      <QuestionsDiagram />
       <MetaBox variant="data">
         <MetaItem label="TICKET ANALYSIS - 1 YEAR PERIOD">
           <strong>12%</strong> of <strong>273</strong> requests where about <strong>component changes</strong> or which version to use
@@ -528,11 +526,10 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         title="From a changelog plugin, to an AI-ready infrastructure"
       />
       <p class="body-copy">
-        As I <strong>tested the workflow in real files</strong>, each
-        iteration exposed something I hadn't accounted for. These findings
-        changed where information should live, how much effort designers
-        should spend recording it, and how the system should handle
-        data.
+        <strong>Testing the product with designers on real cases</strong>,
+        I ran into problems and structural decisions that shaped how to
+        handle input, surface information, and manage data &mdash; turning
+        a simple plugin into a more complex infrastructure.
       </p>
     </section>
 
@@ -543,10 +540,10 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         01/ Defining how to input data
       </h3>
       <p class="body-copy">
-        <strong>Evidence:</strong> Two of the team's needs pulled in
-        opposite ways. Frictionless meant fewer fields for designers.
-        Retrievable meant enough structure for AI to pick up later.
-        Getting the balance right was key, so I explored a few directions.
+        <strong>Problem:</strong> Which data input method to choose? The
+        quality of the data collected shapes how usable the product is.
+        Removing friction entirely risked hurting data quality, while asking
+        for too much information increased friction.
       </p>
       <Accordion
         items={[
@@ -567,14 +564,16 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             ></video>
           </div>
           <p class="body-copy">
-            I explored a form inside the plugin that walks the user
-            through the data to log. I defined required and optional
-            fields with the UI designers. Automation covers the reliable
-            stuff (date, author, component sheets). Designers fill in
-            what only they can give: the project, the reason for the
-            change, and the people involved. This exploration hit the
-            best balance between low friction and the level of detail
-            UI designers needed, like specific contacts.
+            <strong>Proposal:</strong> A form in the plugin walks designers
+            through the info to log. Fields were shaped with the UX/UI team
+            to cover what they need. Auto-fillable info (name, date, etc.)
+            fills in on its own, and the changelog is added to the
+            component's table automatically.
+          </p>
+          <p class="body-copy">
+            <strong>Evidence:</strong> Designers find the form easy to fill
+            in, and the required fields let us collect 100% of the data we
+            need.
           </p>
         </div>
         <div slot="before" class="acc-content-group">
@@ -585,16 +584,29 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             />
           </div>
           <p class="body-copy">
-            A detection script scans files and logs changes automatically,
-            then asks the designer to fill in only the missing context.
-            It wasn't reliable on complex files (missed real changes,
-            flagged meaningless ones), and even when it worked it still
-            lacked the "why" only designers can give: the project and the
-            reason.
+            <strong>Proposal:</strong> A script scans files and detects
+            changes automatically. It logs everything, then asks designers
+            only for the missing context.
+          </p>
+          <p class="body-copy">
+            <strong>Evidence:</strong> On complex files it missed real
+            changes and flagged meaningless ones. Even when it worked, it
+            couldn't capture the "why", which only designers can give.
           </p>
         </div>
-        <div slot="option3" class="pivot-panel pivot-panel-centered pivot-panel-placeholder">
-          <span>Placeholder — describe the manual option here</span>
+        <div slot="option3" class="acc-content-group">
+          <div class="pivot-panel pivot-panel-centered pivot-panel-placeholder">
+            <span>Placeholder — manual table option</span>
+          </div>
+          <p class="body-copy">
+            <strong>Proposal:</strong> A table under each component that
+            designers fill in by hand. The plugin then collects and syncs
+            the data.
+          </p>
+          <p class="body-copy">
+            <strong>Evidence:</strong> Designers filled in just the bare
+            minimum, and often forgot key information.
+          </p>
         </div>
       </Accordion>
     </div>
@@ -605,42 +617,60 @@ const screen = "/case-studies/design-system-search/screencs1.png";
       <h3 class="type-h2" style="color: var(--color-text-heading);">
         02/ Put changes where designers see them
       </h3>
-      <Accordion
-        items={[
-          { label: "After", value: "after", chosen: true },
-          { label: "Before", value: "before" },
-          { label: "Exploration 3: [add discarded exploration]", value: "option3" },
-        ]}
-      >
-        <div slot="after" class="pivot-panel">
-          <video
-            src="/case-studies/design-system-search/evolution.mp4"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-          ></video>
-        </div>
-        <div slot="before" class="pivot-panel">
-          <Pivot2BeforeSchema />
-        </div>
-        <div slot="option3" class="pivot-panel pivot-panel-centered pivot-panel-placeholder">
-          <span>Placeholder — describe the third explored option here</span>
-        </div>
-      </Accordion>
       <p class="body-copy">
-        <strong>Evidence:</strong> The changelog was now available per
+        <strong>Problem:</strong> The changelog was now available per
         component in each library, but designers didn't consult it as they
         pulled components straight from the asset panel while working on
         Figma files.
       </p>
-      <p class="body-copy">
-        <strong>Pivot:</strong> Version info is now written automatically
-        into the component's description, so it's visible to everyone. A
-        warning icon on component's titles help designers notice an evolution
-        at a glance.
-      </p>
+      <Accordion
+        items={[
+          { label: "Exploration 1: In-component metadata", value: "after", chosen: true },
+          { label: "Exploration 2: Dedicated changelog panel", value: "before" },
+        ]}
+      >
+        <div slot="after" class="acc-content-group">
+          <div class="pivot-panel">
+            <video
+              src="/case-studies/design-system-search/evolution.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            ></video>
+          </div>
+          <p class="body-copy">
+            <strong>Proposal:</strong> Added an "evolution" type to the
+            changelog form. Designers log version and release date, which
+            get written automatically into the component's description and
+            title. When they pull components from the panel, they spot the
+            version info they need right away.
+          </p>
+          <p class="body-copy">
+            <strong>Evidence:</strong> Designers see version and release
+            information directly in the working file, without having to
+            open plugins or switch context. They reported that this
+            approach doesn't interrupt their workflow.
+          </p>
+        </div>
+        <div slot="before" class="acc-content-group">
+          <div class="pivot-panel">
+            <Pivot2BeforeSchema />
+          </div>
+          <p class="body-copy">
+            <strong>Proposal:</strong> A dedicated "Changelog" tab inside
+            the plugin lists recent updates per component, filterable and
+            searchable.
+          </p>
+          <p class="body-copy">
+            <strong>Evidence:</strong> Data was well organised, but
+            designers still had to open the plugin and go looking for
+            changes. Same behavioural gap as before, just moved inside the
+            plugin.
+          </p>
+        </div>
+      </Accordion>
     </div>
 
     <Spacer size="md" />
@@ -650,51 +680,77 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         03/ Create a reliable source of truth
       </h3>
       <p class="body-copy">
-        <strong>Evidence:</strong> Data handling is a delicate technical
-        point in this project. From the first iterations it was clear
-        that getting it wrong would lead to data-saving issues. And once
-        the data is collected, how do I make sure it stays reliable?
+        <strong>Problem:</strong> Once data was being collected, I needed a
+        safe place to store it without losing it. I explored options with
+        AI to balance effort and results, then validated the shortlist with
+        the IT team since a few AI proposals weren't reliable.
       </p>
       <Accordion
         items={[
-          { label: "Exploration 1: GitHub", value: "after", chosen: true },
-          { label: "Exploration 2: Figma memory", value: "before" },
+          { label: "Exploration 1: Figma memory", value: "before" },
+          { label: "Exploration 2: GitHub", value: "after", chosen: true },
           { label: "Exploration 3: RAG Database", value: "option3" },
         ]}
       >
-        <div slot="after" class="pivot-panel">
-          <video
-            src="/case-studies/design-system-search/pivot3.mp4"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-          ></video>
+        <div slot="after" class="acc-content-group">
+          <div class="pivot-panel">
+            <video
+              src="/case-studies/design-system-search/pivot3.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            ></video>
+          </div>
+          <p class="body-copy">
+            <strong>Proposal:</strong> Sync the changelog data from the
+            plugin to a GitHub repo, stored in <code>.md</code> files
+            organised into folders.
+          </p>
+          <p class="body-copy">
+            <strong>Evidence:</strong> No more data overwrites. A "sync
+            queue" shows designers what's already on GitHub, so no one gets
+            confused. The data also unlocks AI features like search and
+            automatic release notes.
+          </p>
         </div>
-        <div slot="before" class="pivot-panel pivot-panel-centered pivot-panel-shrink">
-          <img
-            src="/case-studies/design-system-search/pivot3-before.png"
-            alt="Before pivot 3: Figma as source of truth for changelog data"
-          />
+        <div slot="before" class="acc-content-group">
+          <div class="pivot-panel pivot-panel-centered pivot-panel-shrink">
+            <img
+              src="/case-studies/design-system-search/pivot3-before.png"
+              alt="Before pivot 3: Figma as source of truth for changelog data"
+            />
+          </div>
+          <p class="body-copy">
+            <strong>Proposal:</strong> Store the data directly in Figma
+            using shared plugin storage. Zero external infrastructure, and
+            fastest to prototype.
+          </p>
+          <p class="body-copy">
+            <strong>Evidence:</strong> Designers couldn't tell what had
+            already been shared on Slack, and had no visibility on changes
+            made by other designers. On top of that, when multiple
+            designers worked at the same time, data got overwritten and
+            lost.
+          </p>
         </div>
-        <div slot="option3" class="pivot-panel pivot-panel-centered pivot-panel-placeholder">
-          <span>Placeholder — describe the third explored option here</span>
+        <div slot="option3" class="acc-content-group">
+          <div class="pivot-panel pivot-panel-centered pivot-panel-placeholder">
+            <span>Placeholder — RAG database option</span>
+          </div>
+          <p class="body-copy">
+            <strong>Proposal:</strong> A dedicated database with a
+            Retrieval-Augmented Generation layer, optimised for semantic
+            search. Richest AI features out of the box.
+          </p>
+          <p class="body-copy">
+            <strong>Evidence:</strong> Setup and maintenance cost (schema
+            design, hosting, embeddings pipeline) was disproportionate to
+            the phase of the project.
+          </p>
         </div>
       </Accordion>
-      <p class="body-copy">
-        <strong>Exploration:</strong> I looked at ways to save the data
-        reliably. I considered RAG databases and tested different{" "}
-        <strong>GitHub</strong> configurations, weighing each option by{" "}
-        <strong>effort</strong>, <strong>time</strong> and{" "}
-        <strong>result</strong>.
-      </p>
-      <p class="body-copy">
-        <strong>Pivot:</strong> I chose <strong>GitHub</strong> to sync
-        the data on as the best effort-to-result ratio for this phase of
-        the project. Moreover, the data saved there can feed AI features
-        like changelog search and automatic release notes.
-      </p>
     </div>
 
     <Spacer size="lg" />
@@ -706,9 +762,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         eyebrow="Solution"
         title="A system that captures, retrieves, and distributes information where needed"
       />
-      <div class="solution-flow-bleed">
-        <SolutionFlow />
-      </div>
+      <SolutionFlow />
     </section>
 
     <Spacer size="lg" />
@@ -753,15 +807,15 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         />
         <ImpactCard
           title="Team adoption"
-          metricValue={6}
+          metricValue={5}
           metricSuffix="/ 8"
           arrow={false}
-          beforeValue={`Designers that logged at least 1 change<br class="desktop-break" />in the past 30 days`}
+          beforeValue={`Number of designers that logged at least 1 change<br class="desktop-break" />in the first 30 days`}
         />
       </ImpactCardList>
 
       <p class="eyebrow-line" style="margin-top: 8px;">
-        EXPECTED — TO MEASURE AT Q2
+        EXPECTED — TO MEASURE
       </p>
       <ImpactCardList cols={2}>
         <ImpactCard
@@ -772,7 +826,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           color="neutral"
           arrow={false}
           beforeLabel="EXPECTED REDUCTION"
-          beforeValue="To re-run the same Slack ticket analysis at Q2"
+          beforeValue="To measure next quarter"
         />
       </ImpactCardList>
     </section>
@@ -821,17 +875,6 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     display: flex;
     flex-direction: column;
     gap: var(--spacing-gap-xl);
-  }
-
-  /* Symmetric bleed for the solution flow.
-     Extra per side scales fluidly from 0px @ vw 1250 to 100px @ vw 1450,
-     capped so the schema never overlaps the sticky side nav (218px + safety).
-     Below vw 1250 (menu clearance runs out) it stays at 100% of the content
-     column. */
-  .solution-flow-bleed {
-    --flow-extra: clamp(0px, calc((100vw - 1250px) / 2), 100px);
-    width: calc(100% + var(--flow-extra) * 2);
-    margin-inline: calc(var(--flow-extra) * -1);
   }
 
   .section-tight {
@@ -930,51 +973,10 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     color: var(--color-text-heading);
   }
 
-  /* Outline variant of the primary orange button in the header:
-     transparent bg + accent-warning border/text, same shape and states. */
-  /* Same pill as ProjectCard.astro (.project-card-cta) */
   .in-short-cta {
     align-self: flex-end;
-    margin-top: 32px;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    height: 50px;
-    padding: 0 24px;
-    border: 1px solid var(--color-neutral-800);
-    border-radius: 999px;
-    background-color: var(--color-neutral-0);
-    color: var(--color-neutral-800);
-    font-family: var(--font-serif);
-    font-weight: var(--font-weight-normal);
-    font-size: 1.25rem;
-    line-height: 1;
-    text-decoration: none;
-    white-space: nowrap;
+    margin-top: 12px;
     width: fit-content;
-    user-select: none;
-    transition:
-      background-color 180ms ease,
-      color 180ms ease;
-  }
-
-  .in-short-cta .cta-arrow {
-    flex-shrink: 0;
-    transition: transform 180ms ease;
-  }
-
-  .in-short-cta:hover {
-    background-color: var(--color-neutral-800);
-    color: var(--color-text-on-inverse);
-  }
-
-  .in-short-cta:hover .cta-arrow {
-    transform: translate(1px, -1px);
-  }
-
-  .in-short-cta:focus-visible {
-    outline: 2px solid var(--color-neutral-800);
-    outline-offset: 2px;
   }
 
   @media (max-width: 600px) {

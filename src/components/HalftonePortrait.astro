@@ -1,0 +1,250 @@
+---
+/*
+ * HalftonePortrait — an image rendered as a halftone dot grid on canvas 2D.
+ * Dots repel from the pointer with a smooth falloff and ease back to origin.
+ * Respects prefers-reduced-motion.
+ */
+
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  gap?: number;
+  dotScale?: number;
+  repelRadius?: number;
+  repelStrength?: number;
+}
+
+const {
+  src,
+  alt,
+  class: className = "",
+  gap = 2,
+  dotScale = 1.155,
+  repelRadius = 70,
+  repelStrength = 10,
+} = Astro.props;
+---
+
+<canvas
+  class:list={["halftone-portrait", className]}
+  role="img"
+  aria-label={alt}
+  data-src={src}
+  data-gap={gap}
+  data-dot-scale={dotScale}
+  data-repel-radius={repelRadius}
+  data-repel-strength={repelStrength}></canvas>
+
+<style>
+  .halftone-portrait {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    --dot-color: var(--color-text-heading);
+  }
+</style>
+
+<script>
+  interface Dot {
+    ox: number;
+    oy: number;
+    x: number;
+    y: number;
+    r: number;
+  }
+
+  const canvases = document.querySelectorAll<HTMLCanvasElement>(
+    ".halftone-portrait",
+  );
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  canvases.forEach((c) => init(c));
+
+  function init(canvas: HTMLCanvasElement) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const SRC = canvas.dataset.src ?? "";
+    const GAP = Number(canvas.dataset.gap ?? 2);
+    const DOT_SCALE = Number(canvas.dataset.dotScale ?? 1.155);
+    const REPEL_R = Number(canvas.dataset.repelRadius ?? 70);
+    const REPEL_S = Number(canvas.dataset.repelStrength ?? 10);
+
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let width = 0;
+    let height = 0;
+    let dotColor = "rgba(23, 24, 29, 0.95)";
+    let dots: Dot[] = [];
+    let mx = -9999;
+    let my = -9999;
+    let raf = 0;
+    let ready = false;
+    let silhouette: HTMLCanvasElement | null = null;
+
+    const img = new Image();
+    img.decoding = "async";
+
+    function readColor() {
+      const styles = getComputedStyle(canvas);
+      const v = styles.getPropertyValue("--dot-color").trim();
+      if (v) dotColor = v;
+    }
+
+    function build() {
+      const rect = canvas.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      if (width === 0 || height === 0 || !img.naturalWidth) return;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const off = document.createElement("canvas");
+      off.width = Math.max(1, Math.round(width));
+      off.height = Math.max(1, Math.round(height));
+      const octx = off.getContext("2d", { willReadFrequently: true });
+      if (!octx) return;
+
+      // Cover fit — same behaviour as object-fit: cover
+      const scale = Math.max(
+        off.width / img.naturalWidth,
+        off.height / img.naturalHeight,
+      );
+      const dw = img.naturalWidth * scale;
+      const dh = img.naturalHeight * scale;
+      const dx = (off.width - dw) / 2;
+      const dy = (off.height - dh) / 2;
+      octx.drawImage(img, dx, dy, dw, dh);
+
+      // Silhouette: opaque version of the portrait in the frame background color,
+      // used to hide the frame's dot pattern behind the figure.
+      const frameBg =
+        getComputedStyle(canvas.parentElement ?? canvas).backgroundColor ||
+        "#ffffff";
+      silhouette = document.createElement("canvas");
+      silhouette.width = off.width;
+      silhouette.height = off.height;
+      const sctx = silhouette.getContext("2d");
+      if (sctx) {
+        sctx.drawImage(off, 0, 0);
+        sctx.globalCompositeOperation = "source-in";
+        sctx.fillStyle = frameBg;
+        sctx.fillRect(0, 0, silhouette.width, silhouette.height);
+      }
+
+      const data = octx.getImageData(0, 0, off.width, off.height).data;
+
+      dots = [];
+      const cols = Math.floor(width / GAP);
+      const rows = Math.floor(height / GAP);
+      const offsetX = (width - cols * GAP) / 2 + GAP / 2;
+      const offsetY = (height - rows * GAP) / 2 + GAP / 2;
+      const maxR = (GAP / 2) * DOT_SCALE;
+
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const x = offsetX + i * GAP;
+          const y = offsetY + j * GAP;
+          const px = Math.min(off.width - 1, Math.max(0, Math.round(x)));
+          const py = Math.min(off.height - 1, Math.max(0, Math.round(y)));
+          const idx = (py * off.width + px) * 4;
+          const a = data[idx + 3] / 255;
+          if (a < 0.05) continue;
+          const r8 = data[idx];
+          const g8 = data[idx + 1];
+          const b8 = data[idx + 2];
+          const L = (0.2126 * r8 + 0.7152 * g8 + 0.0722 * b8) / 255;
+          const radius = (1 - L) * maxR * a;
+          if (radius < 0.15) continue;
+          dots.push({ ox: x, oy: y, x, y, r: radius });
+        }
+      }
+      ready = true;
+    }
+
+    function frame() {
+      ctx!.clearRect(0, 0, width, height);
+      if (silhouette) ctx!.drawImage(silhouette, 0, 0, width, height);
+      ctx!.fillStyle = dotColor;
+
+      const rr = REPEL_R;
+      const rr2 = rr * rr;
+
+      for (let k = 0; k < dots.length; k++) {
+        const d = dots[k];
+        const dxo = d.ox - mx;
+        const dyo = d.oy - my;
+        const dist2 = dxo * dxo + dyo * dyo;
+        let tx = d.ox;
+        let ty = d.oy;
+        if (dist2 < rr2 && dist2 > 0.0001) {
+          const dist = Math.sqrt(dist2);
+          const t = 1 - dist / rr;
+          const push = REPEL_S * t * t;
+          tx = d.ox + (dxo / dist) * push;
+          ty = d.oy + (dyo / dist) * push;
+        }
+        d.x += (tx - d.x) * 0.2;
+        d.y += (ty - d.y) * 0.2;
+
+        ctx!.beginPath();
+        ctx!.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx!.fill();
+      }
+      raf = requestAnimationFrame(frame);
+    }
+
+    function drawStatic() {
+      ctx!.clearRect(0, 0, width, height);
+      if (silhouette) ctx!.drawImage(silhouette, 0, 0, width, height);
+      ctx!.fillStyle = dotColor;
+      for (const d of dots) {
+        ctx!.beginPath();
+        ctx!.arc(d.ox, d.oy, d.r, 0, Math.PI * 2);
+        ctx!.fill();
+      }
+    }
+
+    function onPointerMove(e: PointerEvent) {
+      const rect = canvas.getBoundingClientRect();
+      mx = e.clientX - rect.left;
+      my = e.clientY - rect.top;
+    }
+    function onPointerLeave() {
+      mx = -9999;
+      my = -9999;
+    }
+
+    const ro = new ResizeObserver(() => {
+      if (!img.naturalWidth) return;
+      build();
+      if (reduceMotion) drawStatic();
+    });
+    ro.observe(canvas);
+
+    img.addEventListener(
+      "load",
+      () => {
+        readColor();
+        build();
+        if (!ready) return;
+        if (reduceMotion) {
+          drawStatic();
+          return;
+        }
+        canvas.addEventListener("pointermove", onPointerMove, { passive: true });
+        canvas.addEventListener("pointerleave", onPointerLeave, { passive: true });
+        canvas.addEventListener("pointercancel", onPointerLeave, { passive: true });
+        raf = requestAnimationFrame(frame);
+      },
+      { once: true },
+    );
+
+    img.src = SRC;
+  }
+</script>
