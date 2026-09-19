@@ -211,7 +211,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         <div class="in-short-row">
           <dt class="in-short-term">Result</dt>
           <dd class="in-short-def">
-            <strong>1</strong> unified <strong>source of truth</strong>. Context recovery from <strong>~1 day</strong> to <strong>~5 min</strong>, weekly release note creation from <strong>~4h</strong> to <strong>~25 min</strong>, adopted by <strong>5/8</strong> designers.
+            <strong>1</strong> unified <strong>source of truth</strong>. Context recovery from <strong>~1 day</strong> to <strong>~5 min</strong>, weekly release note creation from <strong>~4h</strong> to <strong>~25 min</strong>, and <strong>~62%</strong> weekly engagement on release notes.
           </dd>
         </div>
       </dl>
@@ -551,9 +551,9 @@ const screen = "/case-studies/design-system-search/screencs1.png";
       </p>
       <Accordion
         items={[
-          { label: "Exploration 1: semi-manual", value: "after", chosen: true },
+          { label: "Exploration 1: manual", value: "option3" },
           { label: "Exploration 2: automated", value: "before" },
-          { label: "Exploration 3: manual", value: "option3" },
+          { label: "Exploration 3: semi-manual", value: "after", chosen: true },
         ]}
       >
         <div slot="after" class="acc-content-group">
@@ -813,11 +813,11 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           beforeValue="~4h of manual work"
         />
         <ImpactCard
-          title="Team adoption"
+          title="Release note engagement"
           metricValue={5}
           metricSuffix="/ 8"
           arrow={false}
-          beforeValue={`Number of designers that logged at least 1 change<br class="desktop-break" />in the first 30 days`}
+          beforeValue={`Average number of target designers who reacted to<br class="desktop-break" />the weekly release note in the first 4 weeks`}
         />
       </ImpactCardList>
 
@@ -834,6 +834,14 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           arrow={false}
           beforeLabel="EXPECTED REDUCTION"
           beforeValue="To measure next quarter"
+        />
+        <ImpactCard
+          title="Release note quality"
+          metricText="Survey"
+          color="neutral"
+          arrow={false}
+          beforeLabel="EXPECTED VALIDATION"
+          beforeValue="Quarterly survey to confirm designers actually process and apply what they read"
         />
       </ImpactCardList>
     </section>
