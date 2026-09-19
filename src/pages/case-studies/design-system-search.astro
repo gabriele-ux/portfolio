@@ -544,7 +544,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         01/ Defining how to input data
       </h3>
       <p class="body-copy">
-        <strong>Problem:</strong> Which data input method to choose? The
+        <strong>Problem:</strong> Which data input method to use? The
         quality of the data collected shapes how usable the product is.
         Removing friction entirely risked hurting data quality, while asking
         for too much information increased friction.
@@ -572,12 +572,12 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             through the info to log. Fields were shaped with the UX/UI team
             to cover what they need. Auto-fillable info (name, date, etc.)
             fills in on its own, and the changelog is added to the
-            component's table automatically.
+            component's Figma page automatically.
           </p>
           <p class="body-copy">
             <strong>Insight:</strong> Designers find the form easy to fill
-            in, and the required fields let us collect 100% of the data we
-            need.
+            in. Automations lower the effort on their side, and required
+            fields ensure we collect 100% of the data we need.
           </p>
         </div>
         <div slot="before" class="acc-content-group">
@@ -687,7 +687,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 
     <div class="pivot-block">
       <h3 class="type-h2" style="color: var(--color-text-heading);">
-        03/ Save data properly
+        03/ Give data the proper structure
       </h3>
       <p class="body-copy">
         <strong>Problem:</strong> With the data in hand, storing it
@@ -789,6 +789,15 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         <strong>automated release notes</strong>. A few open questions remain,
         to be measured later to confirm the real impact.
       </p>
+      <div class="impact-group-label">
+        <span
+          class="impact-group-badge"
+          style="background-color: var(--color-accent-info);"
+        >
+          TEAM DESIGN SYSTEM
+        </span>
+        <span class="eyebrow-line">Workload recovered</span>
+      </div>
       <ImpactCardList cols={2}>
         <ImpactCard
           title="Source of truth"
@@ -813,20 +822,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           beforeValue="~4h of manual work"
         />
         <ImpactCard
-          title="Release note engagement"
-          metricValue={5}
-          metricSuffix="/ 8"
-          arrow={false}
-          beforeValue={`Average number of target designers who reacted to<br class="desktop-break" />the weekly release note in the first 4 weeks`}
-        />
-      </ImpactCardList>
-
-      <p class="eyebrow-line" style="margin-top: 8px;">
-        EXPECTED — TO MEASURE
-      </p>
-      <ImpactCardList cols={2}>
-        <ImpactCard
-          title="Similar tickets"
+          title="Tickets on components"
           metricPrefix="-"
           metricValue={70}
           metricSuffix="%"
@@ -834,6 +830,20 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           arrow={false}
           beforeLabel="EXPECTED REDUCTION"
           beforeValue="To measure next quarter"
+        />
+      </ImpactCardList>
+
+      <div class="impact-group-label" style="margin-top: 8px;">
+        <span class="impact-group-badge">TEAM UX/UI</span>
+        <span class="eyebrow-line">Cross project alignment</span>
+      </div>
+      <ImpactCardList cols={2}>
+        <ImpactCard
+          title="Release note engagement"
+          metricValue={5}
+          metricSuffix="/ 8"
+          arrow={false}
+          beforeValue={`Avg. designers reacting to the Slack release note<br class="desktop-break" />in the first 4 weeks (visibility on other projects)`}
         />
         <ImpactCard
           title="Release note quality"
@@ -902,6 +912,27 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     display: flex;
     flex-direction: column;
     gap: var(--spacing-gap-xl);
+  }
+
+  .impact-group-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-gap-sm);
+    flex-wrap: wrap;
+  }
+
+  .impact-group-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: #74a495;
+    color: var(--color-text-on-inverse);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: 12px;
+    line-height: 17px;
+    text-transform: uppercase;
   }
 
   /* IN SHORT / TL;DR card — aurora hue-shift on blue tones */
