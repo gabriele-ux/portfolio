@@ -21,6 +21,8 @@ import Pivot2BeforeSchema from "../../components/Pivot2BeforeSchema.astro";
 import Pivot2BeforeMock from "../../components/Pivot2BeforeMock.astro";
 import Pivot1BeforeMock from "../../components/Pivot1BeforeMock.astro";
 import Pivot3RagSchema from "../../components/Pivot3RagSchema.astro";
+import Pivot3FigmaMemorySchema from "../../components/Pivot3FigmaMemorySchema.astro";
+import Pivot3SingleFileSchema from "../../components/Pivot3SingleFileSchema.astro";
 import Accordion from "../../components/Accordion.astro";
 
 const matrixItems = [
@@ -209,7 +211,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         <div class="in-short-row">
           <dt class="in-short-term">Result</dt>
           <dd class="in-short-def">
-            <strong>1</strong> unified <strong>source of truth</strong>. Context recovery from <strong>~1 day</strong> to <strong>~5 min</strong>, weekly release note creation from <strong>~4h</strong> to <strong>~25 min</strong>, adopted by <strong>5/8</strong> designers.
+            <strong>1</strong> unified <strong>source of truth</strong>. Context recovery from <strong>~1 day</strong> to <strong>~5 min</strong>, weekly release note creation from <strong>~4h</strong> to <strong>~25 min</strong>, and <strong>~62%</strong> weekly engagement on release notes.
           </dd>
         </div>
       </dl>
@@ -549,9 +551,9 @@ const screen = "/case-studies/design-system-search/screencs1.png";
       </p>
       <Accordion
         items={[
-          { label: "Exploration 1: semi-manual", value: "after", chosen: true },
+          { label: "Exploration 1: manual", value: "option3" },
           { label: "Exploration 2: automated", value: "before" },
-          { label: "Exploration 3: manual", value: "option3" },
+          { label: "Exploration 3: semi-manual", value: "after", chosen: true },
         ]}
       >
         <div slot="after" class="acc-content-group">
@@ -573,7 +575,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             component's table automatically.
           </p>
           <p class="body-copy">
-            <strong>Evidence:</strong> Designers find the form easy to fill
+            <strong>Insight:</strong> Designers find the form easy to fill
             in, and the required fields let us collect 100% of the data we
             need.
           </p>
@@ -591,7 +593,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             only for the missing context.
           </p>
           <p class="body-copy">
-            <strong>Evidence:</strong> On complex files it missed real
+            <strong>Insight:</strong> On complex files it missed real
             changes and flagged meaningless ones. Even when it worked, it
             couldn't capture the "why", which only designers can give.
           </p>
@@ -609,7 +611,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             the data.
           </p>
           <p class="body-copy">
-            <strong>Evidence:</strong> Designers filled in just the bare
+            <strong>Insight:</strong> Designers filled in just the bare
             minimum, and often forgot key information.
           </p>
         </div>
@@ -653,7 +655,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             version info they need right away.
           </p>
           <p class="body-copy">
-            <strong>Evidence:</strong> Designers see version and release
+            <strong>Insight:</strong> Designers see version and release
             information directly in the working file, without having to
             open plugins or switch context. They reported that this
             approach doesn't interrupt their workflow.
@@ -672,7 +674,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             searchable.
           </p>
           <p class="body-copy">
-            <strong>Evidence:</strong> Designers had to open the plugin
+            <strong>Insight:</strong> Designers had to open the plugin
             every time to check on components, which broke their flow.
             Updates also stayed invisible to anyone who didn't have the
             plugin installed.
@@ -685,18 +687,19 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 
     <div class="pivot-block">
       <h3 class="type-h2" style="color: var(--color-text-heading);">
-        03/ Create a reliable source of truth
+        03/ Save data properly
       </h3>
       <p class="body-copy">
-        <strong>Problem:</strong> Once data was being collected, I needed a
-        safe place to store it without losing it. I explored options with
-        AI to balance effort and results, then validated the shortlist with
-        the IT team since a few AI proposals weren't reliable.
+        <strong>Problem:</strong> With the data in hand, storing it
+        properly was critical. My first idea (saving it in Figma's memory)
+        caused overwrites and unstructured output. I explored alternatives
+        with AI and validated them with the IT team, since this wasn't my
+        expertise.
       </p>
       <Accordion
         items={[
-          { label: "Exploration 1: Figma memory", value: "before" },
-          { label: "Exploration 2: GitHub", value: "after", chosen: true },
+          { label: "Exploration 1: GitHub — Single file", value: "before" },
+          { label: "Exploration 2: GitHub — Folders", value: "after", chosen: true },
           { label: "Exploration 3: RAG Database", value: "option3" },
         ]}
       >
@@ -712,35 +715,31 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             ></video>
           </div>
           <p class="body-copy">
-            <strong>Proposal:</strong> Sync the changelog data from the
-            plugin to a GitHub repo, stored in <code>.md</code> files
-            organised into folders.
+            <strong>Proposal:</strong> Sync the changelog to a structured
+            folder system on GitHub, with one <code>.md</code> file per
+            component. I also added a "sync queue" inside the plugin, so
+            designers can see from Figma what's already been synced.
           </p>
           <p class="body-copy">
-            <strong>Evidence:</strong> No more data overwrites. A "sync
-            queue" shows designers what's already on GitHub, so no one gets
-            confused. The data also unlocks AI features like search and
-            automatic release notes.
+            <strong>Insight:</strong> Fastest sync of all options.
+            Designers can spot what's already synced, and the data is
+            readable both by humans and by LLMs, which unlocks automation
+            like release notes and search.
           </p>
         </div>
         <div slot="before" class="acc-content-group">
-          <div class="pivot-panel pivot-panel-centered pivot-panel-shrink">
-            <img
-              src="/case-studies/design-system-search/pivot3-before.png"
-              alt="Before pivot 3: Figma as source of truth for changelog data"
-            />
+          <div class="pivot-panel">
+            <Pivot3SingleFileSchema />
           </div>
           <p class="body-copy">
-            <strong>Proposal:</strong> Store the data directly in Figma
-            using shared plugin storage. Zero external infrastructure, and
-            fastest to prototype.
+            <strong>Proposal:</strong> Sync the changelog data to a single
+            <code>.md</code> file on GitHub.
           </p>
           <p class="body-copy">
-            <strong>Evidence:</strong> Designers couldn't tell what had
-            already been shared on Slack, and had no visibility on changes
-            made by other designers. On top of that, when multiple
-            designers worked at the same time, data got overwritten and
-            lost.
+            <strong>Insight:</strong> Discarded due to slow file retrieval
+            and overwrite issues. This taught me that AI proposals aren't
+            always reliable. From here on, I made it a rule to validate
+            them with domain experts.
           </p>
         </div>
         <div slot="option3" class="acc-content-group">
@@ -753,7 +752,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             search. Richest AI features out of the box.
           </p>
           <p class="body-copy">
-            <strong>Evidence:</strong> Setup and maintenance cost (schema
+            <strong>Insight:</strong> Setup and maintenance cost (schema
             design, hosting, embeddings pipeline) was disproportionate to
             the phase of the project.
           </p>
@@ -814,11 +813,11 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           beforeValue="~4h of manual work"
         />
         <ImpactCard
-          title="Team adoption"
+          title="Release note engagement"
           metricValue={5}
           metricSuffix="/ 8"
           arrow={false}
-          beforeValue={`Number of designers that logged at least 1 change<br class="desktop-break" />in the first 30 days`}
+          beforeValue={`Average number of target designers who reacted to<br class="desktop-break" />the weekly release note in the first 4 weeks`}
         />
       </ImpactCardList>
 
@@ -835,6 +834,14 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           arrow={false}
           beforeLabel="EXPECTED REDUCTION"
           beforeValue="To measure next quarter"
+        />
+        <ImpactCard
+          title="Release note quality"
+          metricText="Survey"
+          color="neutral"
+          arrow={false}
+          beforeLabel="EXPECTED VALIDATION"
+          beforeValue="Quarterly survey to confirm designers actually process and apply what they read"
         />
       </ImpactCardList>
     </section>

@@ -1,0 +1,221 @@
+---
+// Schema for the "Figma memory" exploration of pivot 3.
+// Layout (grid areas):
+//   .           top-fault    .
+//   input  →   figma-mem   ←  right-fault
+//   .          bottom-fault    .
+// Each of the three failure modes (top / right / bottom) has an arrow
+// pointing back at Figma memory.
+---
+
+<div class="p3fs" aria-label="Figma memory schema: input feeds Figma memory, three failure modes point into it from top, right and bottom">
+  <div class="p3fs-grid">
+    <div class="p3fs-slot p3fs-slot-top">
+      <div class="p3fs-fault-node">
+        <span class="p3fs-fault-label">Silent overwrites</span>
+        <span class="p3fs-fault-hint">Concurrent edits lose data</span>
+      </div>
+      <svg class="p3fs-arrow p3fs-arrow-warning" width="10" height="24" viewBox="0 0 10 24" fill="none" aria-hidden="true">
+        <path d="M5 0V22M1 18L5 22L9 18" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="p3fs-slot p3fs-slot-input">
+      <div class="p3fs-node">
+        <span class="p3fs-node-label">Input</span>
+        <span class="p3fs-node-hint">Changelog form</span>
+      </div>
+      <svg class="p3fs-arrow p3fs-arrow-neutral" width="24" height="10" viewBox="0 0 24 10" fill="none" aria-hidden="true">
+        <path d="M0 5H22M18 1L22 5L18 9" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="p3fs-slot p3fs-slot-figma">
+      <div class="p3fs-node p3fs-node-store">
+        <span class="p3fs-node-label">Figma memory</span>
+        <span class="p3fs-node-hint">Shared plugin storage</span>
+      </div>
+    </div>
+
+    <div class="p3fs-slot p3fs-slot-right">
+      <svg class="p3fs-arrow p3fs-arrow-warning" width="24" height="10" viewBox="0 0 24 10" fill="none" aria-hidden="true">
+        <path d="M24 5H2M6 1L2 5L6 9" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="p3fs-fault-node">
+        <span class="p3fs-fault-label">Data not Slack-ready</span>
+        <span class="p3fs-fault-hint">No structure for automation</span>
+      </div>
+    </div>
+
+    <div class="p3fs-slot p3fs-slot-bottom">
+      <svg class="p3fs-arrow p3fs-arrow-warning" width="10" height="24" viewBox="0 0 10 24" fill="none" aria-hidden="true">
+        <path d="M5 24V2M1 6L5 2L9 6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="p3fs-fault-node">
+        <span class="p3fs-fault-label">No sync visibility</span>
+        <span class="p3fs-fault-hint">Unclear what's already shared</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .p3fs {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(16px, 3.2%, 32px);
+    background: #f3f5f6;
+    box-sizing: border-box;
+  }
+
+  .p3fs-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(140px, auto) minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      ".      top     ."
+      "input  figma   right"
+      ".      bottom  .";
+    align-items: center;
+    justify-items: stretch;
+    column-gap: 0;
+    row-gap: 0;
+    width: 100%;
+    max-width: 640px;
+  }
+
+  .p3fs-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .p3fs-slot-top {
+    grid-area: top;
+    flex-direction: column;
+    justify-self: center;
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .p3fs-slot-bottom {
+    grid-area: bottom;
+    flex-direction: column;
+    justify-self: center;
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .p3fs-slot-input {
+    grid-area: input;
+    flex-direction: row;
+    gap: 0;
+    justify-content: flex-end;
+  }
+
+  .p3fs-slot-input .p3fs-node {
+    max-width: 160px;
+    width: 100%;
+  }
+
+  .p3fs-slot-figma {
+    grid-area: figma;
+    justify-content: center;
+  }
+
+  .p3fs-slot-right {
+    grid-area: right;
+    flex-direction: row;
+    gap: 0;
+    justify-content: flex-start;
+  }
+
+  .p3fs-slot-right .p3fs-fault-node {
+    max-width: 160px;
+    width: 100%;
+  }
+
+  /* ── Nodes ── */
+  .p3fs-node,
+  .p3fs-fault-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--color-bg-elevated);
+    font-family: var(--font-sans);
+    text-align: center;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .p3fs-node {
+    border: 1px solid var(--color-border-default);
+    color: var(--color-text-heading);
+  }
+
+  .p3fs-fault-node {
+    border: 1px solid var(--color-border-highlight-warning);
+    color: var(--color-text-highlight-warning);
+    width: 100%;
+  }
+
+  .p3fs-node-label,
+  .p3fs-fault-label {
+    font-size: 12px;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.25;
+  }
+
+  .p3fs-node-hint,
+  .p3fs-fault-hint {
+    font-size: 10px;
+    font-weight: var(--font-weight-light);
+    line-height: 1.25;
+    color: var(--color-text-muted);
+  }
+
+  .p3fs-node-store {
+    border: 1px solid var(--color-border-highlight-info);
+    background: var(--color-bg-info-subtle);
+    color: var(--color-text-highlight-info);
+    padding: 12px 16px;
+  }
+
+  .p3fs-node-store .p3fs-node-hint {
+    color: var(--color-text-highlight-info);
+    opacity: 0.75;
+  }
+
+  /* ── Arrows ── */
+  .p3fs-arrow {
+    flex-shrink: 0;
+    margin: 4px;
+  }
+
+  .p3fs-arrow-warning {
+    color: var(--color-accent-warning);
+  }
+
+  .p3fs-arrow-neutral {
+    color: var(--color-border-emphasized);
+  }
+
+  @media (max-width: 640px) {
+    .p3fs-node-label,
+    .p3fs-fault-label {
+      font-size: 10px;
+    }
+    .p3fs-node-hint,
+    .p3fs-fault-hint {
+      font-size: 9px;
+    }
+  }
+</style>

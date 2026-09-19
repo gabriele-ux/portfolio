@@ -1,0 +1,121 @@
+---
+// Schema for the "GitHub — Single file" exploration of pivot 3.
+// Simple linear flow: input → GitHub → single .md file.
+---
+
+<div class="p3ss" aria-label="Single file flow: input to GitHub to single markdown file">
+  <div class="p3ss-lane">
+    <div class="p3ss-node">
+      <span class="p3ss-node-label">Input</span>
+      <span class="p3ss-node-hint">Changelog form</span>
+    </div>
+
+    <svg class="p3ss-arrow" width="28" height="10" viewBox="0 0 28 10" fill="none" aria-hidden="true">
+      <path d="M0 5H26M22 1L26 5L22 9" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <div class="p3ss-node">
+      <span class="p3ss-node-label">GitHub</span>
+      <span class="p3ss-node-hint">Repository</span>
+    </div>
+
+    <svg class="p3ss-arrow" width="28" height="10" viewBox="0 0 28 10" fill="none" aria-hidden="true">
+      <path d="M0 5H26M22 1L26 5L22 9" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <div class="p3ss-node p3ss-node-file">
+      <span class="p3ss-node-label">changelog.md</span>
+      <span class="p3ss-node-hint">Single file</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .p3ss {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(16px, 3.2%, 32px);
+    background: #f3f5f6;
+    box-sizing: border-box;
+  }
+
+  .p3ss-lane {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 560px;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+
+  .p3ss-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-text-heading);
+    font-family: var(--font-sans);
+    text-align: center;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .p3ss-node-label {
+    font-size: 12px;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.25;
+  }
+
+  .p3ss-node-hint {
+    font-size: 10px;
+    font-weight: var(--font-weight-light);
+    line-height: 1.25;
+    color: var(--color-text-muted);
+  }
+
+  .p3ss-node-file {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  .p3ss-node-file .p3ss-node-label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+  }
+
+  .p3ss-node-file .p3ss-node-hint {
+    font-family: var(--font-sans);
+  }
+
+  .p3ss-arrow {
+    color: var(--color-border-emphasized);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .p3ss-node-label {
+      font-size: 10px;
+    }
+    .p3ss-node-hint {
+      font-size: 9px;
+    }
+    .p3ss-node-file .p3ss-node-label {
+      font-size: 9px;
+    }
+    .p3ss-lane {
+      gap: 4px;
+    }
+    .p3ss-arrow {
+      width: 16px;
+    }
+  }
+</style>
