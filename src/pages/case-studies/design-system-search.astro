@@ -200,12 +200,10 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         <p class="body-copy">
           Component changes happened across Design System libraries and
           product UI Kits, but the related information was <strong>spread across
-          Slack, Figma files, emails and conversations</strong>.
-        </p>
-        <p class="body-copy">
-          When designers needed to understand what had changed, why, or
-          which version to use, they often had to <strong>search across different
-          sources or ask the Design System team</strong>.
+          Slack, Figma files, emails and conversations</strong>. When designers
+          needed to understand what had changed, why, or which version to
+          use, they often had to <strong>search across different sources or ask
+          the Design System team</strong>.
         </p>
         <MetaBox variant="data">
           <MetaItem label="TICKET ANALYSIS — 1 YEAR PERIOD">
@@ -243,11 +241,6 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             already done in another project.
           </CalloutItem>
         </CalloutList>
-        <p class="body-copy caveat">
-          I did not have enough data to measure how often outdated
-          components were actually used, so I treated this as a risk
-          rather than a measured outcome.
-        </p>
       </section>
 
       <Spacer size="lg" />
@@ -270,12 +263,10 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         </h3>
         <p class="body-copy">
           I mapped how component changes were communicated between the
-          Design System and product teams.
-        </p>
-        <p class="body-copy">
-          A process already existed, but it relied on people <strong>manually
-          sharing updates</strong> through Slack, email or direct conversations.
-          In practice, it was <strong>not followed consistently</strong>.
+          Design System and product teams. A process already existed, but
+          it relied on people <strong>manually sharing updates</strong> through Slack,
+          email or direct conversations. In practice, it was <strong>not followed
+          consistently</strong>.
         </p>
         <Media
           src="/case-studies/design-system-search/discovery.jpg"
@@ -292,13 +283,11 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           Looking at how other teams handled it
         </h3>
         <p class="body-copy">
-          I benchmarked <strong>10 Design Systems</strong> to understand
-          how they tracked component changes.
-        </p>
-        <p class="body-copy">
-          Changelogs, release notes and documentation tools were the most
-          common patterns, so I shortlisted the options that could
-          realistically work in our context.
+          I benchmarked <strong>10 Design Systems</strong> to understand how they
+          tracked component changes. Changelogs, release notes and
+          documentation tools were the most common patterns, so I
+          shortlisted the options that could realistically work in our
+          context.
         </p>
         <div class="todo-placeholder">
           <span class="todo-label">TODO — Asset</span>
@@ -330,10 +319,8 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           Tools outside Figma offered better documentation, but
           introduced <strong>another place to maintain</strong>. Lighter Figma-based
           approaches reduced that friction, but offered <strong>less control over
-          how the information could be stored and reused</strong>.
-        </p>
-        <p class="body-copy">
-          From those observations, three requirements emerged to guide the decision:
+          how the information could be stored and reused</strong>. From those
+          observations, three requirements emerged to guide the decision:
         </p>
         <CalloutList>
           <CalloutItem
@@ -423,11 +410,8 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         </h3>
         <p class="body-copy">
           The first versions <strong>relied too much on designers remembering
-          what to document</strong>.
-        </p>
-        <p class="body-copy">
-          I tested three approaches: a manual table, automatic change
-          detection and a guided form.
+          what to document</strong>. I tested three approaches: a manual table,
+          automatic change detection and a guided form.
         </p>
         <Accordion
           items={[
@@ -496,12 +480,10 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         </h3>
         <p class="body-copy">
           During testing, designers were <strong>not always sure which changes
-          had already been synced</strong> and which ones were still pending.
-        </p>
-        <p class="body-copy">
-          That uncertainty made it harder to understand whether an entry
-          still needed action and increased the risk of <strong>duplicate or
-          missed updates</strong>.
+          had already been synced</strong> and which ones were still pending. That
+          uncertainty made it harder to understand whether an entry still
+          needed action and increased the risk of <strong>duplicate or missed
+          updates</strong>.
         </p>
         <div class="todo-placeholder">
           <span class="todo-label">TODO — Observation</span>
@@ -542,10 +524,9 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         <p class="body-copy">
           The plugin needed to connect to the repository before it could
           be used, but the first setup required configuration steps that
-          were <strong>not clear to non-technical users</strong>.
-        </p>
-        <p class="body-copy">
-          This created an <strong>unnecessary dependency on the Design System team during onboarding</strong>.
+          were <strong>not clear to non-technical users</strong>. This created an
+          <strong>unnecessary dependency on the Design System team during
+          onboarding</strong>.
         </p>
         <div class="todo-placeholder">
           <span class="todo-label">TODO — Observation</span>
@@ -795,10 +776,8 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         />
         <p class="body-copy">
           The GitHub structure was a good fit for the first release
-          because it was <strong>simple, transparent and easy to maintain</strong>.
-        </p>
-        <p class="body-copy">
-          As the number of logs grows, <strong>retrieval is becoming slower</strong>.
+          because it was <strong>simple, transparent and easy to maintain</strong>. As
+          the number of logs grows, <strong>retrieval is becoming slower</strong>.
         </p>
         <p class="body-copy">
           At this scale, the <strong>RAG approach I initially deferred would now
@@ -897,6 +876,11 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 </CaseStudyLayout>
 
 <style>
+  /* Sub-paragraph titles: serif (as default) with section-title weight */
+  .case-study h3.type-h2 {
+    font-weight: var(--font-weight-medium);
+  }
+
   .case-study-body {
     position: relative;
   }
