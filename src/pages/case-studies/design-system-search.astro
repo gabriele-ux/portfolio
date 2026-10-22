@@ -1,29 +1,21 @@
 ---
 import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
 import HeroCover from "../../components/HeroCover.astro";
-import Button from "../../components/Button.astro";
 import TagList from "../../components/TagList.astro";
 import MetaBox from "../../components/MetaBox.astro";
 import MetaItem from "../../components/MetaItem.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
-import Media from "../../components/Media.astro";
 import QuestionsDiagram from "../../components/QuestionsDiagram.astro";
-import TransitionCallout from "../../components/TransitionCallout.astro";
+import SolutionFlow from "../../components/SolutionFlow.astro";
+import Accordion from "../../components/Accordion.astro";
+import Media from "../../components/Media.astro";
 import CalloutList from "../../components/CalloutList.astro";
 import CalloutItem from "../../components/CalloutItem.astro";
-import OptionCardList from "../../components/OptionCardList.astro";
-import OptionCard from "../../components/OptionCard.astro";
-import OptionRow from "../../components/OptionRow.astro";
 import PrioritizationMatrix from "../../components/PrioritizationMatrix.astro";
-import SolutionFlow from "../../components/SolutionFlow.astro";
-import StrategyFlow from "../../components/StrategyFlow.astro";
-import Pivot2BeforeSchema from "../../components/Pivot2BeforeSchema.astro";
-import Pivot2BeforeMock from "../../components/Pivot2BeforeMock.astro";
-import Pivot1BeforeMock from "../../components/Pivot1BeforeMock.astro";
-import Pivot3RagSchema from "../../components/Pivot3RagSchema.astro";
-import Pivot3FigmaMemorySchema from "../../components/Pivot3FigmaMemorySchema.astro";
-import Pivot3SingleFileSchema from "../../components/Pivot3SingleFileSchema.astro";
-import Accordion from "../../components/Accordion.astro";
+import ImpactCard from "../../components/ImpactCard.astro";
+import Spacer from "../../components/Spacer.astro";
+import CaseStudyNav from "../../components/CaseStudyNav.astro";
+import CaseStudyFooter from "../../components/CaseStudyFooter.astro";
 
 const matrixItems = [
   {
@@ -73,7 +65,7 @@ const matrixItems = [
   },
   {
     id: "zeroheight",
-    title: "ZeroHeight",
+    title: "Zeroheight",
     x: 20,
     y: 78,
     needs: { frictionless: false, retrievable: true, proactive: true },
@@ -90,8 +82,8 @@ const matrixItems = [
     ],
   },
   {
-    id: "self-made-plugin",
-    title: "Self-made Plugin",
+    id: "custom-plugin",
+    title: "Custom Plugin",
     x: 82,
     y: 82,
     isSolution: true,
@@ -112,34 +104,23 @@ const matrixItems = [
     ],
   },
 ];
-import Confront from "../../components/Confront.astro";
-import Spacer from "../../components/Spacer.astro";
-import CaseStudyNav from "../../components/CaseStudyNav.astro";
-import ImpactCardList from "../../components/ImpactCardList.astro";
-import ImpactCard from "../../components/ImpactCard.astro";
-import CaseStudyFooter from "../../components/CaseStudyFooter.astro";
 
 const navSections = [
-  { id: "in-short", label: "In short" },
-  { id: "background", label: "Background" },
   { id: "problem", label: "Problem" },
   { id: "discovery", label: "Discovery" },
-  { id: "research", label: "Research" },
-  { id: "strategy", label: "Strategy" },
-  { id: "pivots", label: "Design Decisions" },
+  { id: "decisions", label: "Decisions" },
   { id: "solution", label: "Solution" },
   { id: "impact", label: "Impact" },
   { id: "learnings", label: "Learnings" },
 ];
 
 const title =
-  "I built a system to keep 8+ designers aligned on changes from 4+ libraries and reduce workload";
+  "I built a workflow to keep component changes traceable across teams";
 
 const heroTags = [
   { label: "Shipped", dot: "success" as const },
-  { label: "AI" },
   { label: "Design System" },
-  { label: "UX" },
+  { label: "Internal tool" },
 ];
 
 const heroMeta = [
@@ -147,10 +128,9 @@ const heroMeta = [
   { label: "TIMELINE", value: "6 weeks" },
   {
     label: "TECHNIQUES",
-    value:
-      "Data Analysis, Benchmark, Interviews, Flow Mapping, Prototyping, User Tests",
+    value: "Data analysis, benchmark, flow mapping, prototyping, user testing",
   },
-  { label: "TOOLS", value: "Claude Code, Figjam" },
+  { label: "TOOLS", value: "Figma, Claude Code, GitHub, Slack" },
 ];
 
 const cover = "/case-studies/design-system-search/bgcs1.jpg";
@@ -169,709 +149,748 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     <CaseStudyNav sections={navSections} />
 
     <article class="case-study">
-    <Spacer size="md" />
+      <Spacer size="md" />
 
-    <section class="hero-content">
-      <h1 class="type-display" style="color: var(--color-text-heading);">
-        {title}
-      </h1>
-      <TagList tags={heroTags} />
-    </section>
+      <!-- HERO CONTENT -->
+      <section class="hero-content">
+        <h1 class="type-display" style="color: var(--color-text-heading);">
+          {title}
+        </h1>
+        <TagList tags={heroTags} />
+      </section>
 
-    <Spacer size="sm" />
+      <Spacer size="sm" />
 
-    <MetaBox>
-      {heroMeta.map((m) => <MetaItem label={m.label} value={m.value} />)}
-    </MetaBox>
-
-    <Spacer size="sm" />
-
-    <!-- IN SHORT / TL;DR -->
-    <aside id="in-short" class="in-short" aria-label="TL;DR summary">
-      <p class="eyebrow-line in-short-eyebrow">IN SHORT</p>
-      <dl class="in-short-list">
-        <div class="in-short-row">
-          <dt class="in-short-term">The problem</dt>
-          <dd class="in-short-def">
-            Design System changes lived in Slack, email and heads. Designers
-            spent up to a full day reconstructing context and often missed
-            updates.
-          </dd>
-        </div>
-        <div class="in-short-row">
-          <dt class="in-short-term">What I did</dt>
-          <dd class="in-short-def">
-            Defined a solution around the team's workflow and needs. Built a
-            Figma plugin and a GitHub-based source of truth that capture
-            changes to libraries and structure the data for AI to pick up,
-            powering things like automatic release notes and advanced search
-            so everyone stays up to date.
-          </dd>
-        </div>
-        <div class="in-short-row">
-          <dt class="in-short-term">Result</dt>
-          <dd class="in-short-def">
-            <strong>1</strong> unified <strong>source of truth</strong>. Context recovery from <strong>~1 day</strong> to <strong>~5 min</strong>, weekly release note creation from <strong>~4h</strong> to <strong>~25 min</strong>, and <strong>~62%</strong> weekly engagement on release notes.
-          </dd>
-        </div>
-      </dl>
-      <Button href="#solution" variant="secondary" class="in-short-cta">
-        See how the solution works
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 14 14"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path
-            d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></path>
-        </svg>
-      </Button>
-    </aside>
-
-    <Spacer size="lg" />
-
-    <!-- BACKGROUND -->
-    <section class="section">
-      <SectionHeader
-        id="background"
-        eyebrow="The background"
-        title="One complex system growing at different speed"
-      />
-      <p class="body-copy">
-        I'm part of a small <strong>Design System team at a big
-        multinational</strong>. There are <strong>3 of us</strong>, and we
-        maintain the main libraries across <strong>4 touchpoints and 5+
-        brands</strong>, used by around <strong>8 designers</strong>.
-      </p>
-      <p class="body-copy">
-        The Design System is still relatively new, and its governance is
-        being built while products keep moving. <strong>5+ vertical
-        products</strong> run in parallel, each with its own timelines and,
-        when needed, its own UI Kit for product-specific needs.
-      </p>
-      <p class="body-copy">
-        This means components can <strong>evolve in different places and at
-        different speeds</strong>. Our job is to keep those changes aligned
-        and make sure the Design System remains a reliable reference for
-        everyone.
-      </p>
-      <Media
-        src="/case-studies/design-system-search/diagram-teams.jpg"
-        alt="Applications and product teams responsibilities diagram"
-        caption="TEAMS' RESPONSABILITIES AND INTERACTION"
-        aspect="3032 / 1440"
-      />
-    </section>
-
-    <Spacer size="lg" />
-
-    <!-- PROBLEM -->
-    <section class="section">
-      <SectionHeader
-        id="problem"
-        eyebrow="Problem"
-        title="Design System changes were getting lost between teams"
-      />
-      <p class="body-copy">
-        The same questions kept coming back:
-      </p>
-      <QuestionsDiagram />
-      <MetaBox variant="data">
-        <MetaItem label="TICKET ANALYSIS - 1 YEAR PERIOD">
-          <strong>12%</strong> of <strong>273</strong> requests where about <strong>component changes</strong> or which version to use
-        </MetaItem>
+      <MetaBox>
+        {heroMeta.map((m) => <MetaItem label={m.label} value={m.value} />)}
       </MetaBox>
-      <p class="body-copy">
-        This wasn't just slowing down the Design System team. It also meant
-        that UX/UI designers could <strong>miss changes</strong> while
-        working on their projects, creating their own adaptations or using
-        an outdated version.
-      </p>
-    </section>
 
-    <Spacer size="xs" />
+      <Spacer size="lg" />
 
-    <TransitionCallout
-      title="This impacted our work in two ways"
-      variant="warning"
-    />
-
-    <Spacer size="xs" />
-
-    <!-- PAIN POINTS -->
-    <section class="section-tight">
-      <p class="eyebrow-line">THE PROBLEMS</p>
-      <CalloutList>
-        <CalloutItem
-          title="Hours lost reconstructing context"
-          variant="warning"
-          badge="TEAM DESIGN SYSTEM"
-          badgeColor="var(--color-accent-info)"
-        >
-          Finding out what changed, why, and when could take up to a full
-          working day, searching through Slack, email and conversations.
-        </CalloutItem>
-        <CalloutItem
-          title="No visibility on other projects"
-          variant="warning"
-          badge="TEAM UX/UI"
-        >
-          They couldn't see how components were changing in other projects.
-          When they had to pick one, they didn't know if a newer version was
-          in the works, or whether their edits would affect other teams.
-        </CalloutItem>
-      </CalloutList>
-    </section>
-
-
-    <Spacer size="sm" />
-
-    <p class="body-copy">
-      We already had a process to communicate changes but{" "}
-      <strong>it wasn't working</strong>. I needed to find out why.
-    </p>
-
-    <Spacer size="lg" />
-
-    <!-- DISCOVERY -->
-    <section class="section">
-      <SectionHeader
-        id="discovery"
-        eyebrow="Discovery"
-        title="The problem wasn't communication. It was where the information lived."
-      />
-      <p class="body-copy">
-        To understand why the same questions kept coming back, I{" "}
-        <strong>audited the workflow</strong> between the Design System and UI
-        teams and looked at the cases behind those requests.
-      </p>
-      <Media
-        src="/case-studies/design-system-search/discovery.jpg"
-        alt="Actual workflow between UX/UI and Design System teams"
-        caption="THE ACTUAL WORKFLOW AND THE MAJOR PAINT POINT"
-      />
-      <p class="body-copy">
-        The existing workflow did have a communication step: changes were
-        shared through Slack or email, but <strong>only with the person who
-        requested them</strong>, so <strong>visibility never reached the rest
-        of the teams</strong>.
-      </p>
-    </section>
-
-    <Spacer size="xs" />
-
-    <MetaBox variant="insight">
-      <MetaItem
-        label="INSIGHT"
-        value="Changes were communicated, but there was no shared source of truth for tracking and retrieving them."
-      />
-    </MetaBox>
-
-    <Spacer size="xs" />
-
-    <TransitionCallout
-      title="I defined three requirements for the solution"
-      variant="info"
-    />
-
-    <Spacer size="sm" />
-
-    <!-- OUR NEEDS -->
-    <section class="section-tight">
-      <p class="eyebrow-line">OUR NEEDS</p>
-      <CalloutList>
-        <CalloutItem
-          title="Frictionless"
-          variant="info"
-          iconStyle="filled"
-        >
-          <svg
-            slot="icon"
-            width="20"
-            height="20"
-            viewBox="0 0 21 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.9493 9.94365L8.07237 19.4546C7.9783 19.555 7.85413 19.622 7.7186 19.6457C7.58307 19.6693 7.44353 19.6482 7.32103 19.5856C7.19854 19.5229 7.09974 19.4222 7.03954 19.2985C6.97935 19.1748 6.96103 19.0348 6.98734 18.8998L8.14926 13.0878L3.58163 11.3727C3.48353 11.336 3.39605 11.2755 3.32701 11.1968C3.25796 11.118 3.2095 11.0234 3.18595 10.9214C3.1624 10.8193 3.16449 10.713 3.19205 10.612C3.2196 10.5109 3.27176 10.4183 3.34385 10.3423L12.2207 0.831376C12.3148 0.730984 12.439 0.663913 12.5745 0.640283C12.71 0.616653 12.8496 0.637746 12.9721 0.70038C13.0946 0.763013 13.1934 0.863789 13.2536 0.987499C13.3138 1.11121 13.3321 1.25114 13.3058 1.38618L12.1407 7.2045L16.7083 8.91726C16.8057 8.9542 16.8925 9.01455 16.961 9.09299C17.0295 9.17143 17.0776 9.26554 17.1011 9.367C17.1246 9.46846 17.1228 9.57414 17.0957 9.67471C17.0687 9.77529 17.0173 9.86765 16.9461 9.94365H16.9493Z"
-              fill="currentColor"
-            ></path>
-          </svg>
-          The solution needs to fit into our teams' workflow, or it won't
-          be adopted.
-        </CalloutItem>
-        <CalloutItem
-          title="Retrievabile"
-          variant="info"
-          iconStyle="outlined"
-        >
-          <svg
-            slot="icon"
-            width="20"
-            height="20"
-            viewBox="0 0 21 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M10.145 1.26807C8.29586 1.27016 6.52304 2.00567 5.21549 3.31322C3.90794 4.62078 3.17243 6.3936 3.17033 8.24275C3.17033 14.2109 9.51096 18.7183 9.78123 18.9069C9.88784 18.9816 10.0149 19.0216 10.145 19.0216C10.2752 19.0216 10.4022 18.9816 10.5088 18.9069C10.7791 18.7183 17.1197 14.2109 17.1197 8.24275C17.1176 6.3936 16.3821 4.62078 15.0746 3.31322C13.767 2.00567 11.9942 1.27016 10.145 1.26807ZM10.145 5.7065C10.6466 5.7065 11.137 5.85525 11.5541 6.13394C11.9712 6.41263 12.2962 6.80873 12.4882 7.27217C12.6802 7.73561 12.7304 8.24557 12.6325 8.73755C12.5347 9.22954 12.2931 9.68145 11.9384 10.0362C11.5837 10.3909 11.1318 10.6324 10.6398 10.7303C10.1478 10.8281 9.63788 10.7779 9.17444 10.5859C8.711 10.394 8.31489 10.0689 8.03621 9.65182C7.75752 9.23474 7.60877 8.74438 7.60877 8.24275C7.60877 7.5701 7.87598 6.92499 8.35162 6.44935C8.82726 5.97372 9.47237 5.7065 10.145 5.7065Z"
-              fill="currentColor"
-            ></path>
-          </svg>
-          Changes need to live somewhere stable and be easy to find later
-        </CalloutItem>
-        <CalloutItem
-          title="Proactive"
-          variant="info"
-          iconStyle="filled"
-        >
-          <svg
-            slot="icon"
-            width="20"
-            height="20"
-            viewBox="0 0 21 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M18.1404 2.07577C18.0422 1.99094 17.9227 1.93452 17.7947 1.9126C17.6668 1.89067 17.5353 1.90406 17.4144 1.95134L1.35205 8.23728C1.12441 8.32579 0.93169 8.48587 0.802896 8.6934C0.674103 8.90092 0.616211 9.14468 0.637937 9.38795C0.659663 9.63123 0.759831 9.86087 0.92336 10.0423C1.08689 10.2237 1.30493 10.3471 1.54465 10.3939L5.70648 11.211V15.8516C5.70566 16.1043 5.78078 16.3515 5.92209 16.5611C6.06341 16.7707 6.26441 16.933 6.49906 17.027C6.73334 17.1226 6.99098 17.1456 7.23849 17.0929C7.48599 17.0402 7.71191 16.9142 7.88686 16.7313L9.89367 14.65L13.0775 17.4367C13.3072 17.6405 13.6034 17.7532 13.9105 17.7538C14.045 17.7537 14.1787 17.7325 14.3067 17.6911C14.5159 17.6248 14.7041 17.5047 14.8525 17.343C15.0009 17.1813 15.1043 16.9835 15.1524 16.7694L18.3695 2.77403C18.3983 2.64782 18.3922 2.51615 18.3518 2.39314C18.3115 2.27013 18.2384 2.16042 18.1404 2.07577ZM13.912 16.4856L7.359 10.7394L16.7907 3.97955L13.912 16.4856Z"
-              fill="currentColor"
-            ></path>
-          </svg>
-          Changes need to reach people, not just wait to be found
-        </CalloutItem>
-      </CalloutList>
-    </section>
-
-    <Spacer size="sm" />
-
-    <MetaBox variant="hmw">
-      <MetaItem
-        label="HOW MIGHT WE"
-        value="Make component changes easy to track and retrieve?"
-      />
-    </MetaBox>
-
-    <Spacer size="lg" />
-
-    <!-- EVALUATION / RESEARCH & CONSTRAINTS -->
-    <section class="section">
-      <SectionHeader
-        id="research"
-        eyebrow="Research & Constraints"
-        title="A changelog could close the information gap, but no viable solution satisfied our needs and workflow"
-      />
-      <p class="body-copy">
-        I benchmarked 10 Design Systems to see how other teams tracked
-        library evolution. <strong>Changelogs</strong> emerged as the most
-        common approach.
-      </p>
-      <p class="body-copy">
-        I then <strong>evaluated the available options</strong> against the
-        teams' needs and feedback:
-      </p>
-      <PrioritizationMatrix items={matrixItems} />
-      <p class="body-copy">
-        No existing option satisfied <strong>retrievability</strong>,{" "}
-        <strong>frictionless input</strong> and <strong>proactive
-        communication</strong> at the same time.
-      </p>
-      <MetaBox variant="decision">
-        <MetaItem
-          label="DECISION"
-          value="The team was reluctant to change how they worked, and no existing tool covered all three needs. I chose to explore a custom solution shaped around their existing workflow."
+      <!-- OVERVIEW -->
+      <section class="section">
+        <SectionHeader
+          eyebrow="Overview"
+          title="A growing Design System with governance still taking shape"
         />
-      </MetaBox>
-    </section>
+        <p class="body-copy">
+          I'm part of a <strong>3-person Design System team</strong> maintaining shared
+          libraries across multiple products and brands. Product
+          designers also evolve components inside their own UI Kits.
+        </p>
+        <p class="body-copy">
+          Governance was still being defined, so ownership, change
+          tracking and communication were <strong>not always consistent</strong>. I owned
+          this <strong>6-week internal project end to end</strong>, from understanding the
+          problem and testing workflows to designing and building the
+          final solution.
+        </p>
+      </section>
 
-    <Spacer size="lg" />
+      <Spacer size="lg" />
 
-    <!-- STRATEGY -->
-    <section class="section">
-      <SectionHeader
-        id="strategy"
-        eyebrow="Strategy"
-        title="I used AI as an accelerator to explore, test, and choose based on data"
-      />
-      <p class="body-copy">
-        This was a <strong>new and technical domain</strong> for me, and I{" "}
-        <strong>didn't have a developer on the project</strong>. To move fast
-        without cutting corners, I used AI as an accelerator to build and
-        test different directions myself.
-      </p>
-      <p class="body-copy">
-        I set <strong>lightweight requirements</strong> based on the team's
-        goals and needs, then <strong>explored different directions with
-        AI</strong>. I evaluated each one with <strong>UI designers in real
-        usage</strong> and iterated constantly. That let me try
-        <strong> divergent solutions</strong>, for example an automatic
-        detection script versus a manual form, and pick the one the data
-        supported.
-      </p>
-      <StrategyFlow />
-    </section>
+      <!-- PROBLEM -->
+      <section class="section">
+        <SectionHeader
+          id="problem"
+          eyebrow="Problem"
+          title="Information about component changes was getting lost"
+        />
+        <QuestionsDiagram />
+        <p class="body-copy">
+          Component changes happened across Design System libraries and
+          product UI Kits, but the related information was <strong>spread across
+          Slack, Figma files, emails and conversations</strong>.
+        </p>
+        <p class="body-copy">
+          When designers needed to understand what had changed, why, or
+          which version to use, they often had to <strong>search across different
+          sources or ask the Design System team</strong>.
+        </p>
+        <MetaBox variant="data">
+          <MetaItem label="TICKET ANALYSIS — 1 YEAR PERIOD">
+            <strong>12%</strong> of <strong>273</strong> requests were
+            related to <strong>component changes</strong> or which version
+            to use
+          </MetaItem>
+        </MetaBox>
+      </section>
 
-    <Spacer size="lg" />
+      <Spacer size="md" />
 
-    <!-- PIVOTS -->
-    <section class="section">
-      <SectionHeader
-        id="pivots"
-        eyebrow="Design Decisions"
-        title="From a changelog plugin, to an AI-ready infrastructure"
-      />
-      <p class="body-copy">
-        <strong>Testing the product with designers on real cases</strong>,
-        I ran into problems and structural decisions that shaped how to
-        handle input, manage data, and surface information &mdash; turning
-        a simple plugin into a more complex infrastructure.
-      </p>
-    </section>
+      <!-- PAIN POINTS -->
+      <section class="section-tight">
+        <h3 class="type-h2" style="color: var(--color-text-heading);">
+          This created two problems
+        </h3>
+        <CalloutList>
+          <CalloutItem
+            title="Time spent reconstructing decisions"
+            variant="warning"
+            badge="TEAM DESIGN SYSTEM"
+            badgeColor="var(--color-accent-info)"
+          >
+            Past changes had to be pieced together from messages, files
+            and people whenever the original context was missing.
+          </CalloutItem>
+          <CalloutItem
+            title="Limited visibility across projects"
+            variant="warning"
+            badge="TEAM UX/UI"
+          >
+            Designers could miss changes happening elsewhere, increasing
+            the risk of using an outdated component or duplicating work
+            already done in another project.
+          </CalloutItem>
+        </CalloutList>
+        <p class="body-copy caveat">
+          I did not have enough data to measure how often outdated
+          components were actually used, so I treated this as a risk
+          rather than a measured outcome.
+        </p>
+      </section>
 
-    <Spacer size="md" />
+      <Spacer size="lg" />
 
-    <div class="pivot-block">
-      <h3 class="type-h2" style="color: var(--color-text-heading);">
-        01/ Defining how to input data
-      </h3>
-      <p class="body-copy">
-        <strong>Problem:</strong> Which data input method to use? The
-        quality of the data collected shapes how usable the product is.
-        Removing friction entirely risked hurting data quality, while asking
-        for too much information increased friction.
-      </p>
-      <Accordion
-        items={[
-          { label: "Exploration 1: manual", value: "option3" },
-          { label: "Exploration 2: automated", value: "before" },
-          { label: "Exploration 3: semi-manual", value: "after", chosen: true },
-        ]}
-      >
-        <div slot="after" class="acc-content-group">
-          <div class="pivot-panel">
-            <video
-              src="/case-studies/design-system-search/form.mp4"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-            ></video>
-          </div>
-          <p class="body-copy">
-            <strong>Proposal:</strong> A form in the plugin walks designers
-            through the info to log. Fields were shaped with the UX/UI team
-            to cover what they need. Auto-fillable info (name, date, etc.)
-            fills in on its own, and the changelog is added to the
-            component's Figma page automatically.
-          </p>
-          <p class="body-copy">
-            <strong>Insight:</strong> Designers find the form easy to fill
-            in. Automations lower the effort on their side, and required
-            fields ensure we collect 100% of the data we need.
-          </p>
-        </div>
-        <div slot="before" class="acc-content-group">
-          <div class="pivot-panel pivot-panel-centered">
-            <img
-              src="/case-studies/design-system-search/manually.png"
-              alt="Change detector v0.1 prototype: automatic detection listing every node change with a per-row request to add context"
-            />
-          </div>
-          <p class="body-copy">
-            <strong>Proposal:</strong> A script scans files and detects
-            changes automatically. It logs everything, then asks designers
-            only for the missing context.
-          </p>
-          <p class="body-copy">
-            <strong>Insight:</strong> On complex files it missed real
-            changes and flagged meaningless ones. Even when it worked, it
-            couldn't capture the "why", which only designers can give.
-          </p>
-        </div>
-        <div slot="option3" class="acc-content-group">
-          <div class="pivot-panel pivot-panel-centered">
-            <img
-              src="/case-studies/design-system-search/manual.png"
-              alt="Manual table under each component that designers fill in by hand"
-            />
-          </div>
-          <p class="body-copy">
-            <strong>Proposal:</strong> A table under each component that
-            designers fill in by hand. The plugin then collects and syncs
-            the data.
-          </p>
-          <p class="body-copy">
-            <strong>Insight:</strong> Designers filled in just the bare
-            minimum, and often forgot key information.
-          </p>
-        </div>
-      </Accordion>
-    </div>
+      <!-- DISCOVERY -->
+      <section class="section">
+        <SectionHeader
+          id="discovery"
+          eyebrow="Discovery"
+          title="I looked at the workflow before choosing a solution"
+        />
+      </section>
 
-    <Spacer size="md" />
+      <Spacer size="md" />
 
-    <div class="pivot-block">
-      <h3 class="type-h2" style="color: var(--color-text-heading);">
-        02/ Give data the proper structure
-      </h3>
-      <p class="body-copy">
-        <strong>Problem:</strong> With the data in hand, storing it
-        properly was critical. My first idea (saving it in Figma's memory)
-        caused overwrites and unstructured output. I explored alternatives
-        with AI and validated them with the IT team, since this wasn't my
-        expertise.
-      </p>
-      <Accordion
-        items={[
-          { label: "Exploration 1: GitHub — Single file", value: "before" },
-          { label: "Exploration 2: GitHub — Folders", value: "after", chosen: true },
-          { label: "Exploration 3: RAG Database", value: "option3" },
-        ]}
-      >
-        <div slot="after" class="acc-content-group">
-          <div class="pivot-panel">
-            <video
-              src="/case-studies/design-system-search/pivot3.mp4"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-            ></video>
-          </div>
-          <p class="body-copy">
-            <strong>Proposal:</strong> Sync the changelog to a structured
-            folder system on GitHub, with one <code>.md</code> file per
-            component. I also added a "sync queue" inside the plugin, so
-            designers can see from Figma what's already been synced.
-          </p>
-          <p class="body-copy">
-            <strong>Insight:</strong> Fastest sync of all options.
-            Designers can spot what's already synced, and the data is
-            readable both by humans and by LLMs, which unlocks automation
-            like release notes and search.
-          </p>
-        </div>
-        <div slot="before" class="acc-content-group">
-          <div class="pivot-panel">
-            <Pivot3SingleFileSchema />
-          </div>
-          <p class="body-copy">
-            <strong>Proposal:</strong> Sync the changelog data to a single
-            <code>.md</code> file on GitHub.
-          </p>
-          <p class="body-copy">
-            <strong>Insight:</strong> Discarded due to slow file retrieval
-            and overwrite issues. This taught me that AI proposals aren't
-            always reliable. From here on, I made it a rule to validate
-            them with domain experts.
-          </p>
-        </div>
-        <div slot="option3" class="acc-content-group">
-          <div class="pivot-panel">
-            <Pivot3RagSchema />
-          </div>
-          <p class="body-copy">
-            <strong>Proposal:</strong> A dedicated database with a
-            Retrieval-Augmented Generation layer, optimised for semantic
-            search. Richest AI features out of the box.
-          </p>
-          <p class="body-copy">
-            <strong>Insight:</strong> Setup and maintenance cost (schema
-            design, hosting, embeddings pipeline) was disproportionate to
-            the phase of the project.
-          </p>
-        </div>
-      </Accordion>
-    </div>
-
-    <Spacer size="md" />
-
-    <div class="pivot-block">
-      <h3 class="type-h2" style="color: var(--color-text-heading);">
-        03/ Put changes where designers see them
-      </h3>
-      <p class="body-copy">
-        <strong>Problem:</strong> The changelog was now available per
-        component in each library, but designers didn't consult it as they
-        pulled components straight from the asset panel while working on
-        Figma files.
-      </p>
-      <Accordion
-        items={[
-          { label: "Exploration 1: In-component metadata", value: "after", chosen: true },
-          { label: "Exploration 2: Dedicated tab", value: "before" },
-        ]}
-      >
-        <div slot="after" class="acc-content-group">
-          <div class="pivot-panel">
-            <video
-              src="/case-studies/design-system-search/evolution.mp4"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-            ></video>
-          </div>
-          <p class="body-copy">
-            <strong>Proposal:</strong> Added an "evolution" type to the
-            changelog form. Designers log version and release date, which
-            get written automatically into the component's description and
-            title. When they pull components from the panel, they spot the
-            version info they need right away.
-          </p>
-          <p class="body-copy">
-            <strong>Insight:</strong> Designers see version and release
-            information directly in the working file, without having to
-            open plugins or switch context. They reported that this
-            approach doesn't interrupt their workflow.
-          </p>
-        </div>
-        <div slot="before" class="acc-content-group">
-          <div class="pivot-panel pivot-panel-centered">
-            <img
-              src="/case-studies/design-system-search/evolution.png"
-              alt="Dedicated 'Evolution' tab inside the plugin listing recent component updates"
-            />
-          </div>
-          <p class="body-copy">
-            <strong>Proposal:</strong> A dedicated "Evolution" tab inside
-            the plugin lists recent updates per component, filterable and
-            searchable.
-          </p>
-          <p class="body-copy">
-            <strong>Insight:</strong> Designers had to open the plugin
-            every time to check on components, which broke their flow.
-            Updates also stayed invisible to anyone who didn't have the
-            plugin installed.
-          </p>
-        </div>
-      </Accordion>
-    </div>
-
-    <Spacer size="lg" />
-
-    <!-- SOLUTION -->
-    <section class="section">
-      <SectionHeader
-        id="solution"
-        eyebrow="Solution"
-        title="A system that captures, retrieves, and distributes information where needed"
-      />
-      <SolutionFlow />
-    </section>
-
-    <Spacer size="lg" />
-
-    <!-- IMPACT -->
-    <section class="section">
-      <SectionHeader
-        id="impact"
-        eyebrow="Impact"
-        title="From hours of investigation to a shared source of truth"
-      />
-      <p class="body-copy">
-        The work delivered a <strong>single, structured source of truth</strong>{" "}
-        that gives every designer access to the same information. This cuts
-        the time needed to reconstruct a component's history and keeps
-        everyone aligned on library progress through{" "}
-        <strong>automated release notes</strong>. A few open questions remain,
-        to be measured later to confirm the real impact.
-      </p>
-      <div class="impact-group-label">
-        <span
-          class="impact-group-badge"
-          style="background-color: var(--color-accent-info);"
-        >
-          TEAM DESIGN SYSTEM
-        </span>
-        <span class="eyebrow-line">Workload recovered</span>
+      <!-- DISCOVERY — Mapping where information was getting lost -->
+      <div class="sub-block">
+        <h3 class="type-h2" style="color: var(--color-text-heading);">
+          Mapping where information was getting lost
+        </h3>
+        <p class="body-copy">
+          I mapped how component changes were communicated between the
+          Design System and product teams.
+        </p>
+        <p class="body-copy">
+          A process already existed, but it relied on people <strong>manually
+          sharing updates</strong> through Slack, email or direct conversations.
+          In practice, it was <strong>not followed consistently</strong>.
+        </p>
+        <Media
+          src="/case-studies/design-system-search/discovery.jpg"
+          alt="Actual workflow between UX/UI and Design System teams and the major pain point"
+          caption="THE ACTUAL WORKFLOW AND THE MAJOR PAINT POINT"
+        />
       </div>
-      <ImpactCardList cols={2}>
-        <ImpactCard
-          title="Source of truth"
-          metricValue={1}
-          beforeLabel="BEFORE"
-          beforeValue="Not available. Split between Slack, emails, people"
-        />
-        <ImpactCard
-          title="Recover change context"
-          metricPrefix="~"
-          metricValue={5}
-          metricSuffix="min"
-          beforeLabel="BEFORE"
-          beforeValue="Up to 1 working day"
-        />
-        <ImpactCard
-          title="Prepare release notes"
-          metricPrefix="~"
-          metricValue={25}
-          metricSuffix="min"
-          beforeLabel="BEFORE"
-          beforeValue="~4h of manual work"
-        />
-        <ImpactCard
-          title="Tickets on components"
-          metricPrefix="-"
-          metricValue={70}
-          metricSuffix="%"
-          color="neutral"
-          arrow={false}
-          beforeLabel="EXPECTED REDUCTION"
-          beforeValue="To measure next quarter"
-        />
-      </ImpactCardList>
 
-      <div class="impact-group-label" style="margin-top: 8px;">
-        <span class="impact-group-badge">TEAM UX/UI</span>
-        <span class="eyebrow-line">Cross project alignment</span>
+      <Spacer size="md" />
+
+      <!-- DISCOVERY — Looking at how other teams handled it -->
+      <div class="sub-block">
+        <h3 class="type-h2" style="color: var(--color-text-heading);">
+          Looking at how other teams handled it
+        </h3>
+        <p class="body-copy">
+          I benchmarked <strong>10 Design Systems</strong> to understand
+          how they tracked component changes.
+        </p>
+        <p class="body-copy">
+          Changelogs, release notes and documentation tools were the most
+          common patterns, so I shortlisted the options that could
+          realistically work in our context.
+        </p>
+        <div class="todo-placeholder">
+          <span class="todo-label">TODO — Asset</span>
+          <div class="todo-body">
+            <strong>Benchmark visual</strong>
+            <p>
+              Reuse the current benchmark visual, kept as a secondary
+              reference supporting the decision.
+            </p>
+          </div>
+        </div>
       </div>
-      <ImpactCardList cols={2}>
-        <ImpactCard
-          title="Release note engagement"
-          metricValue={5}
-          metricSuffix="/ 8"
-          arrow={false}
-          beforeValue={`Avg. designers reacting to the Slack release note<br class="desktop-break" />in the first 4 weeks (visibility on other projects)`}
-        />
-        <ImpactCard
-          title="Release note quality"
-          metricText="Survey"
-          color="neutral"
-          arrow={false}
-          beforeLabel="EXPECTED VALIDATION"
-          beforeValue="Quarterly survey to confirm designers actually process and apply what they read"
-        />
-      </ImpactCardList>
-    </section>
 
-    <Spacer size="lg" />
+      <Spacer size="md" />
 
-    <!-- LEARNINGS -->
-    <section class="section">
-      <SectionHeader
-        id="learnings"
-        eyebrow="Learnings"
-        title="Even with AI, the designer still has the final call"
-      />
-      <div class="body-copy">
-        <p style="margin: 0;">
-          AI was a strong accelerator, but one moment taught me how to handle it. For the GitHub structure, its proposal was to handle the data on a single .md file. It sounded confident, but I only saw how fragile it was while implementing it. From there I learned to ask AI to walk me through its reasoning, weigh opposite technical alternatives, and validate with people who know the domain. Collaborating with domain experts is still necessary. AI remains a tool.
+      <!-- DISCOVERY — Comparing the options with designers -->
+      <div class="sub-block">
+        <h3 class="type-h2" style="color: var(--color-text-heading);">
+          Comparing the options with designers
+        </h3>
+        <p class="body-copy">
+          I reviewed the most relevant approaches with the designers who
+          would have to maintain them.
+        </p>
+        <p class="body-copy">
+          Testing surfaced a practical constraint: <strong>adding another manual workflow would make adoption difficult.</strong>
+        </p>
+        <p class="body-copy">
+          Tools outside Figma offered better documentation, but
+          introduced <strong>another place to maintain</strong>. Lighter Figma-based
+          approaches reduced that friction, but offered <strong>less control over
+          how the information could be stored and reused</strong>.
+        </p>
+        <p class="body-copy">
+          From those observations, three requirements emerged to guide the decision:
+        </p>
+        <CalloutList>
+          <CalloutItem
+            title="Frictionless"
+            variant="info"
+            iconStyle="filled"
+          >
+            <svg
+              slot="icon"
+              width="20"
+              height="20"
+              viewBox="0 0 21 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16.9493 9.94365L8.07237 19.4546C7.9783 19.555 7.85413 19.622 7.7186 19.6457C7.58307 19.6693 7.44353 19.6482 7.32103 19.5856C7.19854 19.5229 7.09974 19.4222 7.03954 19.2985C6.97935 19.1748 6.96103 19.0348 6.98734 18.8998L8.14926 13.0878L3.58163 11.3727C3.48353 11.336 3.39605 11.2755 3.32701 11.1968C3.25796 11.118 3.2095 11.0234 3.18595 10.9214C3.1624 10.8193 3.16449 10.713 3.19205 10.612C3.2196 10.5109 3.27176 10.4183 3.34385 10.3423L12.2207 0.831376C12.3148 0.730984 12.439 0.663913 12.5745 0.640283C12.71 0.616653 12.8496 0.637746 12.9721 0.70038C13.0946 0.763013 13.1934 0.863789 13.2536 0.987499C13.3138 1.11121 13.3321 1.25114 13.3058 1.38618L12.1407 7.2045L16.7083 8.91726C16.8057 8.9542 16.8925 9.01455 16.961 9.09299C17.0295 9.17143 17.0776 9.26554 17.1011 9.367C17.1246 9.46846 17.1228 9.57414 17.0957 9.67471C17.0687 9.77529 17.0173 9.86765 16.9461 9.94365H16.9493Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+            It had to fit the existing workflow or adoption would be
+            difficult.
+          </CalloutItem>
+          <CalloutItem
+            title="Retrievable"
+            variant="info"
+            iconStyle="outlined"
+          >
+            <svg
+              slot="icon"
+              width="20"
+              height="20"
+              viewBox="0 0 21 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.145 1.26807C8.29586 1.27016 6.52304 2.00567 5.21549 3.31322C3.90794 4.62078 3.17243 6.3936 3.17033 8.24275C3.17033 14.2109 9.51096 18.7183 9.78123 18.9069C9.88784 18.9816 10.0149 19.0216 10.145 19.0216C10.2752 19.0216 10.4022 18.9816 10.5088 18.9069C10.7791 18.7183 17.1197 14.2109 17.1197 8.24275C17.1176 6.3936 16.3821 4.62078 15.0746 3.31322C13.767 2.00567 11.9942 1.27016 10.145 1.26807ZM10.145 5.7065C10.6466 5.7065 11.137 5.85525 11.5541 6.13394C11.9712 6.41263 12.2962 6.80873 12.4882 7.27217C12.6802 7.73561 12.7304 8.24557 12.6325 8.73755C12.5347 9.22954 12.2931 9.68145 11.9384 10.0362C11.5837 10.3909 11.1318 10.6324 10.6398 10.7303C10.1478 10.8281 9.63788 10.7779 9.17444 10.5859C8.711 10.394 8.31489 10.0689 8.03621 9.65182C7.75752 9.23474 7.60877 8.74438 7.60877 8.24275C7.60877 7.5701 7.87598 6.92499 8.35162 6.44935C8.82726 5.97372 9.47237 5.7065 10.145 5.7065Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+            Past changes needed a stable place where they could be found
+            later.
+          </CalloutItem>
+          <CalloutItem
+            title="Proactive"
+            variant="info"
+            iconStyle="filled"
+          >
+            <svg
+              slot="icon"
+              width="20"
+              height="20"
+              viewBox="0 0 21 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18.1404 2.07577C18.0422 1.99094 17.9227 1.93452 17.7947 1.9126C17.6668 1.89067 17.5353 1.90406 17.4144 1.95134L1.35205 8.23728C1.12441 8.32579 0.93169 8.48587 0.802896 8.6934C0.674103 8.90092 0.616211 9.14468 0.637937 9.38795C0.659663 9.63123 0.759831 9.86087 0.92336 10.0423C1.08689 10.2237 1.30493 10.3471 1.54465 10.3939L5.70648 11.211V15.8516C5.70566 16.1043 5.78078 16.3515 5.92209 16.5611C6.06341 16.7707 6.26441 16.933 6.49906 17.027C6.73334 17.1226 6.99098 17.1456 7.23849 17.0929C7.48599 17.0402 7.71191 16.9142 7.88686 16.7313L9.89367 14.65L13.0775 17.4367C13.3072 17.6405 13.6034 17.7532 13.9105 17.7538C14.045 17.7537 14.1787 17.7325 14.3067 17.6911C14.5159 17.6248 14.7041 17.5047 14.8525 17.343C15.0009 17.1813 15.1043 16.9835 15.1524 16.7694L18.3695 2.77403C18.3983 2.64782 18.3922 2.51615 18.3518 2.39314C18.3115 2.27013 18.2384 2.16042 18.1404 2.07577ZM13.912 16.4856L7.359 10.7394L16.7907 3.97955L13.912 16.4856Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+            Important changes needed to reach people, not just wait to be
+            searched for.
+          </CalloutItem>
+        </CalloutList>
+        <PrioritizationMatrix items={matrixItems} />
+      </div>
+
+      <Spacer size="lg" />
+
+      <!-- KEY DECISIONS -->
+      <section class="section">
+        <SectionHeader
+          id="decisions"
+          eyebrow="Key decisions"
+          title="Three UX decisions shaped the workflow"
+        />
+      </section>
+
+      <Spacer size="md" />
+
+      <!-- KEY DECISION 01 — Guided flow -->
+      <div class="pivot-block">
+        <h3 class="type-h2" style="color: var(--color-text-heading);">
+          01. I replaced free-form input with a guided flow
+        </h3>
+        <p class="body-copy">
+          The first versions <strong>relied too much on designers remembering
+          what to document</strong>.
+        </p>
+        <p class="body-copy">
+          I tested three approaches: a manual table, automatic change
+          detection and a guided form.
+        </p>
+        <Accordion
+          items={[
+            { label: "Manual table", value: "option3" },
+            { label: "Automatic detection", value: "before" },
+            { label: "Guided form (chosen)", value: "after", chosen: true },
+          ]}
+        >
+          <div slot="after" class="acc-content-group">
+            <div class="pivot-panel">
+              <video
+                src="/case-studies/design-system-search/form.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              ></video>
+            </div>
+            <p class="body-copy">
+              The plugin asks designers <strong>only for information that
+              requires their context</strong>. Component name, date and author
+              can be filled automatically, while the reason for the
+              change stays as user input.
+            </p>
+          </div>
+          <div slot="before" class="acc-content-group">
+            <div class="pivot-panel pivot-panel-centered">
+              <img
+                src="/case-studies/design-system-search/manually.png"
+                alt="Change detector prototype: automatic detection listing every node change with a per-row request to add context"
+              />
+            </div>
+            <p class="body-copy">
+              On complex files it <strong>missed meaningful changes, flagged
+              irrelevant edits</strong> and still could not capture why a change
+              had been made.
+            </p>
+          </div>
+          <div slot="option3" class="acc-content-group">
+            <div class="pivot-panel pivot-panel-centered">
+              <img
+                src="/case-studies/design-system-search/manual.png"
+                alt="Manual table under each component that designers fill in by hand"
+              />
+            </div>
+            <p class="body-copy">
+              Designers entered only the minimum information and <strong>often
+              missed useful context</strong>.
+            </p>
+          </div>
+        </Accordion>
+        <p class="body-copy">
+          <strong>Decision:</strong> use a guided flow that reduces
+          effort without removing the context only designers can
+          provide.
         </p>
       </div>
-    </section>
-  </article>
+
+      <Spacer size="md" />
+
+      <!-- KEY DECISION 02 — Sync queue -->
+      <div class="pivot-block">
+        <h3 class="type-h2" style="color: var(--color-text-heading);">
+          02. I added a sync queue to make status visible
+        </h3>
+        <p class="body-copy">
+          During testing, designers were <strong>not always sure which changes
+          had already been synced</strong> and which ones were still pending.
+        </p>
+        <p class="body-copy">
+          That uncertainty made it harder to understand whether an entry
+          still needed action and increased the risk of <strong>duplicate or
+          missed updates</strong>.
+        </p>
+        <div class="todo-placeholder">
+          <span class="todo-label">TODO — Observation</span>
+          <div class="todo-body">
+            <strong>What I observed</strong>
+            <p>
+              Add the clearest behaviour seen during testing. Keep it to
+              1–2 sentences.
+            </p>
+          </div>
+        </div>
+        <div class="todo-placeholder">
+          <span class="todo-label">TODO — Asset</span>
+          <div class="todo-body">
+            <strong>Sync queue visual</strong>
+            <p>
+              Screenshot or short video of the Sync Queue showing pending
+              entries and the ability to review, edit or remove them
+              before syncing.
+            </p>
+          </div>
+        </div>
+        <p class="body-copy">
+          <strong>Decision:</strong> make pending work visible before
+          sync, so designers can understand the system status and review
+          changes before publishing.
+        </p>
+      </div>
+
+      <Spacer size="md" />
+
+      <!-- KEY DECISION 03 — Simplified setup -->
+      <div class="pivot-block">
+        <h3 class="type-h2" style="color: var(--color-text-heading);">
+          03. I simplified setup so designers could start without
+          technical support
+        </h3>
+        <p class="body-copy">
+          The plugin needed to connect to the repository before it could
+          be used, but the first setup required configuration steps that
+          were <strong>not clear to non-technical users</strong>.
+        </p>
+        <p class="body-copy">
+          This created an <strong>unnecessary dependency on the Design System team during onboarding</strong>.
+        </p>
+        <div class="todo-placeholder">
+          <span class="todo-label">TODO — Observation</span>
+          <div class="todo-body">
+            <strong>What I observed</strong>
+            <p>
+              Add the main issue seen during rollout or testing. Avoid
+              listing every setup problem.
+            </p>
+          </div>
+        </div>
+        <div class="todo-placeholder">
+          <span class="todo-label">TODO — Asset</span>
+          <div class="todo-body">
+            <strong>Simplified onboarding visual</strong>
+            <p>
+              Before / after of the setup flow or a short video of the
+              simplified onboarding.
+            </p>
+          </div>
+        </div>
+        <p class="body-copy">
+          <strong>Decision:</strong> reduce the setup to the minimum
+          information designers need and automate configuration wherever
+          possible.
+        </p>
+      </div>
+
+      <Spacer size="lg" />
+
+      <!-- TECHNICAL TRADE-OFF -->
+      <section class="section">
+        <SectionHeader
+          eyebrow="Technical trade-off"
+          title="I chose an architecture I could realistically ship"
+        />
+        <p class="body-copy">
+          I explored three ways to store and retrieve the changelog
+          data.
+        </p>
+        <Accordion
+          items={[
+            { label: "Single Markdown file", value: "before" },
+            { label: "RAG database", value: "option3" },
+            {
+              label: "Structured GitHub repository (chosen)",
+              value: "after",
+              chosen: true,
+            },
+          ]}
+        >
+          <div slot="after" class="acc-content-group">
+            <div class="pivot-panel">
+              <video
+                src="/case-studies/design-system-search/pivot3.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              ></video>
+            </div>
+            <p class="body-copy">
+              One Markdown file per component. It was <strong>readable, reusable
+              and realistic to maintain</strong> within the six-week project.
+            </p>
+          </div>
+          <div slot="before" class="acc-content-group">
+            <p class="body-copy">
+              Simple to implement, but <strong>concurrent edits created overwrite
+              issues</strong> and retrieval became inefficient.
+            </p>
+          </div>
+          <div slot="option3" class="acc-content-group">
+            <p class="body-copy">
+              Better suited to semantic retrieval at scale, but the <strong>setup
+              and maintenance cost was too high</strong> for the first release.
+            </p>
+          </div>
+        </Accordion>
+        <p class="body-copy">
+          <strong>Decision:</strong> use the simplest structure that
+          solved the current reliability problem and keep the option to
+          add a retrieval layer later.
+        </p>
+        <p class="body-copy caveat">
+          This trade-off becomes important again in the limitation
+          section.
+        </p>
+      </section>
+
+      <Spacer size="lg" />
+
+      <!-- SHIPPED SOLUTION -->
+      <section class="section">
+        <SectionHeader
+          id="solution"
+          eyebrow="Shipped solution"
+          title="One flow to capture, review and reuse component history"
+        />
+        <p class="body-copy">
+          The final workflow connects four steps.
+        </p>
+        <ol class="stages">
+          <li class="stage">
+            <span class="stage-index">01</span>
+            <div class="stage-body">
+              <strong>Capture</strong>
+              <p>
+                Designers log a component change through the Figma
+                plugin.
+              </p>
+            </div>
+          </li>
+          <li class="stage">
+            <span class="stage-index">02</span>
+            <div class="stage-body">
+              <strong>Review</strong>
+              <p>
+                Pending entries remain visible in the Sync Queue before
+                publishing.
+              </p>
+            </div>
+          </li>
+          <li class="stage">
+            <span class="stage-index">03</span>
+            <div class="stage-body">
+              <strong>Store</strong>
+              <p>
+                Changes are synced to the shared GitHub structure,
+                creating a history for each component.
+              </p>
+            </div>
+          </li>
+          <li class="stage">
+            <span class="stage-index">04</span>
+            <div class="stage-body">
+              <strong>Reuse</strong>
+              <p>
+                The same data can be retrieved later and used to prepare
+                weekly release notes.
+              </p>
+            </div>
+          </li>
+        </ol>
+        <p class="body-copy">
+          Designers enter the context <strong>once instead of rewriting the same
+          information for different channels</strong>.
+        </p>
+        <SolutionFlow />
+        <div class="todo-placeholder">
+          <span class="todo-label">TODO — Optional carousel</span>
+          <div class="todo-body">
+            <strong>Shipped stages</strong>
+            <p>
+              One real screenshot per stage: form, Sync Queue, GitHub
+              structure, release note. Use only if it adds clarity beyond
+              the main flow.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <Spacer size="lg" />
+
+      <!-- IMPACT -->
+      <section class="section">
+        <SectionHeader
+          id="impact"
+          eyebrow="Impact"
+          title="The workflow gave component changes a shared history"
+        />
+        <p class="body-copy">
+          The project moved component history <strong>from scattered conversations
+          into one structured workflow</strong>.
+        </p>
+        <div class="impact-bento">
+          <ImpactCard
+            class="bento-wide"
+            title="Shared source of truth"
+            metricValue={1}
+            metricSuffix="structured source"
+            arrow={false}
+            beforeLabel="BEFORE"
+            beforeValue="Split across Slack, email, files and people"
+          />
+          <ImpactCard
+            title="Recover change context"
+            metricPrefix="~"
+            metricValue={5}
+            metricSuffix="min"
+            color="info"
+            beforeLabel="BEFORE"
+            beforeValue="Up to 1 working day"
+          />
+          <ImpactCard
+            title="Prepare release notes"
+            metricPrefix="~"
+            metricValue={25}
+            metricSuffix="min"
+            color="info"
+            beforeLabel="BEFORE"
+            beforeValue="~4h of manual work"
+          />
+          <ImpactCard
+            class="bento-wide"
+            title="Active adoption"
+            metricValue={6}
+            metricSuffix="/ 8 designers"
+            arrow={false}
+            beforeLabel="BEFORE"
+            beforeValue="Logged at least one change in the last 30 days"
+          />
+        </div>
+        <p class="body-copy">
+          After launch, <strong>one product designer also mapped the components
+          in their UI Kit</strong> and continued maintaining their history
+          through the plugin.
+        </p>
+
+        <Spacer size="xs" />
+
+        <div class="sub-block">
+          <h3 class="type-h2" style="color: var(--color-text-heading);">
+            What I still need to measure
+          </h3>
+          <ul class="criteria-list">
+            <li>
+              Whether repeated Design System requests decrease over
+              time.
+            </li>
+            <li>
+              Whether the workflow reduces outdated component usage in
+              delivered flows.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <Spacer size="lg" />
+
+      <!-- LIMITATION -->
+      <section class="section">
+        <SectionHeader
+          eyebrow="Limitation"
+          title="Retrieval is getting slower as the history grows"
+        />
+        <p class="body-copy">
+          The GitHub structure was a good fit for the first release
+          because it was <strong>simple, transparent and easy to maintain</strong>.
+        </p>
+        <p class="body-copy">
+          As the number of logs grows, <strong>retrieval is becoming slower</strong>.
+        </p>
+        <p class="body-copy">
+          At this scale, the <strong>RAG approach I initially deferred would now
+          be worth reconsidering</strong> as a retrieval layer on top of the
+          existing source of truth.
+        </p>
+        <div class="todo-placeholder">
+          <span class="todo-label">TODO — Optional visual</span>
+          <div class="todo-body">
+            <strong>Scale-up diagram</strong>
+            <p>
+              Current: GitHub structured history → direct retrieval.
+              Next scale: GitHub structured history → retrieval layer →
+              semantic search.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <Spacer size="lg" />
+
+      <!-- NEXT -->
+      <section class="section">
+        <SectionHeader
+          eyebrow="Next"
+          title="What I would validate next"
+        />
+        <p class="body-copy">
+          These ideas came out of the project but were
+          <strong>not shipped or validated</strong>.
+        </p>
+        <p class="eyebrow-line">CONCEPTS, NOT SHIPPED</p>
+        <ol class="learnings-list">
+          <li>
+            <strong>Component status</strong>
+            <p>
+              Surface version or release information closer to the
+              component.
+            </p>
+          </li>
+          <li>
+            <strong>Release reminders</strong>
+            <p>
+              Notify designers about upcoming component releases or
+              replacements.
+            </p>
+          </li>
+          <li>
+            <strong>Proactive updates</strong>
+            <p>
+              Surface changes that may be relevant to the product a
+              designer is working on.
+            </p>
+          </li>
+        </ol>
+      </section>
+
+      <Spacer size="lg" />
+
+      <!-- LEARNINGS -->
+      <section class="section">
+        <SectionHeader
+          id="learnings"
+          eyebrow="Learnings"
+          title="What I would carry into the next iteration"
+        />
+        <ol class="learnings-list">
+          <li>
+            <strong>Adoption is part of the design problem.</strong>
+            <p>
+              A better documentation tool does not help if maintaining it
+              adds too much work to the existing workflow.
+            </p>
+          </li>
+          <li>
+            <strong>Structured data made automation useful.</strong>
+            <p>
+              Release notes and retrieval became easier only after the
+              component history had a consistent structure.
+            </p>
+          </li>
+          <li>
+            <strong>The right technical choice can change over time.</strong>
+            <p>
+              The repository was enough for the first release. As the
+              amount of data grows, the trade-off is changing and a
+              dedicated retrieval layer now makes more sense.
+            </p>
+          </li>
+        </ol>
+      </section>
+    </article>
   </div>
 
   <CaseStudyFooter />
@@ -908,128 +927,231 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     gap: var(--spacing-gap-md);
   }
 
-  .pivot-block {
+  .eyebrow-line {
+    margin: 0;
+    color: var(--color-text-eyebrow);
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--text-eyebrow);
+    line-height: var(--leading-tight);
+  }
+
+  .pivot-block,
+  .sub-block {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-gap-xl);
   }
 
-  .impact-group-label {
+  .criteria-list {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: var(--spacing-gap-sm);
-    flex-wrap: wrap;
-  }
-
-  .impact-group-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background-color: #74a495;
-    color: var(--color-text-on-inverse);
-    font-family: var(--font-mono);
-    font-weight: var(--font-weight-normal);
-    font-size: 12px;
-    line-height: 17px;
-    text-transform: uppercase;
-  }
-
-  /* IN SHORT / TL;DR card — aurora hue-shift on blue tones */
-  .in-short {
-    position: relative;
-    border: 1px solid rgba(226, 227, 255, 0.55);
-    border-radius: 12px;
-    padding: var(--spacing-padding-xl);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-gap-2xl);
-    background: linear-gradient(
-      120deg,
-      rgba(226, 227, 255, 0.7) 0%,
-      rgba(255, 255, 255, 0.7) 50%,
-      rgba(211, 239, 255, 0.7) 100%
-    );
-    background-size: 220% 220%;
-    animation: in-short-aurora 14s ease-in-out infinite;
-  }
-
-  @keyframes in-short-aurora {
-    0%,
-    100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .in-short {
-      animation: none;
-    }
-  }
-
-  .in-short-eyebrow {
     margin: 0;
-    color: var(--color-accent-info);
-  }
-
-  .in-short-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-gap-md);
-    margin: 0;
-  }
-
-  .in-short-row {
-    display: grid;
-    grid-template-columns: 140px minmax(0, 1fr);
-    gap: var(--spacing-gap-lg);
-    align-items: baseline;
-    padding-block: var(--spacing-gap-sm);
-    border-top: 1px solid var(--color-alpha-black-08);
-  }
-
-  .in-short-row:first-child {
-    border-top: 0;
-    padding-top: 0;
-  }
-
-  .in-short-term {
-    margin: 0;
-    color: var(--color-text-heading);
-    font-family: var(--font-sans);
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--text-body-sm);
-    line-height: var(--leading-tight);
-  }
-
-  .in-short-def {
-    margin: 0;
+    padding-left: 1.25em;
     color: var(--color-text-body);
     font-family: var(--font-sans);
     font-weight: var(--font-weight-light);
     font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+  }
+
+  .criteria-list strong {
+    color: var(--color-text-heading);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  /* TODO PLACEHOLDER — asset yet to be produced */
+  .todo-placeholder {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--spacing-gap-md);
+    align-items: start;
+    padding: var(--spacing-padding-lg);
+    border: 1px dashed var(--color-border-default);
+    border-radius: 12px;
+    background-color: color-mix(in srgb, var(--color-accent-warning) 4%, transparent);
+  }
+
+  .todo-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: var(--color-accent-warning);
+    color: var(--color-text-on-inverse);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: 12px;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .todo-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-xs);
+  }
+
+  .todo-body strong {
+    color: var(--color-text-heading);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-body);
+  }
+
+  .todo-body p {
+    margin: 0;
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body-sm);
     line-height: var(--leading-normal);
   }
 
-  .in-short-def strong {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-heading);
-  }
-
-  .in-short-cta {
-    align-self: flex-end;
-    margin-top: 12px;
-    width: fit-content;
-  }
-
   @media (max-width: 600px) {
-    .in-short-row {
+    .todo-placeholder {
       grid-template-columns: 1fr;
-      gap: var(--spacing-gap-xs);
     }
+  }
+
+
+  /* SOLUTION STAGES — Capture / Review / Store / Reuse */
+  .stages {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-gap-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: none;
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--spacing-gap-md);
+    padding: var(--spacing-padding-md);
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+    background-color: var(--color-bg-elevated);
+  }
+
+  .stage-index {
+    color: var(--color-text-eyebrow);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--text-eyebrow);
+    line-height: 1.6;
+  }
+
+  .stage-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-xs);
+  }
+
+  .stage-body strong {
+    color: var(--color-text-heading);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-body);
+  }
+
+  .stage-body p {
+    margin: 0;
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-normal);
+  }
+
+  @media (max-width: 720px) {
+    .stages {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* IMPACT BENTO — asymmetric grid, 2 wide + 2 narrow for a bento rhythm */
+  .impact-bento {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-gap-md);
+  }
+
+  .impact-bento :global(.bento-wide) {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 720px) {
+    .impact-bento {
+      grid-template-columns: 1fr;
+    }
+    .impact-bento :global(.bento-wide) {
+      grid-column: span 1;
+    }
+  }
+
+  :global(.desktop-break) {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    :global(.desktop-break) {
+      display: inline;
+    }
+  }
+
+  /* LEARNINGS / NEXT LIST */
+  .learnings-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-lg);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: learnings;
+  }
+
+  .learnings-list li {
+    counter-increment: learnings;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--spacing-gap-md);
+    padding: var(--spacing-padding-md);
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+    background-color: var(--color-bg-elevated);
+  }
+
+  .learnings-list li::before {
+    content: counter(learnings, decimal-leading-zero);
+    color: var(--color-text-eyebrow);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--text-eyebrow);
+    line-height: 1.6;
+  }
+
+  .learnings-list strong {
+    color: var(--color-text-heading);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-body);
+    grid-column: 2;
+  }
+
+  .learnings-list p {
+    margin: 0;
+    grid-column: 2;
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-normal);
   }
 
   .body-copy {
@@ -1042,14 +1164,10 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     font-variation-settings: "opsz" 14;
   }
 
-  .eyebrow-line {
-    margin: 0;
+  .body-copy.caveat {
     color: var(--color-text-eyebrow);
-    text-transform: uppercase;
-    font-family: var(--font-mono);
-    font-weight: var(--font-weight-normal);
-    font-size: var(--text-eyebrow);
-    line-height: var(--leading-tight);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-normal);
   }
 
   .pivot-panel {
@@ -1067,8 +1185,6 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     object-fit: cover;
   }
 
-  /* Centered variant: image fits fully inside the panel without cropping,
-     centered horizontally and vertically. */
   .pivot-panel-centered {
     background: #f3f5f6;
     display: flex;
@@ -1079,38 +1195,10 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     object-fit: contain;
     object-position: center;
   }
-  /* Modifier: scale the centered image down to 80% within its panel
-     (extra breathing room around the image). */
-  .pivot-panel-centered.pivot-panel-shrink > img {
-    width: 80%;
-    height: 80%;
-  }
 
-  /* Wrapper for accordion slot content that stacks media + body copy. */
   .acc-content-group {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-gap-lg);
-  }
-
-  /* Placeholder variant for accordion items not yet filled with real content. */
-  .pivot-panel-placeholder {
-    color: var(--color-text-muted);
-    font-family: var(--font-mono);
-    font-size: var(--text-eyebrow);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    text-align: center;
-    padding: 24px;
-  }
-
-  :global(.desktop-break) {
-    display: none;
-  }
-
-  @media (min-width: 640px) {
-    :global(.desktop-break) {
-      display: inline;
-    }
   }
 </style>
