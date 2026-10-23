@@ -1,0 +1,339 @@
+---
+interface Feature {
+  id: string;
+  name: string;
+  caption: string;
+  src: string;
+  poster?: string;
+}
+
+interface Props {
+  features: Feature[];
+  aspectRatio?: string;
+  class?: string;
+}
+
+const { features, aspectRatio = "16 / 9", class: className = "" } = Astro.props;
+const first = features[0];
+---
+
+<div
+  class:list={["feature-showcase", className]}
+  data-feature-showcase
+  style={`--fs-aspect: ${aspectRatio};`}
+>
+  <div class="fs-stage">
+    <video
+      class="fs-video"
+      src={first.src}
+      poster={first.poster}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"></video>
+  </div>
+
+  <div class="fs-ctrl">
+    <button class="fs-play" type="button" aria-label="Pause">
+      <svg
+        class="fs-icon fs-icon-pause"
+        width="12"
+        height="12"
+        viewBox="0 0 12 12"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <rect x="2" y="1.5" width="2.4" height="9" rx="1"></rect>
+        <rect x="7.6" y="1.5" width="2.4" height="9" rx="1"></rect>
+      </svg>
+      <svg
+        class="fs-icon fs-icon-play"
+        width="12"
+        height="12"
+        viewBox="0 0 12 12"
+        fill="currentColor"
+        aria-hidden="true"
+        hidden
+      >
+        <path d="M3 1.5v9l8-4.5-8-4.5z"></path>
+      </svg>
+    </button>
+
+    <div class="fs-pills" role="tablist" aria-label="Features">
+      {
+        features.map((f, i) => (
+          <button
+            type="button"
+            role="tab"
+            class:list={["fs-pill", { "is-on": i === 0 }]}
+            aria-selected={i === 0 ? "true" : "false"}
+            data-index={i}
+            data-src={f.src}
+            data-caption={f.caption}
+            data-poster={f.poster ?? ""}
+          >
+            <span class="fs-pill-label">{f.name}</span>
+            <i class="fs-pill-progress" aria-hidden="true" />
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <p class="fs-caption" aria-live="polite">{first.caption}</p>
+</div>
+
+<script>
+  function initFeatureShowcase(root: HTMLElement) {
+    const video = root.querySelector<HTMLVideoElement>(".fs-video");
+    const playBtn = root.querySelector<HTMLButtonElement>(".fs-play");
+    const iconPause = root.querySelector<SVGElement>(".fs-icon-pause");
+    const iconPlay = root.querySelector<SVGElement>(".fs-icon-play");
+    const pills = Array.from(
+      root.querySelectorAll<HTMLButtonElement>(".fs-pill"),
+    );
+    const caption = root.querySelector<HTMLParagraphElement>(".fs-caption");
+    if (!video || !playBtn || !iconPause || !iconPlay || !caption) return;
+
+    let rafId = 0;
+    let activeIndex = 0;
+    let userPaused = false;
+
+    const setProgress = (pill: HTMLButtonElement, value: number) => {
+      const bar = pill.querySelector<HTMLElement>(".fs-pill-progress");
+      if (bar) bar.style.transform = `scaleX(${value})`;
+    };
+
+    const stopRaf = () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
+    };
+
+    const tick = () => {
+      if (video.duration > 0 && !Number.isNaN(video.duration)) {
+        setProgress(pills[activeIndex], video.currentTime / video.duration);
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const startRaf = () => {
+      stopRaf();
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const setPlayUI = (playing: boolean) => {
+      iconPause.toggleAttribute("hidden", !playing);
+      iconPlay.toggleAttribute("hidden", playing);
+      playBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
+    };
+
+    const setActive = (i: number) => {
+      if (i === activeIndex) return;
+      pills.forEach((p, idx) => {
+        p.classList.toggle("is-on", idx === i);
+        p.setAttribute("aria-selected", idx === i ? "true" : "false");
+        if (idx !== i) setProgress(p, 0);
+      });
+      activeIndex = i;
+      const pill = pills[i];
+      caption.textContent = pill.dataset.caption ?? "";
+      const nextSrc = pill.dataset.src ?? "";
+      const nextPoster = pill.dataset.poster ?? "";
+      video.src = nextSrc;
+      if (nextPoster) video.poster = nextPoster;
+      else video.removeAttribute("poster");
+      video.load();
+      if (!userPaused) {
+        video.play().catch(() => {});
+      }
+    };
+
+    pills.forEach((pill, i) =>
+      pill.addEventListener("click", () => setActive(i)),
+    );
+
+    playBtn.addEventListener("click", () => {
+      if (video.paused) {
+        userPaused = false;
+        video.play().catch(() => {});
+      } else {
+        userPaused = true;
+        video.pause();
+      }
+    });
+
+    video.addEventListener("play", () => {
+      setPlayUI(true);
+      startRaf();
+    });
+
+    video.addEventListener("pause", () => {
+      setPlayUI(false);
+      stopRaf();
+    });
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          if (!userPaused && !document.hidden) {
+            video.play().catch(() => {});
+          }
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(root);
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) video.pause();
+    });
+
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      userPaused = true;
+      video.pause();
+    }
+  }
+
+  document
+    .querySelectorAll<HTMLElement>("[data-feature-showcase]")
+    .forEach(initFeatureShowcase);
+</script>
+
+<style>
+  .feature-showcase {
+    display: grid;
+    gap: var(--spacing-gap-md);
+    padding: 16px;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-faint);
+    border-radius: 24px;
+  }
+
+  .fs-stage {
+    position: relative;
+    aspect-ratio: var(--fs-aspect, 16 / 9);
+    overflow: hidden;
+    background: var(--color-bg-page);
+    border-radius: 8px;
+  }
+
+  .fs-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .fs-ctrl {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-gap-sm);
+  }
+
+  .fs-play {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--color-border-faint);
+    border-radius: 50%;
+    background: var(--color-bg-elevated);
+    color: var(--color-text-heading);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  .fs-play:hover {
+    background: var(--color-neutral-100);
+  }
+
+  .fs-icon {
+    display: block;
+  }
+
+  .fs-icon[hidden] {
+    display: none;
+  }
+
+  .fs-pills {
+    display: flex;
+    flex: 1;
+    gap: var(--spacing-gap-xs);
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 2px;
+    margin: -2px;
+  }
+
+  .fs-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .fs-pill {
+    position: relative;
+    flex: none;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--color-border-faint);
+    border-radius: 18px;
+    background: var(--color-bg-elevated);
+    color: var(--color-text-body-secondary);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-body-sm);
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .fs-pill:hover {
+    color: var(--color-text-heading);
+  }
+
+  .fs-pill.is-on {
+    background: var(--color-bg-inverse);
+    border-color: var(--color-bg-inverse);
+    color: var(--color-text-on-inverse);
+  }
+
+  .fs-pill-label {
+    position: relative;
+    z-index: 1;
+  }
+
+  .fs-pill-progress {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    opacity: 0.5;
+    transform-origin: left center;
+    transform: scaleX(0);
+    will-change: transform;
+  }
+
+  .fs-caption {
+    margin: 0;
+    min-height: 1.5em;
+    color: var(--color-text-body-secondary);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-normal);
+    text-wrap: pretty;
+  }
+</style>

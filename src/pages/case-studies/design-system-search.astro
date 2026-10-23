@@ -16,6 +16,31 @@ import ImpactCard from "../../components/ImpactCard.astro";
 import Spacer from "../../components/Spacer.astro";
 import CaseStudyNav from "../../components/CaseStudyNav.astro";
 import CaseStudyFooter from "../../components/CaseStudyFooter.astro";
+import FeatureShowcase from "../../components/FeatureShowcase.astro";
+
+const solutionPreviewFeatures = [
+  {
+    id: "guided-flow",
+    name: "Guided flow",
+    caption:
+      "A step-by-step form asks only for the context designers can provide. Name, date, and author fill in automatically.",
+    src: "/case-studies/design-system-search/form.mp4",
+  },
+  {
+    id: "sync-queue",
+    name: "Sync queue",
+    caption:
+      "Pending changes stay visible before publishing, so designers can review, edit, or remove entries before they go out.",
+    src: "/case-studies/design-system-search/sync.mp4",
+  },
+  {
+    id: "structured-history",
+    name: "Structured history",
+    caption:
+      "Each component gets its own Markdown file in a shared repository — readable, versioned, and reusable.",
+    src: "/case-studies/design-system-search/pivot3.mp4",
+  },
+];
 
 const matrixItems = [
   {
@@ -241,6 +266,17 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             already done in another project.
           </CalloutItem>
         </CalloutList>
+      </section>
+
+      <Spacer size="lg" />
+
+      <!-- THE SOLUTION — preview with final feature videos -->
+      <section class="section" id="solution-preview">
+        <SectionHeader
+          eyebrow="Solution preview"
+          title="The solution"
+        />
+        <FeatureShowcase features={solutionPreviewFeatures} />
       </section>
 
       <Spacer size="lg" />
