@@ -17,9 +17,9 @@
    * ══════════════════════════════════════════════════════════════ */
 
   /* ── Font families ─────────────────────────────────────────── */
-  --font-serif: "Libre Caslon Condensed", ui-serif, Georgia, serif;
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "Satoshi", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: "Satoshi", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* ── Font weights ──────────────────────────────────────────── */
   --font-weight-light: 300;

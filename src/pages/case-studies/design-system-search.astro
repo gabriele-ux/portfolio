@@ -179,7 +179,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         </div>
         <div class="overview-card">
           <small>APPROACH</small>
-          <p>Over <strong>6 weeks</strong>, I designed and built a <strong>Figma plugin</strong> that lets designers log a change in a few steps, without leaving their file. Today, <strong>6 out of 8 designers</strong> use it, and finding the context of a change takes <strong>minutes instead of up to a day</strong>.</p>
+          <p>Over <strong>6 weeks</strong>, I designed and built a <strong>Figma plugin</strong> that lets designers log a change in a few steps, without leaving their file. Today, <strong>3 teams</strong> use it across <strong>4 libraries</strong>, and finding the context of a change takes <strong>minutes instead of up to a day</strong>.</p>
         </div>
       </div>
 
@@ -197,7 +197,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             metricValue={1}
             metricSuffix="source"
             arrow={false}
-            description="instead of info cracked between Slack, email, files and people"
+            description="instead of info spread across Slack, email, files and people"
           />
           <ImpactCard
             metricPrefix="~"
@@ -689,7 +689,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
             metricValue={1}
             metricSuffix="source"
             arrow={false}
-            description="instead of info cracked between Slack, email, files and people"
+            description="instead of info spread across Slack, email, files and people"
           />
           <ImpactCard
             metricPrefix="~"
@@ -869,7 +869,6 @@ const screen = "/case-studies/design-system-search/screencs1.png";
   .case-study-body :global(.meta-box),
   .case-study-body :global(.feature-showcase),
   .case-study-body :global(.callout-list),
-  .case-study-body :global(.media),
   .case-study-body :global(.accordion),
   .case-study-body .overview-card,
   .case-study-body .todo-placeholder,
@@ -878,6 +877,12 @@ const screen = "/case-studies/design-system-search/screencs1.png";
   .case-study-body .insight-cards li {
     border: none;
     box-shadow: var(--card-shadow);
+  }
+
+  /* Images (hero cover + inline Media figures) stay flat: no shadow */
+  .case-study-body :global(.hero-cover-rounded),
+  .case-study-body :global(.media) {
+    box-shadow: none;
   }
 
   .case-study {
@@ -919,7 +924,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
   .overview-card small {
     color: var(--color-text-eyebrow);
     font-family: var(--font-mono);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-light);
     font-size: var(--text-label);
     letter-spacing: var(--tracking-wide);
     line-height: var(--leading-tight);
@@ -937,7 +942,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 
   .overview-card p strong {
     color: var(--color-text-heading);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   @media (max-width: 720px) {
@@ -1008,7 +1013,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 
   .criteria-list strong {
     color: var(--color-text-heading);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   /* TODO PLACEHOLDER — asset yet to be produced */
@@ -1047,7 +1052,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
   .todo-body strong {
     color: var(--color-text-heading);
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
     font-size: var(--text-body);
   }
 
@@ -1105,7 +1110,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
   .stage-body strong {
     color: var(--color-text-heading);
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
     font-size: var(--text-body);
   }
 
@@ -1156,7 +1161,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
   .insight-cards strong {
     color: var(--color-text-heading);
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
     font-size: var(--text-body);
     line-height: var(--leading-snug);
   }
@@ -1261,7 +1266,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
   .learnings-list strong {
     color: var(--color-text-heading);
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
     font-size: var(--text-body);
     grid-column: 2;
   }
