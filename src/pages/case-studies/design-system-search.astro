@@ -270,13 +270,40 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 
       <Spacer size="lg" />
 
-      <!-- THE SOLUTION — preview with final feature videos -->
+      <!-- THE SOLUTION — preview with final feature videos + headline results -->
       <section class="section" id="solution-preview">
         <SectionHeader
           eyebrow="Solution preview"
           title="The solution"
         />
         <FeatureShowcase features={solutionPreviewFeatures} />
+        <div class="impact-row">
+          <ImpactCard
+            title="Shared source of truth"
+            metricValue={1}
+            metricSuffix="source"
+            arrow={false}
+            beforeLabel="BEFORE"
+            beforeValue="Split across Slack, email, files and people"
+          />
+          <ImpactCard
+            title="Recover change context"
+            metricPrefix="~"
+            metricValue={5}
+            metricSuffix="min"
+            color="info"
+            beforeLabel="BEFORE"
+            beforeValue="Up to 1 working day"
+          />
+          <ImpactCard
+            title="Active adoption"
+            metricValue={6}
+            metricSuffix="/ 8 designers"
+            arrow={false}
+            beforeLabel="BEFORE"
+            beforeValue="Logged at least one change in the last 30 days"
+          />
+        </div>
       </section>
 
       <Spacer size="lg" />
@@ -1092,6 +1119,26 @@ const screen = "/case-studies/design-system-search/screencs1.png";
   @media (max-width: 720px) {
     .stages {
       grid-template-columns: 1fr;
+    }
+  }
+
+  /* IMPACT ROW — 3 even cards used as a teaser in Solution preview */
+  .impact-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-gap-md);
+  }
+
+  .impact-row :global(.impact-card-metric) {
+    font-size: clamp(1.5rem, 2.2vw, 1.875rem);
+  }
+
+  @media (max-width: 720px) {
+    .impact-row {
+      grid-template-columns: 1fr;
+    }
+    .impact-row :global(.impact-card-metric) {
+      font-size: var(--text-metric);
     }
   }
 
