@@ -1,6 +1,7 @@
 ---
 interface Props {
-  title: string;
+  title?: string;
+  description?: string;
   metricPrefix?: string;
   metricValue?: number;
   metricText?: string;
@@ -14,6 +15,7 @@ interface Props {
 
 const {
   title,
+  description,
   metricPrefix,
   metricValue,
   metricText,
@@ -29,8 +31,6 @@ const hasAnimatedNumber = typeof metricValue === "number";
 ---
 
 <article class:list={["impact-card", `is-${color}`, className]}>
-  <h6 class="type-h6 impact-card-title">{title}</h6>
-
   <div class="impact-card-metric-row">
     <div class="impact-card-metric">
       {metricPrefix && <span class="impact-card-prefix">{metricPrefix}</span>}
@@ -61,18 +61,23 @@ const hasAnimatedNumber = typeof metricValue === "number";
     }
   </div>
 
-  {
-    (beforeLabel || beforeValue) && (
-      <div class="impact-card-before">
-        {beforeLabel && (
-          <p class="type-caption impact-card-before-label">{beforeLabel}</p>
-        )}
-        {beforeValue && (
-          <p class="type-body-xs impact-card-before-value" set:html={beforeValue} />
-        )}
-      </div>
-    )
-  }
+  {description ? (
+    <p class="impact-card-description" set:html={description} />
+  ) : (
+    <>
+      {title && <h6 class="type-h6 impact-card-title">{title}</h6>}
+      {(beforeLabel || beforeValue) && (
+        <div class="impact-card-before">
+          {beforeLabel && (
+            <p class="type-caption impact-card-before-label">{beforeLabel}</p>
+          )}
+          {beforeValue && (
+            <p class="type-body-xs impact-card-before-value" set:html={beforeValue} />
+          )}
+        </div>
+      )}
+    </>
+  )}
 </article>
 
 <style>
@@ -84,21 +89,26 @@ const hasAnimatedNumber = typeof metricValue === "number";
     background-color: var(--color-bg-elevated);
     border: 1px solid var(--color-border-default);
     border-radius: 12px;
-    --impact-accent: var(--color-accent-success);
-  }
-  .impact-card.is-info {
-    --impact-accent: var(--color-accent-info);
-  }
-  .impact-card.is-warning {
-    --impact-accent: var(--color-accent-warning);
-  }
-  .impact-card.is-neutral {
     --impact-accent: var(--color-text-heading);
   }
 
   .impact-card-title {
     margin: 0;
     color: var(--color-text-heading);
+  }
+
+  .impact-card-description {
+    margin: 0;
+    color: var(--color-text-body-secondary);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-normal);
+  }
+
+  .impact-card-description :global(strong) {
+    color: var(--color-text-heading);
+    font-weight: var(--font-weight-semibold);
   }
 
   .impact-card-metric-row {
@@ -111,7 +121,7 @@ const hasAnimatedNumber = typeof metricValue === "number";
     display: inline-flex;
     align-items: baseline;
     gap: 4px;
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-style: normal;
     font-weight: var(--font-weight-semibold);
     font-size: var(--text-metric);

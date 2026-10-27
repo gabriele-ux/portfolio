@@ -106,33 +106,12 @@ const matrixItems = [
       },
     ],
   },
-  {
-    id: "custom-plugin",
-    title: "Custom Plugin",
-    x: 82,
-    y: 82,
-    isSolution: true,
-    needs: { frictionless: true, retrievable: true, proactive: true },
-    rows: [
-      {
-        type: "check" as const,
-        text: "Lives inside Figma, no context switch",
-      },
-      {
-        type: "check" as const,
-        text: "Full control over how data is stored and queried",
-      },
-      {
-        type: "check" as const,
-        text: "Communication can be automated",
-      },
-    ],
-  },
 ];
 
 const navSections = [
+  { id: "overview", label: "Overview" },
   { id: "problem", label: "Problem" },
-  { id: "discovery", label: "Discovery" },
+  { id: "approach", label: "Approach" },
   { id: "decisions", label: "Decisions" },
   { id: "solution", label: "Solution" },
   { id: "impact", label: "Impact" },
@@ -149,13 +128,9 @@ const heroTags = [
 ];
 
 const heroMeta = [
-  { label: "ROLE", value: "Full end-to-end ownership" },
   { label: "TIMELINE", value: "6 weeks" },
-  {
-    label: "TECHNIQUES",
-    value: "Data analysis, benchmark, flow mapping, prototyping, user testing",
-  },
-  { label: "TOOLS", value: "Figma, Claude Code, GitHub, Slack" },
+  { label: "ROLE", value: "Full end-to-end ownership" },
+  { label: "DELIVERABLES", value: "New workflow + Figma plugin" },
 ];
 
 const cover = "/case-studies/design-system-search/bgcs1.jpg";
@@ -163,53 +138,80 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 ---
 
 <CaseStudyLayout title={title}>
-  <HeroCover
-    src={cover}
-    alt="Case study background"
-    screen={screen}
-    screenAlt="Case study screen preview"
-  />
-
   <div class="case-study-body">
     <CaseStudyNav sections={navSections} />
 
     <article class="case-study">
       <Spacer size="md" />
 
-      <!-- HERO CONTENT -->
+      <!-- HERO CONTENT: chips → title -->
       <section class="hero-content">
+        <TagList size="sm" tags={heroTags} />
         <h1 class="type-display" style="color: var(--color-text-heading);">
           {title}
         </h1>
-        <TagList tags={heroTags} />
       </section>
 
       <Spacer size="sm" />
 
-      <MetaBox>
+      <!-- HERO IMAGE: cover centrata e con bordi arrotondati -->
+      <HeroCover
+        src={cover}
+        alt="Case study background"
+        screen={screen}
+        screenAlt="Case study screen preview"
+        class="hero-cover-rounded"
+      />
+
+      <Spacer size="sm" />
+
+      <MetaBox class="hero-meta">
         {heroMeta.map((m) => <MetaItem label={m.label} value={m.value} />)}
       </MetaBox>
 
+      <Spacer size="sm" />
+
+      <!-- OVERVIEW + APPROACH — side-by-side intro cards -->
+      <div class="overview-grid" id="overview">
+        <div class="overview-card">
+          <small>OVERVIEW</small>
+          <p>I'm one of three people on a <strong>Design System team</strong> that serves multiple products and brands. Product designers also change components in their own UI Kits, and with governance still taking shape, nobody could easily tell <strong>what had changed, or why</strong>.</p>
+        </div>
+        <div class="overview-card">
+          <small>APPROACH</small>
+          <p>Over <strong>6 weeks</strong>, I designed and built a <strong>Figma plugin</strong> that lets designers log a change in a few steps, without leaving their file. Today, <strong>6 out of 8 designers</strong> use it, and finding the context of a change takes <strong>minutes instead of up to a day</strong>.</p>
+        </div>
+      </div>
+
       <Spacer size="lg" />
 
-      <!-- OVERVIEW -->
-      <section class="section">
+      <!-- THE SOLUTION — preview with final feature videos + headline results -->
+      <section class="section" id="solution-preview">
         <SectionHeader
-          eyebrow="Overview"
-          title="A growing Design System with governance still taking shape"
+          eyebrow="Solution preview"
+          title="A changelog designers actually use"
         />
-        <p class="body-copy">
-          I'm part of a <strong>3-person Design System team</strong> maintaining shared
-          libraries across multiple products and brands. Product
-          designers also evolve components inside their own UI Kits.
-        </p>
-        <p class="body-copy">
-          Governance was still being defined, so ownership, change
-          tracking and communication were <strong>not always consistent</strong>. I owned
-          this <strong>6-week internal project end to end</strong>, from understanding the
-          problem and testing workflows to designing and building the
-          final solution.
-        </p>
+        <FeatureShowcase features={solutionPreviewFeatures} />
+        <div class="impact-row">
+          <ImpactCard
+            metricValue={1}
+            metricSuffix="source"
+            arrow={false}
+            description="instead of info cracked between Slack, email, files and people"
+          />
+          <ImpactCard
+            metricPrefix="~"
+            metricValue={5}
+            metricSuffix="min"
+            description="to recover info on a component, instead of up to a working day for the full picture"
+          />
+          <ImpactCard
+            metricValue={1}
+            metricSuffix="post / week"
+            arrow={false}
+            description="instead of sporadic updates with weeks of silence"
+          />
+        </div>
       </section>
 
       <Spacer size="lg" />
@@ -222,14 +224,6 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           title="Information about component changes was getting lost"
         />
         <QuestionsDiagram />
-        <p class="body-copy">
-          Component changes happened across Design System libraries and
-          product UI Kits, but the related information was <strong>spread across
-          Slack, Figma files, emails and conversations</strong>. When designers
-          needed to understand what had changed, why, or which version to
-          use, they often had to <strong>search across different sources or ask
-          the Design System team</strong>.
-        </p>
         <MetaBox variant="data">
           <MetaItem label="TICKET ANALYSIS — 1 YEAR PERIOD">
             <strong>12%</strong> of <strong>273</strong> requests were
@@ -238,6 +232,23 @@ const screen = "/case-studies/design-system-search/screencs1.png";
           </MetaItem>
         </MetaBox>
       </section>
+
+      <Spacer size="md" />
+
+      <!-- PROBLEM — Why it happened -->
+      <div class="sub-block">
+        <h3 class="type-h2" style="color: var(--color-text-heading);">
+          Why it happened
+        </h3>
+        <p class="body-copy">
+          I mapped the workflow and found the drop-off point. Sharing a change was a <strong>manual, optional step</strong>, done in Slack, email or meetings depending on who made it. Because nothing required it, <strong>it was the first step skipped under pressure</strong>.
+        </p>
+        <Media
+          src="/case-studies/design-system-search/discovery.jpg"
+          alt="Actual workflow between UX/UI and Design System teams and the major pain point"
+          caption="THE ACTUAL WORKFLOW AND THE MAJOR PAIN POINT"
+        />
+      </div>
 
       <Spacer size="md" />
 
@@ -270,120 +281,21 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 
       <Spacer size="lg" />
 
-      <!-- THE SOLUTION — preview with final feature videos + headline results -->
-      <section class="section" id="solution-preview">
-        <SectionHeader
-          eyebrow="Solution preview"
-          title="The solution"
-        />
-        <FeatureShowcase features={solutionPreviewFeatures} />
-        <div class="impact-row">
-          <ImpactCard
-            title="Shared source of truth"
-            metricValue={1}
-            metricSuffix="source"
-            arrow={false}
-            beforeLabel="BEFORE"
-            beforeValue="Split across Slack, email, files and people"
-          />
-          <ImpactCard
-            title="Recover change context"
-            metricPrefix="~"
-            metricValue={5}
-            metricSuffix="min"
-            color="info"
-            beforeLabel="BEFORE"
-            beforeValue="Up to 1 working day"
-          />
-          <ImpactCard
-            title="Active adoption"
-            metricValue={6}
-            metricSuffix="/ 8 designers"
-            arrow={false}
-            beforeLabel="BEFORE"
-            beforeValue="Logged at least one change in the last 30 days"
-          />
-        </div>
-      </section>
-
-      <Spacer size="lg" />
-
-      <!-- DISCOVERY -->
+      <!-- APPROACH — Needs first, tools second -->
       <section class="section">
         <SectionHeader
-          id="discovery"
-          eyebrow="Discovery"
-          title="I looked at the workflow before choosing a solution"
+          id="approach"
+          eyebrow="Approach"
+          title="I started with the team's needs, then shaped the solution"
         />
-      </section>
-
-      <Spacer size="md" />
-
-      <!-- DISCOVERY — Mapping where information was getting lost -->
-      <div class="sub-block">
-        <h3 class="type-h2" style="color: var(--color-text-heading);">
-          Mapping where information was getting lost
-        </h3>
         <p class="body-copy">
-          I mapped how component changes were communicated between the
-          Design System and product teams. A process already existed, but
-          it relied on people <strong>manually sharing updates</strong> through Slack,
-          email or direct conversations. In practice, it was <strong>not followed
-          consistently</strong>.
-        </p>
-        <Media
-          src="/case-studies/design-system-search/discovery.jpg"
-          alt="Actual workflow between UX/UI and Design System teams and the major pain point"
-          caption="THE ACTUAL WORKFLOW AND THE MAJOR PAINT POINT"
-        />
-      </div>
-
-      <Spacer size="md" />
-
-      <!-- DISCOVERY — Looking at how other teams handled it -->
-      <div class="sub-block">
-        <h3 class="type-h2" style="color: var(--color-text-heading);">
-          Looking at how other teams handled it
-        </h3>
-        <p class="body-copy">
-          I benchmarked <strong>10 Design Systems</strong> to understand how they
-          tracked component changes. Changelogs, release notes and
-          documentation tools were the most common patterns, so I
-          shortlisted the options that could realistically work in our
-          context.
-        </p>
-        <div class="todo-placeholder">
-          <span class="todo-label">TODO — Asset</span>
-          <div class="todo-body">
-            <strong>Benchmark visual</strong>
-            <p>
-              Reuse the current benchmark visual, kept as a secondary
-              reference supporting the decision.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <Spacer size="md" />
-
-      <!-- DISCOVERY — Comparing the options with designers -->
-      <div class="sub-block">
-        <h3 class="type-h2" style="color: var(--color-text-heading);">
-          Comparing the options with designers
-        </h3>
-        <p class="body-copy">
-          I reviewed the most relevant approaches with the designers who
-          would have to maintain them.
+          I benchmarked <strong>10 Design Systems</strong>, and almost all used a structured <strong>changelog</strong>. That settled the <strong>what</strong>: we needed one too.
         </p>
         <p class="body-copy">
-          Testing surfaced a practical constraint: <strong>adding another manual workflow would make adoption difficult.</strong>
+          But in those systems, a <strong>central team</strong> usually owns the changelog. In ours, changes also happened inside product <strong>UI Kits</strong>, made by product designers. A changelog would only work if the people making the changes <strong>actually wrote in it</strong> — and our workflow had already shown that <strong>optional steps get skipped</strong>.
         </p>
         <p class="body-copy">
-          Tools outside Figma offered better documentation, but
-          introduced <strong>another place to maintain</strong>. Lighter Figma-based
-          approaches reduced that friction, but offered <strong>less control over
-          how the information could be stored and reused</strong>. From those
-          observations, three requirements emerged to guide the decision:
+          So I ran a session with <strong>the 8 product designers who'd use it</strong> to understand what they needed and what they wanted to avoid. Three criteria emerged:
         </p>
         <CalloutList>
           <CalloutItem
@@ -404,8 +316,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
                 fill="currentColor"
               ></path>
             </svg>
-            It had to fit the existing workflow or adoption would be
-            difficult.
+            It must stay inside Figma. Any extra step would repeat the failure of the current process.
           </CalloutItem>
           <CalloutItem
             title="Retrievable"
@@ -425,8 +336,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
                 fill="currentColor"
               ></path>
             </svg>
-            Past changes needed a stable place where they could be found
-            later.
+            Past changes need a stable place to be found later.
           </CalloutItem>
           <CalloutItem
             title="Proactive"
@@ -446,12 +356,19 @@ const screen = "/case-studies/design-system-search/screencs1.png";
                 fill="currentColor"
               ></path>
             </svg>
-            Important changes needed to reach people, not just wait to be
-            searched for.
+            Important changes should reach people, not wait to be searched for.
           </CalloutItem>
         </CalloutList>
+        <p class="body-copy">
+          I mapped <strong>4 existing options</strong> against these criteria. <strong>None covered all three.</strong> Tools inside Figma weren't retrievable, retrievable tools lived outside the workflow, and none pushed changes to the people affected.
+        </p>
         <PrioritizationMatrix items={matrixItems} />
-      </div>
+        <MetaBox variant="decision">
+          <MetaItem label="DECISION">
+            I proposed <strong>building our own Figma plugin</strong>, knowing it meant more work for our team: we'd have to build it, and keep maintaining it. I thought it was worth it. The old process had failed because of <strong>friction</strong>, and none of the tools we looked at removed it.
+          </MetaItem>
+        </MetaBox>
+      </section>
 
       <Spacer size="lg" />
 
@@ -769,39 +686,29 @@ const screen = "/case-studies/design-system-search/screencs1.png";
         <div class="impact-bento">
           <ImpactCard
             class="bento-wide"
-            title="Shared source of truth"
             metricValue={1}
-            metricSuffix="structured source"
+            metricSuffix="source"
             arrow={false}
-            beforeLabel="BEFORE"
-            beforeValue="Split across Slack, email, files and people"
+            description="instead of info cracked between Slack, email, files and people"
           />
           <ImpactCard
-            title="Recover change context"
             metricPrefix="~"
             metricValue={5}
             metricSuffix="min"
-            color="info"
-            beforeLabel="BEFORE"
-            beforeValue="Up to 1 working day"
+            description="to recover info on a component, instead of up to a working day for the full picture"
           />
           <ImpactCard
-            title="Prepare release notes"
             metricPrefix="~"
             metricValue={25}
             metricSuffix="min"
-            color="info"
-            beforeLabel="BEFORE"
-            beforeValue="~4h of manual work"
+            description="to prepare release notes, instead of ~4h of manual work"
           />
           <ImpactCard
             class="bento-wide"
-            title="Active adoption"
-            metricValue={6}
-            metricSuffix="/ 8 designers"
+            metricValue={1}
+            metricSuffix="post / week"
             arrow={false}
-            beforeLabel="BEFORE"
-            beforeValue="Logged at least one change in the last 30 days"
+            description="instead of sporadic updates with weeks of silence"
           />
         </div>
         <p class="body-copy">
@@ -946,6 +853,31 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 
   .case-study-body {
     position: relative;
+    /* Match every card border to the Solution Preview card color (faint). */
+    --color-border-default: var(--color-border-faint);
+    --color-card-border: var(--color-border-faint);
+    --color-meta-border: var(--color-border-faint);
+    --color-chip-border: var(--color-border-faint);
+    /* Soft shadow used on all cards and callouts instead of a visible border */
+    --card-shadow:
+      0 1px 2px rgba(17, 24, 29, 0.025),
+      0 4px 14px -6px rgba(17, 24, 29, 0.05);
+  }
+
+  /* Cards & callouts: no border, soft drop shadow */
+  .case-study-body :global(.impact-card),
+  .case-study-body :global(.meta-box),
+  .case-study-body :global(.feature-showcase),
+  .case-study-body :global(.callout-list),
+  .case-study-body :global(.media),
+  .case-study-body :global(.accordion),
+  .case-study-body .overview-card,
+  .case-study-body .todo-placeholder,
+  .case-study-body .stage,
+  .case-study-body .learnings-list li,
+  .case-study-body .insight-cards li {
+    border: none;
+    box-shadow: var(--card-shadow);
   }
 
   .case-study {
@@ -960,6 +892,70 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     display: flex;
     flex-direction: column;
     gap: var(--spacing-gap-xl);
+  }
+
+  /* Hero image: cover centrata nella colonna di lettura, con bordi arrotondati */
+  :global(.hero-cover-rounded) {
+    border-radius: 24px;
+  }
+
+  /* OVERVIEW / APPROACH — 2 side-by-side intro cards under the hero image */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-gap-md);
+  }
+
+  .overview-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-sm);
+    padding: var(--spacing-padding-md);
+    border: 1px solid var(--color-border-faint);
+    border-radius: 12px;
+    background-color: var(--color-bg-elevated);
+  }
+
+  .overview-card small {
+    color: var(--color-text-eyebrow);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-wide);
+    line-height: var(--leading-tight);
+    text-transform: uppercase;
+  }
+
+  .overview-card p {
+    margin: 0;
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-normal);
+  }
+
+  .overview-card p strong {
+    color: var(--color-text-heading);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  @media (max-width: 720px) {
+    .overview-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Hero meta: 3 colonne hug (content-sized), no wrapping, value più piccolo */
+  @media (min-width: 768px) {
+    :global(.meta-box.is-default.hero-meta) {
+      grid-template-columns: repeat(3, auto);
+      justify-content: start;
+    }
+  }
+
+  :global(.hero-meta .meta-value) {
+    font-size: var(--text-body-sm);
   }
 
   .section {
@@ -989,6 +985,12 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     display: flex;
     flex-direction: column;
     gap: var(--spacing-gap-xl);
+  }
+
+  /* Tighten the gap between a sub-block heading and the paragraph that follows */
+  .sub-block > h3 + .body-copy,
+  .pivot-block > h3 + .body-copy {
+    margin-top: calc(-1 * var(--spacing-gap-xl) + var(--spacing-gap-sm));
   }
 
   .criteria-list {
@@ -1122,6 +1124,59 @@ const screen = "/case-studies/design-system-search/screencs1.png";
     }
   }
 
+  /* DISCOVERY INSIGHT CARDS — 3 findings synthesised from flow + benchmark */
+  .insight-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-gap-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: none;
+  }
+
+  .insight-cards li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-xs);
+    padding: var(--spacing-padding-md);
+    border: 1px solid var(--color-border-faint);
+    border-radius: 12px;
+    background-color: var(--color-bg-elevated);
+  }
+
+  .insight-cards small {
+    color: var(--color-text-eyebrow);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--text-eyebrow);
+    line-height: 1;
+  }
+
+  .insight-cards strong {
+    color: var(--color-text-heading);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-body);
+    line-height: var(--leading-snug);
+  }
+
+  .insight-cards p {
+    margin: 0;
+    color: var(--color-text-body-secondary);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-normal);
+  }
+
+  @media (max-width: 720px) {
+    .insight-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+
+
   /* IMPACT ROW — 3 even cards used as a teaser in Solution preview */
   .impact-row {
     display: grid;
@@ -1223,12 +1278,16 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 
   .body-copy {
     margin: 0;
-    color: var(--color-text-body);
+    color: var(--color-text-body-secondary);
     font-family: var(--font-sans);
     font-weight: var(--font-weight-light);
     font-size: var(--text-body);
     line-height: var(--leading-relaxed);
     font-variation-settings: "opsz" 14;
+  }
+
+  .body-copy strong {
+    color: var(--color-text-heading);
   }
 
   .body-copy.caveat {
