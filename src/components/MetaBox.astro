@@ -41,7 +41,7 @@ const decoration = decorationSrc[variant];
     grid-template-columns: 1fr;
     row-gap: var(--spacing-gap-2xl);
     column-gap: var(--spacing-gap-2xl);
-    padding: var(--spacing-padding-xl);
+    padding: var(--spacing-padding-md);
     background-color: var(--color-bg-elevated);
     border: 1px solid var(--color-border-default);
     border-radius: 12px;
@@ -69,6 +69,10 @@ const decoration = decorationSrc[variant];
     .meta-box.is-default {
       grid-template-columns: 1fr 1fr;
     }
+  }
+
+  .meta-box.is-data {
+    padding: var(--spacing-padding-xl);
   }
 
   /* HMW / Decision / Insight — pale blue background, static faint border */

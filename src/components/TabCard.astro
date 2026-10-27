@@ -1,0 +1,85 @@
+---
+import TabList from "./TabList.astro";
+import TabItem from "./TabItem.astro";
+
+interface Tab {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  tabs: Tab[];
+  ariaLabel?: string;
+  class?: string;
+}
+
+const { tabs, ariaLabel = "Options", class: className = "" } = Astro.props;
+---
+
+<div class:list={["tab-card", className]} data-tab-card>
+  <TabList ariaLabel={ariaLabel}>
+    {
+      tabs.map((t, i) => (
+        <TabItem label={t.label} value={t.value} selected={i === 0} />
+      ))
+    }
+  </TabList>
+  <div class="tab-card-panels">
+    {
+      tabs.map((t, i) => (
+        <div
+          class:list={["tab-card-panel", { "is-active": i === 0 }]}
+          data-tab-panel={t.value}
+          role="tabpanel"
+        >
+          <slot name={t.value} />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>("[data-tab-card]")
+    .forEach((card) => {
+      const panels = Array.from(
+        card.querySelectorAll<HTMLElement>("[data-tab-panel]"),
+      );
+      card.addEventListener("tab-change", (e) => {
+        const value = (e as CustomEvent).detail.value as string;
+        panels.forEach((p) =>
+          p.classList.toggle("is-active", p.dataset.tabPanel === value),
+        );
+      });
+    });
+</script>
+
+<style>
+  .tab-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-md);
+    padding: var(--spacing-padding-md);
+    background-color: var(--color-bg-elevated);
+    border-radius: 12px;
+  }
+
+  /* TabList follows the card curvature instead of being a full pill */
+  .tab-card :global(.tab-list),
+  .tab-card :global(.tab-indicator) {
+    border-radius: 8px;
+  }
+
+  .tab-card :global(.tab-item) {
+    border-radius: 6px;
+  }
+
+  .tab-card-panel {
+    display: none;
+  }
+
+  .tab-card-panel.is-active {
+    display: block;
+  }
+</style>
