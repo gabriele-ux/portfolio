@@ -6,8 +6,6 @@ import MetaBox from "../../components/MetaBox.astro";
 import MetaItem from "../../components/MetaItem.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
 import QuestionsDiagram from "../../components/QuestionsDiagram.astro";
-import SolutionFlow from "../../components/SolutionFlow.astro";
-import Accordion from "../../components/Accordion.astro";
 import TabCard from "../../components/TabCard.astro";
 import Media from "../../components/Media.astro";
 import CalloutList from "../../components/CalloutList.astro";
@@ -21,24 +19,31 @@ import FeatureShowcase from "../../components/FeatureShowcase.astro";
 
 const solutionPreviewFeatures = [
   {
-    id: "guided-flow",
-    name: "Guided flow",
+    id: "capture",
+    name: "Capture",
     caption:
-      "A step-by-step form asks only for the context designers can provide. Name, date, and author fill in automatically.",
+      "Pick the component, choose the type of change and write why. Author and date are added for you.",
     src: "/case-studies/design-system-search/form.mp4",
   },
   {
-    id: "sync-queue",
-    name: "Sync queue",
+    id: "sync",
+    name: "Sync",
     caption:
-      "Pending changes stay visible before publishing, so designers can review, edit, or remove entries before they go out.",
+      "New entries wait in a queue. Check, edit or delete them before syncing.",
     src: "/case-studies/design-system-search/sync.mp4",
   },
   {
-    id: "structured-history",
-    name: "Structured history",
+    id: "release-note",
+    name: "Release note",
     caption:
-      "Each component gets its own Markdown file in a shared repository — readable, versioned, and reusable.",
+      "TODO — caption and video asset to be added for the Release note tab.",
+    src: "/case-studies/design-system-search/pivot3.mp4",
+  },
+  {
+    id: "search",
+    name: "Search",
+    caption:
+      "Each component gets its own history on GitHub, easy to find later.",
     src: "/case-studies/design-system-search/pivot3.mp4",
   },
 ];
@@ -55,7 +60,7 @@ const matrixItems = [
       {
         type: "cross" as const,
         text: "Require to search manually each page to find information",
-        emphasis: "fails: proactive + retrievability",
+        emphasis: "fails: easy to find + shared",
       },
     ],
   },
@@ -70,7 +75,7 @@ const matrixItems = [
       {
         type: "cross" as const,
         text: "Not tied to individual components, and not searchable",
-        emphasis: "fails: proactive + retrievability",
+        emphasis: "fails: easy to find + shared",
       },
     ],
   },
@@ -85,7 +90,7 @@ const matrixItems = [
       {
         type: "cross" as const,
         text: "None allowed to easily retrieve information",
-        emphasis: "fails: proactive + retrievability",
+        emphasis: "fails: easy to find + shared",
       },
     ],
   },
@@ -103,7 +108,7 @@ const matrixItems = [
       {
         type: "cross" as const,
         text: "Another touchpoint to maintain",
-        emphasis: "fails: frictionless",
+        emphasis: "fails: inside Figma",
       },
     ],
   },
@@ -111,16 +116,16 @@ const matrixItems = [
 
 const navSections = [
   { id: "overview", label: "Overview" },
-  { id: "problem", label: "Problem" },
-  { id: "approach", label: "Approach" },
-  { id: "decisions", label: "Decisions" },
-  { id: "solution", label: "Solution" },
+  { id: "solution-preview", label: "Solution" },
+  { id: "discovery", label: "Discovery" },
+  { id: "workflow", label: "Workflow" },
+  { id: "plugin-design", label: "Design decisions" },
   { id: "impact", label: "Impact" },
-  { id: "learnings", label: "Learnings" },
+  { id: "next", label: "What's next" },
 ];
 
 const title =
-  "I built a workflow to keep component changes traceable across teams";
+  "I built a workflow to track component changes across teams";
 
 const heroTags = [
   { label: "Shipped", dot: "success" as const },
@@ -129,9 +134,9 @@ const heroTags = [
 ];
 
 const heroMeta = [
-  { label: "ROLE", value: "Full end-to-end ownership" },
-  { label: "TOOLS USED", value: "Figma, Claude Code, GitHub" },
-  { label: "DELIVERABLES", value: "New workflow + Figma plugin" },
+  { label: "ROLE", value: "End-to-end ownership" },
+  { label: "TOOLS", value: "Figma, Claude Code, GitHub" },
+  { label: "DELIVERABLES", value: "Workflow and Figma plugin" },
   { label: "TIMELINE", value: "6 weeks" },
 ];
 
@@ -168,137 +173,108 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
         {heroMeta.map((m) => <MetaItem label={m.label} value={m.value} />)}
       </MetaBox>
 
-      <Spacer size="sm" />
+      <Spacer size="lg" />
 
-      <!-- OVERVIEW + APPROACH — side-by-side intro cards -->
-      <div class="overview-grid" id="overview">
-        <div class="overview-card">
-          <small>OVERVIEW</small>
-          <p>I'm one of three people on a <strong>Design System team</strong> that serves multiple products and brands. Product designers also change components in their own UI Kits, and with governance still taking shape, nobody could easily tell <strong>what had changed, or why</strong>.</p>
-        </div>
-        <div class="overview-card">
-          <small>APPROACH</small>
-          <p>Over <strong>6 weeks</strong>, I designed and built a <strong>Figma plugin</strong> that lets designers log a change in a few steps, without leaving their file. Today, <strong>3 teams</strong> use it across <strong>4 libraries</strong>, and finding the context of a change takes <strong>minutes instead of up to a day</strong>.</p>
-        </div>
-      </div>
+      <!-- OVERVIEW: single paragraph with eyebrow -->
+      <section class="section" id="overview">
+        <p class="eyebrow-line">Overview</p>
+        <p class="body-copy">
+          I'm one of three designers on a <strong>Design System team</strong> that supports several products and brands. Product designers also edit components in their own UI Kits. When they changed something, they shared it in different ways, or not at all. I set up a <strong>new way for the team to share changes</strong> and built a <strong>Figma plugin</strong> to support it.
+        </p>
+      </section>
 
       <Spacer size="lg" />
 
-      <!-- THE SOLUTION — preview with final feature videos + headline results -->
+      <!-- THE SOLUTION — preview with final feature videos + hero metrics -->
       <section class="section" id="solution-preview">
         <SectionHeader
-          eyebrow="Solution preview"
-          title="A changelog designers actually use"
+          eyebrow="The solution"
+          title="A plugin to track changes and automate release notes"
         />
         <FeatureShowcase features={solutionPreviewFeatures} />
         <div class="impact-row">
           <ImpactCard
-            metricValue={1}
-            metricSuffix="source"
-            arrow={false}
-            description="<strong>A structured source AI can query</strong>, instead of info spread across Slack, email, files and people"
-          />
-          <ImpactCard
             metricPrefix="~"
             metricValue={5}
             metricSuffix="min"
-            description="to recover info on a component, instead of up to a working day for the full picture"
+            description="to find out why a component changed, down from up to a full day"
+          />
+          <ImpactCard
+            metricValue={85}
+            metricSuffix="%"
+            arrow={false}
+            description="of library updates come with a changelog entry"
           />
           <ImpactCard
             metricValue={1}
-            metricSuffix="post / week"
+            metricSuffix="source queryable by AI"
             arrow={false}
-            description="<strong>Delivered to 3 teams</strong>, instead of sporadic updates with weeks of silence"
+            description="instead of Slack, email and meetings"
           />
         </div>
       </section>
 
       <Spacer size="lg" />
 
-      <!-- PROBLEM -->
-      <section class="section">
+      <!-- 01 DISCOVERY -->
+      <section class="section" id="discovery">
         <SectionHeader
-          id="problem"
-          eyebrow="Problem"
-          title="Information about component changes was getting lost"
+          eyebrow="Discovery"
+          title="Changes were shared manually, so important details got lost"
         />
-        <QuestionsDiagram />
-        <MetaBox variant="data">
-          <MetaItem label="TICKET ANALYSIS — 1 YEAR PERIOD">
-            <strong>12%</strong> of <strong>273</strong> requests were
-            related to <strong>component changes</strong> or which version
-            to use
-          </MetaItem>
-        </MetaBox>
       </section>
 
       <Spacer size="md" />
 
-      <!-- PROBLEM — Why it happened -->
+      <!-- 01.a Designers had no reliable way to check component changes -->
       <div class="sub-block">
         <h3 class="type-h2" style="color: var(--color-text-heading);">
-          Why it happened
+          Designers had no reliable way to check component changes
         </h3>
         <p class="body-copy">
-          I mapped the workflow and found the drop-off point. Sharing a change was a <strong>manual, optional step</strong>, done in Slack, email or meetings depending on who made it. Because nothing required it, <strong>it was the first step skipped under pressure</strong>.
+          Designers kept asking us the same questions. Has this component changed? Why? Which version should I use?
+        </p>
+        <QuestionsDiagram />
+        <MetaBox variant="data">
+          <MetaItem label="SUPPORT REQUESTS, 1 YEAR">
+            <strong>12% of 273</strong> requests were about component changes or versions.
+          </MetaItem>
+        </MetaBox>
+      </div>
+
+      <Spacer size="md" />
+
+      <!-- 01.b Sharing depended on each designer -->
+      <div class="sub-block">
+        <h3 class="type-h2" style="color: var(--color-text-heading);">
+          Sharing depended on each designer
+        </h3>
+        <p class="body-copy">
+          I mapped how a change moved from a product team to ours. Sharing it was a <strong>manual step that nobody required</strong>. Some people posted on Slack, some sent an email, some mentioned it in a meeting. When deadlines got close, it was the first step to go.
         </p>
         <Media
           src="/case-studies/design-system-search/discovery.jpg"
-          alt="Actual workflow between UX/UI and Design System teams and the major pain point"
-          caption="THE ACTUAL WORKFLOW AND THE MAJOR PAIN POINT"
+          alt="Current workflow and where it breaks"
+          caption="CURRENT WORKFLOW AND WHERE IT BREAKS"
         />
       </div>
 
       <Spacer size="md" />
 
-      <!-- PAIN POINTS -->
-      <section class="section-tight">
+      <!-- 01.c Designers wanted a changelog inside their existing workflow -->
+      <div class="sub-block">
         <h3 class="type-h2" style="color: var(--color-text-heading);">
-          This created two problems
+          Designers wanted a changelog inside their existing workflow
         </h3>
-        <CalloutList>
-          <CalloutItem
-            title="Time spent reconstructing decisions"
-            variant="warning"
-            badge="TEAM DESIGN SYSTEM"
-            badgeColor="var(--color-accent-info)"
-          >
-            Past changes had to be pieced together from messages, files
-            and people whenever the original context was missing.
-          </CalloutItem>
-          <CalloutItem
-            title="Limited visibility across projects"
-            variant="warning"
-            badge="TEAM UX/UI"
-          >
-            Designers could miss changes happening elsewhere, increasing
-            the risk of using an outdated component or duplicating work
-            already done in another project.
-          </CalloutItem>
-        </CalloutList>
-      </section>
-
-      <Spacer size="lg" />
-
-      <!-- APPROACH — Needs first, tools second -->
-      <section class="section">
-        <SectionHeader
-          id="approach"
-          eyebrow="Approach"
-          title="I started with the team's needs, then shaped the solution"
-        />
         <p class="body-copy">
-          I benchmarked <strong>10 Design Systems</strong>, and almost all used a structured <strong>changelog</strong>. That settled the <strong>what</strong>: we needed one too.
+          Most of the <strong>10 Design Systems</strong> I looked at used a changelog, so the format was clear. The open question was who writes it. In those teams, a central team does. In ours, product designers change components too, so they had to be part of it.
         </p>
         <p class="body-copy">
-          But in those systems, a <strong>central team</strong> usually owns the changelog. In ours, changes also happened inside product <strong>UI Kits</strong>, made by product designers. A changelog would only work if the people making the changes <strong>actually wrote in it</strong> — and our workflow had already shown that <strong>optional steps get skipped</strong>.
-        </p>
-        <p class="body-copy">
-          So I ran a session with <strong>the 8 product designers who'd use it</strong> to understand what they needed and what they wanted to avoid. Three criteria emerged:
+          I ran a session with the <strong>8 designers who would use it</strong>, to find out what would make them write in it. They agreed on three needs:
         </p>
         <CalloutList>
           <CalloutItem
-            title="Frictionless"
+            title="Inside Figma"
             variant="info"
             iconStyle="filled"
           >
@@ -315,10 +291,10 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
                 fill="currentColor"
               ></path>
             </svg>
-            It must stay inside Figma. Any extra step would repeat the failure of the current process.
+            Logging a change can't mean opening another tool.
           </CalloutItem>
           <CalloutItem
-            title="Retrievable"
+            title="Easy to find"
             variant="info"
             iconStyle="outlined"
           >
@@ -335,10 +311,10 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
                 fill="currentColor"
               ></path>
             </svg>
-            Past changes need a stable place to be found later.
+            Past changes need one fixed place to look.
           </CalloutItem>
           <CalloutItem
-            title="Proactive"
+            title="Shared"
             variant="info"
             iconStyle="filled"
           >
@@ -355,42 +331,97 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
                 fill="currentColor"
               ></path>
             </svg>
-            Important changes should reach people, not wait to be searched for.
+            Important changes should reach the teams they affect.
           </CalloutItem>
         </CalloutList>
         <p class="body-copy">
-          I mapped <strong>4 existing options</strong> against these criteria. <strong>None covered all three.</strong> Tools inside Figma weren't retrievable, retrievable tools lived outside the workflow, and none pushed changes to the people affected.
+          I compared <strong>4 existing tools</strong> against these needs.
         </p>
         <PrioritizationMatrix items={matrixItems} />
         <MetaBox variant="decision">
           <MetaItem label="DECISION">
-            I proposed <strong>building our own Figma plugin</strong>, knowing it meant more work for our team: we'd have to build it, and keep maintaining it. I thought it was worth it. The old process had failed because of <strong>friction</strong>, and none of the tools we looked at removed it.
+            None of them covered all three. I proposed <strong>building our own Figma plugin</strong>. It meant more work for our team, since we'd maintain it, but any tool outside Figma would add back the step people were skipping.
           </MetaItem>
         </MetaBox>
-      </section>
+      </div>
 
       <Spacer size="lg" />
 
-      <!-- KEY DECISIONS -->
-      <section class="section">
+      <!-- 02 WORKFLOW -->
+      <section class="section" id="workflow">
         <SectionHeader
-          id="decisions"
-          eyebrow="Key decisions"
-          title="Three UX decisions shaped the workflow"
+          eyebrow="Workflow"
+          title="Logging changes became part of publishing a library"
         />
       </section>
 
       <Spacer size="md" />
 
-      <!-- KEY DECISION 01 — Guided flow -->
+      <div class="sub-block">
+        <p class="body-copy">
+          A plugin alone wouldn't fix the problem. If logging stayed optional, it would get skipped like before. So I worked with the designers on a <strong>new rule</strong>: after adding or changing a component, they log it in the plugin before publishing the library. Every week, our team sends one email to the three teams with all the changes.
+        </p>
+        <ol class="stages">
+          <li class="stage">
+            <span class="stage-index">01</span>
+            <div class="stage-body">
+              <strong>Change</strong>
+              <p>A designer adds or edits a component in their UI Kit.</p>
+            </div>
+          </li>
+          <li class="stage">
+            <span class="stage-index">02</span>
+            <div class="stage-body">
+              <strong>Log</strong>
+              <p>They log it in the plugin before publishing.</p>
+            </div>
+          </li>
+          <li class="stage">
+            <span class="stage-index">03</span>
+            <div class="stage-body">
+              <strong>Store</strong>
+              <p>The entry is saved to the component's history on GitHub.</p>
+            </div>
+          </li>
+          <li class="stage">
+            <span class="stage-index">04</span>
+            <div class="stage-body">
+              <strong>Share</strong>
+              <p>Once a week, our team emails the changes to all three teams.</p>
+            </div>
+          </li>
+        </ol>
+        <div class="todo-placeholder">
+          <span class="todo-label">TODO — Asset</span>
+          <div class="todo-body">
+            <strong>Workflow before and after</strong>
+            <p>Visual that shows the old scattered sharing on one side and the new unified flow on the other.</p>
+          </div>
+        </div>
+        <p class="body-copy">
+          The rule only works if logging takes a couple of minutes. That's what the plugin had to make possible.
+        </p>
+      </div>
+
+      <Spacer size="lg" />
+
+      <!-- 03 DESIGN DECISIONS -->
+      <section class="section" id="plugin-design">
+        <SectionHeader
+          eyebrow="Design decisions"
+          title="Four choices that shaped how designers use it"
+        />
+      </section>
+
+      <Spacer size="md" />
+
+      <!-- 03.a Guided form -->
       <div class="pivot-block">
         <h3 class="type-h2" style="color: var(--color-text-heading);">
-          01. I replaced free-form input with a guided flow
+          A guided form, not a blank page
         </h3>
         <p class="body-copy">
-          The first versions <strong>relied too much on designers remembering
-          what to document</strong>. I tested three approaches: a manual table,
-          automatic change detection and a guided form.
+          I tested three options: a manual table, automatic detection and a guided form. The form worked best. The plugin fills in the name, date and author. Designers only write what nobody else knows: why they made the change.
         </p>
         <TabCard
           ariaLabel="Input approach"
@@ -401,21 +432,15 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
           ]}
         >
           <div slot="guided" class="acc-content-group">
-            <div class="pivot-panel">
-              <video
-                src="/case-studies/design-system-search/form.mp4"
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-              ></video>
+            <div class="todo-placeholder">
+              <span class="todo-label">TODO — Asset</span>
+              <div class="todo-body">
+                <strong>Guided form (plugin design view)</strong>
+                <p>Static shot of the form, different from the video used in the Solution preview.</p>
+              </div>
             </div>
             <p class="body-copy">
-              The plugin asks designers <strong>only for information that
-              requires their context</strong>. Component name, date and author
-              can be filled automatically, while the reason for the
-              change stays as user input.
+              The plugin asks designers only for the context nobody else has: why the change was made.
             </p>
           </div>
           <div slot="auto" class="acc-content-group">
@@ -426,9 +451,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
               />
             </div>
             <p class="body-copy">
-              On complex files it <strong>missed meaningful changes, flagged
-              irrelevant edits</strong> and still could not capture why a change
-              had been made.
+              On complex files it missed meaningful changes, flagged irrelevant edits and still could not capture why a change had been made.
             </p>
           </div>
           <div slot="manual" class="acc-content-group">
@@ -439,295 +462,118 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
               />
             </div>
             <p class="body-copy">
-              Designers entered only the minimum information and <strong>often
-              missed useful context</strong>.
+              Designers entered only the minimum information and often missed useful context.
             </p>
           </div>
         </TabCard>
-        <p class="body-copy">
-          <strong>Decision:</strong> use a guided flow that reduces
-          effort without removing the context only designers can
-          provide.
-        </p>
       </div>
 
       <Spacer size="md" />
 
-      <!-- KEY DECISION 02 — Sync queue -->
-      <div class="pivot-block">
+      <!-- 03.b A queue to see what is pending -->
+      <div class="sub-block">
         <h3 class="type-h2" style="color: var(--color-text-heading);">
-          02. I added a sync queue to make status visible
+          A queue to see what is pending
         </h3>
         <p class="body-copy">
-          During testing, designers were <strong>not always sure which changes
-          had already been synced</strong> and which ones were still pending. That
-          uncertainty made it harder to understand whether an entry still
-          needed action and increased the risk of <strong>duplicate or missed
-          updates</strong>.
+          During testing, designers didn't know which changes were already synced. The queue shows what is waiting, and they can edit or delete entries before publishing.
         </p>
-        <div class="todo-placeholder">
-          <span class="todo-label">TODO — Observation</span>
-          <div class="todo-body">
-            <strong>What I observed</strong>
-            <p>
-              Add the clearest behaviour seen during testing. Keep it to
-              1–2 sentences.
-            </p>
-          </div>
-        </div>
         <div class="todo-placeholder">
           <span class="todo-label">TODO — Asset</span>
           <div class="todo-body">
-            <strong>Sync queue visual</strong>
-            <p>
-              Screenshot or short video of the Sync Queue showing pending
-              entries and the ability to review, edit or remove them
-              before syncing.
-            </p>
+            <strong>What designers saw before the queue</strong>
+            <p>Visual showing the uncertainty before the queue was introduced.</p>
           </div>
         </div>
-        <p class="body-copy">
-          <strong>Decision:</strong> make pending work visible before
-          sync, so designers can understand the system status and review
-          changes before publishing.
-        </p>
       </div>
 
       <Spacer size="md" />
 
-      <!-- KEY DECISION 03 — Simplified setup -->
-      <div class="pivot-block">
+      <!-- 03.c Setup without asking for help -->
+      <div class="sub-block">
         <h3 class="type-h2" style="color: var(--color-text-heading);">
-          03. I simplified setup so designers could start without
-          technical support
+          Setup without asking for help
         </h3>
         <p class="body-copy">
-          The plugin needed to connect to the repository before it could
-          be used, but the first setup required configuration steps that
-          were <strong>not clear to non-technical users</strong>. This created an
-          <strong>unnecessary dependency on the Design System team during
-          onboarding</strong>.
+          At first, setup needed technical steps that designers couldn't do alone. I cut it down to the basics and automated the rest.
         </p>
-        <div class="todo-placeholder">
-          <span class="todo-label">TODO — Observation</span>
-          <div class="todo-body">
-            <strong>What I observed</strong>
-            <p>
-              Add the main issue seen during rollout or testing. Avoid
-              listing every setup problem.
-            </p>
-          </div>
-        </div>
         <div class="todo-placeholder">
           <span class="todo-label">TODO — Asset</span>
           <div class="todo-body">
-            <strong>Simplified onboarding visual</strong>
-            <p>
-              Before / after of the setup flow or a short video of the
-              simplified onboarding.
-            </p>
+            <strong>Setup before and after</strong>
+            <p>Side-by-side of the old technical setup and the simplified onboarding.</p>
           </div>
         </div>
-        <p class="body-copy">
-          <strong>Decision:</strong> reduce the setup to the minimum
-          information designers need and automate configuration wherever
-          possible.
-        </p>
       </div>
 
-      <Spacer size="lg" />
+      <Spacer size="md" />
 
-      <!-- TECHNICAL TRADE-OFF -->
-      <section class="section">
-        <SectionHeader
-          eyebrow="Technical trade-off"
-          title="I chose an architecture I could realistically ship"
-        />
+      <!-- 03.d Infrastructure that opens to AI and data analysis -->
+      <div class="sub-block">
+        <h3 class="type-h2" style="color: var(--color-text-heading);">
+          An infrastructure that opens doors for AI and data analysis
+        </h3>
         <p class="body-copy">
-          I explored three ways to store and retrieve the changelog
-          data.
+          Each component has its own Markdown file on GitHub. It's easy to read and keeps a full history. A more complex database was too much for six weeks, but Markdown is enough to <strong>plug in AI</strong> on top later (semantic search, summaries of what changed) and to <strong>run data analysis</strong> on how often each component moves, who edits what, and where friction concentrates.
         </p>
-        <TabCard
-          ariaLabel="Storage approach"
-          tabs={[
-            { label: "Structured GitHub repository", value: "github" },
-            { label: "Single Markdown file", value: "single" },
-            { label: "RAG database", value: "rag" },
-          ]}
-        >
-          <div slot="github" class="acc-content-group">
-            <div class="pivot-panel">
-              <video
-                src="/case-studies/design-system-search/pivot3.mp4"
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-              ></video>
-            </div>
-            <p class="body-copy">
-              One Markdown file per component. It was <strong>readable, reusable
-              and realistic to maintain</strong> within the six-week project.
-            </p>
-          </div>
-          <div slot="single" class="acc-content-group">
-            <p class="body-copy">
-              Simple to implement, but <strong>concurrent edits created overwrite
-              issues</strong> and retrieval became inefficient.
-            </p>
-          </div>
-          <div slot="rag" class="acc-content-group">
-            <p class="body-copy">
-              Better suited to semantic retrieval at scale, but the <strong>setup
-              and maintenance cost was too high</strong> for the first release.
-            </p>
-          </div>
-        </TabCard>
-        <p class="body-copy">
-          <strong>Decision:</strong> use the simplest structure that
-          solved the current reliability problem and keep the option to
-          add a retrieval layer later.
-        </p>
-        <p class="body-copy caveat">
-          This trade-off becomes important again in the limitation
-          section.
-        </p>
-      </section>
-
-      <Spacer size="lg" />
-
-      <!-- SHIPPED SOLUTION -->
-      <section class="section">
-        <SectionHeader
-          id="solution"
-          eyebrow="Shipped solution"
-          title="One flow to capture, review and reuse component history"
-        />
-        <p class="body-copy">
-          The final workflow connects four steps.
-        </p>
-        <ol class="stages">
-          <li class="stage">
-            <span class="stage-index">01</span>
-            <div class="stage-body">
-              <strong>Capture</strong>
-              <p>
-                Designers log a component change through the Figma
-                plugin.
-              </p>
-            </div>
-          </li>
-          <li class="stage">
-            <span class="stage-index">02</span>
-            <div class="stage-body">
-              <strong>Review</strong>
-              <p>
-                Pending entries remain visible in the Sync Queue before
-                publishing.
-              </p>
-            </div>
-          </li>
-          <li class="stage">
-            <span class="stage-index">03</span>
-            <div class="stage-body">
-              <strong>Store</strong>
-              <p>
-                Changes are synced to the shared GitHub structure,
-                creating a history for each component.
-              </p>
-            </div>
-          </li>
-          <li class="stage">
-            <span class="stage-index">04</span>
-            <div class="stage-body">
-              <strong>Reuse</strong>
-              <p>
-                The same data can be retrieved later and used to prepare
-                weekly release notes.
-              </p>
-            </div>
-          </li>
-        </ol>
-        <p class="body-copy">
-          Designers enter the context <strong>once instead of rewriting the same
-          information for different channels</strong>.
-        </p>
-        <SolutionFlow />
-        <div class="todo-placeholder">
-          <span class="todo-label">TODO — Optional carousel</span>
-          <div class="todo-body">
-            <strong>Shipped stages</strong>
-            <p>
-              One real screenshot per stage: form, Sync Queue, GitHub
-              structure, release note. Use only if it adds clarity beyond
-              the main flow.
-            </p>
-          </div>
-        </div>
-      </section>
+      </div>
 
       <Spacer size="lg" />
 
       <!-- IMPACT -->
-      <section class="section">
+      <section class="section" id="impact">
         <SectionHeader
-          id="impact"
           eyebrow="Impact"
-          title="The workflow gave component changes a shared history"
+          title="After 12 weeks, 85% of library updates had a changelog entry"
         />
         <p class="body-copy">
-          The project moved component history <strong>from scattered conversations
-          into one structured workflow</strong>.
+          Most changes are now logged, and finding the reason behind one takes minutes.
         </p>
         <div class="impact-bento">
           <ImpactCard
             class="bento-wide"
-            metricValue={1}
-            metricSuffix="source"
+            metricValue={7}
+            metricSuffix="/ 8 designers"
             arrow={false}
-            description="<strong>A structured source AI can query</strong>, instead of info spread across Slack, email, files and people"
+            description="log their changes"
+          />
+          <ImpactCard
+            metricValue={85}
+            metricSuffix="%"
+            arrow={false}
+            description="of library updates come with a changelog entry"
           />
           <ImpactCard
             metricPrefix="~"
             metricValue={5}
             metricSuffix="min"
-            description="to recover info on a component, instead of up to a working day for the full picture"
+            description="to find out why a component changed, down from up to a full day"
           />
           <ImpactCard
-            metricPrefix="~"
-            metricValue={25}
-            metricSuffix="min"
-            description="to prepare release notes, instead of ~4h of manual work"
-          />
-          <ImpactCard
-            class="bento-wide"
             metricValue={1}
-            metricSuffix="post / week"
+            metricSuffix="source of truth"
             arrow={false}
-            description="<strong>Delivered to 3 teams</strong>, instead of sporadic updates with weeks of silence"
+            description="instead of Slack, email and meetings"
+          />
+          <ImpactCard
+            metricValue={1}
+            metricSuffix="weekly email"
+            arrow={false}
+            description="with all changes, sent to three teams"
           />
         </div>
-        <p class="body-copy">
-          After launch, <strong>one product designer also mapped the components
-          in their UI Kit</strong> and continued maintaining their history
-          through the plugin.
-        </p>
-
         <Spacer size="xs" />
 
         <div class="sub-block">
           <h3 class="type-h2" style="color: var(--color-text-heading);">
-            What I still need to measure
+            What I want to measure next
           </h3>
           <ul class="criteria-list">
             <li>
-              Whether repeated Design System requests decrease over
-              time.
+              <strong>Support requests:</strong> 12 weeks is too short to see a real change. After 6 months, I'll repeat the ticket analysis with the same categories and compare it with the 12% we started from.
             </li>
             <li>
-              Whether the workflow reduces outdated component usage in
-              delivered flows.
+              <strong>Outdated components:</strong> I'll use Figma library analytics to see how often teams use old versions or detach components. If people hear about changes in time, this should go down.
             </li>
           </ul>
         </div>
@@ -735,106 +581,12 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
 
       <Spacer size="lg" />
 
-      <!-- LIMITATION -->
-      <section class="section">
-        <SectionHeader
-          eyebrow="Limitation"
-          title="Retrieval is getting slower as the history grows"
-        />
+      <!-- WHAT'S NEXT -->
+      <section class="section" id="next">
+        <p class="eyebrow-line">What's next</p>
         <p class="body-copy">
-          The GitHub structure was a good fit for the first release
-          because it was <strong>simple, transparent and easy to maintain</strong>. As
-          the number of logs grows, <strong>retrieval is becoming slower</strong>.
+          The rule is in place, but it isn't followed every time. <strong>15% of library updates</strong> still go out without an entry, and one designer hasn't logged a change yet. Next, I want to add a changelog check to design review, so missing entries get caught before publishing. The history is also ready for a search tool, which would make finding a change even faster.
         </p>
-        <p class="body-copy">
-          At this scale, the <strong>RAG approach I initially deferred would now
-          be worth reconsidering</strong> as a retrieval layer on top of the
-          existing source of truth.
-        </p>
-        <div class="todo-placeholder">
-          <span class="todo-label">TODO — Optional visual</span>
-          <div class="todo-body">
-            <strong>Scale-up diagram</strong>
-            <p>
-              Current: GitHub structured history → direct retrieval.
-              Next scale: GitHub structured history → retrieval layer →
-              semantic search.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <Spacer size="lg" />
-
-      <!-- NEXT -->
-      <section class="section">
-        <SectionHeader
-          eyebrow="Next"
-          title="What I would validate next"
-        />
-        <p class="body-copy">
-          These ideas came out of the project but were
-          <strong>not shipped or validated</strong>.
-        </p>
-        <p class="eyebrow-line">CONCEPTS, NOT SHIPPED</p>
-        <ol class="learnings-list">
-          <li>
-            <strong>Component status</strong>
-            <p>
-              Surface version or release information closer to the
-              component.
-            </p>
-          </li>
-          <li>
-            <strong>Release reminders</strong>
-            <p>
-              Notify designers about upcoming component releases or
-              replacements.
-            </p>
-          </li>
-          <li>
-            <strong>Proactive updates</strong>
-            <p>
-              Surface changes that may be relevant to the product a
-              designer is working on.
-            </p>
-          </li>
-        </ol>
-      </section>
-
-      <Spacer size="lg" />
-
-      <!-- LEARNINGS -->
-      <section class="section">
-        <SectionHeader
-          id="learnings"
-          eyebrow="Learnings"
-          title="What I would carry into the next iteration"
-        />
-        <ol class="learnings-list">
-          <li>
-            <strong>Adoption is part of the design problem.</strong>
-            <p>
-              A better documentation tool does not help if maintaining it
-              adds too much work to the existing workflow.
-            </p>
-          </li>
-          <li>
-            <strong>Structured data made automation useful.</strong>
-            <p>
-              Release notes and retrieval became easier only after the
-              component history had a consistent structure.
-            </p>
-          </li>
-          <li>
-            <strong>The right technical choice can change over time.</strong>
-            <p>
-              The repository was enough for the first release. As the
-              amount of data grows, the trade-off is changing and a
-              dedicated retrieval layer now makes more sense.
-            </p>
-          </li>
-        </ol>
       </section>
     </article>
   </div>
@@ -1207,7 +959,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     }
   }
 
-  /* IMPACT BENTO — asymmetric grid, 2 wide + 2 narrow for a bento rhythm */
+  /* IMPACT BENTO — 3 colonne; prima card wide (span 2) + 1 narrow, poi 3 narrow = 5 cards su 2 righe */
   .impact-bento {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1218,12 +970,20 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     grid-column: span 2;
   }
 
+  /* Match the metric size with the hero metrics above (Solution preview) */
+  .impact-bento :global(.impact-card-metric) {
+    font-size: clamp(1.5rem, 2.2vw, 1.875rem);
+  }
+
   @media (max-width: 720px) {
     .impact-bento {
       grid-template-columns: 1fr;
     }
     .impact-bento :global(.bento-wide) {
       grid-column: span 1;
+    }
+    .impact-bento :global(.impact-card-metric) {
+      font-size: var(--text-metric);
     }
   }
 
