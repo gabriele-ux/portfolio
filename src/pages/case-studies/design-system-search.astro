@@ -1,5 +1,6 @@
 ---
 import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
+import PasswordGate from "../../components/PasswordGate.astro";
 import HeroCover from "../../components/HeroCover.astro";
 import Button from "../../components/Button.astro";
 import TagList from "../../components/TagList.astro";
@@ -158,6 +159,10 @@ const screen = "/case-studies/design-system-search/screencs1.png";
 ---
 
 <CaseStudyLayout title={title}>
+  <PasswordGate
+    id="design-system-search"
+    hash="42beacc5b87c9a788a576de3d0086e40bc1de29cd51562d6994671a275e91bc3"
+  >
   <HeroCover
     src={cover}
     alt="Case study background"
@@ -875,6 +880,7 @@ const screen = "/case-studies/design-system-search/screencs1.png";
   </div>
 
   <CaseStudyFooter />
+  </PasswordGate>
 </CaseStudyLayout>
 
 <style>
