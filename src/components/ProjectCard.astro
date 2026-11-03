@@ -11,12 +11,7 @@ interface Props {
   title: string;
   heroImage?: string;
   heroImageAlt?: string;
-  secondaryImage?: string;
-  secondaryImageAlt?: string;
-  secondaryVideo?: string;
-  secondaryVideoPoster?: string;
   tags?: TagData[];
-  cta?: string;
   class?: string;
 }
 
@@ -25,95 +20,44 @@ const {
   title,
   heroImage,
   heroImageAlt = "",
-  secondaryImage,
-  secondaryImageAlt = "",
-  secondaryVideo,
-  secondaryVideoPoster,
   tags = [],
-  cta = "View design process",
   class: className = "",
 } = Astro.props;
+
 ---
 
 <a href={href} class:list={["project-card", className]}>
-  <div class="project-card-media-row">
-    <div class="project-card-media project-card-media--primary" data-tilt>
-      {
-        heroImage ? (
-          <img
-            class="project-card-image"
-            src={heroImage}
-            alt={heroImageAlt}
-            loading="lazy"
-          />
-        ) : (
-          <div class="project-card-placeholder" aria-hidden="true" />
-        )
-      }
-    </div>
-    <div class="project-card-media-stack">
-      <div class="project-card-media" data-tilt>
-        {
-          secondaryVideo ? (
-            <video
-              class="project-card-image"
-              src={secondaryVideo}
-              poster={secondaryVideoPoster}
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-              aria-hidden="true"
-            />
-          ) : (
-            <div class="project-card-placeholder" aria-hidden="true" />
-          )
-        }
-      </div>
-      <div class="project-card-media" data-tilt>
-        {
-          secondaryImage ? (
-            <img
-              class="project-card-image"
-              src={secondaryImage}
-              alt={secondaryImageAlt}
-              loading="lazy"
-            />
-          ) : (
-            <div class="project-card-placeholder" aria-hidden="true" />
-          )
-        }
-      </div>
-    </div>
-  </div>
-
-  <div class="project-card-footer">
-    <div class="project-card-info">
-      <h3 class="project-card-title" set:html={title} />
-      {tags.length > 0 && <TagList tags={tags} size="sm" />}
-    </div>
-
-    <span class="project-card-cta">
-      <span class="cta-label">{cta}</span>
+  <div class="project-card-media">
+    {
+      heroImage ? (
+        <img
+          class="project-card-image"
+          src={heroImage}
+          alt={heroImageAlt}
+          loading="lazy"
+        />
+      ) : (
+        <div class="project-card-placeholder" aria-hidden="true" />
+      )
+    }
+    <span class="project-card-badge" aria-hidden="true">
       <svg
-        class="cta-arrow"
-        width="14"
-        height="14"
-        viewBox="0 0 14 14"
-        fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
+        width="20"
+        height="20"
+        fill="currentColor"
+        viewBox="0 0 256 256"
       >
         <path
-          d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          d="M128,112a28,28,0,0,0-8,54.83V184a8,8,0,0,0,16,0V166.83A28,28,0,0,0,128,112Zm0,40a12,12,0,1,1,12-12A12,12,0,0,1,128,152Zm80-72H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"
         ></path>
       </svg>
     </span>
+  </div>
+
+  <div class="project-card-footer">
+    {tags.length > 0 && <TagList tags={tags} size="sm" />}
+    <h3 class="project-card-title" set:html={title} />
   </div>
 </a>
 
@@ -121,77 +65,52 @@ const {
   .project-card {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-gap-2xl);
     text-decoration: none;
     color: inherit;
-  }
-
-  /* ── Media row: primary 65% + secondary 35% ───────────────── */
-  .project-card-media-row {
-    display: flex;
-    gap: 12px;
-    width: 100%;
-    aspect-ratio: 5 / 2;
-    perspective: 1200px;
-  }
-
-  .project-card-media {
-    position: relative;
-    height: 100%;
     background-color: var(--color-neutral-0);
-    border-radius: 16px;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    border-radius: 24px;
     overflow: hidden;
-    transform-style: preserve-3d;
-    transform-origin: center;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
     transition:
-      transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 400ms ease;
-    will-change: transform;
+      box-shadow 300ms ease,
+      transform 300ms ease;
   }
 
-  .project-card-media--primary {
-    flex: 0 0 calc(65% - 6px);
-  }
-
-  .project-card-media-stack {
-    flex: 0 0 calc(35% - 6px);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-height: 0;
-  }
-
-  .project-card-media-stack .project-card-media {
-    flex: 1 1 0;
-    min-height: 0;
-  }
-
-  .project-card-media:hover {
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
-  }
-
-  .project-card-media.is-tilting {
-    transition:
-      transform 120ms linear,
-      box-shadow 400ms ease;
-  }
-
-  @media (hover: none) {
-    .project-card-media {
-      transform: none !important;
-    }
-    .project-card-media:hover {
-      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
-    }
+  .project-card:hover {
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .project-card-media,
-    .project-card-media.is-tilting {
+    .project-card,
+    .project-card:hover {
       transition: none;
-      transform: none !important;
+      transform: none;
     }
+  }
+
+  /* ── Media ─────────────────────────────────────────────────── */
+  .project-card-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--color-bg-page);
+  }
+
+  .project-card-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-neutral-0);
+    color: var(--color-neutral-800);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
   .project-card-image {
@@ -199,11 +118,6 @@ const {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-
-  .project-card-media-stack .project-card-media:last-child .project-card-image {
-    transform: scale(1.56);
-    transform-origin: center;
   }
 
   .project-card-placeholder {
@@ -218,27 +132,18 @@ const {
     background-size: 20px 20px;
   }
 
-  /* ── Footer: title/meta + CTA ─────────────────────────────── */
+  /* ── Footer ────────────────────────────────────────────────── */
   .project-card-footer {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--spacing-gap-lg);
-    padding: 0 var(--spacing-padding-md);
-  }
-
-  .project-card-info {
-    display: flex;
     flex-direction: column;
-    gap: var(--spacing-gap-md);
-    min-width: 0;
-    flex: 1;
+    gap: var(--spacing-gap-lg);
+    padding: clamp(20px, 2.5vw, 32px);
   }
 
   .project-card-title {
     font-family: var(--font-serif);
     font-weight: var(--font-weight-medium);
-    font-size: clamp(1.5rem, calc(1.2rem + 1.5vw), 2.25rem);
+    font-size: clamp(1.25rem, calc(1rem + 0.9vw), 1.75rem);
     line-height: 1.18;
     letter-spacing: -0.005em;
     color: var(--color-text-heading);
@@ -246,67 +151,10 @@ const {
     text-wrap: balance;
   }
 
-  /* ── CTA pill (bordered black, per Figma) ─────────────────── */
-  .project-card-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    height: 50px;
-    padding: 0 24px;
-    border: 1px solid var(--color-neutral-800);
-    border-radius: 999px;
-    background-color: transparent;
-    color: var(--color-neutral-800);
-    font-family: var(--font-serif);
-    font-weight: var(--font-weight-normal);
-    font-size: 1.25rem;
-    line-height: 1;
-    white-space: nowrap;
-    flex-shrink: 0;
-    transition:
-      background-color 180ms ease,
-      color 180ms ease;
-  }
-
-  .project-card:hover .project-card-cta {
-    background-color: var(--color-neutral-800);
-    color: var(--color-text-on-inverse);
-  }
-
-  .cta-arrow {
-    flex-shrink: 0;
-    transition: transform 180ms ease;
-  }
-
-  .project-card:hover .cta-arrow {
-    transform: translate(1px, -1px);
-  }
-
   /* ── Responsive ───────────────────────────────────────────── */
-  @media (max-width: 900px) {
-    .project-card-media-row {
-      flex-direction: column;
-      aspect-ratio: auto;
-    }
-    .project-card-media--primary {
-      flex: 1 1 auto;
+  @media (max-width: 600px) {
+    .project-card-media {
       aspect-ratio: 4 / 3;
-    }
-    .project-card-media-stack {
-      display: none;
-    }
-    .project-card-footer {
-      flex-direction: column;
-      align-items: stretch;
-      gap: var(--spacing-gap-lg);
-      padding: 0;
-    }
-    .project-card-info {
-      width: 100%;
-    }
-    .project-card-cta {
-      align-self: stretch;
-      justify-content: center;
     }
   }
 </style>

@@ -7,6 +7,7 @@ interface Props {
   metricText?: string;
   metricSuffix?: string;
   arrow?: boolean;
+  arrowDirection?: "up" | "down";
   color?: "success" | "info" | "warning" | "neutral";
   beforeLabel?: string;
   beforeValue?: string;
@@ -21,6 +22,7 @@ const {
   metricText,
   metricSuffix,
   arrow = true,
+  arrowDirection = "up",
   color = "success",
   beforeLabel,
   beforeValue,
@@ -47,14 +49,21 @@ const hasAnimatedNumber = typeof metricValue === "number";
           <svg
             width="32"
             height="32"
-            viewBox="0 0 32 32"
+            viewBox="0 0 256 256"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path
-              d="M24.9999 10.9996V23.9996C24.9999 24.2648 24.8946 24.5192 24.7071 24.7067C24.5195 24.8942 24.2652 24.9996 23.9999 24.9996H10.9999C10.7347 24.9996 10.4804 24.8942 10.2928 24.7067C10.1053 24.5192 9.99995 24.2648 9.99995 23.9996C9.99995 23.7344 10.1053 23.48 10.2928 23.2925C10.4804 23.1049 10.7347 22.9996 10.9999 22.9996H21.5862L7.29245 8.70708C7.1048 8.51944 6.99939 8.26494 6.99939 7.99958C6.99939 7.73422 7.1048 7.47972 7.29245 7.29208C7.48009 7.10444 7.73458 6.99902 7.99995 6.99902C8.26531 6.99902 8.51981 7.10444 8.70745 7.29208L22.9999 21.5858V10.9996C22.9999 10.7344 23.1053 10.48 23.2928 10.2925C23.4804 10.1049 23.7347 9.99958 23.9999 9.99958C24.2652 9.99958 24.5195 10.1049 24.7071 10.2925C24.8946 10.48 24.9999 10.7344 24.9999 10.9996Z"
-              fill="currentColor"
-            />
+            {arrowDirection === "down" ? (
+              <path
+                d="M200,88V192a8,8,0,0,1-8,8H88a8,8,0,0,1,0-16h84.69L58.34,69.66A8,8,0,0,1,69.66,58.34L184,172.69V88a8,8,0,0,1,16,0Z"
+                fill="currentColor"
+              />
+            ) : (
+              <path
+                d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"
+                fill="currentColor"
+              />
+            )}
           </svg>
         </span>
       )

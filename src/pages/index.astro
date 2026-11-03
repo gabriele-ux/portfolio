@@ -9,20 +9,18 @@ import HalftonePortrait from "../components/HalftonePortrait.astro";
 
 const heroTags = [
   { label: "5yrs experience", variant: "inverse" as const },
-  { label: "B2C" },
-  { label: "Public sector" },
+  { label: "Gaming" },
+  { label: "Public Sector" },
+  { label: "Healthcare" },
 ];
 
 const projects = [
   {
     href: "/case-studies/design-system-search",
     title:
-      "I built a system to keep 8+ designers aligned on changes from 4+ libraries and reduce workload",
-    heroImage: "/case-studies/design-system-search/cover-cs1.jpg",
-    heroImageAlt: "Design System Search — case study cover",
-    secondaryVideo: "/case-studies/design-system-search/cs1zoom.mp4",
-    secondaryImage: "/case-studies/design-system-search/slack.png",
-    secondaryImageAlt: "Automatic reminders shown in a Slack-style card",
+      "I built a workflow + plugin that got 85% of library updates logged",
+    heroImage: "/case-studies/design-system-search/cover-changelog.png",
+    heroImageAlt: "Changelog Manager — case study cover",
     tags: [
       { label: "Shipped", dot: "success" as const },
       { label: "Design System" },
@@ -56,7 +54,7 @@ const projects = [
           >
             <path d="M213.85,125.46l-112,120a8,8,0,0,1-13.69-7l14.66-73.33L45.19,143.49a8,8,0,0,1-3-13l112-120a8,8,0,0,1,13.69,7L153.18,90.9l57.63,21.61a8,8,0,0,1,3,12.95Z"></path>
           </svg>
-          Currently building an AI-ready design system + best practices @Flutter Entertainment
+          Currently building an AI-ready design system &amp; best practices for 5+ brands
         </p>
         <Button
           variant="secondary"
@@ -120,9 +118,6 @@ const projects = [
               title={p.title}
               heroImage={p.heroImage}
               heroImageAlt={p.heroImageAlt}
-              secondaryVideo={p.secondaryVideo}
-              secondaryImage={p.secondaryImage}
-              secondaryImageAlt={p.secondaryImageAlt}
               tags={p.tags}
             />
           ))
@@ -413,8 +408,14 @@ const projects = [
   }
 
   .projects-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--spacing-gap-section);
+  }
+
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 </style>

@@ -125,7 +125,7 @@ const navSections = [
 ];
 
 const title =
-  "I built a workflow to track component changes across teams";
+  "I built a workflow + plugin that got 85% of library updates logged";
 
 const heroTags = [
   { label: "Shipped", dot: "success" as const },
@@ -179,7 +179,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
       <section class="section" id="overview">
         <p class="eyebrow-line">Overview</p>
         <p class="body-copy">
-          I'm one of three designers on a <strong>Design System team</strong> that supports several products and brands. Product designers also edit components in their own UI Kits. When they changed something, they shared it in different ways, or not at all. I set up a <strong>new way for the team to share changes</strong> and built a <strong>Figma plugin</strong> to support it.
+          I'm one of three designers on a <strong>Design System team</strong> that supports several products and brands. Product designers also edit components in their own UI Kits. When they changed something, they shared it in different ways, or not at all. Over a year, <strong>12% of 273 support requests</strong> were &ldquo;did this change, and why?&rdquo;, and tracking down the answer could take up to a full day. This lack of communication increased the risk of wrong component usage in production. I set up a <strong>new way for the team to share changes</strong> and built a <strong>Figma plugin</strong> to support it.
         </p>
       </section>
 
@@ -189,27 +189,27 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
       <section class="section" id="solution-preview">
         <SectionHeader
           eyebrow="The solution"
-          title="A plugin to track changes and automate release notes"
+          title="A workflow and a plugin that make changes trackable without leaving Figma"
         />
         <FeatureShowcase features={solutionPreviewFeatures} />
         <div class="impact-row">
           <ImpactCard
-            metricPrefix="~"
-            metricValue={5}
-            metricSuffix="min"
-            description="to find out why a component changed, down from up to a full day"
-          />
-          <ImpactCard
             metricValue={85}
             metricSuffix="%"
-            arrow={false}
             description="of library updates come with a changelog entry"
           />
           <ImpactCard
+            metricPrefix="~"
+            metricValue={5}
+            metricSuffix="min"
+            arrowDirection="down"
+            description="to find out why a component changed, down from up to a full day"
+          />
+          <ImpactCard
             metricValue={1}
-            metricSuffix="source queryable by AI"
+            metricSuffix="source"
             arrow={false}
-            description="instead of Slack, email and meetings"
+            description="instead of Slack, email and meetings. The source is AI-Ready."
           />
         </div>
       </section>
@@ -547,6 +547,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
             metricPrefix="~"
             metricValue={5}
             metricSuffix="min"
+            arrowDirection="down"
             description="to find out why a component changed, down from up to a full day"
           />
           <ImpactCard
