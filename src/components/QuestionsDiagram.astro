@@ -35,7 +35,7 @@ const questions = [
   .questions-diagram {
     position: relative;
     width: 100%;
-    aspect-ratio: 3040 / 1448;
+    aspect-ratio: 2318 / 1104;
     min-height: 280px;
     padding: 24px;
     display: flex;
@@ -43,11 +43,9 @@ const questions = [
     align-items: center;
     justify-content: center;
     gap: 16px;
-    background-color: var(--color-neutral-800);
-    background-image: url("/case-studies/design-system-search/diagram-questions-bg.jpg");
-    background-size: cover;
-    background-position: center;
-    border-radius: 16px;
+    background-color: var(--color-neutral-0);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
     overflow: hidden;
     box-sizing: border-box;
   }
@@ -58,9 +56,9 @@ const questions = [
     justify-content: center;
     height: 64px;
     padding: 0 24px;
-    border: 1px solid rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(17, 24, 29, 0.88);
     color: var(--color-neutral-0);
     font-family: "Doto", var(--font-mono);
     font-weight: 900;
@@ -71,6 +69,7 @@ const questions = [
     white-space: nowrap;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 6px 20px rgba(17, 24, 29, 0.18);
     box-sizing: border-box;
     max-width: 100%;
   }
@@ -78,10 +77,6 @@ const questions = [
   .question-pill--1 {
     position: relative;
     left: -20%;
-  }
-
-  .question-pill--2 {
-    background-color: rgba(0, 0, 0, 0.1);
   }
 
   .question-pill--3 {

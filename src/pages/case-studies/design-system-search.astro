@@ -5,7 +5,6 @@ import TagList from "../../components/TagList.astro";
 import MetaBox from "../../components/MetaBox.astro";
 import MetaItem from "../../components/MetaItem.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
-import QuestionsDiagram from "../../components/QuestionsDiagram.astro";
 import TabCard from "../../components/TabCard.astro";
 import Media from "../../components/Media.astro";
 import CalloutList from "../../components/CalloutList.astro";
@@ -117,8 +116,8 @@ const matrixItems = [
 const navSections = [
   { id: "overview", label: "Overview" },
   { id: "solution-preview", label: "Solution" },
-  { id: "discovery", label: "Discovery" },
-  { id: "workflow", label: "Workflow" },
+  { id: "problem", label: "Problem" },
+  { id: "process", label: "Process" },
   { id: "plugin-design", label: "Design decisions" },
   { id: "impact", label: "Impact" },
   { id: "next", label: "What's next" },
@@ -133,13 +132,6 @@ const heroTags = [
   { label: "Internal tool" },
 ];
 
-const heroMeta = [
-  { label: "ROLE", value: "End-to-end ownership" },
-  { label: "TOOLS", value: "Figma, Claude Code, GitHub" },
-  { label: "DELIVERABLES", value: "Workflow and Figma plugin" },
-  { label: "TIMELINE", value: "6 weeks" },
-];
-
 const cover = "/case-studies/design-system-search/cover-changelog.png";
 ---
 
@@ -148,7 +140,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     <CaseStudyNav sections={navSections} />
 
     <article class="case-study">
-      <Spacer size="md" />
+      <Spacer size="sm" />
 
       <!-- HERO CONTENT: chips → title -->
       <section class="hero-content">
@@ -167,23 +159,31 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
         class="hero-cover-rounded"
       />
 
-      <Spacer size="sm" />
-
-      <MetaBox class="hero-meta">
-        {heroMeta.map((m) => <MetaItem label={m.label} value={m.value} />)}
-      </MetaBox>
-
       <Spacer size="lg" />
 
-      <!-- OVERVIEW: single paragraph with eyebrow -->
+      <!-- OVERVIEW: context + problem side-by-side, my role full-width below -->
       <section class="section" id="overview">
         <p class="eyebrow-line">Overview</p>
-        <p class="body-copy">
-          I'm one of three designers on a <strong>Design System team</strong> supporting multiple products and brands. Product designers also managed their own UI Kits, but changes weren't consistently shared. Over a year, <strong>12% of 273 support requests</strong> were about understanding what had changed and why, sometimes taking a full day to investigate. This also increased the risk of outdated or incorrect components being used in production.
-        </p>
-        <p class="body-copy">
-          I took the initiative to address this and, in <strong>six weeks</strong>, introduced a <strong>new way to track, document and share design changes</strong>.
-        </p>
+        <div class="overview-grid">
+          <div class="overview-card">
+            <small>Context</small>
+            <p>
+              I'm one of three designers on a central <strong>Design System team</strong> serving <strong>5+ brands</strong>. Product designers across many projects build on our libraries, and some maintain their own UI kits on top of them, so every change spreads fast and is hard to trace.
+            </p>
+          </div>
+          <div class="overview-card">
+            <small>Problem</small>
+            <p>
+              There was no single, reliable record of what changed in the system and why. Over a year, <strong>33 of 273 support requests</strong> were about exactly this. Some took a full day to investigate, and outdated components risked reaching production.
+            </p>
+          </div>
+          <div class="overview-card overview-card--full">
+            <small>My role</small>
+            <p>
+              I owned this <strong>6-week project</strong> end to end, from research and testing to shipping a new change-tracking workflow and a Figma plugin that captures the why behind every component change. Built with Figma, Claude Code and GitHub.
+            </p>
+          </div>
+        </div>
       </section>
 
       <Spacer size="lg" />
@@ -192,7 +192,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
       <section class="section" id="solution-preview">
         <SectionHeader
           eyebrow="The solution"
-          title="A workflow and a plugin that make changes trackable without leaving Figma"
+          title="A workflow and a plugin to track changes and keep teams aligned"
         />
         <FeatureShowcase features={solutionPreviewFeatures} />
         <div class="impact-row">
@@ -219,63 +219,86 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
 
       <Spacer size="lg" />
 
-      <!-- 01 DISCOVERY -->
-      <section class="section" id="discovery">
+      <!-- PROBLEM -->
+      <section class="section" id="problem">
         <SectionHeader
-          eyebrow="Discovery"
-          title="Changes were shared manually, so important details got lost"
+          eyebrow="Problem"
+          title="Component changes were becoming harder to manage"
         />
       </section>
 
-      <Spacer size="md" />
+      <Spacer size="sm" />
 
-      <!-- 01.a Designers had no reliable way to check component changes -->
       <div class="sub-block">
-        <h3 class="type-h2" style="color: var(--color-text-heading);">
-          Designers had no reliable way to check component changes
-        </h3>
         <p class="body-copy">
-          Designers kept asking us the same questions. Has this component changed? Why? Which version should I use?
+          As more designers worked across <strong>Design System libraries and product UI Kits</strong>, keeping track of component changes became <strong>increasingly difficult</strong>.
         </p>
-        <QuestionsDiagram />
-        <MetaBox variant="data">
-          <MetaItem label="SUPPORT REQUESTS, 1 YEAR">
-            <strong>12% of 273</strong> requests were about component changes or versions.
-          </MetaItem>
-        </MetaBox>
+        <p class="body-copy">
+          Designers weren't always aware of updates made in other projects, while our team spent time answering questions about what had changed, which version to use and why. Over one year, <strong>33 of 273 support requests</strong> were related to component changes or versions.
+        </p>
       </div>
 
-      <Spacer size="md" />
+      <Spacer size="sm" />
 
-      <!-- 01.b Sharing depended on each designer -->
       <div class="sub-block">
-        <h3 class="type-h2" style="color: var(--color-text-heading);">
-          Sharing depended on each designer
-        </h3>
-        <p class="body-copy">
-          I mapped how a change moved from a product team to ours. Sharing it was a <strong>manual step that nobody required</strong>. Some people posted on Slack, some sent an email, some mentioned it in a meeting. When deadlines got close, it was the first step to go.
-        </p>
-        <Media
-          src="/case-studies/design-system-search/discovery.jpg"
-          alt="Current workflow and where it breaks"
-          caption="CURRENT WORKFLOW AND WHERE IT BREAKS"
-        />
-      </div>
-
-      <Spacer size="md" />
-
-      <!-- 01.c Designers wanted a changelog inside their existing workflow -->
-      <div class="sub-block">
-        <h3 class="type-h2" style="color: var(--color-text-heading);">
-          Designers wanted a changelog inside their existing workflow
-        </h3>
-        <p class="body-copy">
-          Most of the <strong>10 Design Systems</strong> I looked at used a changelog, so the format was clear. The open question was who writes it. In those teams, a central team does. In ours, product designers change components too, so they had to be part of it.
-        </p>
-        <p class="body-copy">
-          I ran a session with the <strong>8 designers who would use it</strong>, to find out what would make them write in it. They agreed on three needs:
-        </p>
+        <p class="body-copy">This caused:</p>
         <CalloutList>
+          <CalloutItem
+            title="Time spent answering recurring questions"
+            variant="warning"
+            badge="DESIGN SYSTEM TEAM"
+            badgeColor="var(--color-accent-info)"
+          >
+            We regularly spent time tracking down past component changes, sometimes up to a full day.
+          </CalloutItem>
+          <CalloutItem
+            title="Uncertainty about which components to use"
+            variant="warning"
+            badge="PRODUCT DESIGNERS"
+          >
+            Designers risked using outdated components or duplicating work already done in other projects.
+          </CalloutItem>
+        </CalloutList>
+      </div>
+
+      <Spacer size="lg" />
+
+      <!-- PROCESS -->
+      <section class="section" id="process">
+        <SectionHeader
+          eyebrow="Process"
+          title="From scattered updates to a shared process"
+        />
+      </section>
+
+      <Spacer size="sm" />
+
+      <div class="process-step">
+        <span class="process-step-number" aria-hidden="true">01</span>
+        <div class="process-step-body">
+          <h3 class="process-step-title">There was no consistent way to share changes</h3>
+          <p class="body-copy">
+            When I mapped how changes were shared between teams, I found there was <strong>no consistent process</strong>. Some designers posted on Slack, others sent emails or mentioned changes in meetings. Important information often got lost, making it increasingly difficult to keep track of what had changed.
+          </p>
+          <Media
+            src="/case-studies/design-system-search/discovery.jpg"
+            alt="Current workflow and where it breaks"
+            caption="CURRENT WORKFLOW AND WHERE IT BREAKS"
+          />
+        </div>
+      </div>
+
+      <div class="process-step">
+        <span class="process-step-number" aria-hidden="true">02</span>
+        <div class="process-step-body">
+          <h3 class="process-step-title">The changelog had to be easy for designers to maintain</h3>
+          <p class="body-copy">
+            I benchmarked <strong>10 design systems</strong> and found that most relied on a central team to maintain their changelog. Our setup was different: product designers also edited components in their own UI Kits, so they needed to record their changes themselves.
+          </p>
+          <p class="body-copy">
+            I ran a session with the <strong>8 designers</strong> to understand what would <strong>make logging changes simple</strong> enough to become part of their routine. We agreed on three requirements:
+          </p>
+          <CalloutList>
           <CalloutItem
             title="Inside Figma"
             variant="info"
@@ -294,7 +317,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
                 fill="currentColor"
               ></path>
             </svg>
-            Logging a change can't mean opening another tool.
+            Designers shouldn't have to switch tools to log a change.
           </CalloutItem>
           <CalloutItem
             title="Easy to find"
@@ -314,7 +337,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
                 fill="currentColor"
               ></path>
             </svg>
-            Past changes need one fixed place to look.
+            All past changes should be available in one place.
           </CalloutItem>
           <CalloutItem
             title="Shared"
@@ -334,76 +357,57 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
                 fill="currentColor"
               ></path>
             </svg>
-            Important changes should reach the teams they affect.
+            Relevant updates should reach the teams affected by them.
           </CalloutItem>
         </CalloutList>
-        <p class="body-copy">
-          I compared <strong>4 existing tools</strong> against these needs.
+        <p class="type-caption needs-label">
+          <svg
+            class="needs-label-arrow"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="12" y1="19" x2="12" y2="5" />
+            <polyline points="5 12 12 5 19 12" />
+          </svg>
+          <span>THE NEEDS OF OUR TEAM</span>
         </p>
-        <PrioritizationMatrix items={matrixItems} />
-        <MetaBox variant="decision">
-          <MetaItem label="DECISION">
-            None of them covered all three. I proposed <strong>building our own Figma plugin</strong>. It meant more work for our team, since we'd maintain it, but any tool outside Figma would add back the step people were skipping.
-          </MetaItem>
-        </MetaBox>
+        </div>
       </div>
 
-      <Spacer size="lg" />
-
-      <!-- 02 WORKFLOW -->
-      <section class="section" id="workflow">
-        <SectionHeader
-          eyebrow="Workflow"
-          title="Logging changes became part of publishing a library"
-        />
-      </section>
-
-      <Spacer size="md" />
-
-      <div class="sub-block">
-        <p class="body-copy">
-          A plugin alone wouldn't fix the problem. If logging stayed optional, it would get skipped like before. So I worked with the designers on a <strong>new rule</strong>: after adding or changing a component, they log it in the plugin before publishing the library. Every week, our team sends one email to the three teams with all the changes.
-        </p>
-        <ol class="stages">
-          <li class="stage">
-            <span class="stage-index">01</span>
-            <div class="stage-body">
-              <strong>Change</strong>
-              <p>A designer adds or edits a component in their UI Kit.</p>
-            </div>
-          </li>
-          <li class="stage">
-            <span class="stage-index">02</span>
-            <div class="stage-body">
-              <strong>Log</strong>
-              <p>They log it in the plugin before publishing.</p>
-            </div>
-          </li>
-          <li class="stage">
-            <span class="stage-index">03</span>
-            <div class="stage-body">
-              <strong>Store</strong>
-              <p>The entry is saved to the component's history on GitHub.</p>
-            </div>
-          </li>
-          <li class="stage">
-            <span class="stage-index">04</span>
-            <div class="stage-body">
-              <strong>Share</strong>
-              <p>Once a week, our team emails the changes to all three teams.</p>
-            </div>
-          </li>
-        </ol>
-        <div class="todo-placeholder">
-          <span class="todo-label">TODO — Asset</span>
-          <div class="todo-body">
-            <strong>Workflow before and after</strong>
-            <p>Visual that shows the old scattered sharing on one side and the new unified flow on the other.</p>
-          </div>
+      <div class="process-step">
+        <span class="process-step-number" aria-hidden="true">03</span>
+        <div class="process-step-body">
+          <h3 class="process-step-title">None of the tools we tested fit our needs</h3>
+          <p class="body-copy">
+            I compared <strong>4 existing tools</strong> against these requirements, looking at how easily designers could log changes, find past updates and work within their existing workflow.
+          </p>
+          <PrioritizationMatrix items={matrixItems} />
+          <MetaBox variant="decision">
+            <MetaItem label="DECISION">
+              None of the tools covered all three needs. I proposed <strong>building our own Figma plugin</strong>. This meant taking on the responsibility of maintaining another tool, but using an external platform would bring back the extra step we were trying to remove.
+            </MetaItem>
+          </MetaBox>
         </div>
-        <p class="body-copy">
-          The rule only works if logging takes a couple of minutes. That's what the plugin had to make possible.
-        </p>
+      </div>
+
+      <div class="process-step">
+        <span class="process-step-number" aria-hidden="true">04</span>
+        <div class="process-step-body">
+          <h3 class="process-step-title">The plugin was only half the solution</h3>
+          <p class="body-copy">
+            A plugin alone wouldn't change how designers worked. If logging changes remained optional, it could easily be skipped again.
+          </p>
+          <p class="body-copy">
+            Together with the designers, I introduced a simple rule: every new or updated component had to be logged before publishing the library. We also agreed to send a weekly email with the changes to the three product teams.
+          </p>
+        </div>
       </div>
 
       <Spacer size="lg" />
@@ -416,7 +420,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
         />
       </section>
 
-      <Spacer size="md" />
+      <Spacer size="sm" />
 
       <!-- 03.a Guided form -->
       <div class="pivot-block">
@@ -471,7 +475,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
         </TabCard>
       </div>
 
-      <Spacer size="md" />
+      <Spacer size="sm" />
 
       <!-- 03.b A queue to see what is pending -->
       <div class="sub-block">
@@ -490,7 +494,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
         </div>
       </div>
 
-      <Spacer size="md" />
+      <Spacer size="sm" />
 
       <!-- 03.c Setup without asking for help -->
       <div class="sub-block">
@@ -509,7 +513,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
         </div>
       </div>
 
-      <Spacer size="md" />
+      <Spacer size="sm" />
 
       <!-- 03.d Infrastructure that opens to AI and data analysis -->
       <div class="sub-block">
@@ -623,7 +627,6 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
   .case-study-body :global(.feature-showcase),
   .case-study-body :global(.callout-list),
   .case-study-body :global(.accordion),
-  .case-study-body :global(.tab-card),
   .case-study-body .overview-card,
   .case-study-body .todo-placeholder,
   .case-study-body .stage,
@@ -673,6 +676,95 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     border: 1px solid var(--color-border-faint);
     border-radius: 12px;
     background-color: var(--color-bg-elevated);
+  }
+
+  .overview-card--full {
+    grid-column: 1 / -1;
+  }
+
+  .problem-caveat {
+    color: var(--color-text-body-secondary);
+    font-size: var(--text-body-sm);
+    font-style: italic;
+  }
+
+  /* ── Process steps: small sticky lateral number + body ────── */
+  .process-step {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: var(--spacing-gap-lg);
+    align-items: start;
+  }
+
+  .process-step + .process-step {
+    margin-top: var(--spacing-gap-section-lg);
+  }
+
+  .process-step-number {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-medium);
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: var(--color-text-muted);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .process-step-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-gap-md);
+  }
+
+  /* Bump gap to ~24px between a text paragraph and a visual element */
+  .process-step-body > p.body-copy + :global(.media),
+  .process-step-body > p.body-copy + :global(.callout-list),
+  .process-step-body > p.body-copy + :global(.matrix-wrap),
+  .process-step-body > p.body-copy + :global(.meta-box) {
+    margin-top: var(--spacing-gap-md);
+  }
+
+  .needs-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-gap-xs);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .needs-label-arrow {
+    flex-shrink: 0;
+  }
+
+  .process-step-title {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: var(--color-text-heading);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .process-step-subtitle {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    font-size: 1.125rem;
+    line-height: 1.3;
+    color: var(--color-text-heading);
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .process-step {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--spacing-gap-sm);
+    }
+    .process-step-number {
+      position: static;
+    }
   }
 
   .overview-card small {

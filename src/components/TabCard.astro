@@ -59,20 +59,50 @@ const { tabs, ariaLabel = "Options", class: className = "" } = Astro.props;
   .tab-card {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-gap-md);
-    padding: var(--spacing-padding-md);
-    background-color: var(--color-bg-elevated);
+    background-color: var(--color-neutral-0);
+    border: 1px solid var(--color-border-faint);
     border-radius: 12px;
+    overflow: hidden;
   }
 
-  /* TabList follows the card curvature instead of being a full pill */
-  .tab-card :global(.tab-list),
+  /* Tab bar: flat row, separator line below */
+  .tab-card :global(.tab-list) {
+    width: 100%;
+    padding: 0;
+    border-radius: 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  /* Hide the sliding pill indicator — selected tab uses its own background */
   .tab-card :global(.tab-indicator) {
-    border-radius: 8px;
+    display: none;
   }
 
+  /* Browser-tab style: unselected has subtle gray fill, selected is white with blue underline */
   .tab-card :global(.tab-item) {
-    border-radius: 6px;
+    height: 48px;
+    padding: 0 20px;
+    border-radius: 0;
+    background-color: var(--color-neutral-100);
+    color: var(--color-text-muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition:
+      background-color 180ms ease,
+      color 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .tab-card :global(.tab-item[aria-selected="true"]) {
+    background-color: var(--color-neutral-0);
+    color: var(--color-text-heading);
+    border-bottom-color: var(--color-accent-warning);
+  }
+
+  .tab-card-panels {
+    padding: 0;
   }
 
   .tab-card-panel {
@@ -81,5 +111,12 @@ const { tabs, ariaLabel = "Options", class: className = "" } = Astro.props;
 
   .tab-card-panel.is-active {
     display: block;
+  }
+
+  /* Image/visual edge-to-edge; text gets horizontal + bottom padding */
+  .tab-card-panel :global(p),
+  .tab-card-panel :global(.body-copy) {
+    padding: var(--spacing-padding-sm) var(--spacing-padding-md) var(--spacing-padding-md);
+    margin: 0;
   }
 </style>
