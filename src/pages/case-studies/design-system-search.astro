@@ -120,7 +120,7 @@ const navSections = [
   { id: "process", label: "Process" },
   { id: "plugin-design", label: "Design decisions" },
   { id: "impact", label: "Impact" },
-  { id: "next", label: "What's next" },
+  { id: "learning", label: "Learning" },
 ];
 
 const title =
@@ -180,7 +180,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
           <div class="overview-card overview-card--full">
             <small>My role</small>
             <p>
-              I owned this <strong>6-week project</strong> end to end, from research and testing to shipping a new change-tracking workflow and a Figma plugin that captures the why behind every component change. Built with Figma, Claude Code and GitHub.
+              I owned this <strong>6-week project</strong> end to end, from research to shipping a <strong>change-tracking system</strong> that logs component updates through a Figma plugin, stores their history on GitHub, makes past changes searchable and automatically generates release notes. Built with Figma, Claude Code and GitHub.
             </p>
           </div>
         </div>
@@ -227,38 +227,73 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
         />
       </section>
 
-      <Spacer size="sm" />
+      <Spacer size="xs" />
 
       <div class="sub-block">
         <p class="body-copy">
-          As more designers worked across <strong>Design System libraries and product UI Kits</strong>, keeping track of component changes became <strong>increasingly difficult</strong>.
+          As more designers worked across <strong>Design System libraries and product UI Kits</strong>, keeping track of component changes became <strong>increasingly difficult</strong>. Over one year, <strong>33 of 273 support requests</strong> were related to component changes or versions. I mapped the flow, and talked to designers and found:
         </p>
-        <p class="body-copy">
-          Designers weren't always aware of updates made in other projects, while our team spent time answering questions about what had changed, which version to use and why. Over one year, <strong>33 of 273 support requests</strong> were related to component changes or versions.
-        </p>
-      </div>
 
-      <Spacer size="sm" />
+        <Spacer size="sm" />
 
-      <div class="sub-block">
-        <p class="body-copy">This caused:</p>
-        <CalloutList>
-          <CalloutItem
-            title="Time spent answering recurring questions"
-            variant="warning"
-            badge="DESIGN SYSTEM TEAM"
-            badgeColor="var(--color-accent-info)"
-          >
-            We regularly spent time tracking down past component changes, sometimes up to a full day.
-          </CalloutItem>
-          <CalloutItem
-            title="Uncertainty about which components to use"
-            variant="warning"
-            badge="PRODUCT DESIGNERS"
-          >
-            Designers risked using outdated components or duplicating work already done in other projects.
-          </CalloutItem>
-        </CalloutList>
+        <div class="problem-wrap">
+          <table class="problem-table">
+            <colgroup>
+              <col class="col-index" />
+              <col class="col-theme" />
+              <col class="col-problem" />
+              <col class="col-arrow" />
+              <col class="col-consequence" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col" aria-label="Number"></th>
+                <th scope="col">Theme</th>
+                <th scope="col">Problem</th>
+                <th scope="col" aria-hidden="true"></th>
+                <th scope="col">Consequence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="problem-index">01</td>
+                <td><span class="problem-theme">Tracking</span></td>
+                <td class="problem-text">Changes happened across libraries with no shared record</td>
+                <td class="problem-arrow" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </td>
+                <td class="consequence-text">Designers risked using outdated components or duplicating work</td>
+              </tr>
+              <tr>
+                <td class="problem-index">02</td>
+                <td><span class="problem-theme">Communication</span></td>
+                <td class="problem-text">Updates travelled through Slack, email and meetings</td>
+                <td class="problem-arrow" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </td>
+                <td class="consequence-text">Other designers missed changes that affected their work</td>
+              </tr>
+              <tr>
+                <td class="problem-index">03</td>
+                <td><span class="problem-theme">Discoverability</span></td>
+                <td class="problem-text">Finding a component's history meant asking colleagues</td>
+                <td class="problem-arrow" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </td>
+                <td class="consequence-text">Answering a single question could take up to a full day</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <Spacer size="lg" />
@@ -271,29 +306,14 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
         />
       </section>
 
-      <Spacer size="sm" />
+      <Spacer size="xs" />
 
       <div class="process-step">
         <span class="process-step-number" aria-hidden="true">01</span>
         <div class="process-step-body">
-          <h3 class="process-step-title">There was no consistent way to share changes</h3>
+          <h3 class="process-step-title">A changelog could solve the issue, but had to be maintained</h3>
           <p class="body-copy">
-            When I mapped how changes were shared between teams, I found there was <strong>no consistent process</strong>. Some designers posted on Slack, others sent emails or mentioned changes in meetings. Important information often got lost, making it increasingly difficult to keep track of what had changed.
-          </p>
-          <Media
-            src="/case-studies/design-system-search/discovery.jpg"
-            alt="Current workflow and where it breaks"
-            caption="CURRENT WORKFLOW AND WHERE IT BREAKS"
-          />
-        </div>
-      </div>
-
-      <div class="process-step">
-        <span class="process-step-number" aria-hidden="true">02</span>
-        <div class="process-step-body">
-          <h3 class="process-step-title">The changelog had to be easy for designers to maintain</h3>
-          <p class="body-copy">
-            I benchmarked <strong>10 design systems</strong> and found that most relied on a central team to maintain their changelog. Our setup was different: product designers also edited components in their own UI Kits, so they needed to record their changes themselves.
+            I benchmarked <strong>10 design systems</strong> and found that most relied on a central team to manage changelogs, mainly for code changes. In our case, Product Designers also edited components in their own Figma UI Kits, so changes needed to be tracked across multiple libraries and projects.
           </p>
           <p class="body-copy">
             I ran a session with the <strong>8 designers</strong> to understand what would <strong>make logging changes simple</strong> enough to become part of their routine. We agreed on three requirements:
@@ -376,13 +396,13 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
             <line x1="12" y1="19" x2="12" y2="5" />
             <polyline points="5 12 12 5 19 12" />
           </svg>
-          <span>THE NEEDS OF OUR TEAM</span>
+          <span>The needs of our team</span>
         </p>
         </div>
       </div>
 
       <div class="process-step">
-        <span class="process-step-number" aria-hidden="true">03</span>
+        <span class="process-step-number" aria-hidden="true">02</span>
         <div class="process-step-body">
           <h3 class="process-step-title">None of the tools we tested fit our needs</h3>
           <p class="body-copy">
@@ -391,14 +411,14 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
           <PrioritizationMatrix items={matrixItems} />
           <MetaBox variant="decision">
             <MetaItem label="DECISION">
-              None of the tools covered all three needs. I proposed <strong>building our own Figma plugin</strong>. This meant taking on the responsibility of maintaining another tool, but using an external platform would bring back the extra step we were trying to remove.
+              No tool covered all three needs, so I proposed we <strong>build our own Figma plugin</strong>. More maintenance for us, but any external tool would bring back the step people kept skipping.
             </MetaItem>
           </MetaBox>
         </div>
       </div>
 
       <div class="process-step">
-        <span class="process-step-number" aria-hidden="true">04</span>
+        <span class="process-step-number" aria-hidden="true">03</span>
         <div class="process-step-body">
           <h3 class="process-step-title">The plugin was only half the solution</h3>
           <p class="body-copy">
@@ -420,7 +440,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
         />
       </section>
 
-      <Spacer size="sm" />
+      <Spacer size="xs" />
 
       <!-- 03.a Guided form -->
       <div class="pivot-block">
@@ -589,12 +609,27 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
 
       <Spacer size="lg" />
 
-      <!-- WHAT'S NEXT -->
-      <section class="section" id="next">
-        <p class="eyebrow-line">What's next</p>
-        <p class="body-copy">
-          The rule is in place, but it isn't followed every time. <strong>15% of library updates</strong> still go out without an entry, and one designer hasn't logged a change yet. Next, I want to add a changelog check to design review, so missing entries get caught before publishing. The history is also ready for a search tool, which would make finding a change even faster.
-        </p>
+      <!-- LEARNING -->
+      <section class="section" id="learning">
+        <p class="eyebrow-line">Learning</p>
+        <div class="overview-grid">
+          <div class="overview-card">
+            <small>Learning 01</small>
+            <p>Placeholder. Add a learning here.</p>
+          </div>
+          <div class="overview-card">
+            <small>Learning 02</small>
+            <p>Placeholder. Add a learning here.</p>
+          </div>
+          <div class="overview-card">
+            <small>Learning 03</small>
+            <p>Placeholder. Add a learning here.</p>
+          </div>
+          <div class="overview-card">
+            <small>Learning 04</small>
+            <p>Placeholder. Add a learning here.</p>
+          </div>
+        </div>
       </section>
     </article>
   </div>
@@ -606,6 +641,20 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
   /* Sub-paragraph titles: serif (as default) with section-title weight */
   .case-study h3.type-h2 {
     font-weight: var(--font-weight-medium);
+  }
+
+  /* Unify CalloutItem title with other titles: serif medium instead of sans */
+  .case-study-body :global(.callout-title) {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* Body text: regular weight (not light) for better readability in case study */
+  .case-study-body :global(.type-body),
+  .case-study-body :global(.callout-description),
+  .case-study-body :global(.impact-card-description),
+  .case-study-body :global(.fs-caption) {
+    font-weight: var(--font-weight-normal);
   }
 
   .case-study-body {
@@ -621,19 +670,32 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
       0 4px 14px -6px rgba(17, 24, 29, 0.05);
   }
 
-  /* Cards & callouts: no border, soft drop shadow */
+  /* Cards & callouts: no border, soft drop shadow, unified background */
   .case-study-body :global(.impact-card),
   .case-study-body :global(.meta-box),
   .case-study-body :global(.feature-showcase),
   .case-study-body :global(.callout-list),
   .case-study-body :global(.accordion),
+  .case-study-body :global(.matrix-panel),
   .case-study-body .overview-card,
-  .case-study-body .todo-placeholder,
-  .case-study-body .stage,
-  .case-study-body .learnings-list li,
-  .case-study-body .insight-cards li {
+  .case-study-body .todo-placeholder {
     border: none;
     box-shadow: var(--card-shadow);
+    background-color: var(--color-bg-elevated);
+  }
+
+  /* Align card padding to the generous callout feel (24px all sides) */
+  .case-study-body :global(.impact-card),
+  .case-study-body :global(.meta-box),
+  .case-study-body .overview-card,
+  .case-study-body .todo-placeholder {
+    padding: var(--spacing-padding-lg);
+  }
+
+  /* MetaBox decision: decorative ring + rotating accent off */
+  .case-study-body :global(.meta-box.is-decision::before),
+  .case-study-body :global(.meta-box.is-decision::after) {
+    display: none;
   }
 
   /* Images (hero cover + inline Media figures) stay flat: no shadow */
@@ -726,12 +788,19 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     margin-top: var(--spacing-gap-md);
   }
 
-  .needs-label {
+  .needs-label,
+  .case-study-body :global(.media-caption) {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-gap-xs);
     color: var(--color-text-muted);
     margin: 0;
+    font-family: var(--font-sans);
+    font-style: italic;
+    font-weight: var(--font-weight-normal);
+    font-size: var(--text-body-sm);
+    text-transform: none;
+    letter-spacing: 0;
   }
 
   .needs-label-arrow {
@@ -746,15 +815,6 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     color: var(--color-text-heading);
     margin: 0;
     text-wrap: balance;
-  }
-
-  .process-step-subtitle {
-    font-family: var(--font-serif);
-    font-weight: var(--font-weight-medium);
-    font-size: 1.125rem;
-    line-height: 1.3;
-    color: var(--color-text-heading);
-    margin: 0;
   }
 
   @media (max-width: 640px) {
@@ -781,14 +841,14 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     margin: 0;
     color: var(--color-text-body);
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-normal);
     font-size: var(--text-body-sm);
     line-height: var(--leading-normal);
   }
 
   .overview-card p strong {
     color: var(--color-text-heading);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-semibold);
   }
 
   @media (max-width: 720px) {
@@ -833,9 +893,10 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     color: var(--color-text-eyebrow);
     text-transform: uppercase;
     font-family: var(--font-mono);
-    font-weight: var(--font-weight-normal);
-    font-size: var(--text-eyebrow);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-label);
     line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-wide);
   }
 
   .pivot-block,
@@ -859,14 +920,14 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     padding-left: 1.25em;
     color: var(--color-text-body);
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-normal);
     font-size: var(--text-body);
     line-height: var(--leading-relaxed);
   }
 
   .criteria-list strong {
     color: var(--color-text-heading);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-semibold);
   }
 
   /* TODO PLACEHOLDER — asset yet to be produced */
@@ -905,7 +966,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
   .todo-body strong {
     color: var(--color-text-heading);
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-semibold);
     font-size: var(--text-body);
   }
 
@@ -913,7 +974,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     margin: 0;
     color: var(--color-text-body);
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-normal);
     font-size: var(--text-body-sm);
     line-height: var(--leading-normal);
   }
@@ -926,115 +987,6 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
 
 
   /* SOLUTION STAGES — Capture / Review / Store / Reuse */
-  .stages {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--spacing-gap-md);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    counter-reset: none;
-  }
-
-  .stage {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: var(--spacing-gap-md);
-    padding: var(--spacing-padding-md);
-    border: 1px solid var(--color-border-default);
-    border-radius: 12px;
-    background-color: var(--color-bg-elevated);
-  }
-
-  .stage-index {
-    color: var(--color-text-eyebrow);
-    font-family: var(--font-mono);
-    font-weight: var(--font-weight-normal);
-    font-size: var(--text-eyebrow);
-    line-height: 1.6;
-  }
-
-  .stage-body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-gap-xs);
-  }
-
-  .stage-body strong {
-    color: var(--color-text-heading);
-    font-family: var(--font-sans);
-    font-weight: var(--font-weight-medium);
-    font-size: var(--text-body);
-  }
-
-  .stage-body p {
-    margin: 0;
-    color: var(--color-text-body);
-    font-family: var(--font-sans);
-    font-weight: var(--font-weight-light);
-    font-size: var(--text-body-sm);
-    line-height: var(--leading-normal);
-  }
-
-  @media (max-width: 720px) {
-    .stages {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  /* DISCOVERY INSIGHT CARDS — 3 findings synthesised from flow + benchmark */
-  .insight-cards {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--spacing-gap-md);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    counter-reset: none;
-  }
-
-  .insight-cards li {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-gap-xs);
-    padding: var(--spacing-padding-md);
-    border: 1px solid var(--color-border-faint);
-    border-radius: 12px;
-    background-color: var(--color-bg-elevated);
-  }
-
-  .insight-cards small {
-    color: var(--color-text-eyebrow);
-    font-family: var(--font-mono);
-    font-weight: var(--font-weight-normal);
-    font-size: var(--text-eyebrow);
-    line-height: 1;
-  }
-
-  .insight-cards strong {
-    color: var(--color-text-heading);
-    font-family: var(--font-sans);
-    font-weight: var(--font-weight-medium);
-    font-size: var(--text-body);
-    line-height: var(--leading-snug);
-  }
-
-  .insight-cards p {
-    margin: 0;
-    color: var(--color-text-body-secondary);
-    font-family: var(--font-sans);
-    font-weight: var(--font-weight-light);
-    font-size: var(--text-body-sm);
-    line-height: var(--leading-normal);
-  }
-
-  @media (max-width: 720px) {
-    .insight-cards {
-      grid-template-columns: 1fr;
-    }
-  }
-
-
   /* IMPACT ROW — 3 even cards used as a teaser in Solution preview */
   .impact-row {
     display: grid;
@@ -1093,60 +1045,11 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     }
   }
 
-  /* LEARNINGS / NEXT LIST */
-  .learnings-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-gap-lg);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    counter-reset: learnings;
-  }
-
-  .learnings-list li {
-    counter-increment: learnings;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: var(--spacing-gap-md);
-    padding: var(--spacing-padding-md);
-    border: 1px solid var(--color-border-default);
-    border-radius: 12px;
-    background-color: var(--color-bg-elevated);
-  }
-
-  .learnings-list li::before {
-    content: counter(learnings, decimal-leading-zero);
-    color: var(--color-text-eyebrow);
-    font-family: var(--font-mono);
-    font-weight: var(--font-weight-normal);
-    font-size: var(--text-eyebrow);
-    line-height: 1.6;
-  }
-
-  .learnings-list strong {
-    color: var(--color-text-heading);
-    font-family: var(--font-sans);
-    font-weight: var(--font-weight-medium);
-    font-size: var(--text-body);
-    grid-column: 2;
-  }
-
-  .learnings-list p {
-    margin: 0;
-    grid-column: 2;
-    color: var(--color-text-body);
-    font-family: var(--font-sans);
-    font-weight: var(--font-weight-light);
-    font-size: var(--text-body-sm);
-    line-height: var(--leading-normal);
-  }
-
   .body-copy {
     margin: 0;
     color: var(--color-text-body-secondary);
     font-family: var(--font-sans);
-    font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-normal);
     font-size: var(--text-body);
     line-height: var(--leading-relaxed);
     font-variation-settings: "opsz" 14;
@@ -1154,6 +1057,7 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
 
   .body-copy strong {
     color: var(--color-text-heading);
+    font-weight: var(--font-weight-semibold);
   }
 
   .body-copy.caveat {
@@ -1192,5 +1096,149 @@ const cover = "/case-studies/design-system-search/cover-changelog.png";
     display: flex;
     flex-direction: column;
     gap: var(--spacing-gap-lg);
+  }
+
+  /* PROBLEM TABLE — index · theme · problem · arrow · consequence */
+  .problem-wrap {
+    width: 100%;
+  }
+
+  .problem-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-family: var(--font-sans);
+  }
+
+  .problem-table col.col-index { width: 40px; }
+  .problem-table col.col-theme { width: 140px; }
+  .problem-table col.col-problem { width: auto; }
+  .problem-table col.col-arrow { width: 32px; }
+  .problem-table col.col-consequence { width: auto; }
+
+  .problem-table th,
+  .problem-table td {
+    padding: var(--spacing-padding-md) var(--spacing-padding-sm);
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-border-faint);
+  }
+
+  .problem-table th:first-child,
+  .problem-table td:first-child {
+    padding-left: 0;
+  }
+
+  .problem-table th:last-child,
+  .problem-table td:last-child {
+    padding-right: 0;
+  }
+
+  .problem-table thead th {
+    padding-top: var(--spacing-padding-sm);
+    padding-bottom: var(--spacing-padding-sm);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-label);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-eyebrow);
+    border-top: 1px solid var(--color-border-faint);
+  }
+
+  .problem-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .problem-index {
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-light);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-text-eyebrow);
+    white-space: nowrap;
+  }
+
+  .problem-theme {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--color-text-heading) 8%, transparent);
+    color: var(--color-text-heading);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-body-sm);
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .problem-text {
+    color: var(--color-text-heading);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+  }
+
+  .consequence-text {
+    color: var(--color-text-body-secondary);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+  }
+
+  .problem-arrow {
+    color: var(--color-text-muted);
+    text-align: center;
+    vertical-align: middle;
+  }
+  .problem-arrow svg {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* ── Mobile: stack rows as cards ───────────────────────────── */
+  @media (max-width: 720px) {
+    .problem-table {
+      table-layout: auto;
+    }
+    .problem-table colgroup {
+      display: none;
+    }
+    .problem-table,
+    .problem-table tbody {
+      display: block;
+    }
+    .problem-table thead {
+      display: none;
+    }
+    .problem-table tr {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--spacing-gap-xs) var(--spacing-gap-md);
+      padding-block: var(--spacing-padding-md);
+      border-bottom: 1px solid var(--color-border-faint);
+    }
+    .problem-table tbody tr:first-child {
+      border-top: 1px solid var(--color-border-faint);
+    }
+    .problem-table td {
+      padding: 0;
+      border: none;
+    }
+    .problem-table td.problem-index {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+      align-self: start;
+    }
+    .problem-table td:nth-child(2),
+    .problem-table td.problem-text,
+    .problem-table td.consequence-text {
+      grid-column: 2;
+    }
+    .problem-table td.problem-arrow {
+      display: none;
+    }
   }
 </style>
